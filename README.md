@@ -1,0 +1,1 @@
+# GLAMOS – Glacier Monitoring in Switzerland
