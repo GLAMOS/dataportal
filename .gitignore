@@ -1,0 +1,32 @@
+**/.directory
+**/.DS_Store
+**/Thumbs.db
+
+# Vagrant
+.vagrant/
+provisioning/includes/
+provisioning/????-??-??.sql
+provisioning/mt.local.RootCA.crt
+ubuntu-*-cloudimg-console.log
+
+# NPM
+node_modules/
+npm-debug.log
+
+log/
+/craft/storage
+/www/imager/
+/www/theme/js/glamos.dev.js
+/www/theme/css/glamos.dev.css
+/www/theme/css/glamos.dev.css.map
+/www/.htaccess
+/www/theme/css/glamos.min.css
+/www/theme/css/glamos.min.css.map
+/www/theme/js/glamos.dev.js.map
+/www/theme/js/glamos.min.js.gz
+/www/theme/js/glamos.min.js
+/www/theme/css/glamos.prebuild.css
+/www/theme/css/glamos.prebuild.css.map
+/www/assets/fotoBoden/vuillerens
+/www_fr/imager
+/www/assets/images/
