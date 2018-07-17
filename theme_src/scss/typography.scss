@@ -1,0 +1,43 @@
+p, li, a, input {
+  @extend %fontM;
+  color: $txtColor;
+}
+small {
+  @extend %fontS;
+  color: $txtColor;
+  color: $txtColorSecond;
+}
+p {
+  margin-top: 5px;
+}
+a {
+  color: $linkColor;
+  @include fade(color);
+  &:hover {
+    color: $hoverColor;
+    text-decoration: none;
+  }
+}
+
+%fontXXL {
+  @include fontSize(2.5,1.2);
+  @include smUp { @include fontSize(3.5,1.2); }
+}
+%fontXL {
+  @include fontSize(1.7,1.2);
+  @include smUp { @include fontSize(1.8,1.2); }
+}
+%fontL {
+  @include fontSize(1.6,1.2);
+  @include smUp { @include fontSize(1.5,1.2); }
+}
+%fontM {
+  @include fontSize(0.9,1.35);
+  @include smUp { @include fontSize(1,1.4); }
+}
+%fontS {
+  @include fontSize(0.8,1.2);
+}
+%fontXS {
+  @include fontSize(0.7,1.2);
+}

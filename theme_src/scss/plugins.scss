@@ -1,0 +1,61 @@
+$hamburgerLineSize: 4px;
+$hamburgBtnSize: 30px;
+
+.mmenuToggle {
+	@include smUp {
+		display: none;
+	}
+	@include fade(opacity);
+	&:hover {
+		opacity: 0.5;
+	}
+  z-index: 1000;
+	position: fixed;
+	right: $gutterWidth;
+	top: 17px;
+	width: $hamburgBtnSize;
+	height: ($hamburgBtnSize / 1.5);
+	border-top: solid $hamburgerLineSize $txtColor;
+	&:before, &:after {
+		content: "";
+		border-top: solid $hamburgerLineSize $txtColor;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+	}
+	&:before {
+		top: 4px;
+  }
+  &:after {
+		bottom: -12px;
+  }
+}
+.mm-panels {
+	@extend %mainShadowInset;
+	background-color: $bfhColor1;
+	.mm-listitem {
+		border-color: $txtInvert;
+		color: $txtInvert;
+		&.active, &:hover {
+			font-weight: 700;
+			background-color: rgba($txtInvert, 0.1);
+		}
+	}
+}
+#mobileMenu:not( .mm-menu ) {
+   display: none;
+}
+
+//lightgallery {
+.lg-backdrop {
+	background-color: rgba($bfhColor1, 0.5);
+}
+#lg-counter, .lg-toolbar .lg-icon, .lg-toolbar .lg-icon {
+	color: $txtInvert;
+}
+.lg-toolbar {
+	background-color: $bfhColor1;
+}
+.lg-item {
+	@extend %mainShadow;
+}

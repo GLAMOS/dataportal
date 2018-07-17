@@ -1,0 +1,49 @@
+.sideBar {
+  nav ul {
+    list-style-type: none;
+    padding-left: 20px;
+    li {
+      display: inline-block;
+      width: 100%;
+      &.active a, &:hover a {
+        background-color: $bfhColor2;
+        color: $txtInvert;
+        font-weight: 700;
+      }
+      a {
+        display: block;
+        color: $txtColor;
+        padding: 5px 0 5px 20px;
+        @include fade(background-color);
+        text-decoration: none;
+      }
+    }
+    .languageSwitch {
+      display: flex;
+      padding-top: 30px;
+      &:hover, &:hover a {
+        background-color: transparent;
+        font-weight: 400;
+        color: $txtColor;
+      }
+      a {
+        padding: 0;
+        &:first-child {
+          margin-left: 20px;
+        }
+        &:after {
+          content:"/";
+          margin: 0 5px;
+        }
+        &:last-child:after {
+          content: "";
+          padding: 0;
+          display: none;
+        }
+        &.active, &:hover {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
