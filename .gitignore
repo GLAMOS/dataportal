@@ -31,3 +31,4 @@ log/
 /www_fr/imager
 /www/assets/images/
 /storage
+/.env
