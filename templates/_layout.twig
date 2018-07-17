@@ -1,0 +1,14 @@
+{% set themeVersions = '17.7.2018' %}
+
+{% import '_incl/docMacros' as macro %}
+
+{% cache %}
+	<!doctype html>
+    <html lang="{{ craft.app.language }}">
+      {% include '_incl/docHead' %}
+      <body class="{{ entry.section.handle }}">
+      	{% block content %}{# all the content #}{% endblock %}
+      	{% include '_incl/docScripts' %}
+      </body>
+    </html>
+{% endcache %}
