@@ -18,8 +18,8 @@ return [
     'securityKey' => getenv('SECURITY_KEY'),
     'siteUrl' => [
         'glamosDe' => getenv('SITE_URL_DE'),
-        'glamosFr' => getenv('SITE_URL_EN'),
-        'glamosEn' => getenv('SITE_URL_FR'),
+        'glamosFr' => getenv('SITE_URL_FR'),
+        'glamosEn' => getenv('SITE_URL_EN'),
         'glamosIt' => getenv('SITE_URL_IT'),
     ],
   ],
