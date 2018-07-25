@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf440502eaf39276c4e25bf6cd7b20f1",
+    "content-hash": "accf8c112f56990651281a58dc928de0",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -457,6 +457,56 @@
                 "plugin"
             ],
             "time": "2017-07-25T13:26:24+00:00"
+        },
+        {
+            "name": "craftcms/redactor",
+            "version": "2.1.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/craftcms/redactor/zipball/d49309d7c251d15c729093e208dd21b9cfc05a19",
+                "reference": "d49309d7c251d15c729093e208dd21b9cfc05a19",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^3.0.0-RC15"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Redactor",
+                "handle": "redactor",
+                "changelogUrl": "https://raw.githubusercontent.com/craftcms/redactor/master/CHANGELOG.md",
+                "downloadUrl": "https://github.com/craftcms/redactor/archive/master.zip"
+            },
+            "autoload": {
+                "psr-4": {
+                    "craft\\redactor\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pixel & Tonic",
+                    "homepage": "https://pixelandtonic.com/"
+                }
+            ],
+            "description": "Edit rich text content in Craft CMS using Redactor by Imperavi.",
+            "keywords": [
+                "cms",
+                "craftcms",
+                "html",
+                "redactor",
+                "yii2"
+            ],
+            "support": {
+                "email": "support@craftcms.com",
+                "issues": "https://github.com/craftcms/redactor/issues?state=open",
+                "source": "https://github.com/craftcms/redactor",
+                "docs": "https://github.com/craftcms/redactor",
+                "rss": "https://github.com/craftcms/redactor/commits/master.atom"
+            },
+            "time": "2018-07-14T09:42:21+00:00"
         },
         {
             "name": "craftcms/server-check",
@@ -1176,6 +1226,55 @@
                 "shell"
             ],
             "time": "2018-07-07T07:35:36+00:00"
+        },
+        {
+            "name": "mmikkel/cp-clearcache",
+            "version": "1.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mmikkel/CpClearCache-Craft/zipball/1d3a48d2eaf3226d669b25c3c98b7d674ce5dec9",
+                "reference": "1d3a48d2eaf3226d669b25c3c98b7d674ce5dec9",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^3.0.0-RC1"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "CP Clear Cache",
+                "handle": "cp-clearcache",
+                "hasCpSettings": false,
+                "hasCpSection": false,
+                "changelogUrl": "https://raw.githubusercontent.com/mmikkel/CpClearCache-Craft/master/CHANGELOG.md",
+                "class": "mmikkel\\cpclearcache\\CpClearCache"
+            },
+            "autoload": {
+                "psr-4": {
+                    "mmikkel\\cpclearcache\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mats Mikkel Rummelhoff",
+                    "homepage": "https://vaersaagod.no"
+                }
+            ],
+            "description": "Fewer clicks to get clearin'",
+            "keywords": [
+                "cms",
+                "cp clear cache",
+                "craft",
+                "craft-plugin",
+                "craftcms"
+            ],
+            "support": {
+                "docs": "https://github.com/mmikkel/CpClearCache-Craft/blob/master/README.md",
+                "issues": "https://github.com/mmikkel/CpClearCache-Craft/issues"
+            },
+            "time": "2018-05-16T08:39:55+00:00"
         },
         {
             "name": "paragonie/random_compat",

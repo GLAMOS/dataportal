@@ -40,6 +40,7 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'm' => 
         array (
             'modules\\' => 8,
+            'mmikkel\\cpclearcache\\' => 21,
             'mikehaertl\\shellcommand\\' => 24,
         ),
         'e' => 
@@ -50,6 +51,7 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         array (
             'creocoder\\nestedsets\\' => 21,
             'craftcms\\oauth2\\client\\' => 23,
+            'craft\\redactor\\' => 15,
             'craft\\composer\\' => 15,
             'craft\\' => 6,
             'cebe\\markdown\\' => 14,
@@ -182,6 +184,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         array (
             0 => __DIR__ . '/../..' . '/modules',
         ),
+        'mmikkel\\cpclearcache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mmikkel/cp-clearcache/src',
+        ),
         'mikehaertl\\shellcommand\\' => 
         array (
             0 => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src',
@@ -197,6 +203,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'craftcms\\oauth2\\client\\' => 
         array (
             0 => __DIR__ . '/..' . '/craftcms/oauth2-craftid/src',
+        ),
+        'craft\\redactor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/craftcms/redactor/src',
         ),
         'craft\\composer\\' => 
         array (
@@ -2412,6 +2422,16 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'craft\\records\\Volume' => __DIR__ . '/..' . '/craftcms/cms/src/records/Volume.php',
         'craft\\records\\VolumeFolder' => __DIR__ . '/..' . '/craftcms/cms/src/records/VolumeFolder.php',
         'craft\\records\\Widget' => __DIR__ . '/..' . '/craftcms/cms/src/records/Widget.php',
+        'craft\\redactor\\Field' => __DIR__ . '/..' . '/craftcms/redactor/src/Field.php',
+        'craft\\redactor\\FieldData' => __DIR__ . '/..' . '/craftcms/redactor/src/FieldData.php',
+        'craft\\redactor\\Plugin' => __DIR__ . '/..' . '/craftcms/redactor/src/Plugin.php',
+        'craft\\redactor\\assets\\field\\FieldAsset' => __DIR__ . '/..' . '/craftcms/redactor/src/assets/field/FieldAsset.php',
+        'craft\\redactor\\assets\\redactor\\RedactorAsset' => __DIR__ . '/..' . '/craftcms/redactor/src/assets/redactor/RedactorAsset.php',
+        'craft\\redactor\\controllers\\DefaultController' => __DIR__ . '/..' . '/craftcms/redactor/src/controllers/DefaultController.php',
+        'craft\\redactor\\events\\RegisterLinkOptionsEvent' => __DIR__ . '/..' . '/craftcms/redactor/src/events/RegisterLinkOptionsEvent.php',
+        'craft\\redactor\\events\\RegisterPluginPathsEvent' => __DIR__ . '/..' . '/craftcms/redactor/src/events/RegisterPluginPathsEvent.php',
+        'craft\\redactor\\migrations\\Install' => __DIR__ . '/..' . '/craftcms/redactor/src/migrations/Install.php',
+        'craft\\redactor\\migrations\\m180430_204710_remove_old_plugins' => __DIR__ . '/..' . '/craftcms/redactor/src/migrations/m180430_204710_remove_old_plugins.php',
         'craft\\search\\SearchQuery' => __DIR__ . '/..' . '/craftcms/cms/src/search/SearchQuery.php',
         'craft\\search\\SearchQueryTerm' => __DIR__ . '/..' . '/craftcms/cms/src/search/SearchQueryTerm.php',
         'craft\\search\\SearchQueryTermGroup' => __DIR__ . '/..' . '/craftcms/cms/src/search/SearchQueryTermGroup.php',
@@ -2632,6 +2652,8 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'enshrined\\svgSanitize\\data\\AttributeInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AttributeInterface.php',
         'enshrined\\svgSanitize\\data\\TagInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/TagInterface.php',
         'mikehaertl\\shellcommand\\Command' => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src/Command.php',
+        'mmikkel\\cpclearcache\\CpClearCache' => __DIR__ . '/..' . '/mmikkel/cp-clearcache/src/CpClearCache.php',
+        'mmikkel\\cpclearcache\\CpClearCacheBundle' => __DIR__ . '/..' . '/mmikkel/cp-clearcache/src/CpClearCacheBundle.php',
         'modules\\Module' => __DIR__ . '/../..' . '/modules/Module.php',
         'yii\\BaseYii' => __DIR__ . '/..' . '/yiisoft/yii2/BaseYii.php',
         'yii\\base\\Action' => __DIR__ . '/..' . '/yiisoft/yii2/base/Action.php',
