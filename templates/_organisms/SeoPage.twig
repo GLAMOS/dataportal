@@ -1,0 +1,50 @@
+{# Page title with fallback #}
+{%- set pageTitle -%}
+  {% if entry.seoTitle %}{{ entry.seoTitle }}{% else %}{{ seo.seoTitle }}{% endif %}
+{%- endset -%}
+
+{# Page suffix without fallback #}
+{%- set pageSuffix -%}
+  {% if seo.seoSuffix %} | {{ seo.seoSuffix }}{% endif %}
+{%- endset -%}
+
+{# Page description with fallback #}
+{%- set pageDescription -%}
+  {% if entry.seoDescription %}{{ entry.seoDescription }}{% else %}{{ seo.seoDescription }}{% endif %}
+{%- endset -%}
+
+{# HREFLANG composition #}
+{% set hrefLangPage %}
+  {% for site in currentSite.group.sites %}
+      {% set url = alias(site.baseUrl) %}
+      {% if entry is defined %}
+        {% set entryForOtherSite = craft.entries.id(entry.id).site(site).one() %}
+        {% if entryForOtherSite %}{% set url = entryForOtherSite.getUrl() %}{% endif %}
+      {% endif %}
+      <link rel="alternate" href="{{ url }}" hreflang="{{ site.language|replace('de-CH', 'x-default') | lower }}" />
+  {% endfor %}
+{% endset %}
+
+{# Googlebot Trigger #}
+{%- set robots -%}
+  {% if entry.enableCrawling == '1' %}
+    <meta name="robots" content="all" />
+  {% else %}
+    <meta name="robots" content="none" />
+  {% endif %}
+{%- endset -%}
+
+{# call all seo tags #}
+<title>{{ pageTitle }}{{ pageSuffix }}</title>
+<meta name="description" content="{{ pageDescription }}" />
+
+{{ hrefLangPage }}
+
+<hr>
+
+{#
+
+<link rel="alternate" href="http://glamos.local/fr/mapviewer" hreflang="fr-ch" />
+<link rel="alternate" href="http://glamos.local/en/mapviewer" hreflang="en-ch" />
+<link rel="alternate" href="http://glamos.local/it/mapviewer" hreflang="it-ch" />
+ #}
