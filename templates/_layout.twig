@@ -13,14 +13,15 @@
     {% include '_incl/docHead' %}
     <body class="{{ entry.section.handle }}">
 
-			<h3>Current Language Position</h3>
+			<h3>{{ 'Aktuelle Seitensprache' | t }}</h3>
       <ul>
-				<li>Current Language: {{ currentSite.language }}</li>
-				<li>Current Lang Name: {{ currentSite.name }}</li>
-				<li>Current Lang ID: {{ currentSite.handle }}</li>
-				<li>Current Lang Handle: {{ currentSite.handle }}</li>
+				<li>{{'Aktuelles Sprachhandle' | t }}: {{ currentSite.language }}</li>
+				<li>{{'Aktueller Sprachname' | t }}: {{ currentSite.name }}</li>
+				<li>{{'Aktueller Sprachkurzname' | t }}: {{ currentSite.handle }}</li>
+				<li>{{'Aktuelle SprachID' | t }}: {{ currentSite.id }}</li>
 			</ul>
 			{% include '_organisms/navMain' %}
+			<h1>{{ 'Das ist' | t }}: {{ entry.section.handle }} template</h1>
     	{% block content %}{# all the content #}{% endblock %}
     	{% include '_incl/docScripts' %}
     </body>

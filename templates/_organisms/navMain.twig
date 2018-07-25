@@ -1,16 +1,16 @@
 {% set navigation = craft.entries.id('4,6,12').fixedOrder(true).all() %}
 
-<h3>Navigation</h3>
+<h3>{{ 'Navigation' | t }}</h3>
 <ul>
   {% for nav in navigation %}
     <li><a href="{{ nav.url }}">{{ nav.title }} {{ nav.id }}</a></li>
   {% endfor %}
   {% include '_atoms/navDropdown' %}
 </ul>
-<h3>Language Switcher</h3>
+<h3>{{ 'Sprachwechsler' | t }}</h3>
 {% include '_molecules/langSwitcher' %}
 
-<h3>Entry ID List</h3>
+<h3>{{ 'Liste aller IDs' | t }}</h3>
 <ul>
   {% for item in craft.entries.section(null).all() %}
     <li>{{ item.title }} ID: <strong>{{ item.id }}</strong></li>
