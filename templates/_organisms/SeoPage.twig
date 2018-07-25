@@ -54,12 +54,17 @@
 <title>{{ pageTitle }}{{ pageSuffix }}</title>
 <meta name="description" content="{{ pageDescription }}" />
 
-{# facebook #}
+{# Facebook #}
 <meta property="og:site_name" content="{{ siteName }}"/>
 <meta property="og:title" content="{{ pageTitle }}{{ pageSuffix }}"/>
 <meta property="og:url" content="{{ entry.url }}"/>
 <meta property="og:type" content="website"/>
 <meta property="og:locale" content="{{ currentSite.language|replace('-', '_') }}"/>
+
+{# Twitter #}
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@x" />
+<meta name="twitter:creator" content="@x" />
 
 {{ pageImage }}
 {{ hrefLangPage }}
