@@ -12,6 +12,7 @@
   <html lang="{{ craft.app.language }}">
     {% include '_incl/docHead' %}
     <body class="{{ entry.section.handle }}">
+      <p>Current Language: {{ currentSite.language }} / {{ currentSite.name }} / {{ currentSite.baseUrl }}</p>
 			{% include '_organisms/navMain' %}
     	{% block content %}{# all the content #}{% endblock %}
     	{% include '_incl/docScripts' %}
