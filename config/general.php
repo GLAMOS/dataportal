@@ -19,7 +19,7 @@ return [
   ],
 
   // Dev environment settings
-  'glamos.local' => [
+  'dev' => [
     'siteUrl' => getenv('SITE_URL'),
     'devMode' => true,
     'enableTemplateCaching' => false,
