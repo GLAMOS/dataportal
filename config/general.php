@@ -19,18 +19,20 @@ return [
   ],
 
   // Dev environment settings
-  'dev' => [
+  'glamos.local' => [
     'siteUrl' => getenv('SITE_URL'),
     'devMode' => true,
+    'enableTemplateCaching' => false,
+    'suppressTemplateErrors' => false,
   ],
 
   // Staging environment settings
   'staging' => [
-    'siteUrl' => getenv('SECURITY_KEY'),
+    'siteUrl' => getenv('SITE_URL'),
   ],
 
   // Production environment settings
   'production' => [
-    'siteUrl' => null,
+    'siteUrl' => getenv('SITE_URL'),
   ],
 ];
