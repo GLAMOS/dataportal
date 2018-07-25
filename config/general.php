@@ -17,7 +17,7 @@ return [
     'cpTrigger' => 'backstage',
     'securityKey' => getenv('SECURITY_KEY'),
     'siteUrl' => [
-        'default' => getenv('SITE_URL_DE'),
+        'glamosDe' => getenv('SITE_URL_DE'),
         'glamosFr' => getenv('SITE_URL_EN'),
         'glamosEn' => getenv('SITE_URL_FR'),
         'glamosIt' => getenv('SITE_URL_IT'),
