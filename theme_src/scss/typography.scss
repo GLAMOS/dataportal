@@ -1,23 +1,4 @@
-p, li, a, input {
-  @extend %fontM;
-  color: $txtColor;
-}
-small {
-  @extend %fontS;
-  color: $txtColor;
-  color: $txtColorSecond;
-}
-p {
-  margin-top: 5px;
-}
-a {
-  color: $linkColor;
-  @include fade(color);
-  &:hover {
-    color: $hoverColor;
-    text-decoration: none;
-  }
-}
+
 
 %fontXXL {
   @include fontSize(2.5,1.2);
