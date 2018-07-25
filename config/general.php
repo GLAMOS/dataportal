@@ -16,11 +16,16 @@ return [
     'omitScriptNameInUrls' => true,
     'cpTrigger' => 'backstage',
     'securityKey' => getenv('SECURITY_KEY'),
+    'siteUrl' => [
+        'default' => getenv('SITE_URL_DE'),
+        'glamosFr' => getenv('SITE_URL_EN'),
+        'glamosEn' => getenv('SITE_URL_FR'),
+        'glamosIt' => getenv('SITE_URL_IT'),
+    ],
   ],
 
   // Dev environment settings
   'dev' => [
-    'siteUrl' => getenv('SITE_URL'),
     'devMode' => true,
     'enableTemplateCaching' => false,
     'suppressTemplateErrors' => false,
@@ -28,11 +33,9 @@ return [
 
   // Staging environment settings
   'staging' => [
-    'siteUrl' => getenv('SITE_URL'),
   ],
 
   // Production environment settings
   'production' => [
-    'siteUrl' => getenv('SITE_URL'),
   ],
 ];
