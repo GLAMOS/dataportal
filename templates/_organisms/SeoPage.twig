@@ -22,7 +22,21 @@
         {% if entryForOtherSite %}{% set url = entryForOtherSite.getUrl() %}{% endif %}
       {% endif %}
       <link rel="alternate" href="{{ url }}" hreflang="{{ site.language|replace('de-CH', 'x-default') | lower }}" />
+      <meta property="og:locale{% if site.language != 'de-CH'%}:alternate{% endif %}" content="{{ site.language|replace('-', '_') }}"/>
   {% endfor %}
+{% endset %}
+
+{# seo image with fallback #}
+{% set pageImage %}
+  {% if entry.seoImage.exists() %}
+    {% for asset in entry.seoImage %}
+      <meta property="og:image" content="{{ asset.url }}" />
+    {% endfor %}
+  {% else %}
+    {% for asset in seo.seoImage %}
+      <meta property="og:image" content="{{ asset.url }}" />
+    {% endfor %}
+  {% endif %}
 {% endset %}
 
 {# Googlebot Trigger #}
@@ -35,16 +49,17 @@
 {%- endset -%}
 
 {# call all seo tags #}
+
+
 <title>{{ pageTitle }}{{ pageSuffix }}</title>
 <meta name="description" content="{{ pageDescription }}" />
 
+{# facebook #}
+<meta property="og:site_name" content="{{ siteName }}"/>
+<meta property="og:title" content="{{ pageTitle }}{{ pageSuffix }}"/>
+<meta property="og:url" content="{{ entry.url }}"/>
+<meta property="og:type" content="website"/>
+<meta property="og:locale" content="{{ currentSite.language|replace('-', '_') }}"/>
+
+{{ pageImage }}
 {{ hrefLangPage }}
-
-<hr>
-
-{#
-
-<link rel="alternate" href="http://glamos.local/fr/mapviewer" hreflang="fr-ch" />
-<link rel="alternate" href="http://glamos.local/en/mapviewer" hreflang="en-ch" />
-<link rel="alternate" href="http://glamos.local/it/mapviewer" hreflang="it-ch" />
- #}
