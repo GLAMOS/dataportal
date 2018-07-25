@@ -2,13 +2,18 @@
 
 {% import '_incl/docMacros' as macro %}
 
-{% cache %}
+{% if steuerung.enableMaintenance == '1' %}
+  {# {% if not user and craft.config.environment == 'live' %} #}
+    {% redirect "maintenance" %}
+  {# {% endif %} #}
+{% endif %}
+
 	<!doctype html>
   <html lang="{{ craft.app.language }}">
     {% include '_incl/docHead' %}
     <body class="{{ entry.section.handle }}">
+			{% include '_organisms/navMain' %}
     	{% block content %}{# all the content #}{% endblock %}
     	{% include '_incl/docScripts' %}
     </body>
   </html>
-{% endcache %}
