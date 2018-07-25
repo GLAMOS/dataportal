@@ -1,0 +1,12 @@
+{% set navigation = craft.entries.id('4,6,12').fixedOrder(true).all() %}
+
+<ul>
+  {% for nav in navigation %}
+    <li><a href="{{ nav.url }}">{{ nav.title }} {{ nav.id }}</a></li>
+  {% endfor %}
+  {% include '_atoms/navDropdown' %}
+</ul>
+
+{% for item in craft.entries.section(null).all() %}
+  <li>{{ item.title }} - {{ item.id }}</li>
+{% endfor %}

@@ -1,0 +1,9 @@
+{% set navDropdown = craft.entries.id('8,7').fixedOrder(true).all() %}
+
+<li>{{ 'Info' | t }}</li>
+<ul>
+  {% for nav in navDropdown %}
+    {% if loop.first %}{% endif %}
+    <li><a href="{{ nav.url }}">{{ nav.title }} {{ nav.id }}</a></li>
+  {% endfor %}
+</ul>
