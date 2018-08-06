@@ -1,7 +1,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-{% if craft.config.environment == 'live' or craft.config.environment == 'stage' %}
-  <script src="{{ craft.config.environmentVariables.baseThemeUrl }}js/index.min.js?version={{ themeVersions }}"></script>
+{% if not craft.config.devMode %}
+  <script src="/theme/js/glamos.min.js?version={{ themeVersions }}"></script>
 {% else %}
-  <script src="{{ craft.config.environmentVariables.baseThemeUrl }}js/index.dev.js"></script>
+  <script src="/theme/js/glamos.dev.js"></script>
 {% endif %}
