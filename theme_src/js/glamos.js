@@ -11,8 +11,7 @@ $(document).ready(function () {
 
   //initialise mapviewer menu
   $("#navMapViewer").mmenu({
-    navbar: false,
-    extensions: ["position-right"]
+    navbar: false
   });
 
 });

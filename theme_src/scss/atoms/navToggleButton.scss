@@ -29,4 +29,15 @@ $gapSize: 5px;
   position: absolute;
   right: 10px;
   top: 60px;
+  border-radius: 50%;
+  background-color: $txtInvert;
+  background-image: url('/theme/img/magnifier.svg');
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: 50% 50%;
+  width: 44px;
+  height: 44px;
+  &:hover {
+    opacity: 0.5;
+  }
 }
