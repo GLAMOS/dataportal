@@ -6,4 +6,8 @@ ieDetector();
 
 $(document).ready(function () {
 
+  //initialice Mobile Menu
+  $("#mainMobileNav").mmenu();
+  
+
 });

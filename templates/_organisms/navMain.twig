@@ -1,7 +1,8 @@
-{% set navigation = craft.entries.id('4,6,12').fixedOrder(true).all() %}
+
 
 <div class="navBar">
   <div class="navGrid">
+    <a href="#mainMobileNav" class="navMobileToggle"></a>
     <a href="/" class="navTitle"><h1>Schweizer Gletscher</h1></a>
     <img class="navLogo" src="http://via.placeholder.com/350x150" alt="">
     <ul class="navMain">
@@ -10,6 +11,8 @@
       {% endfor %}
       {% include '_atoms/navDropdown' %}
     </ul>
-    {% include '_molecules/langSwitcher' %}
+    <ul class="navLang">
+      {% include '_molecules/langSwitcher' %}
+    </ul>
   </div>
 </div>

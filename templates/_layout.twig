@@ -1,4 +1,5 @@
 {% set themeVersions = '17.7.2018' %}
+{% set navigation = craft.entries.id('4,6,12').fixedOrder(true).all() %}
 
 {% import '_incl/docMacros' as macro %}
 
@@ -13,6 +14,7 @@
     {% include '_incl/docHead' %}
     <body class="{{ entry.section.handle }}">
 			{% include '_organisms/navMain' %}
+      {% include '_organisms/navMobile' %}
     	{% block content %}{# all the content #}{% endblock %}
     	{% include '_incl/docScripts' %}
     </body>

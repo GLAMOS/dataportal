@@ -1,28 +1,6 @@
 $sidebarGridSize: 300px;
 
-.navBar {
-  background-color: $glamosColor;
-  .navGrid {
-    height: 50px;
-    display: grid;
-    grid-template-columns: 3fr 1fr 4fr $sidebarGridSize;
-    grid-template-areas:  "navTitle navLogo navMain navLang";
-    .navTitle {
-      grid-area: navTitle;
-    }
-    .navLogo {
-      grid-area: navLogo;
-    }
-    .navMain {
-      grid-area: navMain;
-      @extend %verticalList;
-    }
-    .navLang {
-      grid-area: navLang;
-      @extend %verticalList;
-    }
-  }
-}
+
 .gridMapViewer {
   display: grid;
   @media (min-height: $viewportMaxHeight) {
@@ -46,7 +24,7 @@ $sidebarGridSize: 300px;
 }
 .sidebarContainer {
   background-color: blue;
-  grid-area: sidebar
+  grid-area: sidebar;
   overflow-y: scroll;
 }
 .outputContainer {

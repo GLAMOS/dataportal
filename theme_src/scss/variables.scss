@@ -3,6 +3,9 @@ $glamosColor: #45CADD;
 $sidebarGridSize: 300px;
 $viewportMaxHeight: 568px;
 
+$txtColor: #421;
+$txtInvert: white;
+
 
 @mixin fontSize($sizeValue: 1, $lhValue: 1, $lsValue: 0, $wsValue: 0) {
   font-size: ($sizeValue * 10) + px;
@@ -13,6 +16,7 @@ $viewportMaxHeight: 568px;
   word-spacing: $wsValue + em;
   -webkit-font-smoothing: antialiased; //for osx
   -moz-osx-font-smoothing: grayscale; // for osx
+  font-weight: normal;
 }
 
 @mixin fade($fadeValue: color) {
@@ -34,7 +38,7 @@ body {
   margin: 0;
   //justify-content: space-between;
 }
-html {
+html, *, body {
   box-sizing: border-box;
 }
 *, *:before, *:after {

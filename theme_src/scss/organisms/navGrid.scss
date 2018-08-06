@@ -1,0 +1,40 @@
+.navBar {
+  background-color: $glamosColor;
+  .navGrid {
+    height: 50px;
+    display: grid;
+    align-items: center;
+    grid-gap: 10px;
+    grid-template-columns: 50px auto 50px;
+    grid-template-areas:  "navToggle navTitle navLogo";
+    @include smUp {
+      grid-template-columns: 3fr 1fr 4fr $sidebarGridSize;
+      grid-template-areas:  "navTitle navLogo navMain navLang";
+    }
+    .navTitle {
+      grid-area: navTitle;
+      @include smDown {
+        text-align: center;
+        padding: 0;
+      }
+    }
+    .navLogo {
+      grid-area: navLogo;
+    }
+    .navMobileToggle {
+      grid-area: navToggle;
+      @extend %hiddenSmUp;
+      @extend %hamburger;
+    }
+    .navMain {
+      grid-area: navMain;
+      @extend %verticalList;
+      @extend %hiddenSmDown;
+    }
+    .navLang {
+      grid-area: navLang;
+      @extend %verticalList;
+      @extend %hiddenSmDown;
+    }
+  }
+}
