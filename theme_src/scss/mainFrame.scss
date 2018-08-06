@@ -1,22 +1,52 @@
+$sidebarGridSize: 300px;
+
 .navBar {
   background-color: $glamosColor;
   .navGrid {
     height: 50px;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: 3fr 1fr 4fr $sidebarGridSize;
+    grid-template-areas:  "navTitle navLogo navMain navLang";
     .navTitle {
-      grid-column: 1/4;
+      grid-area: navTitle;
     }
     .navLogo {
-
+      grid-area: navLogo;
     }
     .navMain {
-      grid-column: 5/-4;
+      grid-area: navMain;
       @extend %verticalList;
     }
     .navLang {
-      grid-column: -3/-1;
+      grid-area: navLang;
       @extend %verticalList;
     }
   }
+}
+.gridMapViewer {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: auto;
+  grid-template-rows: 60vh auto auto;
+  grid-template-areas:  "map"
+                        "output"
+                        "sidebar";
+  @include smUp {
+    grid-template-columns: auto $sidebarGridSize;
+    grid-template-rows: auto 300px;
+    grid-template-areas:  "map sidebar"
+                          "output sidebar"
+  }
+}
+.mapContainer {
+  background-color: green;
+  grid-area: map;
+}
+.sidebarContainer {
+  background-color: blue;
+  grid-area: sidebar
+}
+.outputContainer {
+  background-color: yellow;
+  grid-area: output;
 }

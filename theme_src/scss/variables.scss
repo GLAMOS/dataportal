@@ -1,5 +1,9 @@
 $glamosColor: #45CADD;
 
+$sidebarGridSize: 300px;
+
+
+
 @mixin fontSize($sizeValue: 1, $lhValue: 1, $lsValue: 0, $wsValue: 0) {
   font-size: ($sizeValue * 10) + px;
   font-size: $sizeValue + rem;
@@ -24,10 +28,11 @@ body {
 }
 %verticalList {
   list-style-type: none;
-  padding-left: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  //justify-content: space-between;
 }
 html {
   box-sizing: border-box;
