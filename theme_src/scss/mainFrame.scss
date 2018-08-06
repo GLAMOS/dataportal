@@ -1,0 +1,22 @@
+.navBar {
+  background-color: $glamosColor;
+  .navGrid {
+    height: 50px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    .navTitle {
+      grid-column: 1/4;
+    }
+    .navLogo {
+
+    }
+    .navMain {
+      grid-column: 5/-4;
+      @extend %verticalList;
+    }
+    .navLang {
+      grid-column: -3/-1;
+      @extend %verticalList;
+    }
+  }
+}

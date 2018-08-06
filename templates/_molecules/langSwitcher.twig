@@ -1,4 +1,4 @@
-<ul class="langSwitcher">
+<ul class="navLang">
   {% for site in currentSite.group.sites %}
     <li class="{% if currentSite.id == site.id %}activeLang{% endif %}">
       {% set url = alias(site.baseUrl) %}
@@ -8,7 +8,7 @@
           {% set url = entryForOtherSite.getUrl() %}
         {% endif %}
       {% endif %}
-      <a href="{{ url }}">{{ site.name }}</a>
+      <a href="{{ url }}">{{ site.language }}</a>
     </li>
   {% endfor %}
 </ul>
