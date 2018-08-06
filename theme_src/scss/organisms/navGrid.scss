@@ -1,25 +1,40 @@
 .navBar {
   background-color: $glamosColor;
+  position: fixed;
+  top: 0;
+  width: 100%;
   .navGrid {
     height: 50px;
     display: grid;
     align-items: center;
     grid-gap: 10px;
-    grid-template-columns: 50px auto 50px;
-    grid-template-areas:  "navToggle navTitle navLogo";
+    grid-template-columns: auto 1fr;
+    grid-template-areas:  "navToggle branding";
+    padding: 0 10px;
     @include smUp {
-      grid-template-columns: 3fr 1fr 4fr $sidebarGridSize;
-      grid-template-areas:  "navTitle navLogo navMain navLang";
+      padding: 0;
+      grid-template-columns: auto auto $sidebarGridSize;
+      grid-template-areas:  "branding navMain navLang";
     }
-    .navTitle {
-      grid-area: navTitle;
-      @include smDown {
-        text-align: center;
-        padding: 0;
+    @include mdUp {
+      grid-template-columns: auto auto $sidebarLGgridSize;
+    }
+    .glamosBrand {
+      grid-area: branding;
+      display: flex;
+      justify-content: space-around;
+      img {
+        max-width: 40px;
+        @include smUp {
+          max-width: 100px;
+        }
+        &.desktop {
+          @extend %hiddenSmDown;
+        }
+        &.mobile {
+          @extend %hiddenSmUp;
+        }
       }
-    }
-    .navLogo {
-      grid-area: navLogo;
     }
     .navMobileToggle {
       grid-area: navToggle;

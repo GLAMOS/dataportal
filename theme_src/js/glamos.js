@@ -6,8 +6,13 @@ ieDetector();
 
 $(document).ready(function () {
 
-  //initialice Mobile Menu
+  //initialise Mobile Menu
   $("#mainMobileNav").mmenu();
-  
+
+  //initialise mapviewer menu
+  $("#navMapViewer").mmenu({
+    navbar: false,
+    extensions: ["position-right"]
+  });
 
 });

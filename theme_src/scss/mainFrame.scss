@@ -1,21 +1,27 @@
-$sidebarGridSize: 300px;
-
+$sidebarGridSize: 30vw;
+$sidebarLGgridSize: 300px;
 
 .gridMapViewer {
   display: grid;
   @media (min-height: $viewportMaxHeight) {
-    min-height: 100vh;
+    min-height: calc(100vh - 50px);
+    margin-top: 50px;
   }
   grid-template-columns: auto;
-  grid-template-rows: 60vh auto auto;
+  grid-template-rows: 65vh 25vh auto;
   grid-template-areas:  "map"
                         "output"
                         "sidebar";
   @include smUp {
     grid-template-columns: auto $sidebarGridSize;
     grid-template-rows: auto 300px;
+    grid-template-rows: 60vh auto auto;
     grid-template-areas:  "map sidebar"
                           "output sidebar"
+                          "output sidebar"
+  }
+  @include mdUp {
+    grid-template-columns: auto $sidebarLGgridSize;
   }
 }
 .mapContainer {

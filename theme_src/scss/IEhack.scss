@@ -1,5 +1,33 @@
 .internetExplorer {
   &.ie11 {
     //lets do this
+    .navGrid {
+      display: flex;
+      justify-content: space-around;
+      img {
+        width: 100px;
+      }
+    }
+    //gridMapViewer
+    .gridMapViewer {
+      @include smUp {
+        display: -ms-grid;
+        height: 100vh;
+      }
+      -ms-grid-columns: 1fr 300px;
+      -ms-grid-rows: 1fr 1fr;
+    }
+    .mapContainer {
+      -ms-grid-column: 1;
+      -ms-grid-row: 1;
+    }
+    .outputContainer {
+      -ms-grid-column: 1;
+      -ms-grid-row: 2;
+    }
+    .sidebarContainer {
+      -ms-grid-column: 2;
+      -ms-grid-row-span: 2;
+    }
   }
 }

@@ -6,6 +6,8 @@ $viewportMaxHeight: 568px;
 $txtColor: #421;
 $txtInvert: white;
 
+$linkColor: pink;
+
 
 @mixin fontSize($sizeValue: 1, $lhValue: 1, $lsValue: 0, $wsValue: 0) {
   font-size: ($sizeValue * 10) + px;

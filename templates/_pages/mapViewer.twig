@@ -2,8 +2,14 @@
 
 {% block content %}
   <div class="gridMapViewer">
-    <div class="mapContainer">Hier kommt die Karte</div>
-    <div class="sidebarContainer">Hier kommen die Steuerungselemente</div>
+
+    <div class="mapContainer">
+      <a href="#navMapViewer" class="navMapViewerToggle">Hello</a>
+      Hier kommt die Karte
+    </div>
     <div class="outputContainer">Hier kommt der Chart</div>
+    <div class="sidebarContainer">Hier kommen die Steuerungselemente</div>
+
   </div>
+  {% include '_organisms/navMapViewer' %}
 {% endblock %}
