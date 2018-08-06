@@ -22,6 +22,7 @@
     "postcss": "^6.0.19",
     "postcss-cli": "^4.1.1",
     "respimage": "^1.4.2",
+    "watch": "^1.0.2",
     "webpack": "^3.10.0",
     "webpack-merge": "^4.1.1"
   },
