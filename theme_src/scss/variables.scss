@@ -1,7 +1,7 @@
 $glamosColor: #45CADD;
 
 $sidebarGridSize: 300px;
-
+$viewportMaxHeight: 568px;
 
 
 @mixin fontSize($sizeValue: 1, $lhValue: 1, $lsValue: 0, $wsValue: 0) {

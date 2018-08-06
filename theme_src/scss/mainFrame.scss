@@ -25,7 +25,9 @@ $sidebarGridSize: 300px;
 }
 .gridMapViewer {
   display: grid;
-  height: 100vh;
+  @media (min-height: $viewportMaxHeight) {
+    min-height: 100vh;
+  }
   grid-template-columns: auto;
   grid-template-rows: 60vh auto auto;
   grid-template-areas:  "map"
@@ -45,6 +47,7 @@ $sidebarGridSize: 300px;
 .sidebarContainer {
   background-color: blue;
   grid-area: sidebar
+  overflow-y: scroll;
 }
 .outputContainer {
   background-color: yellow;
