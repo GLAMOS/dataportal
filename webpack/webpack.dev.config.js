@@ -5,7 +5,7 @@ const baseConfig = require('./webpack.base.config.js');
 module.exports = merge(baseConfig, {
   devtool: "source-map",
   output: {
-    filename: 'www/theme/js/index.dev.js'
+    filename: 'www/theme/js/glamos.dev.js'
   },
   watch: true
 });

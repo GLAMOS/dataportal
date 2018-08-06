@@ -6,7 +6,7 @@ const baseConfig = require('./webpack.base.config.js');
 
 module.exports = merge(baseConfig, {
   output: {
-    filename: 'www/theme/js/index.min.js'
+    filename: 'www/theme/js/glamos.min.js'
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
