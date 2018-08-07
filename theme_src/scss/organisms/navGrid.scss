@@ -7,20 +7,13 @@
     height: 50px;
     display: grid;
     align-items: center;
-    grid-gap: 10px;
-    grid-template-columns: auto 1fr;
-    grid-template-areas:  "navToggle branding";
+    @extend %horizontalGrid;
     padding: 0 10px;
-    @include smUp {
-      padding: 0;
-      grid-template-columns: auto auto $sidebarGridSize;
-      grid-template-areas:  "branding navMain navLang";
-    }
-    @include mdUp {
-      grid-template-columns: auto auto $sidebarLGgridSize;
-    }
     .glamosBrand {
-      grid-area: branding;
+      grid-column: span 3;
+      @include smUp {
+        grid-column: 1/5;
+      }
       display: flex;
       justify-content: space-around;
       img {
@@ -29,7 +22,7 @@
           max-width: 100px;
         }
         &.desktop {
-          @extend %hiddenSmDown;
+          @extend %hiddenMdDown;
         }
         &.mobile {
           @extend %hiddenSmUp;
@@ -37,17 +30,24 @@
       }
     }
     .navMobileToggle {
-      grid-area: navToggle;
+      grid-column: 1;
+      @include smUp {
+        grid-column: 4/8;
+      }
       @extend %hiddenSmUp;
       @extend %hamburger;
     }
     .navMain {
-      grid-area: navMain;
+      @include smUp {
+        grid-column: 5/12;
+      }
+      @include mdUp {
+        grid-column: 5/10;
+      }
       @extend %verticalList;
       @extend %hiddenSmDown;
     }
     .navLang {
-      grid-area: navLang;
       @extend %verticalList;
       @extend %hiddenSmDown;
     }
