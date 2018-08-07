@@ -2,9 +2,17 @@ $sidebarGridSize: 30vw;
 $sidebarMDgridSize: 300px;
 $sidebarLGgridSize: 400px;
 
+$viewportMaxHeight: 568px;
+
 %horizontalGrid {
   grid-template-columns: repeat(4, 1fr);
   @include smUp {
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: 20px repeat(10, 1fr) minmax(200px, 1fr) 20px;
+  }
+}
+%heightViewport {
+  @media (min-height: $viewportMaxHeight) {
+    min-height: calc(100vh - 50px);
+    margin-top: 50px;
   }
 }

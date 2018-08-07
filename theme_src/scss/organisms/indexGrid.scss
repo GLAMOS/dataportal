@@ -1,0 +1,48 @@
+.indexGrid {
+  display: grid;
+  @extend %horizontalGrid;
+  @include smUp {
+    grid-template-rows: minmax(200px, 20vh) 50vh 20vh auto;
+  }
+}
+
+.indexHead {
+  background-color: green;
+  grid-column: 1/-1;
+  @extend %hiddenSmDown;
+}
+.indexMap {
+  background-color: #765;
+  @include smUp {
+    grid-column: 1/-1;
+    grid-row: 2/3;
+  }
+}
+.mapMetadata {
+  background-color: yellow;
+  grid-column: -3/-2;
+  @include smUp {
+    grid-row: 2/-1;
+  }
+}
+.indexOversight {
+  background-color: pink;
+  grid-column: 1/-1;
+  @include smUp {
+    grid-row: 3/6;
+  }
+}
+.welcomeText {
+  background-color: #478;
+  @include smUp {
+    grid-column: span 9;
+  }
+}
+
+//remove standard navbar from homepage
+.homepage {
+  .indexGrid {
+    margin-top: 0;
+    min-height: 80vh;
+  }
+}
