@@ -3,7 +3,7 @@
   @extend %horizontalGrid;
   grid-template-rows: 70vh 20vh auto auto;
   @include smUp {
-    grid-template-rows: minmax(100px, 20vh) minmax(300px, 50vh) 40px 20vh auto;
+    grid-template-rows: minmax(140px, 20vh) minmax(300px, 50vh) 40px 20vh auto;
   }
 }
 
@@ -15,6 +15,9 @@
 .indexMap {
   background-color: #765;
   grid-column: 1/-1;
+  @include smDown {
+    margin-top: 50px;
+  }
   @include smUp {
     grid-row: 2/4;
   }
@@ -46,7 +49,6 @@
   background-color: #478;
   grid-column: 1/-1;
   @include smUp {
-    grid-row: -1;
     grid-column: 2/-3;
   }
 }
