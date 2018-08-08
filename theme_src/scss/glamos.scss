@@ -16,9 +16,10 @@
 
 //_organisms
 @import 'organisms/navigation';
-@import 'organisms/navGrid';
-@import 'organisms/indexGrid';
-@import 'organisms/mapGrid';
+@import 'organisms/gridNav';
+@import 'organisms/gridIndex';
+@import 'organisms/gridMap';
+@import 'organisms/gridFactsheet';
 @import 'organisms/indexHead';
 
 //latest import
