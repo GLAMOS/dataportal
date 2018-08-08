@@ -4,9 +4,12 @@
     &:hover {
       > ul {
         display: block;
+        padding-left: 0;
         position: absolute;
         list-style-type: none;
         padding: 0;
+        background-color: $glamosColor;
+        padding: 10px;
       }
     }
     > ul {

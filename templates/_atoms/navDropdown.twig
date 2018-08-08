@@ -4,7 +4,7 @@
   <ul>
     {% for nav in navDropdown %}
       {% if loop.first %}{% endif %}
-      <li><a href="{{ nav.url }}">{{ nav.title }} {{ nav.id }}</a></li>
+      <li><a href="{{ nav.url }}">{{ nav.title }}</a></li>
     {% endfor %}
   </ul>
 </li>
