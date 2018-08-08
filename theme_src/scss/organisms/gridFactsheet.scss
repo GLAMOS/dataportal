@@ -1,0 +1,54 @@
+.factsheetGrid {
+  @extend %readingWidth;
+  display: grid;
+  grid-gap: 15px;
+  grid-template-rows: auto minmax(300px, 35vh) 1fr;
+  grid-template-columns: repeat(4, 1fr);
+  @include smDown {
+    padding: 0 15px;
+  }
+  @include smUp {
+    grid-template-columns: repeat(8, 1fr);
+  }
+  .pageTitle {
+    background-color: #687;
+    grid-column: 1/-1;
+  }
+  .fsMap {
+    background-color: #978;
+    grid-column: 1/-1;
+    @include smUp {
+      grid-column: span 5;
+    }
+  }
+  .fsMeasurements {
+    background-color: #627;
+    grid-column: 1/-1;
+    @include smUp {
+      grid-column: span 2;
+    }
+  }
+  .fsPhoto {
+    background-color: #437;
+    grid-column: 1/-1;
+    @include smUp {
+      grid-column: span 2;
+    }
+  }
+  .fsText {
+    background-color: #321;
+    grid-column: 1/-1;
+    @include smUp {
+      grid-column: span 2;
+    }
+  }
+  .fsExport {
+    background-color: #473;
+    @extend %hiddenSmDown
+  }
+  .fsChart {
+    background-color: #347;
+    grid-column: span 4;
+  }
+
+}
