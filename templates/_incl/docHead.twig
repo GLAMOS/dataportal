@@ -3,13 +3,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-  {% include '_organisms/SeoPage' %}
+
 
   {% if not craft.app.config.general.devMode %}
     <link href="/theme/css/glamos.min.css?version={{ themeVersions }}" rel="stylesheet">
   {% else %}
     <link href="/theme/css/glamos.dev.css" rel="stylesheet">
   {% endif %}
+
+  {% include '_organisms/SeoPage' %}
+  {% include '_incl/docFavicons' %}
 
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
   <script>
