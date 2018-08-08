@@ -4,15 +4,37 @@ $sidebarLGgridSize: 400px;
 
 $viewportMaxHeight: 568px;
 
+//this is the horizontal grid for all grids so it matches the navigation (except factsheet)
 %horizontalGrid {
   grid-template-columns: repeat(4, 1fr);
   @include smUp {
-    grid-template-columns: 20px repeat(10, 1fr) minmax(200px, 1fr) 20px;
+    grid-template-columns: 20px repeat(10, 1fr) minmax(280px, 1fr) 20px;
   }
 }
+// this makes the grid layout full height until the vieport is a certain size
 %heightViewport {
   @media (min-height: $viewportMaxHeight) {
     min-height: calc(100vh - 50px);
     margin-top: 50px;
   }
+}
+
+//creates acontainer wich is not too wide for better reading
+%readingWidth {
+  background-color: #745;
+  @include smUp {
+    max-width: 960px;
+    margin: auto;
+    padding: 0 20px;
+  }
+  @include lgUp {
+    max-width: 1200px;
+  }
+}
+
+.content {
+  margin-top: 50px;
+}
+.homepage .content {
+  margin-top: 0;
 }
