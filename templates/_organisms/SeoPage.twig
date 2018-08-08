@@ -33,7 +33,7 @@
       <meta property="og:image" content="{{ asset.url }}" />
     {% endfor %}
   {% else %}
-    {% for asset in seo.seoImage %}
+    {% for asset in seo.seoImage.all() %}
       <meta property="og:image" content="{{ asset.url }}" />
     {% endfor %}
   {% endif %}

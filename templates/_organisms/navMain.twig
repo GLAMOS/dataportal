@@ -8,14 +8,6 @@
       <img class="navLogo desktop" src="/theme/img/00_Logo_GLAMOS-01.svg" alt="">
       <img class="navLogo mobile" src="/theme/img/00_Logo_GLAMOS-03.svg" alt="">
     </div>
-    <ul class="navMain">
-      {% for nav in navigation %}
-        <li><a href="{{ nav.url }}">{{ nav.title }} {{ nav.id }}</a></li>
-      {% endfor %}
-      {% include '_atoms/navDropdown' %}
-    </ul>
-    <ul class="navLang">
-      {% include '_molecules/langSwitcher' %}
-    </ul>
+    {% include '_molecules/navLinks' %}
   </div>
 </div>

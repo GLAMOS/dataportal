@@ -5,7 +5,7 @@
 
   {% include '_organisms/SeoPage' %}
 
-  {% if not craft.config.devMode %}
+  {% if not craft.app.config.general.devMode %}
     <link href="/theme/css/glamos.min.css?version={{ themeVersions }}" rel="stylesheet">
   {% else %}
     <link href="/theme/css/glamos.dev.css" rel="stylesheet">

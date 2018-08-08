@@ -16,20 +16,21 @@
       padding-left: 10px;
     }
   }
-  .navMain {
-    @extend %fontM;
-    li {
-      padding-right: 10px;
-    }
-  }
-  .navLang {
-    @extend %fontS;
-    li {
-      padding-right: 5px;
-    }
+}
+.navMain {
+  @extend %fontM;
+  @extend %verticalList;
+  li {
+    padding-right: 10px;
   }
 }
-
+.navLang {
+  @extend %fontS;
+  @extend %verticalList;
+  li {
+    padding-right: 5px;
+  }
+}
 #mainMobileNav:not( .mm-menu ) {
    display: none;
 }

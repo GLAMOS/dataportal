@@ -43,11 +43,9 @@
       @include mdUp {
         grid-column: 6/12;
       }
-      @extend %verticalList;
       @extend %hiddenSmDown;
     }
     .navLang {
-      @extend %verticalList;
       @extend %hiddenSmDown;
     }
   }
