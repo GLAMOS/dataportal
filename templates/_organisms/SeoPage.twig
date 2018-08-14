@@ -29,7 +29,7 @@
 {# seo image with fallback #}
 {% set pageImage %}
   {% if entry.seoImage.exists() %}
-    {% for asset in entry.seoImage %}
+    {% for asset in entry.seoImage.all() %}
       <meta property="og:image" content="{{ asset.url }}" />
     {% endfor %}
   {% else %}
