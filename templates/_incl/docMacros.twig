@@ -5,3 +5,11 @@
 {% macro richText(string) %}
   {{ string | striptags('<p><a><strong><br><ul><li><em>')  | raw }}
 {% endmacro %}
+
+
+{% macro singleValue(valueParam, unitParam, labelParam) %}
+  <div class="singleValue">
+    <p>{{ valueParam }}{{ unitParam }}</p>
+    <small>{{ labelParam | t }}</small>
+  </div>
+{% endmacro %}
