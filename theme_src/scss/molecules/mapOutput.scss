@@ -1,0 +1,12 @@
+.outputContainer {
+  .chartControls {
+    padding: 5px 15px 5px 0;
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    select {
+      height: 100%;
+    }
+  }
+}

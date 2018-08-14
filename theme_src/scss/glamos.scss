@@ -16,11 +16,14 @@
 @import 'atoms/singleValue';
 @import 'atoms/majorLink';
 @import 'atoms/buttons';
+@import 'atoms/mapComparison';
 
 //molecules
 @import 'molecules/indexGlacierData';
 @import 'molecules/indexOversight';
 @import 'molecules/search';
+@import 'molecules/mapOutput';
+@import 'molecules/mapInput';
 
 //_organisms
 @import 'organisms/navigation';

@@ -1,0 +1,12 @@
+.sidebarContainer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .sidebarControls {
+    background-color: red;
+  }
+  .latestMeasurements {
+    background-color: blue
+  }
+}
