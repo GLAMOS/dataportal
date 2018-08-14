@@ -21,3 +21,10 @@
     <a href="{{ buttonParam.url }}" class="btn">{{ buttonParam.title }}</a>
   </div>
 {% endmacro %}
+
+{% macro comparisonEntry(nameParam) %}
+<div class="comparisonEntry">
+  <button type="button" name="highlight">{{ nameParam }}</button>
+  <button type="button" name="remove" class="btn">-</button>
+</div>
+{% endmacro %}
