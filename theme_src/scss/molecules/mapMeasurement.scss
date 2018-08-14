@@ -1,0 +1,34 @@
+.latestMeasurements {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .singleValue {
+    width: 45%;
+    p {
+      border-color: $txtInvert;
+      @extend %fontXL;
+      font-weight: 700;
+      text-align: left;
+    }
+    small {
+      font-weight: 400;
+      @extend %fontS;
+    }
+    //the first two entries, no matter what
+    &:nth-child(-n+3) {
+      width: 100%;
+      small {
+        font-weight: 400;
+        @extend %fontM;
+      }
+      p {
+        @extend %fontXXL;
+        text-align: right;
+        font-weight: 700;
+      }
+    }
+    &:nth-child(3) {
+      padding-bottom: 15px;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.comparisonControlWrapper {
+  padding-top: 20px;
+}
+.comparisonEntry {
+  border-bottom: solid 1px $txtInvert;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .glacierName {
+    background-color: transparent;
+    border: none;
+    display: inline;
+  }
+  .close {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    img {
+      padding: 5px;
+    }
+  }
+  &.active:before, &:hover:before {
+    content: ">";
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  > button {
+
+  }
+}

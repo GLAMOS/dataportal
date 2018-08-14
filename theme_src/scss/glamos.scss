@@ -16,7 +16,6 @@
 @import 'atoms/singleValue';
 @import 'atoms/majorLink';
 @import 'atoms/buttons';
-@import 'atoms/mapComparison';
 
 //molecules
 @import 'molecules/indexGlacierData';
@@ -24,6 +23,8 @@
 @import 'molecules/search';
 @import 'molecules/mapOutput';
 @import 'molecules/mapInput';
+@import 'molecules/mapComparison';
+@import 'molecules/mapMeasurement';
 
 //_organisms
 @import 'organisms/navigation';
