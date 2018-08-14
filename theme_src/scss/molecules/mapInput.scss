@@ -3,10 +3,22 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: desaturate( $glamosColor, 40% );
   .sidebarControls {
     //background-color: red;
   }
   .latestMeasurements {
     //background-color: blue
+  }
+}
+.content .sidebarContainer {
+  @extend %hiddenSmDown;
+}
+
+//this is the styling for the mobile drawer
+.mobileMapInput {
+  .sidebarContainer {
+    padding: 0;
+    background-color: transparent;
   }
 }

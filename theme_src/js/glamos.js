@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import 'jquery.mmenu';
+import '/dist/addons/fixedelements/jquery.mmenu.fidexelements';
 import ieDetector from './ieDetector';
 ieDetector();
 
