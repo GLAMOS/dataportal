@@ -31,7 +31,7 @@
   }
 }
 .indexOversight {
-  background-color: pink;
+  background-color: $glamosColor;
   grid-column: 1/-1;
   @include smUp {
     grid-row: 4;

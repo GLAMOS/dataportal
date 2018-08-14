@@ -13,3 +13,11 @@
     <small>{{ labelParam | t }}</small>
   </div>
 {% endmacro %}
+
+{% macro majorLink(valueParam, labelParam, buttonParam) %}
+  <div class="majorLink">
+    <p>{{ valueParam }}</p>
+    <small>{{ labelParam | t }}</small>
+    <a href="{{ buttonParam.url }}" class="btn">{{ buttonParam.title }}</a>
+  </div>
+{% endmacro %}
