@@ -20,17 +20,41 @@
 .navMain {
   @extend %fontM;
   @extend %verticalList;
-  li {
-    padding-right: 10px;
-  }
 }
 .navLang {
   @extend %fontS;
   @extend %verticalList;
-  li {
-    padding-right: 5px;
-  }
 }
 #mainMobileNav:not( .mm-menu ) {
    display: none;
+}
+//detail styling
+.navMain, .navLang {
+  height: 100%;
+  li {
+    height: 100%;
+    a {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 5px;
+      color: $txtColor;
+    }
+    &.active, &.activeLang, a:hover {
+      background-color: $txtInvert;
+      text-decoration: none;
+      color: $txtColor;
+    }
+  }
+}
+//index styling
+.navIndex {
+  .navMain, .navLang {
+    > li {
+      &.active a, &.activeLang a, a:hover {
+        text-decoration: none;
+        border-bottom: solid 4px $glamosColor;
+      }
+    }
+  }
 }

@@ -8,7 +8,6 @@
 }
 
 .indexHead {
-  background-color: green;
   grid-column: 1/-1;
   @extend %hiddenSmDown;
 }
@@ -23,7 +22,7 @@
   }
 }
 .mapMetadata {
-  background-color: yellow;
+  //background-color: yellow;
   grid-column: 1/-1;
   @include smUp {
     grid-column: -3/-2;

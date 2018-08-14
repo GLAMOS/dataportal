@@ -2,7 +2,8 @@
 
 %fontXXL {
   @include fontSize(2.5,1.2);
-  @include smUp { @include fontSize(3.5,1.2); }
+  @include smUp { @include fontSize(3.5,1.5); }
+  margin: 0;
 }
 %fontXL {
   @include fontSize(1.7,1.2);

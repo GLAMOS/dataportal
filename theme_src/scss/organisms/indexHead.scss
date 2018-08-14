@@ -8,6 +8,9 @@
   }
   h1 {
     text-transform: uppercase;
+    @extend %fontXXL;
+    font-weight: 700;
+    color: $glamosColor;
   }
   .navIndex {
     display: flex;
