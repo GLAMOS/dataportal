@@ -37,6 +37,7 @@
       height: 100%;
       display: flex;
       align-items: center;
+      text-decoration: none;
       padding: 0 5px;
       color: $txtColor;
     }
@@ -54,6 +55,7 @@
       &.active a, &.activeLang a, a:hover {
         text-decoration: none;
         border-bottom: solid 4px $glamosColor;
+        margin-top: 2px;
       }
     }
   }

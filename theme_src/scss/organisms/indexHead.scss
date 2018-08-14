@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: $txtInvert;
   @extend %boxShadow;
   img {
     width: 100px;

@@ -3,7 +3,7 @@
   @extend %horizontalGrid;
   grid-template-rows: 70vh 20vh auto auto;
   @include smUp {
-    grid-template-rows: minmax(140px, 20vh) minmax(300px, 50vh) 40px 20vh auto;
+    grid-template-rows: minmax(140px, 20vh) minmax(300px, 50vh) 40px minmax(150px, 10vh) auto;
   }
 }
 
@@ -33,23 +33,29 @@
 .indexOversight {
   background-color: $glamosColor;
   grid-column: 1/-1;
+  @extend %boxShadow;
   @include smUp {
     grid-row: 4;
   }
 }
 .socialMedia {
-  background-color: #476;
+  //background-color: #476;
   grid-column: 1/-1;
+  iframe {
+    @extend %boxShadow;
+  }
   @include smUp {
     grid-column: -3/-2;
     grid-row: 3/-1;
   }
 }
 .welcomeText {
-  background-color: #478;
+  //background-color: #478;
+  padding-top: 20px;
+  padding-bottom: 50px;
   grid-column: 1/-1;
   @include smUp {
-    grid-column: 2/-3;
+    grid-column: 3/-4;
   }
 }
 

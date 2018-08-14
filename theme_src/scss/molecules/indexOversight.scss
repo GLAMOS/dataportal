@@ -4,7 +4,7 @@
   .majorLink {
     @include smUp {
       &:nth-child(2n+1) {
-        grid-column: 2/5;
+        grid-column: 3/6;
       }
       &:nth-child(2n+2), &:nth-child(2n+3) {
         grid-column: span 3;
