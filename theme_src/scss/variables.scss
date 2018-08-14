@@ -7,6 +7,7 @@ $txtInvert: white;
 
 $linkColor: pink;
 
+$markerColor: brown;
 
 @mixin fontSize($sizeValue: 1, $lhValue: 1, $lsValue: 0, $wsValue: 0) {
   font-size: ($sizeValue * 10) + px;
@@ -38,6 +39,11 @@ body {
   padding: 0;
   margin: 0;
   //justify-content: space-between;
+}
+%boxShadow {
+  -webkit-box-shadow: 3px 5px 5px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 3px 5px 5px 0px rgba(0,0,0,0.2);
+  box-shadow: 3px 5px 5px 0px rgba(0,0,0,0.2);
 }
 
 html, *, body {

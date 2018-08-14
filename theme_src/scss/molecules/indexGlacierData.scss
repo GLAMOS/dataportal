@@ -1,0 +1,14 @@
+.glacierData {
+  background-color: $txtInvert;
+  margin-top: 30px;
+  padding: 5px 15px;
+  @extend %boxShadow;
+  .currentGlacier {
+    @extend %fontXL;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .btn {
+    margin-top: 30px;
+  }
+}

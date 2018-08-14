@@ -1,0 +1,22 @@
+.fieldSearchWrapper {
+  display: flex;
+  @extend %boxShadow;
+  input {
+    border-radius: 40px 0 0 40px;
+    padding-left: 20px;
+    height: 30px;
+    border: none;
+    min-width: 70%;
+    &::-moz-placeholder {
+      color: $markerColor;
+      padding-left: 20px;
+    }
+  }
+  button {
+    border: none;
+    flex-grow: 1;
+    background-color: $markerColor;
+    color: $txtInvert;
+    border-radius: 0 40px 40px 0;
+  }
+}

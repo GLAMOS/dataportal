@@ -1,0 +1,14 @@
+.singleValue {
+  p {
+    @extend %fontXXL;
+    font-weight: 700;
+    line-height: 1;
+    text-align: right;
+    border-bottom: solid 4px $glamosColor;
+  }
+  small {
+    @extend %fontM;
+    font-weight: 700;
+    padding-top: 3px;
+  }
+}

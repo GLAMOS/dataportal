@@ -13,9 +13,12 @@
 //_atoms
 @import 'atoms/dropDown';
 @import 'atoms/navToggleButton';
+@import 'atoms/singleValue';
+@import 'atoms/buttons';
 
 //molecules
 @import 'molecules/indexGlacierData';
+@import 'molecules/search';
 
 //_organisms
 @import 'organisms/navigation';
