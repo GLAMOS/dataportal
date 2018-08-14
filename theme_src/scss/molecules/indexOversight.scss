@@ -1,0 +1,14 @@
+.indexOversight {
+  display: grid;
+  @extend %horizontalGrid;
+  .majorLink {
+    @include smUp {
+      &:nth-child(2n+1) {
+        grid-column: 2/5;
+      }
+      &:nth-child(2n+2), &:nth-child(2n+3) {
+        grid-column: span 3;
+      }
+    }
+  }
+}

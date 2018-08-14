@@ -1,1 +1,11 @@
-<div class="indexOversight">Index oversight</div>
+{% import '_incl/docMacros' as macro %}
+
+{% set mapViewerLink = craft.entries.id('6').first() %}
+{% set mapFactsheetLink = craft.entries.id('12').first() %}
+{% set mapDownloadLink = craft.entries.id('13').first() %}
+
+<div class="indexOversight">
+  {{ macro.majorLink('142254','Polygonpunkte', mapViewerLink ) }}
+  {{ macro.majorLink('4510','Gletscher', mapFactsheetLink) }}
+  {{ macro.majorLink('2145214521','Messwerte', mapDownloadLink) }}
+</div>

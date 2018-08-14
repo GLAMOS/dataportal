@@ -3,7 +3,7 @@
 <ul class="navMain">
   {% for nav in navigation %}
     <li class="{% if currentID == nav.id %}active{% endif %}">
-      <a href="{{ nav.url }}">{{ nav.title }}</a>
+      <a href="{{ nav.url }}">{{ nav.title }} {{ nav.id }}</a>
     </li>
   {% endfor %}
   {% include '_atoms/navDropdown' %}
