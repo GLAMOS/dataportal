@@ -1,8 +1,9 @@
 .fieldSearchWrapper {
   display: flex;
-  @extend %boxShadow;
+  @extend %mobilePadding;
   input {
     border-radius: 40px 0 0 40px;
+    background-color: lighten($glamosColor,30%);
     padding-left: 20px;
     height: 30px;
     border: none;
@@ -18,5 +19,6 @@
     background-color: $markerColor;
     color: $txtInvert;
     border-radius: 0 40px 40px 0;
+    margin: 0;
   }
 }

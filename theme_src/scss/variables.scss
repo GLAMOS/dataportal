@@ -1,9 +1,8 @@
 $glamosColor: #45CADD;
 
-
-
 $txtColor: #000;
 $txtInvert: white;
+$txtSecColor: grey;
 
 $linkColor: pink;
 
@@ -39,6 +38,11 @@ body {
   padding: 0;
   margin: 0;
   //justify-content: space-between;
+}
+%mobilePadding {
+  @include smDown {
+    padding: 0 20px;
+  }
 }
 %boxShadow {
   -webkit-box-shadow: 3px 5px 5px 0px rgba(0,0,0,0.2);

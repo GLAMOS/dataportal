@@ -1,29 +1,21 @@
-$burgerSize: 5px;
-$gapSize: 5px;
+$burgerSize: 3px;
+$gapSize: 3px;
 
-%hamburger {
-  height: 40px;
-  width: 40px;
-  margin: 5px 0 0 10px;
-  border-top: solid $burgerSize $txtInvert;
-  position: relative;
-  &:before, &:after {
-    content: "";
-    color: transparent;
-    border-top: solid $burgerSize $txtInvert;
-    width: 100%;
-    position: absolute;
-  }
-  &:before {
-    margin-top: $gapSize;
-  }
-  &:after {
-    margin-top: ($gapSize + $burgerSize * 2 );
-  }
-  &:hover {
-    opacity: 0.7;
+.navMobileToggle {
+  //background-color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  a {
+    color: $txtColor;
+    &:hover {
+      color: $markerColor;
+    }
   }
 }
+
+//zweites mmenu für map viewer einstellungen
 .navMapViewerToggle {
   @extend %hiddenSmUp;
   position: absolute;

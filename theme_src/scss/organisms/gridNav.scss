@@ -3,6 +3,7 @@
   position: fixed;
   top: 0;
   width: 100%;
+  @extend %boxShadow;
   .navGrid {
     height: 50px;
     display: grid;
@@ -15,6 +16,7 @@
       }
       display: flex;
       justify-content: space-around;
+      align-items: center;
       img {
         max-width: 40px;
         @include smUp {
@@ -34,7 +36,6 @@
         grid-column: 4/8;
       }
       @extend %hiddenSmUp;
-      @extend %hamburger;
     }
     .navMain {
       @include smUp {

@@ -7,3 +7,7 @@ body {
     @extend %hiddenSmUp;
   }
 }
+.hint {
+  @extend %fontS;
+  color: $txtSecColor;
+}

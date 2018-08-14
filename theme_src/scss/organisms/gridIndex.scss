@@ -1,7 +1,7 @@
 .indexGrid {
   display: grid;
   @extend %horizontalGrid;
-  grid-template-rows: 70vh 20vh auto auto;
+  grid-template-rows: 70vh auto;
   @include smUp {
     grid-template-rows: minmax(140px, 20vh) minmax(300px, 50vh) 40px minmax(150px, 10vh) auto;
   }
@@ -41,6 +41,10 @@
 .socialMedia {
   //background-color: #476;
   grid-column: 1/-1;
+  @extend %mobilePadding;
+  @include smDown {
+    margin-top: 30px;
+  }
   iframe {
     @extend %boxShadow;
   }
@@ -54,6 +58,7 @@
   padding-top: 20px;
   padding-bottom: 50px;
   grid-column: 1/-1;
+  @extend %mobilePadding;
   @include smUp {
     grid-column: 3/-4;
   }

@@ -8,12 +8,12 @@
   }
   .navTitle {
     display: block;
+    color: $txtInvert;
     h1 {
       margin: 0;
       text-transform: uppercase;
       @extend %fontM;
-      font-weight: bold;
-      padding-left: 10px;
+      font-weight: 700;
     }
   }
 }

@@ -1,5 +1,12 @@
 .indexOversight {
-  display: grid;
+
+  @include smDown {
+    padding: 15px;
+    padding-left: 20px;
+  }
+  @include smUp {
+    display: grid;
+  }
   @extend %horizontalGrid;
   .majorLink {
     @include smUp {
