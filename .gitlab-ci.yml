@@ -1,0 +1,33 @@
+cache:
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+    - node_modules/
+
+
+before_script:
+  - npm install
+
+#build:
+#  stage: build
+#  only:
+#  - master
+#  script:
+#  - npm run build
+#  artifacts:
+#    untracked: true
+
+staging_deploy:
+  stage: deploy
+  only:
+  - TEST
+  environment:
+    name: staging
+    url: https://glamos.meteotest.ch
+  variables:
+    REMOTE_USER: "glamos"
+    REMOTE_HOST: "glamos.meteotest.ch"
+    DB_HOST: $DB_HOST_TEST
+    DB_NAME: $DB_NAME_TEST
+    DB_PASS: $DB_PASS_TEST
+
+  script: ./.gitlab-cd.sh
