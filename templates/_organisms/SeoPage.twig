@@ -1,6 +1,6 @@
 {# Page title with fallback #}
 {%- set pageTitle -%}
-  {% if entry.seoTitle %}{{ entry.seoTitle }}{% else %}{{ seo.seoTitle }}{% endif %}
+  {{ entry.title }} - {% if entry.seoTitle %}{{ entry.seoTitle }}{% else %}{{ seo.seoTitle }}{% endif %}
 {%- endset -%}
 
 {# Page suffix without fallback #}

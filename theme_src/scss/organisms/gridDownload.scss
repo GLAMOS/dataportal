@@ -1,8 +1,9 @@
 .downloadGrid {
   @extend %readingWidth;
+  @extend %heightViewport;
   display: grid;
   grid-gap: 15px;
-  grid-template-rows: auto minmax(300px, 35vh) minmax(300px, 35vh) auto;
+  grid-template-rows: $pageTitleColumn auto;
   grid-template-columns: repeat(4, 1fr);
   @include smDown {
     padding: 0 15px;
@@ -11,6 +12,9 @@
     grid-template-columns: repeat(8, 1fr);
   }
   .pageTitle {
+    grid-column: 1/-1;
+  }
+  .tabContainer {
     grid-column: 1/-1;
   }
 

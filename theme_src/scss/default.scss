@@ -11,3 +11,8 @@ body {
   @extend %fontS;
   color: $txtSecColor;
 }
+.pageTitle {
+  @extend %fontXXL;
+  font-weight: 700;
+  align-self: center;
+}

@@ -8,9 +8,7 @@ ieDetector();
 $(document).ready(function () {
 
   //initialise Mobile Menu
-  $("#mainMobileNav").mmenu({
-
-  });
+  $("#mainMobileNav").mmenu();
 
   //initialise mapviewer menu
   $("#navMapViewer").mmenu({
@@ -22,9 +20,27 @@ $(document).ready(function () {
   $('.imgGallery').lightGallery({
     selector: '.zoomItem'
   });
-  $('#allImages').lightGallery({
-    selector: '.zoomItem'
+
+  //initialize download Tabs
+  $('ul.tabLinks a').on('click', function () {
+    const CLASS_NAME = 'current';
+    const TAB_ID = $(this).attr('data-tab');
+    const HREF_VALUE = $(this).attr("href");
+
+    $('ul.tabLinks a').removeClass(CLASS_NAME);
+    $('.tabPanel').removeClass(CLASS_NAME);
+
+    $(this).addClass(CLASS_NAME);
+    $('#' + TAB_ID).addClass(CLASS_NAME);
+
+    //add hash to url
+    if(history.pushState) {
+      history.pushState(null, null, HREF_VALUE);
+    }
+    else {
+        location.hash = HREF_VALUE;
+    }
+
   });
-  //initializes all images which are hidden ini
 
 });

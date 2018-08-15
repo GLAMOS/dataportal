@@ -19,6 +19,9 @@ $viewportMaxHeight: 568px;
   }
 }
 
+//this creates a row rule for the pages with a page pageTitle
+$pageTitleColumn: minmax(min-content, 20vh);
+
 //creates acontainer wich is not too wide for better reading
 %readingWidth {
   @include smUp {

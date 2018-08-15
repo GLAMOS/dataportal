@@ -1,0 +1,32 @@
+ul.tabLinks {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	display: flex;
+  & li {
+		a {
+			color: #222;
+			background: $shadowColor;
+	  	display: block;
+			text-decoration: none;
+			padding: 10px 15px;
+			&.current, &:hover {
+	      background: $glamosColor;
+	    	color: $txtInvert;
+				font-weight: 700;
+	    }
+		}
+  }
+}
+.tabPanel {
+	display: none;
+	background: $shadowColor;
+	border: solid 2px $glamosColor;
+	padding: 15px;
+	margin-bottom: 30px;
+	min-height: 50vh;
+  &.current {
+    display: inherit;
+		@extend %boxShadow;
+  }
+}
