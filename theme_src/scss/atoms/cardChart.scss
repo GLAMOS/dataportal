@@ -1,0 +1,13 @@
+.fsChart {
+  display: flex;
+  flex-direction: column;
+  @extend %cardDesignAlpha;
+  .chartTitle {
+    @extend %fontL;
+    margin-top: 0;
+    font-weight: 700;
+  }
+  .chartWrapper {
+    flex: 1;
+  }
+}

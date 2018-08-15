@@ -2,8 +2,10 @@
   @extend %boxShadow;
   padding: 15px;
   background-color: $txtInvert;
+  border: solid 1px $shadowColor;
 }
 %cardDesignBeta {
   @extend %boxShadow;
   background-color: $txtInvert;
+  border: solid 1px $shadowColor;
 }

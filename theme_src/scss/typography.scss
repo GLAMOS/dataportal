@@ -24,3 +24,12 @@
 %fontXS {
   @include fontSize(0.7,1.2);
 }
+
+
+@font-face {
+  font-family: 'lg';
+  src: url("../webfonts/lg.eot?n1z373");
+  src: url("../webfonts/lg.eot?#iefixn1z373") format("embedded-opentype"), url("../webfonts/lg.woff?n1z373") format("woff"), url("../webfonts/lg.ttf?n1z373") format("truetype"), url("../webfonts/lg.svg?n1z373#lg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}

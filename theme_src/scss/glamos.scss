@@ -1,7 +1,7 @@
 @import "../../node_modules/normalize.css/normalize";
 @import "../../node_modules/jquery.mmenu/dist/jquery.mmenu";
-@import "../../node_modules/lightgallery/src/css/lightgallery";
 @import "../../node_modules/jquery.mmenu/dist/extensions/positioning/jquery.mmenu.positioning";
+@import "../../node_modules/lightgallery/src/css/lightgallery";
 @import "../../node_modules/gugus-media-queries/gugus-media-queries";
 
 @import 'variables';
@@ -18,7 +18,9 @@
 @import 'atoms/majorLink';
 @import 'atoms/buttons';
 @import 'atoms/card';
-
+@import 'atoms/cardComment';
+@import 'atoms/cardMap';
+@import 'atoms/cardChart';
 
 //molecules
 
@@ -36,6 +38,7 @@
 @import 'organisms/gridIndex';
 @import 'organisms/gridMap';
 @import 'organisms/gridFactsheet';
+@import 'organisms/gridDownload';
 @import 'organisms/indexHead';
 @import 'organisms/mapOutput';
 @import 'organisms/factsheetCards';

@@ -31,6 +31,9 @@
   </div>
 {% endmacro %}
 
-{% macro cardChart(nameParam, activeTrue) %}
-  <div class="fsChart">// fake chart</div>
+{% macro cardChart(nameParam) %}
+  <div class="fsChart">
+    <h3 class="chartTitle">{{ nameParam }}</h3>
+    // Hier erscheint dann der Chart für die {{ nameParam }}
+  </div>
 {% endmacro %}

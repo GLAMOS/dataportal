@@ -1,0 +1,7 @@
+.fsComment {
+  @extend %cardDesignAlpha;
+  overflow: auto;
+  p {
+    margin-top: 0;
+  }
+}

@@ -1,6 +1,7 @@
 .navBar {
   background-color: $glamosColor;
   position: fixed;
+  z-index: 100;
   top: 0;
   width: 100%;
   @extend %boxShadow;

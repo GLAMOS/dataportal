@@ -11,7 +11,11 @@ module.exports = {
       './theme_src/js/glamos.js'
     ]
   },
-
+  resolve: {
+    modules: [
+      './node_modules/'
+    ]
+  },
   module: {
     loaders: [
       {

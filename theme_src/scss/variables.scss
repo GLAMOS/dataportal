@@ -3,7 +3,7 @@ $glamosColor: #45CADD;
 $txtColor: rgba(0, 0, 0, 0.75);
 $txtInvert: white;
 $txtSecColor: grey;
-
+$shadowColor: #e6e6e6;
 $linkColor: pink;
 
 $markerColor: brown;
@@ -45,9 +45,9 @@ body {
   }
 }
 %boxShadow {
-  -webkit-box-shadow: 3px 5px 5px 0px rgba(0,0,0,0.2);
-  -moz-box-shadow: 3px 5px 5px 0px rgba(0,0,0,0.2);
-  box-shadow: 3px 5px 5px 0px rgba(0,0,0,0.2);
+  -webkit-box-shadow: 3px 5px 5px 0px $shadowColor;
+  -moz-box-shadow: 3px 5px 5px 0px $shadowColor;
+  box-shadow: 3px 5px 5px 0px $shadowColor;
 }
 
 html, *, body {
