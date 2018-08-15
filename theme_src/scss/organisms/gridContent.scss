@@ -1,0 +1,71 @@
+.contentGrid {
+  @extend %readingWidth;
+  display: grid;
+  grid-gap: 15px;
+  grid-template-rows: $pageTitleColumn auto;
+  grid-template-columns: repeat(4, 1fr);
+  @include smDown {
+    padding: 0 15px;
+  }
+  @include smUp {
+    grid-template-columns: repeat(8, 1fr);
+  }
+  .pageTitle {
+    grid-column: 1/-1;
+  }
+  .column {
+    &1 {
+      grid-column-end: span 1;
+    }
+    &2 {
+      grid-column-end: span 2;
+    }
+    &3 {
+      grid-column-end: span 3;
+    }
+    &4 {
+      grid-column-end: span 4;
+    }
+    &4 {
+      grid-column-end: span 4;
+    }
+    &5 {
+      grid-column-end: span 5;
+    }
+    &6 {
+      grid-column-end: span 6;
+    }
+    &7 {
+      grid-column-end: span 7;
+    }
+    &8 {
+      grid-column-end: span 8;
+    }
+  }
+  .offset {
+    &1 {
+      grid-column-start: 1;
+    }
+    &2 {
+      grid-column-start: 2;
+    }
+    &3 {
+      grid-column-start: 3;
+    }
+    &4 {
+      grid-column-start: 4;
+    }
+    &5 {
+      grid-column-start: 5;
+    }
+    &6 {
+      grid-column-start: 6;
+    }
+    &7 {
+      grid-column-start: 7;
+    }
+    &8 {
+      grid-column-start: 8;
+    }
+  }
+}
