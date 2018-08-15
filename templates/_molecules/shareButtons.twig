@@ -1,0 +1,14 @@
+{% set sharingUrl = url(craft.app.request.pathInfo) %}
+{% set shareTxt = entry.title ~ ' - ' ~ 'Daten und Fakten' %}
+
+{# wie krieg ich den text von der meta description hier rein? #}
+
+<a href="https://twitter.com/intent/tweet?text={{ shareTxt }}&url={{ sharingUrl }}" class="btn">
+  Share on Twitter
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ sharingUrl }}" class="btn">
+  Share on LinkedIn
+</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u={{ sharingUrl }}" class="btn">
+  Share on Facebook
+</a>

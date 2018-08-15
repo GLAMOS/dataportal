@@ -1,21 +1,19 @@
 {% extends "_layout" %}
+{% import '_incl/docMacros' as macro %}
 
 {% block content %}
   <div class="factsheetGrid">
-    <h2 class="pageTitle">{{ entry.title }}</h2>
-    <div class="fsMap">Map</div>
-    <div class="fsMeasurements">Messwerte</div>
-    <div class="fsExport">Drucken</div>
-    <div class="fsChart">Generic Chart</div>
-    <div class="fsPhoto">
-      <a href="https://placeholder.com"><img src="http://via.placeholder.com/350x350"></a>
-    </div>
-    <div class="fsText">Erläuterungen</div>
-    <div class="fsChart">Generic Chart</div>
-    <div class="fsChart">Generic Chart</div>
-    <div class="fsChart">Generic Chart</div>
-    <div class="fsChart">Generic Chart</div>
-    <div class="fsChart">Generic Chart</div>
-    <div class="fsChart">Generic Chart</div>
+    <h2 class="pageTitle">Aletschgletscher - {{ entry.title }}</h2>
+    {% include '_molecules/cardMap' %}
+    {% include '_molecules/cardMeasurements' %}
+    {% include '_molecules/cardExport' %}
+    {{ macro.cardChart() }}
+    {% include '_molecules/cardPhoto' %}
+    {% include '_molecules/cardComment' %}
+    {{ macro.cardChart() }}
+    {{ macro.cardChart() }}
+    {{ macro.cardChart() }}
+    {{ macro.cardChart() }}
+    {{ macro.cardChart() }}
   </div>
 {% endblock %}

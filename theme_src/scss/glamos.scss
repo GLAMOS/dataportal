@@ -1,5 +1,6 @@
 @import "../../node_modules/normalize.css/normalize";
 @import "../../node_modules/jquery.mmenu/dist/jquery.mmenu";
+@import "../../node_modules/lightgallery/src/css/lightgallery";
 @import "../../node_modules/jquery.mmenu/dist/extensions/positioning/jquery.mmenu.positioning";
 @import "../../node_modules/gugus-media-queries/gugus-media-queries";
 
@@ -16,15 +17,18 @@
 @import 'atoms/singleValue';
 @import 'atoms/majorLink';
 @import 'atoms/buttons';
+@import 'atoms/card';
+
 
 //molecules
-@import 'molecules/indexGlacierData';
+
 @import 'molecules/indexOversight';
 @import 'molecules/search';
-@import 'molecules/mapOutput';
 @import 'molecules/mapInput';
 @import 'molecules/mapComparison';
 @import 'molecules/mapMeasurement';
+@import 'molecules/factsheetMeasurements';
+@import 'molecules/cardPhoto';
 
 //_organisms
 @import 'organisms/navigation';
@@ -33,6 +37,9 @@
 @import 'organisms/gridMap';
 @import 'organisms/gridFactsheet';
 @import 'organisms/indexHead';
+@import 'organisms/mapOutput';
+@import 'organisms/factsheetCards';
+@import 'organisms/indexGlacierData';
 
 //latest import
 @import 'IEhack';

@@ -4,7 +4,7 @@
   @extend %horizontalGrid;
   grid-template-rows: 55vh 35vh;
   @include smUp {
-    grid-template-rows: minmax(300px,60vh) minmax(150px,40vh);
+    grid-template-rows: minmax(300px, 58vh) minmax(250px, 1fr);
   }
 }
 .mapContainer {
@@ -17,7 +17,7 @@
 }
 .outputContainer {
   grid-column: 1/-1;
-  background-color: yellow;
+  //background-color: yellow;
   z-index: 100;
   @include smUp {
     grid-column: 2/-3;

@@ -16,8 +16,9 @@
     width: 20px;
     height: 20px;
     padding: 0;
-    img {
+    svg {
       padding: 5px;
+      width: 100%;
     }
   }
   &.active:before, &:hover:before {

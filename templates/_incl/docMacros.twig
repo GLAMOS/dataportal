@@ -26,8 +26,11 @@
   <div class="comparisonEntry {% if activeTrue %}active{% endif %}">
     <button type="button" name="highlight" class="glacierName">{{ nameParam }}</button>
     <button type="button" name="remove" class="btn close">
-      <img src="/theme/img/close.svg" alt="">
-      {{ svg('/theme/img/close.svg') }}
+      {{ svg('@webroot/theme/img/close.svg') }}
     </button>
   </div>
+{% endmacro %}
+
+{% macro cardChart(nameParam, activeTrue) %}
+  <div class="fsChart">// fake chart</div>
 {% endmacro %}

@@ -1,0 +1,9 @@
+%cardDesignAlpha {
+  @extend %boxShadow;
+  padding: 15px;
+  background-color: $txtInvert;
+}
+%cardDesignBeta {
+  @extend %boxShadow;
+  background-color: $txtInvert;
+}

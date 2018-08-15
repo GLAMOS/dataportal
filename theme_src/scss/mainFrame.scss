@@ -21,7 +21,6 @@ $viewportMaxHeight: 568px;
 
 //creates acontainer wich is not too wide for better reading
 %readingWidth {
-  background-color: #745;
   @include smUp {
     max-width: 960px;
     margin: auto;

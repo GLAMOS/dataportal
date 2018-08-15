@@ -1,0 +1,12 @@
+.fsMap {
+  @extend %cardDesignBeta;
+  position: relative;
+  .btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+}
+.fsChart {
+  @extend %cardDesignAlpha;
+}

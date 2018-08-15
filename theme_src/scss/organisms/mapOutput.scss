@@ -2,6 +2,10 @@
   @extend %mobilePadding;
   display: flex;
   flex-direction: column;
+  @include smUp {
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
   .chartControls {
     padding: 15px 0;
     display: flex;
@@ -16,9 +20,8 @@
   }
 }
 .chartContainer {
-  background-color: #654;
+  //background-color: #654;
   flex: 1;
-  margin-bottom: 10px;
   .outputChart {
     width: 100%;
     height: 100%;

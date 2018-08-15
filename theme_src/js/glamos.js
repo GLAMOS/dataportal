@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import 'jquery.mmenu';
-import '/dist/addons/fixedelements/jquery.mmenu.fidexelements';
+import 'lightgallery';
 import ieDetector from './ieDetector';
 ieDetector();
 

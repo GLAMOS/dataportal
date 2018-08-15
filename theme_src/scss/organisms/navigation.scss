@@ -25,7 +25,7 @@
   @extend %fontS;
   @extend %verticalList;
 }
-#mainMobileNav:not( .mm-menu ) {
+#mainMobileNav:not( .mm-menu ), #navMapViewer:not( .mm-menu ){
    display: none;
 }
 //detail styling
