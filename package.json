@@ -1,8 +1,17 @@
 {
   "name": "GLAMOS",
-  "version": "0.0.1",
-  "description": "",
-  "main": "glamos.js",
+  "version": "0.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "author": {
+    "name": "Meteotest",
+    "email": "web@meteotest.ch",
+    "url": "https://meteotest.ch"
+  },
+  "maintainers": [
+    "Kaspar Allenbach <kaspar.allenbach@meteotest.ch>",
+    "Thomas Lahn <thomas.lahn@meteotest.ch>"
+  ],
   "dependencies": {
     "gugus-media-queries": "^1.1.1",
     "jquery.mmenu": "^7.0.6",
@@ -44,8 +53,5 @@
   "repository": {
     "type": "git",
     "url": "git@gitlab.mt.local:web_software/GLAMOS.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
