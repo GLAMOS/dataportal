@@ -23,3 +23,9 @@ www/assets/images/**
 /www/theme/js/glamos.dev.js
 /www/theme/css/glamos.dev.css.map
 /www/theme/css/glamos.dev.css
+/www/theme/js/glamos.min.js.gz
+/www/theme/js/glamos.min.js
+/www/theme/css/glamos.prebuild.css.map
+/www/theme/css/glamos.prebuild.css
+/www/theme/css/glamos.min.css.map
+/www/theme/css/glamos.min.css
