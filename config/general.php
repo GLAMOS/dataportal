@@ -33,6 +33,9 @@ return [
 
   // Staging environment settings
   'staging' => [
+    'devMode' => true,
+    'enableTemplateCaching' => true,
+    'suppressTemplateErrors' => false,
   ],
 
   // Production environment settings
