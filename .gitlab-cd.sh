@@ -14,19 +14,14 @@ set -e
 REMOTE=${REMOTE_USER}@${REMOTE_HOST}
 
 # Meteotest frontent asset paths to sync.
-PATH_WWW_ROOT="www/"
-PATH_WWW_ASSETS="www/assets/"
-PATH_WWW_IMG="www/assets/images"
-PATH_WWW_CSS="www/theme/css/"
-PATH_WWW_FONTS="www/theme/webfonts/"
-PATH_WWW_JS="www/theme/js/"
-PATH_CRAFT="/"
-
+PATH_WWW_ROOT="www"
+PATH_WWW_THEME="${PATH_WWW_ROOT}/theme"
 
 # Build assets
-if [ "$CI_COMMIT_REF_NAME" == "TEST" ]
-then npm run build:dev
-else npm run build
+if [ "$CI_COMMIT_REF_NAME" == "TEST" ]; then
+  npm run build:dev
+else
+  npm run build
 fi
 
 # Generate DB config
@@ -48,32 +43,13 @@ fi
 # spec_config="craft/config/general.$CI_COMMIT_REF_NAME.php"
 # [ -f "$spec_config" ] && cp "$spec_config" "craft/config/general.php"
 
-# Create the necessary directory structure.
-ssh ${REMOTE} "mkdir -p \
-    ${PATH_CRAFT} ${PATH_WWW_ROOT} ${PATH_WWW_ASSETS} \
-    ${PATH_WWW_IMG} ${PATH_WWW_CSS} ${PATH_WWW_FONTS} ${PATH_WWW_JS}"
+rsync -vv -a --exclude='*/' --delete "${PATH_WWW_ROOT}" "${REMOTE}:${PATH_WWW_ROOT}"
+rsync -vv -a --delete "${PATH_WWW_THEME}" "${REMOTE}:${PATH_WWW_ROOT}"
+rsync -vv -a --delete 'config' 'templates' 'vendor' \
+  "${REMOTE}:"
 
-# Sync frontend assets.
-rsync -a --exclude="*/" --delete ${PATH_WWW_ROOT} ${REMOTE}:${PATH_WWW_ROOT}
-rsync -a --exclude="*/" --delete ${PATH_WWW_ASSETS} ${REMOTE}:${PATH_WWW_ASSETS}
-rsync -a --delete ${PATH_WWW_CSS} ${REMOTE}:${PATH_WWW_CSS}
-rsync -a --delete ${PATH_WWW_FONTS} ${REMOTE}:${PATH_WWW_FONTS}
-rsync -a --delete ${PATH_WWW_IMG} ${REMOTE}:${PATH_WWW_IMG}
-rsync -a --delete ${PATH_WWW_JS} ${REMOTE}:${PATH_WWW_JS}
-rsync -a --delete ${PATH_CRAFT} ${REMOTE}:${PATH_CRAFT}
-
-ssh ${REMOTE} "mkdir -p ${PATH_CRAFT}storage"
+ssh -vv "${REMOTE}" 'mkdir -p storage'
 
 # Flush Craft cache
-echo -n "Flushing cache: "
-curl --silent https://${REMOTE_HOST}/flush
-
-# Generate remote crontab
-ssh ${REMOTE} "crontab -" <<EOF
-# ☠ WILL BE OVERWRITTEN ON DEPLOY! ☠
-# Edit the contents of this file in $0
-MAILTO=stephan.balmer@meteotest.ch
-
-# Periodically refresh station status
-*/5 * * * * /usr/local/bin/curl --silent --insecure --fail https://$REMOTE_HOST/pull/rma?plain > log/update.log 2>&1
-EOF
+printf '%s' 'Flushing cache: '
+curl --silent "https://${REMOTE_HOST}/flush"
