@@ -1,24 +1,25 @@
-**/.directory
-**/.DS_Store
-**/Thumbs.db
+.directory
 .DS_Store
+Thumbs.db
+.DS_Store
+!.gitkeep
 
 # Vagrant
-.vagrant/
-provisioning/includes/
-provisioning/????-??-??.sql
-provisioning/mt.local.RootCA.crt
-ubuntu-*-cloudimg-console.log
+/.vagrant/
+∕provisioning/includes/
+/provisioning/????-??-??.sql
+/provisioning/*.crt
+**/ubuntu-*-cloudimg-console.log
 
 # NPM
-node_modules/
+/node_modules/
 npm-debug.log
+package-lock.json
 
-log/
-/storage
+/log/
+/storage/
 /.env
-www/assets/images/**
-!.gitkeep
+/www/assets/images/
 /www/theme/js/glamos.dev.js.map
 /www/theme/js/glamos.dev.js
 /www/theme/css/glamos.dev.css.map
