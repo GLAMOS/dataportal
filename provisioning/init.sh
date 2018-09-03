@@ -41,7 +41,7 @@ CERT_FILENAME=mt.local.RootCA.crt
 cd "${PATH_PROVISIONING}"
 ## http://dev.mysql.com/doc/refman/5.7/en/mysqldump.html
 mysqldump --host="${DB_REMOTE_HOST}" --port="${DB_REMOTE_PORT}" \
-  --user="${DB_REMOTE_USERNAME}" --password --no-create-db --verbose \
+  --user="${DB_REMOTE_USERNAME}" --password --no-create-db --ssl --verbose \
   "${DB_REMOTE_DATABASE}" > "${DB_DUMP}"
 
 # Fetch Meteotest includes as the provisioning script doesn't have access.
@@ -77,9 +77,14 @@ mkdir -p craft/storage
 chmod -R 777 craft/storage
 rm -rf craft/storage/runtime
 
-#rsync -r ${SSH_REMOTE_USER}@${SSH_REMOTE_HOST}:~/www/assets ./www
 # rsync -aP "${SSH_REMOTE_USER}@${SSH_REMOTE_HOST}:~/www/imager" ./www
-rsync -aP "${SSH_REMOTE_USER}@${SSH_REMOTE_HOST}:~/craft/storage" ./craft
+rsync -aPz "${SSH_REMOTE_USER}@${SSH_REMOTE_HOST}:~/www/assets" './www/'
+rsync -aPz "${SSH_REMOTE_USER}@${SSH_REMOTE_HOST}:~/storage" . || (
+  mkdir -p storage
+  chmod -R 777 storage
+)
 
+rm -rf storage/runtime
 rm -rf node_modules
+
 npm install

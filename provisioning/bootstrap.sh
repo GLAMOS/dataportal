@@ -10,7 +10,7 @@ set -e
 #
 
 PROJECT_NAME=$(hostname -s)
-NODE_VERSION='6.x'
+NODE_VERSION='8.x'
 SYSTEM_USER='vagrant'
 
 PATH_HOME="/home/${SYSTEM_USER}"
@@ -60,7 +60,6 @@ apt-get install -y \
   php-horde-crypt-blowfish \
   php7.1-mcrypt \
   php7.1-json \
-  php7.1-curl
 
   # Install Gulp globally for easier execution.
 npm install -g \
@@ -88,6 +87,8 @@ cp -r ${PATH_PROVISIONING}/includes/{composer,symfony,utils} ${PATH_PHP_INCLUDES
 #
 
 # Ensure the database server is running.
+  php7.1-curl \
+  php7.1-zip
 systemctl start mariadb
 
 # Set up the database.

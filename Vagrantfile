@@ -14,12 +14,12 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # https://plus.google.com/+AaronBushnell/posts/c3G7SpRWh3U
-  config.vm.synced_folder "craft/storage", "/vagrant/craft/storage",
     :owner => 'www-data',
     :group => 'www-data',
     :mount_options => ['dmode=777,fmode=777']
 
   config.vm.synced_folder "www/imager", "/vagrant/www/imager",
+  config.vm.synced_folder "storage", "/vagrant/storage",
     :owner => 'www-data',
     :group => 'www-data',
     :mount_options => ['dmode=777,fmode=777']
