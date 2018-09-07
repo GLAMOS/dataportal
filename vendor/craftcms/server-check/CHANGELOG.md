@@ -1,6 +1,22 @@
 Changelog
 =========
 
+## 1.1.6 - 2018-08-17
+
+### Changed
+- The `ctype` extension is now required because of Yii 2.x.
+
+## 1.1.5 - 2018-08-14
+
+### Changed
+- The `iconv` extension is now required because of Twig 2.0.
+
+## 1.1.4 - 2018-07-25
+
+### Changed
+- Added `proc_open`, `proc_close`, `proc_terminate`, and `proc_get_status` methods as optional.
+- `allow_url_fopen` is now checked to see if it is enabled for Plugin Store and updating operations.
+
 ## 1.1.3 - 2018-07-18
 
 ### Changed

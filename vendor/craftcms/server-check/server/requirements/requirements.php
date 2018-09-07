@@ -110,6 +110,12 @@ $requirements = array_merge($requirements, array(
         'condition' => extension_loaded('curl'),
         'memo' => 'The <a target="_blank" href="http://php.net/manual/en/book.curl.php">cURL</a> extension is required.',
     ),
+    array(
+        'name' => 'ctype extension',
+        'mandatory' => true,
+        'condition' => extension_loaded('ctype'),
+        'memo' => 'The <a target="_blank" href="https://secure.php.net/manual/en/book.ctype.php">ctype</a> extension is required.',
+    ),
     $this->iniSetRequirement(),
     array(
         'name' => 'Intl extension',
@@ -131,9 +137,9 @@ $requirements = array_merge($requirements, array(
     ),
     array(
         'name' => 'iconv extension',
-        'mandatory' => false,
+        'mandatory' => true,
         'condition' => function_exists('iconv'),
-        'memo' => '<a target="_blank" href="http://php.net/manual/en/book.iconv.php">iconv</a> is recommended for more robust character set conversion support.',
+        'memo' => '<a target="_blank" href="http://php.net/manual/en/book.iconv.php">iconv</a> is required for more robust character set conversion support.',
     ),
     $this->memoryLimitRequirement(),
     array(
@@ -153,6 +159,36 @@ $requirements = array_merge($requirements, array(
         'mandatory' => true,
         'condition' => extension_loaded('json'),
         'memo' => 'The <a target="_blank" href="https://secure.php.net/manual/en/book.json.php">JSON</a> extension is required for JSON encoding and decoding.',
+    ),
+    array(
+        'name' => 'proc_open()',
+        'mandatory' => false,
+        'condition' => function_exists('proc_open'),
+        'memo' => 'The <a target="_blank" href="https://secure.php.net/manual/en/function.proc-open.php">proc_open()</a> function is required for Plugin Store operations as well as sending emails.',
+    ),
+    array(
+        'name' => 'proc_get_status()',
+        'mandatory' => false,
+        'condition' => function_exists('proc_get_status'),
+        'memo' => 'The <a target="_blank" href="https://secure.php.net/manual/en/function.proc-get-status.php">proc_get_status()</a> function is required for Plugin Store operations as well as sending emails.',
+    ),
+    array(
+        'name' => 'proc_close()',
+        'mandatory' => false,
+        'condition' => function_exists('proc_close'),
+        'memo' => 'The <a target="_blank" href="https://secure.php.net/manual/en/function.proc-close.php">proc_close()</a> function is required for Plugin Store operations as well as sending emails.',
+    ),
+    array(
+        'name' => 'proc_terminate()',
+        'mandatory' => false,
+        'condition' => function_exists('proc_terminate'),
+        'memo' => 'The <a target="_blank" href="https://secure.php.net/manual/en/function.proc-terminate.php">proc_terminate()</a> function is required for Plugin Store operations as well as sending emails.',
+    ),
+    array(
+        'name' => 'allow_url_fopen',
+        'mandatory' => false,
+        'condition' => ini_get('allow_url_fopen'),
+        'memo' => '<a target="_blank" href="https://secure.php.net/manual/en/filesystem.configuration.php#ini.allow-url-fopen">allow_url_fopen</a> must be enabled in your PHP configuration for Plugin Store and updating operations.',
     ),
 ));
 

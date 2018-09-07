@@ -1955,6 +1955,8 @@ return array(
     'craft\\migrations\\m180411_102218_fix_db_routes' => $vendorDir . '/craftcms/cms/src/migrations/m180411_102218_fix_db_routes.php',
     'craft\\migrations\\m180416_205628_resourcepaths_table' => $vendorDir . '/craftcms/cms/src/migrations/m180416_205628_resourcepaths_table.php',
     'craft\\migrations\\m180418_205713_widget_cleanup' => $vendorDir . '/craftcms/cms/src/migrations/m180418_205713_widget_cleanup.php',
+    'craft\\migrations\\m180824_193422_case_sensitivity_fixes' => $vendorDir . '/craftcms/cms/src/migrations/m180824_193422_case_sensitivity_fixes.php',
+    'craft\\migrations\\m180901_151639_fix_matrixcontent_tables' => $vendorDir . '/craftcms/cms/src/migrations/m180901_151639_fix_matrixcontent_tables.php',
     'craft\\models\\AssetIndexData' => $vendorDir . '/craftcms/cms/src/models/AssetIndexData.php',
     'craft\\models\\AssetTransform' => $vendorDir . '/craftcms/cms/src/models/AssetTransform.php',
     'craft\\models\\AssetTransformIndex' => $vendorDir . '/craftcms/cms/src/models/AssetTransformIndex.php',
