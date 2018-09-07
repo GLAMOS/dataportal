@@ -17,7 +17,14 @@ return [
     'schema' => getenv('DB_SCHEMA'),
     'tablePrefix' => getenv('DB_TABLE_PREFIX'),
     'port' => getenv('DB_PORT'),
-    'attributes' => [
-        PDO::MYSQL_ATTR_SSL_CA => getenv('DB_CERTIFICATE'),
+    'staging' => [
+      'attributes' => [
+          PDO::MYSQL_ATTR_SSL_CA => getenv('DB_CERTIFICATE'),
+      ],
     ],
+    'production' => [
+      'attributes' => [
+          PDO::MYSQL_ATTR_SSL_CA => getenv('DB_CERTIFICATE'),
+      ],
+    ]
 ];
