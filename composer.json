@@ -22,7 +22,7 @@
     "craftcms/cms": "3.0.23.1",
     "vlucas/phpdotenv": "^2.4.0",
     "mmikkel/cp-clearcache": "1.0.2",
-    "craftcms/redactor": "2.1.2"
+    "craftcms/redactor": "2.1.6"
   },
   "autoload": {
     "psr-4": {
