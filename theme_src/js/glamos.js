@@ -4,6 +4,7 @@ import 'lightgallery';
 import ieDetector from './ieDetector';
 ieDetector();
 
+import './map/map';
 
 $(document).ready(function () {
 
@@ -15,6 +16,8 @@ $(document).ready(function () {
     navbar: false,
     extensions: ["position-right"]
   });
+
+
 
   //initializes the single preview image lightbox
   $('.imgGallery').lightGallery({

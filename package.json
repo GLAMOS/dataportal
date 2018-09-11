@@ -45,7 +45,7 @@
     "prebuild:css": "node-sass --source-map true theme_src/scss/glamos.scss www/theme/css/glamos.prebuild.css",
     "prefix:css": "postcss --use autoprefixer -b 'last 3 versions' --grid true  < www/theme/css/glamos.prebuild.css | postcss --use cssnano > www/theme/css/glamos.min.css",
     "watch:js": "webpack --config webpack/webpack.dev.config.js",
-    "watch:css": "watch 'npm run build:dev:css' theme_src/scss",
+    "watch:css": "watch \"npm run build:dev:css\" theme_src/scss",
     "dev": "parallelshell \"npm run watch:css\" \"npm run watch:js\"",
     "build": "parallelshell \"npm run build:css\" \"npm run build:js\"",
     "build:dev": "parallelshell \"npm run build:dev:css\" \"npm run build:dev:js\"",
