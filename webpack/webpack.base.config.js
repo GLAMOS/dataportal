@@ -8,7 +8,8 @@ module.exports = {
       'respimage',
       'jquery.mmenu',
       './theme_src/js/ieDetector.js',
-      './theme_src/js/glamos.js'
+      './theme_src/js/glamos.js',
+      './theme_src/js/map/map.js'
     ]
   },
   resolve: {
