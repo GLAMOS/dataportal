@@ -51,6 +51,7 @@
       .mapMetadata {
         -ms-grid-column-span: 4;
         -ms-grid-row: 2;
+        z-index: 100;
         @include smUp {
           -ms-grid-column: 5;
         }

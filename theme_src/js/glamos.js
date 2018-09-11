@@ -4,7 +4,9 @@ import 'lightgallery';
 import ieDetector from './ieDetector';
 ieDetector();
 
+
 import './map/map.js';
+
 
 $(document).ready(function () {
 
