@@ -11,61 +11,41 @@ import Circle from 'ol/style/Circle';
 import {Icon, Style,Stroke,Fill} from 'ol/style';
 import {defaults as Interactions} from 'ol/interaction';
 import {defaults as Control} from 'ol/control';
-import vips from './gletscher_vip';
+import vips from './layer/gletscher_vip';
+import {pixel_500px,pixel_1000px,eiszeit} from './layer/swisstopo_layer';
 
 
-//define all Layers to be shown on map
-var swisstopo1 = new TileLayer({
-    source: new TileWMS({
-      url: 'https://wms.geo.admin.ch/',
-      crossOrigin: 'anonymous',
-      attributions: '© <a href="http://www.geo.admin.ch/internet/geoportal/en/home.html">Pixelmap 1:1.000.000 / geo.admin.ch</a>',
-      params: {
-        'LAYERS': 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
-        'FORMAT': 'image/jpeg'
-      },
-      serverType: 'mapserver'
-    }),
-    minResolution: 20
-  });
 
-
-  var swisstopo2 = new TileLayer({
-    source: new TileWMS({
-      url: 'https://wms.geo.admin.ch/',
-      crossOrigin: 'anonymous',
-      attributions: '© <a href="http://www.geo.admin.ch/internet/geoportal/en/home.html">Einteilung Letzteiszeitlisches Max. 500 Papier / geo.admin.ch</a>',
-      params: {
-        'LAYERS': 'ch.swisstopo.geologie-eiszeit-lgm-raster',
-        'FORMAT': 'image/jpeg'
-      },
-      serverType: 'mapserver'
-    }),
-    minResolution: 2,
-    maxResolution: 200
-  });
-
-var swisstopo3 = new TileLayer({
-    source: new TileWMS({
-      url: 'https://wms.geo.admin.ch/',
-      crossOrigin: 'anonymous',
-      attributions: '© <a href="http://www.geo.admin.ch/internet/geoportal/en/home.html">Einteilung Letzteiszeitlisches Max. 500 Papier / geo.admin.ch</a>',
-      params: {
-        'LAYERS': 'ch.swisstopo.geologie-eiszeit-lgm-raster',
-        'FORMAT': 'image/jpeg'
-      },
-      serverType: 'mapserver'
-    }),
-    minResolution: 2,
-    maxResolution: 200
-  });
-
-  var glamos_sgi = new TileLayer({
+  var glamos_sgi_2010 = new TileLayer({
     source: new TileWMS({
       attribution: '(C) glamos.ch',
       url: 'http://www.glamos.ch/qgis/sgi',
       params: {
-        'LAYERS': 'SGI_Division',
+        'LAYERS': 'SGI_2010',
+        'TRANSPARENT': true,
+      },
+      serverType: 'qgis'                                         
+    })
+  });
+
+  var glamos_sgi_1973 = new TileLayer({
+    source: new TileWMS({
+      attribution: '(C) glamos.ch',
+      url: 'http://www.glamos.ch/qgis/sgi',
+      params: {
+        'LAYERS': 'SGI_1973',
+        'TRANSPARENT': true,
+      },
+      serverType: 'qgis'                                         
+    })
+  });
+
+  var glamos_sgi_1850 = new TileLayer({
+    source: new TileWMS({
+      attribution: '(C) glamos.ch',
+      url: 'http://www.glamos.ch/qgis/sgi',
+      params: {
+        'LAYERS': 'SGI_1850',
         'TRANSPARENT': true,
       },
       serverType: 'qgis'                                         
@@ -97,52 +77,53 @@ var swisstopo3 = new TileLayer({
 //only one map-layer, static map with glacier in center (dynamically set)
   const map_factsheet = new Map({
     target: 'map_factsheet',
-    layers: [swisstopo3],
+    layers: [eiszeit],
     interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
     controls: [],//remove zoom for factsheetwindow
     view: new View({
       center: [903280,5913450],
       zoom: 10,
       minZoom: 8,
-      maxZoom: 12
+      maxZoom: 14
     })
   });
 
   //only one map-layer - no layerswitcher
   const map_home = new Map({
     target: 'map_home',
-    layers: [swisstopo1,swisstopo2,swisstopo3,glamos_sgi,gletscher_alle],
+    layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010,gletscher_alle],
     //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
     //controls: [],//remove zoom for factsheetwindow
     view: new View({
       center: [903280,5913450],
       zoom: 10,
       minZoom: 8,
-      maxZoom: 12
+      maxZoom: 14
     })
   });
  
 
   const map_monitoring = new Map({
     target: 'map_monitoring',
-    layers: [swisstopo1,swisstopo2,swisstopo3,glamos_sgi,gletscher_alle],
+    layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010,gletscher_alle],
     //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
     //controls: [],//remove zoom for factsheetwindow
     view: new View({
       center: [903280,5913450],
       zoom: 10,
       minZoom: 8,
-      maxZoom: 12
+      maxZoom: 14
     })
   });
 
-
-  //es wird ein Gletscher gelesen aus einer liste von 20 definierten VIPs
+//when the site loads the first time:
+//es wird ein Gletscher gelesen aus einer liste von 20 definierten VIPs
 //todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
 var min = 1;
 var max = 20;
 var glacierID =  Math.floor((Math.random() * (max - min)) + min);
 
+//push all features into variable
 var glacierVIPs = vips.features.map(function(el)
 {
     return el.properties;
@@ -160,17 +141,59 @@ map_home.getView().fit(extent_frompoint, {size:map_home.getSize(), maxZoom:12});
 
 
 
+// when we move the mouse over a feature, change its style to
+// highlight it temporarily
+var hoverStyle = new Style({
+    image: new Circle(({
+        radius: 10,
+        fill: new Fill({
+            color: 'green'
+        })
+    }))
+});
+//add hoverstyle 
+var featureOverlay = new VectorLayer({
+    source: new Vector(),
+    map: map_home,
+    style: hoverStyle
+  });
 
-// when the user moves the mouse, get the name property
-  // from each feature under the mouse and display it
+var hover;
+var featureHover = function(pixel) {
+
+    var feature = map_home.forEachFeatureAtPixel(pixel, function(feature) {
+      return feature;
+    });
+
+    if (feature !== hover) {
+      if (hover) {
+        featureOverlay.getSource().removeFeature(hover);
+      }
+      if (feature) {
+        featureOverlay.getSource().addFeature(feature);
+      }
+      hover = feature;
+    }
+};
 
 
+//add pointerhand
+map_home.on('pointermove', function(e) {
+    if (e.dragging) return;      
+    var pixel = map_home.getEventPixel(e.originalEvent);
+    var hit = map_home.hasFeatureAtPixel(pixel);       
+    map_home.getTargetElement().style.cursor = hit ? 'pointer' : '';
+    featureHover(pixel);
+  });
+
+// when the user clicks on a feature, get the name property
+// from each feature under the mouse and display it
   function onMapClick(browserEvent) {
     var coordinate = browserEvent.coordinate;
     var pixel = map_home.getPixelFromCoordinate(coordinate);
     var el = document.getElementById('currentGlacierName');
     
-  //Problem: manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
+  //TODO: manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
   //im moment wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
     map_home.forEachFeatureAtPixel(pixel, function(feature) {
         if (feature){
