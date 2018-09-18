@@ -151,6 +151,7 @@ var hoverStyle = new Style({
         })
     }))
 });
+
 //add hoverstyle 
 var featureOverlay = new VectorLayer({
     source: new Vector(),
@@ -195,12 +196,18 @@ map_home.on('pointermove', function(e) {
     
   //TODO: manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
   //im moment wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
+    let lastFeature = null;
     map_home.forEachFeatureAtPixel(pixel, function(feature) {
         if (feature){
-            el.innerHTML = '';
-            el.innerHTML += feature.get('name') + '<br>';
-    }
+            el.innerHTML = feature.get('name');
+            lastFeature = feature;
+        }
     });
+
+    //TODO: Fallunterscheidung falls name nicht 
+    //pushstate
+    //window.location.pathname.split("/").slice(1).join("/"));
+    //window.location = "/glacier/name/" + encodeURIComponent(lastFeature.get("name"));
   };
   
   map_home.on('click',onMapClick);
