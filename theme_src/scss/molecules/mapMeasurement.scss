@@ -2,6 +2,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  .btnTxt {
+    padding-bottom: 10px;
+  }
+  .currentGlacier {
+    @extend %fontXL;
+    font-weight: 700;
+    margin: 0;
+  }
   .singleValue {
     width: 45%;
     p {
