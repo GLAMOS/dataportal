@@ -15,7 +15,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    
+
   }
   .fsMap {
     grid-column: 1/-1;
@@ -39,6 +39,11 @@
     grid-column: 1/-1;
     @include smUp {
       grid-column: span 2;
+    }
+    &.cardCommentBig {
+      @include smUp {
+        grid-column: span 6;
+      }
     }
   }
   .fsExport {
