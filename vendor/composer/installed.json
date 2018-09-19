@@ -296,12 +296,12 @@
     },
     {
         "name": "craftcms/cms",
-        "version": "3.0.23.1",
-        "version_normalized": "3.0.23.1",
+        "version": "3.0.25",
+        "version_normalized": "3.0.25.0",
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/craftcms/cms/zipball/cc01e227395a251258552760ccbd9ee68218d4c0",
-            "reference": "cc01e227395a251258552760ccbd9ee68218d4c0",
+            "url": "https://api.github.com/repos/craftcms/cms/zipball/30b95277d526af7aeff4a10c23b583fde0adb383",
+            "reference": "30b95277d526af7aeff4a10c23b583fde0adb383",
             "shasum": ""
         },
         "require": {
@@ -348,7 +348,7 @@
             "ext-imagick": "Adds support for more image processing formats and options.",
             "ext-intl": "Adds rich internationalization support."
         },
-        "time": "2018-09-05T04:36:33+00:00",
+        "time": "2018-09-18T16:57:29+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1069,15 +1069,16 @@
     },
     {
         "name": "league/flysystem",
-        "version": "1.0.46",
-        "version_normalized": "1.0.46.0",
+        "version": "1.0.47",
+        "version_normalized": "1.0.47.0",
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
-            "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
+            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a11e4a75f256bdacf99d20780ce42d3b8272975c",
+            "reference": "a11e4a75f256bdacf99d20780ce42d3b8272975c",
             "shasum": ""
         },
         "require": {
+            "ext-fileinfo": "*",
             "php": ">=5.5.9"
         },
         "conflict": {
@@ -1099,7 +1100,7 @@
             "spatie/flysystem-dropbox": "Allows you to use Dropbox storage",
             "srmklive/flysystem-dropbox-v2": "Allows you to use Dropbox storage for PHP 5 applications"
         },
-        "time": "2018-08-22T07:45:22+00:00",
+        "time": "2018-09-14T15:30:29+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1619,27 +1620,23 @@
     },
     {
         "name": "swiftmailer/swiftmailer",
-        "version": "v6.1.2",
-        "version_normalized": "6.1.2.0",
+        "version": "v6.1.3",
+        "version_normalized": "6.1.3.0",
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/7d760881d266d63c5e7a1155cbcf2ac656a31ca8",
-            "reference": "7d760881d266d63c5e7a1155cbcf2ac656a31ca8",
+            "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/8ddcb66ac10c392d3beb54829eef8ac1438595f4",
+            "reference": "8ddcb66ac10c392d3beb54829eef8ac1438595f4",
             "shasum": ""
         },
         "require": {
             "egulias/email-validator": "~2.0",
             "php": ">=7.0.0"
         },
-        "require-dev": {
-            "mockery/mockery": "~0.9.1",
-            "symfony/phpunit-bridge": "~3.3@dev"
-        },
         "suggest": {
             "ext-intl": "Needed to support internationalized email addresses",
             "true/punycode": "Needed to support internationalized email addresses, if ext-intl is not installed"
         },
-        "time": "2018-07-13T07:04:35+00:00",
+        "time": "2018-09-11T07:12:52+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1652,7 +1649,6 @@
                 "lib/swift_required.php"
             ]
         },
-        "notification-url": "https://packagist.org/downloads/",
         "license": [
             "MIT"
         ],
