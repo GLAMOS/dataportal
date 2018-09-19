@@ -19,6 +19,9 @@
       {% include '_organisms/navMain' %}
       {% include '_organisms/navMobile' %}
       <div class="content">{% block content %}{# all the content #}{% endblock %}</div>
+      {% if entry.section.handle != 'mapViewer'%}
+        {% include '_incl/docFooter' %}
+      {% endif %}
     	{% include '_incl/docScripts' %}
     </body>
   </html>
