@@ -1,0 +1,15 @@
+.titleCrosslink {
+  margin-left: 10px;
+  position: absolute;
+  text-decoration: none;
+  width: 20px;
+  height: 20px;
+  &:hover {
+    svg circle {
+      fill: darken($markerColor, 20%);
+    }
+  }
+  svg circle {
+    fill: $markerColor;
+  }
+}

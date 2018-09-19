@@ -10,6 +10,9 @@
     font-weight: 700;
     margin: 0;
   }
+  .latestMeasurementsHead {
+    width: 100%;
+  }
   .singleValue {
     width: 45%;
     display: flex;
@@ -20,10 +23,6 @@
       @extend %fontL;
       font-weight: 700;
       text-align: left;
-    }
-    small {
-      font-weight: 400;
-      @extend %fontS;
     }
     //the first two entries, no matter what
     &:nth-child(-n+3) {

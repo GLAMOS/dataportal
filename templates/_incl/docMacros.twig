@@ -37,3 +37,9 @@
     // Hier erscheint dann der Chart für die {{ nameParam }}
   </div>
 {% endmacro %}
+
+{% macro Crosslink(linkParam, titleParam)%}
+  <a href="/factsheet" class="titleCrosslink" title="{{ titleParam }}">
+    {{ svg('@webroot/theme/img/crosslink.svg') }}
+  </a>
+{% endmacro %}

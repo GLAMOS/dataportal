@@ -2,13 +2,26 @@
   background-color: $txtInvert;
   margin-top: 30px;
   padding: 5px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   @extend %boxShadow;
   .currentGlacier {
     @extend %fontXL;
     font-weight: 700;
     margin-bottom: 20px;
   }
-  .btn {
-    margin-top: 30px;
+  .singleValue {
+    width: 100%;
+    &:nth-last-child(-n+3) {
+      width: 45%;
+      p {
+        @extend %fontL;
+        font-weight: 700;
+      }
+    }
+  }
+  .hint {
+    width: 100%;
   }
 }
