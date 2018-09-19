@@ -15,13 +15,15 @@
     {% include '_molecules/cardMeasurements' %}
     {% include '_molecules/cardExport' %}
     {{ macro.cardChart('Längenänderung', 'chartOne') }}
+    {{ macro.cardChart('Massenbilanz', 'chartTwo') }}
     {% include '_molecules/cardPhoto' %}
     {% include '_molecules/cardComment' %}
-    {{ macro.cardChart('Massenbilanz', 'chartTwo') }}
-    {{ macro.cardChart('Volumenänderung', 'chartThree') }}
+
+    {# {{ macro.cardChart('Volumenänderung', 'chartThree') }}
     {{ macro.cardChart('Eisdicke', 'chartOne') }}
     {{ macro.cardChart('Geschwindigkeit', 'chartFour') }}
-    {{ macro.cardChart('Firntemperatur', 'chartfive') }}
+    {{ macro.cardChart('Firntemperatur', 'chartfive') }} #}
+    
   </div>
 
 {% endblock %}
