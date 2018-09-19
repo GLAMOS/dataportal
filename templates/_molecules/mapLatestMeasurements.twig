@@ -1,11 +1,18 @@
 {% import '_incl/docMacros' as macro %}
 
-<h1 class="currentGlacier">Rhonegletscher</h1>
-<a href="" class="btnTxt">{{ 'Im Factsheet anzeigen' | t }}</a>
+<div class="latestMeasurementsHead">
+  <h1 class="currentGlacier">Rhonegletscher</h1>
+  <a href="" class="btnTxt">{{ 'Im Factsheet anzeigen' | t }}</a>
+</div>
 
-{{ macro.singleValue('-351.5','%','Längenänderung') }}
-{{ macro.singleValue('-842','%','Massenbilanz') }}
-{{ macro.singleValue('-3.24','%','Volumenänderung') }}
+{{ macro.singleValue('-351.5','m','Längenänderung') }}
+{{ macro.singleValue('-842','m','Massenbilanz') }}
+{# {{ macro.singleValue('-3.24','%','Volumenänderung') }}
 {{ macro.singleValue('324','%','Eisdicken') }}
 {{ macro.singleValue('3214','km/h','Geschwindigkeit') }}
-{{ macro.singleValue('10','°','Firntemperaturen') }}
+{{ macro.singleValue('10','°','Firntemperaturen') }} #}
+
+{{ macro.singleValue('1972 - 2018','','Messbeginn- und ende') }}
+{{ macro.singleValue('75',' Jahre','Messzeitraum') }}
+
+<p class="hint">{{ 'Kumulierte Meesswerte' | t }}</p>
