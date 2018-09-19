@@ -1,5 +1,7 @@
 .fieldSearchWrapper {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   @extend %mobilePadding;
   input {
     border-radius: 40px 0 0 40px;
@@ -16,9 +18,17 @@
   button {
     border: none;
     flex-grow: 1;
+    height: 30px;
     background-color: $markerColor;
     color: $txtInvert;
     border-radius: 0 40px 40px 0;
     margin: 0;
+  }
+}
+
+.factsheetHead {
+  .fieldSearchWrapper {
+    padding-left: 30px;
+    padding-top: 10px;
   }
 }

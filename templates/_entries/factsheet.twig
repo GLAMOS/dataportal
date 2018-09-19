@@ -6,7 +6,11 @@
 {% block content %}
 
   <div class="factsheetGrid">
-    <h2 class="pageTitle">Aletschgletscher - {{ entry.title }}</h2>
+    <div class="factsheetHead">
+      <h2 class="pageTitle">Aletschgletscher</h2>
+      {% include '_molecules/fieldSearch' %}
+    </div>
+
     {% include '_molecules/cardMap' %}
     {% include '_molecules/cardMeasurements' %}
     {% include '_molecules/cardExport' %}
@@ -19,5 +23,5 @@
     {{ macro.cardChart('Geschwindigkeit', 'chartFour') }}
     {{ macro.cardChart('Firntemperatur', 'chartfive') }}
   </div>
-  
+
 {% endblock %}
