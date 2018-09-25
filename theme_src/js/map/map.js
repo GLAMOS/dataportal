@@ -18,14 +18,13 @@ import {glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010} from './layer/glamos_la
 
 
 
-var hoverStyle = new Style({
-  image: new Circle(({
-      radius: 10,
-      fill: new Fill({
-          color: 'green'
-      })
+/* var hoverStyle = new Style({
+  image: new Icon(({
+    //anchor: [0.5, 0.5],
+    src: '/theme/img/pin-simple-active.svg',
+    scale: 0.8
   }))
-});
+}); */
 
 var noDataGlacierStyle = new Style({
   image: new Circle(({
@@ -46,12 +45,20 @@ var defaultGlacierStyle = new Style({
 }))
 });
 
+var hoverStyle = new Style({
+  image: new Circle(({
+    radius: 5,
+    fill: new Fill({
+        color: 'red',
+    })
+}))
+});
+
 var selectStyle = new Style({
   image: new Icon(({
     //anchor: [0.5, 0.5],
     src: '/theme/img/pin-simple.svg',
-    scale: 0.8,
-    color: 'red'
+    scale: 0.8
   }))
 });
 
@@ -91,7 +98,7 @@ var map = null;
 if (document.getElementById('factsheet-map')) {
 
   //only one map-layer, static map with glacier in center (dynamically set)
-  var map_factsheet = new Map({
+  var map = new Map({
     target: 'factsheet-map',
     layers: [eiszeit],
     interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
@@ -185,7 +192,7 @@ var infoboxLengthDuration = document.getElementById("infobox-length--duration");
 var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
 var infoboxMassDuration = document.getElementById("infobox-mass--duration");
 
-infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name;
+infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name; 
 infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_length.toFixed(0);     
 infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahre';
 infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_mass.toFixed(0);   
@@ -193,6 +200,12 @@ infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed
 infoboxLengthCumulative.innerHTML = unit(glacierVips[glacierId].last_length_change_cumulative);
 infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_cumulative) + '&sup3;';
 
+
+var selectedOverlay = new VectorLayer({
+  source: new Vector(),
+  map: map,
+  style: selectStyle
+});
 
 // when the user clicks on a feature, get the name property
 // from each feature under the mouse and display it
@@ -207,7 +220,7 @@ infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_c
     map.forEachFeatureAtPixel(pixel, function(feature) {
       var has_mass_value = feature.get('has_mass_value');
       var has_length_value = feature.get('has_length_value');
-
+      var selected;
       //click nur wenn es werte oder namen hat
         if (has_mass_value == 't' || has_length_value == 't'){
           if (feature.get('has_mass_value') == 't') {
@@ -236,6 +249,18 @@ infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_c
             //TODO wenn null = leer
             lastFeature = feature;
         }
+
+        if (feature !== selected) {
+          if (selected) {
+            selectedOverlay.getSource().removeFeature(selected);
+            hoverOverlay.getSource().removeFeature(hover);
+          }
+          if (feature) {
+            selectedOverlay.getSource().addFeature(feature);
+          }
+          selected = feature;
+        }
+
     });
   };
   
@@ -243,7 +268,7 @@ infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_c
 
 
 //add hoverstyle 
-var featureOverlay = new VectorLayer({
+var hoverOverlay = new VectorLayer({
   source: new Vector(),
   map: map,
   style: hoverStyle
@@ -266,10 +291,10 @@ var featureHover = function(pixel) {
 
   if (feature !== hover) {
     if (hover) {
-      featureOverlay.getSource().removeFeature(hover);
+      hoverOverlay.getSource().removeFeature(hover);
     }
     if (feature) {
-      featureOverlay.getSource().addFeature(feature);
+      hoverOverlay.getSource().addFeature(feature);
     }
     hover = feature;
   }
