@@ -13,44 +13,8 @@ import {defaults as Interactions} from 'ol/interaction';
 import {defaults as Control} from 'ol/control';
 import glacier_vip from './layer/glacier_vip';
 import {pixel_500px,pixel_1000px,eiszeit} from './layer/swisstopo_layer';
+import {glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010} from './layer/glamos_layer';
 
-
-
-  var glamos_sgi_2010 = new TileLayer({
-    source: new TileWMS({
-      attribution: '(C) glamos.ch',
-      url: 'http://www.glamos.ch/qgis/sgi',
-      params: {
-        'LAYERS': 'SGI_2010',
-        'TRANSPARENT': true,
-      },
-      serverType: 'qgis'                                         
-    })
-  });
-
-  var glamos_sgi_1973 = new TileLayer({
-    source: new TileWMS({
-      attribution: '(C) glamos.ch',
-      url: 'http://www.glamos.ch/qgis/sgi',
-      params: {
-        'LAYERS': 'SGI_1973',
-        'TRANSPARENT': true,
-      },
-      serverType: 'qgis'                                         
-    })
-  });
-
-  var glamos_sgi_1850 = new TileLayer({
-    source: new TileWMS({
-      attribution: '(C) glamos.ch',
-      url: 'http://www.glamos.ch/qgis/sgi',
-      params: {
-        'LAYERS': 'SGI_1850',
-        'TRANSPARENT': true,
-      },
-      serverType: 'qgis'                                         
-    })
-  });
 
   //ist im moment statische datei - sollte vom glamosserver kommen
   var gletscher_alle = new VectorLayer({
@@ -69,13 +33,13 @@ import {pixel_500px,pixel_1000px,eiszeit} from './layer/swisstopo_layer';
   });
 
 
-
 // define 3 Map instances each for one tab: 
-// Frage an die Experten. waere es nicht besser dies jeweils erst zu laden wenn der jeweilige Tab geladen wird?
-// wenn ja, wo steuert man wann was geladen wird?
+var page = null;
+var map = null;
+if (document.getElementById('factsheet-map')) {
 
-//only one map-layer, static map with glacier in center (dynamically set)
-  const map_factsheet = new Map({
+  //only one map-layer, static map with glacier in center (dynamically set)
+  var map_factsheet = new Map({
     target: 'factsheet-map',
     layers: [eiszeit],
     interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
@@ -88,22 +52,11 @@ import {pixel_500px,pixel_1000px,eiszeit} from './layer/swisstopo_layer';
     })
   });
 
-  //only one map-layer - no layerswitcher
-  const home_map = new Map({
-    target: 'home-map',
-    layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010,gletscher_alle],
-    //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
-    //controls: [],//remove zoom for factsheetwindow
-    view: new View({
-      center: [903280,5913450],
-      zoom: 10,
-      minZoom: 8,
-      maxZoom: 14
-    })
-  });
- 
+  page = 'factsheet';
 
-  const map_monitoring = new Map({
+} else if (document.getElementById('monitoring-map')) {
+  
+  var map = new Map({
     target: 'monitoring-map',
     layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010,gletscher_alle],
     //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
@@ -116,6 +69,31 @@ import {pixel_500px,pixel_1000px,eiszeit} from './layer/swisstopo_layer';
     })
   });
 
+  page = 'monitoring';
+
+} else if (document.getElementById('home-map')) {
+    //only one map-layer - no layerswitcher
+    var map = new Map({
+      target: 'home-map',
+      layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010,gletscher_alle],
+      //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
+      //controls: [],//remove zoom for factsheetwindow
+      view: new View({
+        center: [903280,5913450],
+        zoom: 10,
+        minZoom: 8,
+        maxZoom: 14
+      })
+    });
+
+  page = 'home';
+
+} else 
+  page = 'other';
+
+
+
+ 
 
 
 
@@ -136,6 +114,11 @@ var randomX = glacierVips[glacierId].coordx;
 var randomY = glacierVips[glacierId].coordy;
 var extent_frompoint = [randomX, randomY, randomX, randomY];
 
+//Frage: Besser: Ausdehnung berechnen(dafür könnte man polygone aus datenbank verwenden) 
+//zur vereinfachung: maxZoom festgelegt und nur Punkte eingelesen
+map.getView().fit(extent_frompoint, {size:map.getSize(), maxZoom:12});
+
+//fill infobox
 var infoboxGlacierName = document.getElementById("infobox-glaciername");
 infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name;
 
@@ -160,7 +143,7 @@ var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
     infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' - ' + glacierVips[glacierId].date_to_length.toFixed(0);     
 
 var infoboxLengthDuration = document.getElementById("infobox-length--duration");
-    infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahre';
+    infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahresdfsfsf';
 
 var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
     infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' - ' + glacierVips[glacierId].date_to_mass.toFixed(0);   
@@ -173,9 +156,6 @@ var infoboxMassDuration = document.getElementById("infobox-mass--duration");
 //"date_to_length": 2015.0, "length_anzahl_jahre": 165.0, "date_from_mass": 1954.0, "date_to_mass": 1960.0, "mass_anzahl_jahre": 6.0,
 
 
-//Frage: Besser: Ausdehnung berechnen(dafür könnte man polygone aus datenbank verwenden) 
-//zur vereinfachung: maxZoom festgelegt und nur Punkte eingelesen
-home_map.getView().fit(extent_frompoint, {size:home_map.getSize(), maxZoom:12});
 
 
 
@@ -193,14 +173,14 @@ var hoverStyle = new Style({
 //add hoverstyle 
 var featureOverlay = new VectorLayer({
     source: new Vector(),
-    map: home_map,
+    map: map,
     style: hoverStyle
   });
 
 var hover;
 var featureHover = function(pixel) {
 
-    var feature = home_map.forEachFeatureAtPixel(pixel, function(feature) {
+    var feature = map.forEachFeatureAtPixel(pixel, function(feature) {
       return feature;
     });
 
@@ -217,11 +197,11 @@ var featureHover = function(pixel) {
 
 
 //add pointerhand
-home_map.on('pointermove', function(e) {
+map.on('pointermove', function(e) {
     if (e.dragging) return;      
-    var pixel = home_map.getEventPixel(e.originalEvent);
-    var hit = home_map.hasFeatureAtPixel(pixel);       
-    home_map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+    var pixel = map.getEventPixel(e.originalEvent);
+    var hit = map.hasFeatureAtPixel(pixel);       
+    map.getTargetElement().style.cursor = hit ? 'pointer' : '';
     featureHover(pixel);
   });
 
@@ -233,13 +213,13 @@ home_map.on('pointermove', function(e) {
 // from each feature under the mouse and display it
   function onMapClick(browserEvent) {
     var coordinate = browserEvent.coordinate;
-    var pixel = home_map.getPixelFromCoordinate(coordinate);
+    var pixel = map.getPixelFromCoordinate(coordinate);
     var el = document.getElementById('infobox-glaciername');
     
   //TODO: manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
   //im moment wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
     let lastFeature = null;
-    home_map.forEachFeatureAtPixel(pixel, function(feature) {
+    map.forEachFeatureAtPixel(pixel, function(feature) {
         if (feature){
 
             el.innerHTML = feature.get('glacier_short_name');
@@ -253,4 +233,4 @@ home_map.on('pointermove', function(e) {
     //window.location = "/glacier/name/" + encodeURIComponent(lastFeature.get("name"));
   };
   
-  home_map.on('click',onMapClick);
+  map.on('click',onMapClick);
