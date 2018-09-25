@@ -19,3 +19,6 @@ var glacier_vip = {
         };
 
 export default glacier_vip;
+
+
+//kommentar zum testen
