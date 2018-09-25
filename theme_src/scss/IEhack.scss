@@ -2,10 +2,19 @@
   &.ie11 {
     //lets do this
     .navGrid {
-      display: flex;
-      justify-content: space-around;
+      display: -ms-grid;
+      -ms-grid-columns: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 280px 20px;
       img {
         width: 100px;
+      }
+      .glamosBrand {
+        -ms-grid-column: 4;
+      }
+      .navMain {
+        -ms-grid-column: 6;
+      }
+      .navLang {
+        -ms-grid-column: 2;
       }
     }
     //gridMapViewer
@@ -84,6 +93,11 @@
     }
     .footer {
 
+    }
+    .factsheetGrid {
+      display: -ms-grid;
+      -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+      -ms-grid-rows: 20vh 300px 35vh auto;
     }
   }
 }
