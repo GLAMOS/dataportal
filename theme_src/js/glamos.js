@@ -10,7 +10,7 @@ import './map/map.js';
 
 $(document).ready(function () {
 
-  //initialise Mobile Menu
+  //initialise Mobile Menu //
   $("#mainMobileNav").mmenu();
 
   //initialise mapviewer menu
@@ -50,7 +50,7 @@ $(document).ready(function () {
 
 
 
-  
+
 
 
 });
