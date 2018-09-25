@@ -16,20 +16,72 @@ import {pixel_500px,pixel_1000px,eiszeit} from './layer/swisstopo_layer';
 import {glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010} from './layer/glamos_layer';
 
 
+
+
+var hoverStyle = new Style({
+  image: new Circle(({
+      radius: 10,
+      fill: new Fill({
+          color: 'green'
+      })
+  }))
+});
+
+var noDataGlacierStyle = new Style({
+  image: new Circle(({
+    radius: 2,
+    fill: new Fill({
+        color: 'black'
+    })
+}))
+});
+
+
+var defaultGlacierStyle = new Style({
+  image: new Circle(({
+    radius: 5,
+    fill: new Fill({
+        color: 'red',
+    })
+}))
+});
+
+var selectStyle = new Style({
+  image: new Icon(({
+    //anchor: [0.5, 0.5],
+    src: '/theme/img/pin-simple.svg',
+    scale: 0.8,
+    color: 'red'
+  }))
+});
+
+
+var style = {}
+style[0] = noDataGlacierStyle;
+style[1] = defaultGlacierStyle;
+style[2] = selectStyle;
+
+function switchStyle(feature, resolution) { 
+  var has_mass_value = feature.get('has_mass_value');
+  var has_length_value = feature.get('has_length_value');
+
+  if (has_mass_value == 't' || has_length_value == 't') {
+    return [style[2]];
+  }
+  //keine Werte - noDataGlacierStyle:
+  else {
+    return [style[0]];
+  }
+
+};
+
   //ist im moment statische datei - sollte vom glamosserver kommen
   var gletscher_alle = new VectorLayer({
     source: new Vector({
         format: new GeoJSON(),
         url: '/geo/glamos_inventory_dummy.geojson'
     }),
-    style: new Style({
-        image: new Circle(({
-            radius: 3,
-            fill: new Fill({
-                color: 'black'
-            })
-        }))
-    })  
+    style: switchStyle 
   });
 
 
@@ -58,9 +110,8 @@ if (document.getElementById('factsheet-map')) {
   
   var map = new Map({
     target: 'monitoring-map',
-    layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010,gletscher_alle],
-    //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
-    //controls: [],//remove zoom for factsheetwindow
+    //layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010,gletscher_alle],
+    layers: [pixel_500px,pixel_1000px,eiszeit,gletscher_alle],
     view: new View({
       center: [903280,5913450],
       zoom: 10,
@@ -118,95 +169,29 @@ var extent_frompoint = [randomX, randomY, randomX, randomY];
 //zur vereinfachung: maxZoom festgelegt und nur Punkte eingelesen
 map.getView().fit(extent_frompoint, {size:map.getSize(), maxZoom:12});
 
-//fill infobox
+//fill infobox from file
+var unit = function(x) {
+  if (x >= -999 && x <= 999) 
+    return x + ' m';
+  else 
+    return Math.round(x / 100) / 10 + ' km';
+  };
+
 var infoboxGlacierName = document.getElementById("infobox-glaciername");
-infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name;
-
 var infoboxLengthCumulative = document.getElementById("infobox-length--cumulative");
-var l = glacierVips[glacierId].last_length_change_cumulative;
-
-if (l >= -999 && l <= 999) { 
-  infoboxLengthCumulative.innerHTML = l + ' m'; }
-  else {
-    infoboxLengthCumulative.innerHTML = Math.round(l / 100) / 10 + ' km';}
-
 var infoboxMassCumulative = document.getElementById("infobox-mass--cumulative");
-var m = glacierVips[glacierId].last_mass_change_cumulative;
-  
-if (m >= -999 && m <= 999) {
-      infoboxMassCumulative.innerHTML = m + ' m&sup3;';  }
- else {
-      infoboxMassCumulative.innerHTML = Math.round(m / 100) / 10 + ' km&sup3;';}
-
-      //streng genommen kein singleValue!
 var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
-    infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' - ' + glacierVips[glacierId].date_to_length.toFixed(0);     
-
 var infoboxLengthDuration = document.getElementById("infobox-length--duration");
-    infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahresdfsfsf';
-
 var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
-    infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' - ' + glacierVips[glacierId].date_to_mass.toFixed(0);   
-
 var infoboxMassDuration = document.getElementById("infobox-mass--duration");
-    infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed(0) + ' Jahre';
 
-    //"pk_sgi": "C84\/16", "glacier_short_name_web": "albigna", "glacier_full_name": "ALBIGNA VADREC D' (Nr. 116)", "glacier_short_name": "Vadrec da l' Albigna",
- //"last_length_change_cumulative": -750.0, "last_mass_change_cumulative": -12445, "date_from_length": 1850.0, 
-//"date_to_length": 2015.0, "length_anzahl_jahre": 165.0, "date_from_mass": 1954.0, "date_to_mass": 1960.0, "mass_anzahl_jahre": 6.0,
-
-
-
-
-
-// when we move the mouse over a feature, change its style to
-// highlight it temporarily
-var hoverStyle = new Style({
-    image: new Circle(({
-        radius: 10,
-        fill: new Fill({
-            color: 'green'
-        })
-    }))
-});
-
-//add hoverstyle 
-var featureOverlay = new VectorLayer({
-    source: new Vector(),
-    map: map,
-    style: hoverStyle
-  });
-
-var hover;
-var featureHover = function(pixel) {
-
-    var feature = map.forEachFeatureAtPixel(pixel, function(feature) {
-      return feature;
-    });
-
-    if (feature !== hover) {
-      if (hover) {
-        featureOverlay.getSource().removeFeature(hover);
-      }
-      if (feature) {
-        featureOverlay.getSource().addFeature(feature);
-      }
-      hover = feature;
-    }
-};
-
-
-//add pointerhand
-map.on('pointermove', function(e) {
-    if (e.dragging) return;      
-    var pixel = map.getEventPixel(e.originalEvent);
-    var hit = map.hasFeatureAtPixel(pixel);       
-    map.getTargetElement().style.cursor = hit ? 'pointer' : '';
-    featureHover(pixel);
-  });
-
-
-
+infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name;
+infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_length.toFixed(0);     
+infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahre';
+infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_mass.toFixed(0);   
+infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed(0) + ' Jahre';
+infoboxLengthCumulative.innerHTML = unit(glacierVips[glacierId].last_length_change_cumulative);
+infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_cumulative) + '&sup3;';
 
 
 // when the user clicks on a feature, get the name property
@@ -214,23 +199,96 @@ map.on('pointermove', function(e) {
   function onMapClick(browserEvent) {
     var coordinate = browserEvent.coordinate;
     var pixel = map.getPixelFromCoordinate(coordinate);
-    var el = document.getElementById('infobox-glaciername');
-    
-  //TODO: manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
-  //im moment wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
+
+//fill infobox from feature    
+//manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
+//es wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
     let lastFeature = null;
     map.forEachFeatureAtPixel(pixel, function(feature) {
-        if (feature){
+      var has_mass_value = feature.get('has_mass_value');
+      var has_length_value = feature.get('has_length_value');
 
-            el.innerHTML = feature.get('glacier_short_name');
+      //click nur wenn es werte oder namen hat
+        if (has_mass_value == 't' || has_length_value == 't'){
+          if (feature.get('has_mass_value') == 't') {
+            infoboxMassTimespan.innerHTML = feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0);   
+            infoboxMassDuration.innerHTML = feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre';
+            infoboxMassCumulative.innerHTML = unit(feature.get('last_mass_change_cumulative')) + '&sup3;';
+          }
+          else {
+            infoboxMassTimespan.innerHTML = 'no data';
+            infoboxMassDuration.innerHTML = 'no data';
+            infoboxMassCumulative.innerHTML = 'no data';
+          }
+
+          if (feature.get('has_length_value')== 't') {
+            infoboxLengthTimespan.innerHTML = feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0);     
+            infoboxLengthDuration.innerHTML = feature.get('length_anzahl_jahre').toFixed(0) + ' Jahre';
+            infoboxLengthCumulative.innerHTML = unit(feature.get('last_length_change_cumulative'));
+          }
+          else {
+            infoboxLengthTimespan.innerHTML = 'no data';
+            infoboxLengthDuration.innerHTML = 'no data';
+            infoboxLengthCumulative.innerHTML = 'no data';
+          }
+            infoboxGlacierName.innerHTML = feature.get('glacier_short_name');
+
+            //TODO wenn null = leer
             lastFeature = feature;
         }
     });
-
-    //TODO: Fallunterscheidung falls name nicht 
-    //pushstate
-    //window.location.pathname.split("/").slice(1).join("/"));
-    //window.location = "/glacier/name/" + encodeURIComponent(lastFeature.get("name"));
   };
   
   map.on('click',onMapClick);
+
+
+//add hoverstyle 
+var featureOverlay = new VectorLayer({
+  source: new Vector(),
+  map: map,
+  style: hoverStyle
+});
+
+var hover;
+var featureHover = function(pixel) {
+  var feature = map.forEachFeatureAtPixel(pixel, function(feature) {
+
+    var has_mass_value = feature.get('has_mass_value');
+    var has_length_value = feature.get('has_length_value');
+
+    //click nur wenn es werte oder namen hat
+      if (has_mass_value == 't' || has_length_value == 't'){
+        return feature;
+      };
+
+      return;
+  });
+
+  if (feature !== hover) {
+    if (hover) {
+      featureOverlay.getSource().removeFeature(hover);
+    }
+    if (feature) {
+      featureOverlay.getSource().addFeature(feature);
+    }
+    hover = feature;
+  }
+};
+
+
+//add pointerhand
+map.on('pointermove', function(e) {
+  if (e.dragging) return;      
+  var pixel = map.getEventPixel(e.originalEvent);
+  var hit = map.hasFeatureAtPixel(pixel);       
+  map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+  featureHover(pixel);
+});
+
+
+
+
+      //TODO: Fallunterscheidung: falls name nicht vorhanden nehme sgi id
+    //pushstate
+    //window.location.pathname.split("/").slice(1).join("/"));
+    //window.location = "/glacier/name/" + encodeURIComponent(lastFeature.get("glacier_short_name"));
