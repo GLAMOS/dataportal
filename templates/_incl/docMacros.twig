@@ -14,6 +14,13 @@
   </div>
 {% endmacro %}
 
+{% macro timeValue(valueParam, unitParam, labelParam, idParam) %}
+  <div class="timeValue">
+    <p id="{{ idParam }}">{{ valueParam }}{{ unitParam }}</p>
+    <small>{{ labelParam | t }}</small>
+  </div>
+{% endmacro %}
+
 {% macro majorLink(valueParam, labelParam, buttonParam) %}
   <div class="majorLink">
     <p>{{ valueParam }}</p>

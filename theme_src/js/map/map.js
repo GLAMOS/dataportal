@@ -173,8 +173,6 @@ var infoboxMassDuration = document.getElementById("infobox-mass--duration");
 //"date_to_length": 2015.0, "length_anzahl_jahre": 165.0, "date_from_mass": 1954.0, "date_to_mass": 1960.0, "mass_anzahl_jahre": 6.0,
 
 
-
-
 //Frage: Besser: Ausdehnung berechnen(dafür könnte man polygone aus datenbank verwenden) 
 //zur vereinfachung: maxZoom festgelegt und nur Punkte eingelesen
 home_map.getView().fit(extent_frompoint, {size:home_map.getSize(), maxZoom:12});
