@@ -11,6 +11,12 @@
   .singleValue {
     width: 45%;
     padding-bottom: 10px;
+    &:nth-last-child(-n+2) {
+      p {
+        @extend %fontL;
+        font-weight: 700;
+      }
+    }
     p {
       @extend %fontXL;
       font-weight: 700;

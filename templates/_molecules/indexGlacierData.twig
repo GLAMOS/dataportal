@@ -1,9 +1,17 @@
 {% import '_incl/docMacros' as macro %}
 
 <div class="glacierData">
-  <h2 class="currentGlacier" id="currentGlacierName">Aletschgletscher</h2>
-  {{ macro.singleValue('-10','%','Längenänderung') }}
-  {{ macro.singleValue('10','%','Masseänderung') }}
-  <p class="hint">Letzte Messwerte: 1755</p>
-  <a class="btn " href="#">Zum Aletschgletscher</a>
+  <h2 class="currentGlacier">
+    <span id="infobox-glaciername">Aletschgletscher</span>
+    {{ macro.crossLink('/factsheet', 'Zum Aletschgletscher', 'infobox-glaciername--link') }}
+  </h2>
+  {{ macro.singleValue('-10', '', 'Längenänderung', 'infobox-length--cumulative') }}
+  {{ macro.singleValue('1972 - 2018', '', 'Messzeitraum Länge', 'infobox-length--timespan') }}
+  {{ macro.singleValue('75', ' Jahre', 'Messdauer', 'infobox-length--duration') }}
+  {{ macro.singleValue('10', '', 'Masseänderung', 'infobox-mass--cumulative') }}
+  {{ macro.singleValue('1972 - 2018', '', 'Messzeitraum Masse', 'infobox-mass--timespan') }}
+  {{ macro.singleValue('75', ' Jahre', 'Messdauer', 'infobox-mass--duration') }}
+
+  <p class="hint">{{ 'Kumulierte Meesswerte' | t }}</p>
+  {# <a class="btn " href="#">Zum Aletschgletscher</a> #}
 </div>

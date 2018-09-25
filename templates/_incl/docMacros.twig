@@ -7,9 +7,9 @@
 {% endmacro %}
 
 
-{% macro singleValue(valueParam, unitParam, labelParam) %}
+{% macro singleValue(valueParam, unitParam, labelParam, idParam) %}
   <div class="singleValue">
-    <p>{{ valueParam }}{{ unitParam }}</p>
+    <p id="{{ idParam }}">{{ valueParam }}{{ unitParam }}</p>
     <small>{{ labelParam | t }}</small>
   </div>
 {% endmacro %}
@@ -36,4 +36,10 @@
     <h3 class="chartTitle">{{ nameParam }}</h3>
     // Hier erscheint dann der Chart für die {{ nameParam }}
   </div>
+{% endmacro %}
+
+{% macro Crosslink(linkParam, titleParam, idParam)%}
+  <a id="{{ idParam }}" href="/factsheet" class="titleCrosslink" title="{{ titleParam }}">
+    {{ svg('@webroot/theme/img/crosslink.svg') }}
+  </a>
 {% endmacro %}

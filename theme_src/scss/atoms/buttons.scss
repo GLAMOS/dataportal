@@ -13,3 +13,24 @@
     cursor: pointer;
   }
 }
+.btnTxt {
+  @extend %fontM;
+  color: $markerColor;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+    opacity: 0.8;
+  }
+}
+.btnSmall {
+  @extend %fontS;
+}
+
+.btnGroup {
+  .btn:first-child {
+    border-radius: 20px 0 0 20px;
+  }
+  .btn:last-child {
+    border-radius: 0 20px 20px 0;
+  }
+}

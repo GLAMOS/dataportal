@@ -3,15 +3,18 @@
   <div class="chartControls">
 
     <select class="chartParamSelect" name="chartParamSelect">
-      <option value="">Längenänderung</option>
-      <option value="">Massenbilanz</option>
-      <option value="">Volumenänderung</option>
-      <option value="">Eisdicken</option>
-      <option value="">Geschwindigkeiten</option>
-      <option value="">Firntemperaturen</option>
+      <option value="">{{ 'Längenänderung' | t }}</option>
+      <option value="">{{ 'Massenbilanz' | t }}</option>
+      <option value="">{{ 'Volumenänderung' | t }}</option>
+      <option value="">{{ 'Eisdicken' | t }}</option>
+      <option value="">{{ 'Geschwindigkeiten' | t }}</option>
+      <option value="">{{ 'Firntemperaturen' | t }}</option>
     </select>
 
-    <button class="btn">Export als PDF</button>
+      <div class="btnGroup">
+        <button class="btn">{{ 'Export PDF' | t }}</button><button class="btn">{{ 'Export CSV' | t }}</button>
+      </div>
+
 
   </div>
 

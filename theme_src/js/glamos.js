@@ -21,7 +21,8 @@ $(document).ready(function () {
 
   //initializes the single preview image lightbox
   $('.imgGallery').lightGallery({
-    selector: '.zoomItem'
+    selector: '.zoomItem',
+    download: false
   });
 
   //initialize download Tabs

@@ -2,17 +2,27 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  .btnTxt {
+    padding-bottom: 10px;
+  }
+  .currentGlacier {
+    @extend %fontXL;
+    font-weight: 700;
+    margin: 0;
+  }
+  .latestMeasurementsHead {
+    width: 100%;
+  }
   .singleValue {
     width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     p {
       border-color: $txtInvert;
-      @extend %fontXL;
+      @extend %fontL;
       font-weight: 700;
       text-align: left;
-    }
-    small {
-      font-weight: 400;
-      @extend %fontS;
     }
     //the first two entries, no matter what
     &:nth-child(-n+3) {
@@ -30,5 +40,8 @@
     &:nth-child(3) {
       padding-bottom: 15px;
     }
+  }
+  .hint {
+    color: $txtInvert;
   }
 }

@@ -6,18 +6,24 @@
 {% block content %}
 
   <div class="factsheetGrid">
-    <h2 class="pageTitle">Aletschgletscher - {{ entry.title }}</h2>
+    <div class="factsheetHead">
+      <h2 class="pageTitle">Aletschgletscher</h2>
+      {% include '_molecules/fieldSearch' %}
+    </div>
+
     {% include '_molecules/cardMap' %}
     {% include '_molecules/cardMeasurements' %}
     {% include '_molecules/cardExport' %}
     {{ macro.cardChart('Längenänderung', 'chartOne') }}
+    {{ macro.cardChart('Massenbilanz', 'chartTwo') }}
     {% include '_molecules/cardPhoto' %}
     {% include '_molecules/cardComment' %}
-    {{ macro.cardChart('Massenbilanz', 'chartTwo') }}
-    {{ macro.cardChart('Volumenänderung', 'chartThree') }}
+
+    {# {{ macro.cardChart('Volumenänderung', 'chartThree') }}
     {{ macro.cardChart('Eisdicke', 'chartOne') }}
     {{ macro.cardChart('Geschwindigkeit', 'chartFour') }}
-    {{ macro.cardChart('Firntemperatur', 'chartfive') }}
+    {{ macro.cardChart('Firntemperatur', 'chartfive') }} #}
+    
   </div>
-  
+
 {% endblock %}
