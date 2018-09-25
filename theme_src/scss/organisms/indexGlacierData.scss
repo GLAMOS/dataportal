@@ -6,11 +6,6 @@
   flex-wrap: wrap;
   justify-content: space-between;
   @extend %boxShadow;
-  .currentGlacier {
-    @extend %fontXL;
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
   .singleValue {
     width: 100%;
     &:nth-last-child(-n+3) {

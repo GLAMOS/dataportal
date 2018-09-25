@@ -5,41 +5,8 @@
   .btnTxt {
     padding-bottom: 10px;
   }
-  .currentGlacier {
-    @extend %fontXL;
-    font-weight: 700;
-    margin: 0;
-  }
   .latestMeasurementsHead {
     width: 100%;
-  }
-  .singleValue {
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    p {
-      border-color: $txtInvert;
-      @extend %fontL;
-      font-weight: 700;
-      text-align: left;
-    }
-    //the first two entries, no matter what
-    &:nth-child(-n+3) {
-      width: 100%;
-      small {
-        font-weight: 400;
-        @extend %fontM;
-      }
-      p {
-        @extend %fontXXL;
-        text-align: right;
-        font-weight: 700;
-      }
-    }
-    &:nth-child(3) {
-      padding-bottom: 15px;
-    }
   }
   .hint {
     color: $txtInvert;
