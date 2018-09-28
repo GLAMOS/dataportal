@@ -18,16 +18,6 @@ import {pixel_500px,pixel_1000px,eiszeit} from './layer/swisstopo_layer';
 import {glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010} from './layer/glamos_layer';
 
 
-
-
-/* var hoverStyle = new Style({
-  image: new Icon(({
-    //anchor: [0.5, 0.5],
-    src: '/theme/img/pin-simple-active.svg',
-    scale: 0.8
-  }))
-}); */
-
 var noDataGlacierStyle = new Style({
   image: new Circle(({
     radius: 2,
@@ -48,25 +38,23 @@ var defaultGlacierStyle = new Style({
 });
 
 var hoverStyle = new Style({
-  image: new Circle(({
-    radius: 5,
-    fill: new Fill({
-        color: 'red',
-    })
-}))
+  image: new Icon(({
+    src: '/theme/img/pin-simple-active.svg',
+    scale: 0.7
+  }))
 });
 
 var selectStyle = new Style({
   image: new Icon(({
     src: '/theme/img/pin-simple.svg',
-    scale: 0.8
+    scale: 0.7
   }))
 });
 
 var activeStyle = new Style({
   image: new Icon(({
     src: '/theme/img/pin-simple-active.svg',
-    scale: 0.8
+    scale: 0.7
   }))
 });
 
@@ -105,11 +93,7 @@ function switchStyle(feature, resolution) {
 gletscher_alle.set('name','gletscher_alle');
 
 
-var selectedOverlay = new VectorLayer({
-  source: new Vector(),
-  map: map,
-  style: activeStyle
-});
+
 
 
 // define 3 Map instances each for one tab: 
@@ -171,7 +155,11 @@ if (document.getElementById('factsheet-map')) {
 
 
 
- 
+  var selectedOverlay = new VectorLayer({
+    source: new Vector(),
+    map: map,
+    style: activeStyle
+  });
 
 
 
@@ -208,21 +196,26 @@ var unit = function(x) {
     return Math.round(x / 100) / 10 + ' km';
   };
 
-var infoboxGlacierName = document.getElementById("infobox-glaciername");
-var infoboxLengthCumulative = document.getElementById("infobox-length--cumulative");
-var infoboxMassCumulative = document.getElementById("infobox-mass--cumulative");
-var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
-var infoboxLengthDuration = document.getElementById("infobox-length--duration");
-var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
-var infoboxMassDuration = document.getElementById("infobox-mass--duration");
 
-infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name; 
-infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_length.toFixed(0);     
-infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahre';
-infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_mass.toFixed(0);   
-infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed(0) + ' Jahre';
-infoboxLengthCumulative.innerHTML = unit(glacierVips[glacierId].last_length_change_cumulative);
-infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_cumulative) + '&sup3;';
+  var infoboxGlacierName = document.getElementById("infobox-glaciername");
+  var infoboxLengthCumulative = document.getElementById("infobox-length--cumulative");
+  var infoboxMassCumulative = document.getElementById("infobox-mass--cumulative");
+  var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
+  var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
+
+  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name; 
+  infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_length.toFixed(0);     
+  infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_mass.toFixed(0);   
+  infoboxLengthCumulative.innerHTML = unit(glacierVips[glacierId].last_length_change_cumulative);
+  infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_cumulative) + '&sup3;';
+
+if (page == 'monitoring' || page == 'home') {
+  var infoboxLengthDuration = document.getElementById("infobox-length--duration"); //auf factsheetseite existiert es nicht
+  var infoboxMassDuration = document.getElementById("infobox-mass--duration"); //auf factsheetseite existiert es nicht
+  infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed(0) + ' Jahre';
+  infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahre';
+}
+
 
 var initialFeature =  new Feature({
   geometry: new Point([randomX, randomY]),
@@ -232,6 +225,7 @@ initialFeature.setId('initialGlacier');
 
 selectedOverlay.getSource().addFeature(initialFeature);
 var selected = initialFeature;
+
 
 
 /****************************************************************************************************************
@@ -260,9 +254,9 @@ var selected = initialFeature;
             infoboxMassCumulative.innerHTML = unit(feature.get('last_mass_change_cumulative')) + '&sup3;';
           }
           else {
-            infoboxMassTimespan.innerHTML = 'no data';
-            infoboxMassDuration.innerHTML = 'no data';
-            infoboxMassCumulative.innerHTML = 'no data';
+            infoboxMassTimespan.innerHTML = '--';
+            infoboxMassDuration.innerHTML = '--';
+            infoboxMassCumulative.innerHTML = '--';
           }
 
           if (feature.get('has_length_value')== 't') {
@@ -271,9 +265,9 @@ var selected = initialFeature;
             infoboxLengthCumulative.innerHTML = unit(feature.get('last_length_change_cumulative'));
           }
           else {
-            infoboxLengthTimespan.innerHTML = 'no data';
-            infoboxLengthDuration.innerHTML = 'no data';
-            infoboxLengthCumulative.innerHTML = 'no data';
+            infoboxLengthTimespan.innerHTML = '--';
+            infoboxLengthDuration.innerHTML = '--';
+            infoboxLengthCumulative.innerHTML = '--';
           }
             infoboxGlacierName.innerHTML = feature.get('glacier_short_name');
 
