@@ -11,6 +11,8 @@ import Circle from 'ol/style/Circle';
 import {Icon, Style,Stroke,Fill} from 'ol/style';
 import {defaults as Interactions} from 'ol/interaction';
 import {defaults as Control} from 'ol/control';
+import Point from 'ol/geom/Point';
+import Feature from 'ol/Feature';
 import glacier_vip from './layer/glacier_vip';
 import {pixel_500px,pixel_1000px,eiszeit} from './layer/swisstopo_layer';
 import {glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010} from './layer/glamos_layer';
@@ -56,30 +58,40 @@ var hoverStyle = new Style({
 
 var selectStyle = new Style({
   image: new Icon(({
-    //anchor: [0.5, 0.5],
     src: '/theme/img/pin-simple.svg',
     scale: 0.8
   }))
 });
 
+var activeStyle = new Style({
+  image: new Icon(({
+    src: '/theme/img/pin-simple-active.svg',
+    scale: 0.8
+  }))
+});
 
 var style = {}
 style[0] = noDataGlacierStyle;
 style[1] = defaultGlacierStyle;
 style[2] = selectStyle;
 
-function switchStyle(feature, resolution) { 
+
+function filterFeature(feature){
+  //keine Werte
   var has_mass_value = feature.get('has_mass_value');
   var has_length_value = feature.get('has_length_value');
-
   if (has_mass_value == 't' || has_length_value == 't') {
-    return [style[2]];
+    return true;
   }
-  //keine Werte - noDataGlacierStyle:
-  else {
-    return [style[0]];
-  }
+  else return false;
+}
 
+function switchStyle(feature, resolution) { 
+  if (filterFeature(feature)) {
+    return [style[2]];}
+  else {
+    return [style[0]]; //keine Werte - noDataGlacierStyle:
+  }
 };
 
   //ist im moment statische datei - sollte vom glamosserver kommen
@@ -88,8 +100,16 @@ function switchStyle(feature, resolution) {
         format: new GeoJSON(),
         url: '/geo/glamos_inventory_dummy.geojson'
     }),
-    style: switchStyle 
+    style: switchStyle //style different depending on data availibility
   });
+gletscher_alle.set('name','gletscher_alle');
+
+
+var selectedOverlay = new VectorLayer({
+  source: new Vector(),
+  map: map,
+  style: activeStyle
+});
 
 
 // define 3 Map instances each for one tab: 
@@ -176,7 +196,11 @@ var extent_frompoint = [randomX, randomY, randomX, randomY];
 //zur vereinfachung: maxZoom festgelegt und nur Punkte eingelesen
 map.getView().fit(extent_frompoint, {size:map.getSize(), maxZoom:12});
 
-//fill infobox from file
+
+/****************************************************************************************************************
+//fill infobox from file when entering site from extern (random glacier)
+ ****************************************************************************************************************/
+
 var unit = function(x) {
   if (x >= -999 && x <= 999) 
     return x + ' m';
@@ -200,12 +224,21 @@ infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed
 infoboxLengthCumulative.innerHTML = unit(glacierVips[glacierId].last_length_change_cumulative);
 infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_cumulative) + '&sup3;';
 
-
-var selectedOverlay = new VectorLayer({
-  source: new Vector(),
-  map: map,
-  style: selectStyle
+var initialFeature =  new Feature({
+  geometry: new Point([randomX, randomY]),
+  style: activeStyle
 });
+initialFeature.setId('initialGlacier');
+
+selectedOverlay.getSource().addFeature(initialFeature);
+var selected = initialFeature;
+
+
+/****************************************************************************************************************
+ * ** add interactivity to the map
+ ****************************************************************************************************************/
+
+
 
 // when the user clicks on a feature, get the name property
 // from each feature under the mouse and display it
@@ -218,11 +251,9 @@ var selectedOverlay = new VectorLayer({
 //es wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
     let lastFeature = null;
     map.forEachFeatureAtPixel(pixel, function(feature) {
-      var has_mass_value = feature.get('has_mass_value');
-      var has_length_value = feature.get('has_length_value');
-      var selected;
+      
       //click nur wenn es werte oder namen hat
-        if (has_mass_value == 't' || has_length_value == 't'){
+        if (filterFeature(feature)){
           if (feature.get('has_mass_value') == 't') {
             infoboxMassTimespan.innerHTML = feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0);   
             infoboxMassDuration.innerHTML = feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre';
@@ -250,10 +281,9 @@ var selectedOverlay = new VectorLayer({
             lastFeature = feature;
         }
 
-        if (feature !== selected) {
+        if (feature !== selected && filterFeature(feature)) {
           if (selected) {
             selectedOverlay.getSource().removeFeature(selected);
-            hoverOverlay.getSource().removeFeature(hover);
           }
           if (feature) {
             selectedOverlay.getSource().addFeature(feature);
@@ -281,12 +311,11 @@ var featureHover = function(pixel) {
     var has_mass_value = feature.get('has_mass_value');
     var has_length_value = feature.get('has_length_value');
 
-    //click nur wenn es werte oder namen hat
+    //click funktioniert nur auf wenn Gletscher werte hat
       if (has_mass_value == 't' || has_length_value == 't'){
         return feature;
       };
-
-      return;
+      return false;
   });
 
   if (feature !== hover) {
@@ -306,7 +335,7 @@ map.on('pointermove', function(e) {
   if (e.dragging) return;      
   var pixel = map.getEventPixel(e.originalEvent);
   var hit = map.hasFeatureAtPixel(pixel);       
-  map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+  //map.getTargetElement().style.cursor = hit ? 'pointer' : '';
   featureHover(pixel);
 });
 
