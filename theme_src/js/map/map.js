@@ -16,6 +16,7 @@ import Feature from 'ol/Feature';
 import glacier_vip from './layer/glacier_vip';
 import {pixel_500px,pixel_1000px,eiszeit} from './layer/swisstopo_layer';
 import {glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010} from './layer/glamos_layer';
+import PluggableMap from 'ol/PluggableMap';
 
 
 var noDataGlacierStyle = new Style({
@@ -27,6 +28,25 @@ var noDataGlacierStyle = new Style({
 }))
 });
 
+var selectableStyleSmall = new Style({
+  image: new Circle(({
+    radius: 5,
+    fill: new Fill({
+        color: 'black',
+        stroke: 'grey'
+    })
+}))
+});
+
+var hoverStyleSmall = new Style({
+  image: new Circle(({
+    radius: 5,
+    fill: new Fill({
+        color: 'grey',
+        stroke: 'grey'
+    })
+}))
+});
 
 var defaultGlacierStyle = new Style({
   image: new Circle(({
@@ -39,12 +59,12 @@ var defaultGlacierStyle = new Style({
 
 var hoverStyle = new Style({
   image: new Icon(({
-    src: '/theme/img/pin-simple-active.svg',
+    src: '/theme/img/pin-simple-hover.svg',
     scale: 0.7
   }))
 });
 
-var selectStyle = new Style({
+var selectableStyle = new Style({
   image: new Icon(({
     src: '/theme/img/pin-simple.svg',
     scale: 0.7
@@ -61,7 +81,8 @@ var activeStyle = new Style({
 var style = {}
 style[0] = noDataGlacierStyle;
 style[1] = defaultGlacierStyle;
-style[2] = selectStyle;
+style[2] = selectableStyle;
+style[3] = selectableStyleSmall;
 
 
 function filterFeature(feature){
@@ -74,13 +95,21 @@ function filterFeature(feature){
   else return false;
 }
 
-function switchStyle(feature, resolution) { 
+function switchStyle(feature, resolution) { //console.log(resolution);
+  
   if (filterFeature(feature)) {
-    return [style[2]];}
+    if (resolution > 100){
+      return [style[3]];
+    }
+    else{
+      return [style[2]];
+    }
+  }
   else {
     return [style[0]]; //keine Werte - noDataGlacierStyle:
   }
 };
+
 
   //ist im moment statische datei - sollte vom glamosserver kommen
   var gletscher_alle = new VectorLayer({
@@ -88,12 +117,10 @@ function switchStyle(feature, resolution) {
         format: new GeoJSON(),
         url: '/geo/glamos_inventory_dummy.geojson'
     }),
+    map: map,
     style: switchStyle //style different depending on data availibility
   });
 gletscher_alle.set('name','gletscher_alle');
-
-
-
 
 
 // define 3 Map instances each for one tab: 
@@ -121,8 +148,7 @@ if (document.getElementById('factsheet-map')) {
   
   var map = new Map({
     target: 'monitoring-map',
-    //layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010,gletscher_alle],
-    layers: [pixel_500px,pixel_1000px,eiszeit,gletscher_alle],
+    layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010],
     view: new View({
       center: [903280,5913450],
       zoom: 10,
@@ -137,7 +163,7 @@ if (document.getElementById('factsheet-map')) {
     //only one map-layer - no layerswitcher
     var map = new Map({
       target: 'home-map',
-      layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010,gletscher_alle],
+      layers: [pixel_500px,pixel_1000px,eiszeit],
       //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
       //controls: [],//remove zoom for factsheetwindow
       view: new View({
@@ -152,8 +178,7 @@ if (document.getElementById('factsheet-map')) {
 
 } else 
   page = 'other';
-
-
+  map.addLayer(gletscher_alle);
 
   var selectedOverlay = new VectorLayer({
     source: new Vector(),
@@ -182,7 +207,7 @@ var extent_frompoint = [randomX, randomY, randomX, randomY];
 
 //Frage: Besser: Ausdehnung berechnen(dafür könnte man polygone aus datenbank verwenden) 
 //zur vereinfachung: maxZoom festgelegt und nur Punkte eingelesen
-map.getView().fit(extent_frompoint, {size:map.getSize(), maxZoom:12});
+map.getView().fit(extent_frompoint, {size:map.getSize(), maxZoom:11});
 
 
 /****************************************************************************************************************
@@ -203,7 +228,7 @@ var unit = function(x) {
   var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
   var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
 
-  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name; 
+  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name + ' &ndash; Factsheet'; 
   infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_length.toFixed(0);     
   infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_mass.toFixed(0);   
   infoboxLengthCumulative.innerHTML = unit(glacierVips[glacierId].last_length_change_cumulative);
@@ -214,6 +239,7 @@ if (page == 'monitoring' || page == 'home') {
   var infoboxMassDuration = document.getElementById("infobox-mass--duration"); //auf factsheetseite existiert es nicht
   infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed(0) + ' Jahre';
   infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahre';
+  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name; 
 }
 
 
@@ -273,8 +299,8 @@ var selected = initialFeature;
 
             //TODO wenn null = leer
             lastFeature = feature;
-        }
 
+        }
         if (feature !== selected && filterFeature(feature)) {
           if (selected) {
             selectedOverlay.getSource().removeFeature(selected);
@@ -295,7 +321,13 @@ var selected = initialFeature;
 var hoverOverlay = new VectorLayer({
   source: new Vector(),
   map: map,
-  style: hoverStyle
+  style: function(feature, resolution) {
+    if (resolution > 100) {
+      return hoverStyleSmall;
+    } else {
+      return hoverStyle;
+    };
+  }
 });
 
 var hover;
@@ -312,7 +344,7 @@ var featureHover = function(pixel) {
       return false;
   });
 
-  if (feature !== hover) {
+  if (feature !== hover && feature !== selected) {
     if (hover) {
       hoverOverlay.getSource().removeFeature(hover);
     }
