@@ -3,7 +3,7 @@
   @extend %horizontalGrid;
   grid-template-rows: 70vh auto;
   @include smUp {
-    grid-template-rows: minmax(140px, 20vh) minmax(300px, 50vh) 40px minmax(150px, 10vh) auto;
+    grid-template-rows: minmax(140px, 20vh) minmax(480px, 50vh) 40px minmax(150px, 10vh) auto;
   }
 }
 
@@ -43,6 +43,9 @@
   //background-color: #476;
   grid-column: 1/-1;
   @extend %mobilePadding;
+  margin-top: 20px;
+  position: relative;
+  z-index: 100;
   @include smDown {
     margin-top: 30px;
   }
@@ -51,7 +54,7 @@
   }
   @include smUp {
     grid-column: -3/-2;
-    grid-row: 3/-1;
+    grid-row: 4/-1;
   }
 }
 .welcomeText {
