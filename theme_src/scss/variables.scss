@@ -6,7 +6,7 @@ $txtSecColor: grey;
 $shadowColor: #e6e6e6;
 $linkColor: pink;
 
-$markerColor: brown;
+$markerColor: #a52a2a;
 
 @mixin fontSize($sizeValue: 1, $lhValue: 1, $lsValue: 0, $wsValue: 0) {
   font-size: ($sizeValue * 10) + px;
