@@ -2,7 +2,7 @@
   @extend %readingWidth;
   display: grid;
   grid-gap: 15px;
-  grid-template-rows: $pageTitleColumn minmax(300px, 35vh) minmax(300px, 35vh) auto;
+  grid-template-rows: $pageTitleColumn auto minmax(300px, 35vh) auto;
   grid-template-columns: repeat(4, 1fr);
   @include smDown {
     padding: 0 15px;
