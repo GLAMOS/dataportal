@@ -15,21 +15,21 @@
     grid-column: 1/-1;
     @include smUp {
       grid-column: 2/-2;
+      display: grid;
+      grid-template-columns: auto 200px;
     }
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
     .pageTitle {
       font-weight: 700;
-      width: 100%;
+      line-height: 1;
+      grid-column: 1;
       @include smUp {
-        width: 70%;
+
       }
     }
     .fieldSearchWrapper {
-      width: 100%;
+      grid-column: 2;
       @include smUp {
-        width: 30%;
+
       }
     }
   }
