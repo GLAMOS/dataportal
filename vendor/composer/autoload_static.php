@@ -45,6 +45,7 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         ),
         'e' => 
         array (
+            'enupal\\translate\\' => 17,
             'enshrined\\svgSanitize\\' => 22,
         ),
         'c' => 
@@ -77,6 +78,7 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Stringy\\' => 8,
+            'Stichoza\\GoogleTranslate\\' => 25,
             'Seld\\PharUtils\\' => 15,
             'Seld\\JsonLint\\' => 14,
             'Seld\\CliPrompt\\' => 15,
@@ -101,6 +103,7 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
+            'GoogleTranslate\\' => 16,
         ),
         'E' => 
         array (
@@ -116,6 +119,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
             'Composer\\Semver\\' => 16,
             'Composer\\CaBundle\\' => 18,
             'Composer\\' => 9,
+        ),
+        'B' => 
+        array (
+            'Beeyev\\YaTranslate\\' => 19,
         ),
     );
 
@@ -191,6 +198,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'mikehaertl\\shellcommand\\' => 
         array (
             0 => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src',
+        ),
+        'enupal\\translate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/enupal/translate/src',
         ),
         'enshrined\\svgSanitize\\' => 
         array (
@@ -272,6 +283,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         array (
             0 => __DIR__ . '/..' . '/danielstjules/stringy/src',
         ),
+        'Stichoza\\GoogleTranslate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stichoza/google-translate-php/src/Stichoza/GoogleTranslate',
+        ),
         'Seld\\PharUtils\\' => 
         array (
             0 => __DIR__ . '/..' . '/seld/phar-utils/src',
@@ -320,6 +335,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+        'GoogleTranslate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src',
+        ),
         'Egulias\\EmailValidator\\' => 
         array (
             0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
@@ -344,6 +363,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         array (
             0 => __DIR__ . '/..' . '/composer/composer/src/Composer',
         ),
+        'Beeyev\\YaTranslate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/beeyev/yandex-translate/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -352,6 +375,13 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
             'Twig_' => 
             array (
                 0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
+        'S' => 
+        array (
+            'Stichoza\\GoogleTranslate\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/stichoza/google-translate-php/src',
             ),
         ),
         'I' => 
@@ -378,6 +408,9 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
     );
 
     public static $classMap = array (
+        'Beeyev\\YaTranslate\\Translate' => __DIR__ . '/..' . '/beeyev/yandex-translate/src/Translate.php',
+        'Beeyev\\YaTranslate\\TranslateException' => __DIR__ . '/..' . '/beeyev/yandex-translate/src/TranslateException.php',
+        'Beeyev\\YaTranslate\\TranslationResponse' => __DIR__ . '/..' . '/beeyev/yandex-translate/src/TranslationResponse.php',
         'Composer\\Autoload\\AutoloadGenerator' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/AutoloadGenerator.php',
         'Composer\\Autoload\\ClassLoader' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/ClassLoader.php',
         'Composer\\Autoload\\ClassMapGenerator' => __DIR__ . '/..' . '/composer/composer/src/Composer/Autoload/ClassMapGenerator.php',
@@ -699,6 +732,18 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'Egulias\\EmailValidator\\Warning\\QuotedString' => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator/Warning/QuotedString.php',
         'Egulias\\EmailValidator\\Warning\\TLD' => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator/Warning/TLD.php',
         'Egulias\\EmailValidator\\Warning\\Warning' => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator/Warning/Warning.php',
+        'GoogleTranslate\\Client' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/Client.php',
+        'GoogleTranslate\\DetectInterface' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/DetectInterface.php',
+        'GoogleTranslate\\Exception\\DetectErrorException' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/Exception/DetectErrorException.php',
+        'GoogleTranslate\\Exception\\InvalidAccessKeyException' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/Exception/InvalidAccessKeyException.php',
+        'GoogleTranslate\\Exception\\InvalidLanguageException' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/Exception/InvalidLanguageException.php',
+        'GoogleTranslate\\Exception\\InvalidSourceLanguageException' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/Exception/InvalidSourceLanguageException.php',
+        'GoogleTranslate\\Exception\\InvalidTargetLanguageException' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/Exception/InvalidTargetLanguageException.php',
+        'GoogleTranslate\\Exception\\InvalidTextException' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/Exception/InvalidTextException.php',
+        'GoogleTranslate\\Exception\\LanguagesErrorException' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/Exception/LanguagesErrorException.php',
+        'GoogleTranslate\\Exception\\TranslateErrorException' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/Exception/TranslateErrorException.php',
+        'GoogleTranslate\\LanguagesInterface' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/LanguagesInterface.php',
+        'GoogleTranslate\\TranslateInterface' => __DIR__ . '/..' . '/viniciusgava/google-translate-api/src/TranslateInterface.php',
         'GuzzleHttp\\Client' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Client.php',
         'GuzzleHttp\\ClientInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/ClientInterface.php',
         'GuzzleHttp\\Cookie\\CookieJar' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Cookie/CookieJar.php',
@@ -1221,6 +1266,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'Seld\\JsonLint\\ParsingException' => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint/ParsingException.php',
         'Seld\\JsonLint\\Undefined' => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint/Undefined.php',
         'Seld\\PharUtils\\Timestamps' => __DIR__ . '/..' . '/seld/phar-utils/src/Timestamps.php',
+        'Stichoza\\GoogleTranslate\\Tokens\\GoogleTokenGenerator' => __DIR__ . '/..' . '/stichoza/google-translate-php/src/Stichoza/GoogleTranslate/Tokens/GoogleTokenGenerator.php',
+        'Stichoza\\GoogleTranslate\\Tokens\\SampleTokenGenerator' => __DIR__ . '/..' . '/stichoza/google-translate-php/src/Stichoza/GoogleTranslate/Tokens/SampleTokenGenerator.php',
+        'Stichoza\\GoogleTranslate\\Tokens\\TokenProviderInterface' => __DIR__ . '/..' . '/stichoza/google-translate-php/src/Stichoza/GoogleTranslate/Tokens/TokenProviderInterface.php',
+        'Stichoza\\GoogleTranslate\\TranslateClient' => __DIR__ . '/..' . '/stichoza/google-translate-php/src/Stichoza/GoogleTranslate/TranslateClient.php',
         'Stringy\\StaticStringy' => __DIR__ . '/..' . '/danielstjules/stringy/src/StaticStringy.php',
         'Stringy\\Stringy' => __DIR__ . '/..' . '/danielstjules/stringy/src/Stringy.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
@@ -2653,6 +2702,25 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'enshrined\\svgSanitize\\data\\AllowedTags' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedTags.php',
         'enshrined\\svgSanitize\\data\\AttributeInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AttributeInterface.php',
         'enshrined\\svgSanitize\\data\\TagInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/TagInterface.php',
+        'enupal\\translate\\Translate' => __DIR__ . '/..' . '/enupal/translate/src/Translate.php',
+        'enupal\\translate\\assetbundles\\FontAwesomeAsset' => __DIR__ . '/..' . '/enupal/translate/src/assetBundles/FontAwesomeAsset.php',
+        'enupal\\translate\\assetbundles\\TranslateAsset' => __DIR__ . '/..' . '/enupal/translate/src/assetBundles/TranslateAsset.php',
+        'enupal\\translate\\contracts\\GoogleCloudTranslate' => __DIR__ . '/..' . '/enupal/translate/src/contracts/GoogleCloudTranslate.php',
+        'enupal\\translate\\contracts\\GoogleTranslate' => __DIR__ . '/..' . '/enupal/translate/src/contracts/GoogleTranslate.php',
+        'enupal\\translate\\contracts\\Yandex' => __DIR__ . '/..' . '/enupal/translate/src/contracts/Yandex.php',
+        'enupal\\translate\\controllers\\SettingsController' => __DIR__ . '/..' . '/enupal/translate/src/controllers/SettingsController.php',
+        'enupal\\translate\\controllers\\TranslateController' => __DIR__ . '/..' . '/enupal/translate/src/controllers/TranslateController.php',
+        'enupal\\translate\\elements\\Translate' => __DIR__ . '/..' . '/enupal/translate/src/elements/Translate.php',
+        'enupal\\translate\\elements\\actions\\GoogleCloudTranslate' => __DIR__ . '/..' . '/enupal/translate/src/elements/actions/GoogleCloudTranslate.php',
+        'enupal\\translate\\elements\\actions\\GoogleTranslate' => __DIR__ . '/..' . '/enupal/translate/src/elements/actions/GoogleTranslate.php',
+        'enupal\\translate\\elements\\actions\\Yandex' => __DIR__ . '/..' . '/enupal/translate/src/elements/actions/Yandex.php',
+        'enupal\\translate\\elements\\db\\TranslateQuery' => __DIR__ . '/..' . '/enupal/translate/src/elements/db/TranslateQuery.php',
+        'enupal\\translate\\migrations\\Install' => __DIR__ . '/..' . '/enupal/translate/src/migrations/install.php',
+        'enupal\\translate\\models\\Settings' => __DIR__ . '/..' . '/enupal/translate/src/models/Settings.php',
+        'enupal\\translate\\services\\App' => __DIR__ . '/..' . '/enupal/translate/src/services/App.php',
+        'enupal\\translate\\services\\Settings' => __DIR__ . '/..' . '/enupal/translate/src/services/Settings.php',
+        'enupal\\translate\\services\\Translate' => __DIR__ . '/..' . '/enupal/translate/src/services/Translate.php',
+        'enupal\\translate\\variables\\TranslateVariable' => __DIR__ . '/..' . '/enupal/translate/src/variables/TranslateVariable.php',
         'mikehaertl\\shellcommand\\Command' => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src/Command.php',
         'mmikkel\\cpclearcache\\CpClearCache' => __DIR__ . '/..' . '/mmikkel/cp-clearcache/src/CpClearCache.php',
         'mmikkel\\cpclearcache\\CpClearCacheBundle' => __DIR__ . '/..' . '/mmikkel/cp-clearcache/src/CpClearCacheBundle.php',
