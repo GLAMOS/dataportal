@@ -365,8 +365,6 @@ var featureHover = function(pixel) {
 map.on('pointermove', function(e) {
   if (e.dragging) return;      
   var pixel = map.getEventPixel(e.originalEvent);
-  //var hit = map.hasFeatureAtPixel(pixel);       
-
   var hit = map.forEachFeatureAtPixel(pixel, function(feature) {
     return filterFeature(feature);
   });
