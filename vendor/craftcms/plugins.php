@@ -39,4 +39,26 @@ return array (
     'developerEmail' => 'support@craftcms.com',
     'documentationUrl' => 'https://github.com/craftcms/redactor',
   ),
+  'enupal/translate' => 
+  array (
+    'class' => 'enupal\\translate\\Translate',
+    'basePath' => $vendorDir . '/enupal/translate/src',
+    'handle' => 'enupal-translate',
+    'aliases' => 
+    array (
+      '@enupal/translate' => $vendorDir . '/enupal/translate/src',
+    ),
+    'name' => 'Enupal Translate',
+    'version' => '1.1.3',
+    'schemaVersion' => '1.0.0',
+    'description' => 'Translate your website templates and plugins into multiple languages. Bulk translation with Google Translate or Yandex.',
+    'developer' => 'Enupal',
+    'developerUrl' => 'http://enupal.com/en',
+    'developerEmail' => 'info@enupal.com',
+    'documentationUrl' => 'https://enupal.com/en/craft-plugins/enupal-translate/docs',
+    'components' => 
+    array (
+      'app' => 'enupal\\translate\\services\\App',
+    ),
+  ),
 );

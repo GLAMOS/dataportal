@@ -60,7 +60,7 @@ var defaultGlacierStyle = new Style({
 
 var hoverStyle = new Style({
   image: new Icon(({
-    src: '/theme/img/pin-simple-hover.svg',
+    src: '/theme/img/pin-hover.svg',
     scale: 0.7,
     zIndex: 100
   }))
@@ -68,7 +68,7 @@ var hoverStyle = new Style({
 
 var selectableStyle = new Style({
   image: new Icon(({
-    src: '/theme/img/pin-simple.svg',
+    src: '/theme/img/pin-default.svg',
     scale: 0.7
   }))
 });
@@ -76,7 +76,7 @@ var selectableStyle = new Style({
 var activeStyle = new Style({
   image: new Icon(({
     src: '/theme/img/pin-active.svg',
-    scale: 3.2,
+    scale: 0.7,
     zIndex: 1000
   }))
 });

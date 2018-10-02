@@ -4,8 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0567f405d8493e8289bf33e41f0b5ac2",
+    "content-hash": "8446f8e4f32cad3918feeab1db364d5f",
     "packages": [
+        {
+            "name": "beeyev/yandex-translate",
+            "version": "v2.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beeyev/yandex-translate/zipball/fcf115f659ec3f0cdcbd8e103ea27dfa23601934",
+                "reference": "fcf115f659ec3f0cdcbd8e103ea27dfa23601934",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Beeyev\\YaTranslate\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksandr Tebiev",
+                    "email": "tebiev@mail.com",
+                    "homepage": "https://github.com/beeyev"
+                }
+            ],
+            "description": "Online service for machine translation for over 40 languages.",
+            "homepage": "https://github.com/beeyev/yandex-translate",
+            "keywords": [
+                "beeyev",
+                "yandex-translate"
+            ],
+            "time": "2016-02-27T19:30:44+00:00"
+        },
         {
             "name": "cebe/markdown",
             "version": "1.1.2",
@@ -762,6 +799,52 @@
             ],
             "description": "An SVG sanitizer for PHP",
             "time": "2018-07-19T17:21:27+00:00"
+        },
+        {
+            "name": "enupal/translate",
+            "version": "1.1.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/enupal/translate/zipball/2b5935a4a01a6237a8fed24f4c1cc3ea8df22230",
+                "reference": "2b5935a4a01a6237a8fed24f4c1cc3ea8df22230",
+                "shasum": ""
+            },
+            "require": {
+                "beeyev/yandex-translate": "2.0.1",
+                "craftcms/cms": "^3.0.0-RC1",
+                "stichoza/google-translate-php": "3.2.13",
+                "viniciusgava/google-translate-api": "2.0.2"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Enupal Translate",
+                "handle": "enupal-translate",
+                "schemaVersion": "1.0.0",
+                "hasSettings": true,
+                "developer": "Enupal",
+                "class": "enupal\\translate\\Translate",
+                "components": {
+                    "app": "enupal\\translate\\services\\App"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "enupal\\translate\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Enupal",
+                    "homepage": "http://enupal.com/en"
+                }
+            ],
+            "description": "Translate your website templates and plugins into multiple languages. Bulk translation with Google Translate or Yandex.",
+            "support": {
+                "email": "info@enupal.com",
+                "issues": "https://github.com/enupal/translate/issues",
+                "docs": "https://enupal.com/en/craft-plugins/enupal-translate/docs"
+            },
+            "time": "2018-09-12T21:03:58+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1562,6 +1645,46 @@
             "time": "2015-10-13T18:44:15+00:00"
         },
         {
+            "name": "stichoza/google-translate-php",
+            "version": "v3.2.13",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Stichoza/google-translate-php/zipball/60adf747a337912d15cb85e492ac804e8e0c294f",
+                "reference": "60adf747a337912d15cb85e492ac804e8e0c294f",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Stichoza\\GoogleTranslate\\": "src/"
+                },
+                "psr-4": {
+                    "Stichoza\\GoogleTranslate\\": "src/Stichoza/GoogleTranslate/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Levan Velijanashvili",
+                    "email": "me@stichoza.com"
+                }
+            ],
+            "description": "Free Google Translate API PHP Package",
+            "homepage": "http://github.com/Stichoza/google-translate-php",
+            "keywords": [
+                "google",
+                "php",
+                "translate"
+            ],
+            "time": "2017-05-05T11:45:11+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v6.1.3",
             "dist": {
@@ -2059,6 +2182,44 @@
                 "templating"
             ],
             "time": "2018-07-13T07:18:09+00:00"
+        },
+        {
+            "name": "viniciusgava/google-translate-api",
+            "version": "2.0.2",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/viniciusgava/google-translate-php-client/zipball/652022089043c1a7a812ec16dcd7ea4ff3f08ac1",
+                "reference": "652022089043c1a7a812ec16dcd7ea4ff3f08ac1",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.3.0",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GoogleTranslate\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vinicius Gava",
+                    "email": "gava.vinicius@gmail.com"
+                }
+            ],
+            "description": "Google translate API V2 client for PHP",
+            "homepage": "https://github.com/viniciusgava/google-translate-php-client",
+            "keywords": [
+                "adapter",
+                "client",
+                "google",
+                "translate"
+            ],
+            "time": "2018-02-20T02:23:34+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
