@@ -8,7 +8,7 @@ $viewportMaxHeight: 568px;
 %horizontalGrid {
   grid-template-columns: repeat(4, 1fr);
   @include smUp {
-    grid-template-columns: 20px repeat(10, 1fr) minmax(190px, 1fr) 20px;
+    grid-template-columns: 20px repeat(10, 1fr) minmax(300px, 1fr) 20px;
   }
 }
 // this makes the grid layout full height until the vieport is a certain size
