@@ -161,7 +161,7 @@ if (document.getElementById('factsheet-map')) {
   });
 
   page = 'monitoring';
-
+  map.addLayer(gletscher_alle);
 } else if (document.getElementById('home-map')) {
     //only one map-layer - no layerswitcher
     var map = new Map({
@@ -178,10 +178,10 @@ if (document.getElementById('factsheet-map')) {
     });
 
   page = 'home';
-
+  map.addLayer(gletscher_alle);
 } else 
   page = 'other';
-  map.addLayer(gletscher_alle);
+  
 
   var selectedOverlay = new VectorLayer({
     source: new Vector(),
@@ -230,20 +230,19 @@ var unit = function(x) {
   var infoboxMassCumulative = document.getElementById("infobox-mass--cumulative");
   var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
   var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
-  var infoboxLengthDuration = document.getElementById("infobox-length--duration"); //auf factsheetseite existiert es nicht
-  var infoboxMassDuration = document.getElementById("infobox-mass--duration"); //auf factsheetseite existiert es nicht
+  var infoboxLengthDuration = document.getElementById("infobox-length--duration");
+  var infoboxMassDuration = document.getElementById("infobox-mass--duration");
   
   infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed(0) + ' Jahre';
   infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahre';
-  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name + ' &ndash; Factsheet'; 
   infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_length.toFixed(0);     
   infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_mass.toFixed(0);   
   infoboxLengthCumulative.innerHTML = unit(glacierVips[glacierId].last_length_change_cumulative);
   infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_cumulative) + '&sup3;';
-
-if (page == 'monitoring' || page == 'home') {
-
   infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name; 
+
+if (page == 'factsheet') {
+  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name + ' &ndash; Factsheet'; 
 }
 
 
