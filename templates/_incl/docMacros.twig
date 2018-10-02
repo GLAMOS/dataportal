@@ -29,10 +29,10 @@
   </div>
 {% endmacro %}
 
-{% macro comparisonEntry(nameParam, activeTrue) %}
+{% macro comparisonEntry(nameParam, idParam, activeTrue) %}
   <div class="comparisonEntry {% if activeTrue %}active{% endif %}">
-    <button type="button" name="highlight" class="glacierName">{{ nameParam }}</button>
-    <button type="button" name="remove" class="btn close">
+    <button type="button" name="highlight" class="glacierName" id="{{ idParam }}--list">{{ nameParam }}</button>
+    <button type="button" name="remove" class="btn close" id="{{ idParam }}--close">
       {{ svg('@webroot/theme/img/close.svg') }}
     </button>
   </div>
