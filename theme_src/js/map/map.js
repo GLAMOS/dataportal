@@ -3,7 +3,7 @@ import TileLayer from 'ol/layer/Tile';
 import Image from 'ol/layer/Image';
 import TileWMS from 'ol/source/TileWMS';
 import ImageWMS from 'ol/source/ImageWMS';
-import GeoJSON from 'ol/format/GeoJSON'; 
+import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
 import Vector from 'ol/source/Vector';
 import VectorSource from 'ol/source/Vector';
@@ -59,21 +59,21 @@ var defaultGlacierStyle = new Style({
 
 var hoverStyle = new Style({
   image: new Icon(({
-    src: '/theme/img/pin-simple-hover.svg',
+    src: '/theme/img/pin-hover.svg',
     scale: 0.7
   }))
 });
 
 var selectableStyle = new Style({
   image: new Icon(({
-    src: '/theme/img/pin-simple.svg',
+    src: '/theme/img/pin-default.svg',
     scale: 0.7
   }))
 });
 
 var activeStyle = new Style({
   image: new Icon(({
-    src: '/theme/img/pin-simple-active.svg',
+    src: '/theme/img/pin-active.svg',
     scale: 0.7
   }))
 });
@@ -96,7 +96,7 @@ function filterFeature(feature){
 }
 
 function switchStyle(feature, resolution) { //console.log(resolution);
-  
+
   if (filterFeature(feature)) {
     if (resolution > 100){
       return [style[3]];
@@ -123,7 +123,7 @@ function switchStyle(feature, resolution) { //console.log(resolution);
 gletscher_alle.set('name','gletscher_alle');
 
 
-// define 3 Map instances each for one tab: 
+// define 3 Map instances each for one tab:
 var page = null;
 var map = null;
 if (document.getElementById('factsheet-map')) {
@@ -132,7 +132,7 @@ if (document.getElementById('factsheet-map')) {
   var map = new Map({
     target: 'factsheet-map',
     layers: [eiszeit],
-    interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
+    interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
     controls: [],//remove zoom for factsheetwindow
     view: new View({
       center: [903280,5913450],
@@ -145,7 +145,7 @@ if (document.getElementById('factsheet-map')) {
   page = 'factsheet';
 
 } else if (document.getElementById('monitoring-map')) {
-  
+
   var map = new Map({
     target: 'monitoring-map',
     layers: [pixel_500px,pixel_1000px,eiszeit,glamos_sgi_1850,glamos_sgi_1973,glamos_sgi_2010],
@@ -164,7 +164,7 @@ if (document.getElementById('factsheet-map')) {
     var map = new Map({
       target: 'home-map',
       layers: [pixel_500px,pixel_1000px,eiszeit],
-      //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
+      //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
       //controls: [],//remove zoom for factsheetwindow
       view: new View({
         center: [903280,5913450],
@@ -176,7 +176,7 @@ if (document.getElementById('factsheet-map')) {
 
   page = 'home';
 
-} else 
+} else
   page = 'other';
   map.addLayer(gletscher_alle);
 
@@ -205,7 +205,7 @@ var randomX = glacierVips[glacierId].coordx;
 var randomY = glacierVips[glacierId].coordy;
 var extent_frompoint = [randomX, randomY, randomX, randomY];
 
-//Frage: Besser: Ausdehnung berechnen(dafür könnte man polygone aus datenbank verwenden) 
+//Frage: Besser: Ausdehnung berechnen(dafür könnte man polygone aus datenbank verwenden)
 //zur vereinfachung: maxZoom festgelegt und nur Punkte eingelesen
 map.getView().fit(extent_frompoint, {size:map.getSize(), maxZoom:11});
 
@@ -215,9 +215,9 @@ map.getView().fit(extent_frompoint, {size:map.getSize(), maxZoom:11});
  ****************************************************************************************************************/
 
 var unit = function(x) {
-  if (x >= -999 && x <= 999) 
+  if (x >= -999 && x <= 999)
     return x + ' m';
-  else 
+  else
     return Math.round(x / 100) / 10 + ' km';
   };
 
@@ -228,9 +228,9 @@ var unit = function(x) {
   var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
   var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
 
-  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name + ' &ndash; Factsheet'; 
-  infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_length.toFixed(0);     
-  infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_mass.toFixed(0);   
+  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name + ' &ndash; Factsheet';
+  infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_length.toFixed(0);
+  infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_mass.toFixed(0);
   infoboxLengthCumulative.innerHTML = unit(glacierVips[glacierId].last_length_change_cumulative);
   infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_cumulative) + '&sup3;';
 
@@ -239,7 +239,7 @@ if (page == 'monitoring' || page == 'home') {
   var infoboxMassDuration = document.getElementById("infobox-mass--duration"); //auf factsheetseite existiert es nicht
   infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed(0) + ' Jahre';
   infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahre';
-  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name; 
+  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name;
 }
 
 
@@ -266,16 +266,16 @@ var selected = initialFeature;
     var coordinate = browserEvent.coordinate;
     var pixel = map.getPixelFromCoordinate(coordinate);
 
-//fill infobox from feature    
+//fill infobox from feature
 //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
 //es wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
     let lastFeature = null;
     map.forEachFeatureAtPixel(pixel, function(feature) {
-      
+
       //click nur wenn es werte oder namen hat
         if (filterFeature(feature)){
           if (feature.get('has_mass_value') == 't') {
-            infoboxMassTimespan.innerHTML = feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0);   
+            infoboxMassTimespan.innerHTML = feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0);
             infoboxMassDuration.innerHTML = feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre';
             infoboxMassCumulative.innerHTML = unit(feature.get('last_mass_change_cumulative')) + '&sup3;';
           }
@@ -286,7 +286,7 @@ var selected = initialFeature;
           }
 
           if (feature.get('has_length_value')== 't') {
-            infoboxLengthTimespan.innerHTML = feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0);     
+            infoboxLengthTimespan.innerHTML = feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0);
             infoboxLengthDuration.innerHTML = feature.get('length_anzahl_jahre').toFixed(0) + ' Jahre';
             infoboxLengthCumulative.innerHTML = unit(feature.get('last_length_change_cumulative'));
           }
@@ -313,11 +313,11 @@ var selected = initialFeature;
 
     });
   };
-  
+
   map.on('click',onMapClick);
 
 
-//add hoverstyle 
+//add hoverstyle
 var hoverOverlay = new VectorLayer({
   source: new Vector(),
   map: map,
@@ -358,9 +358,9 @@ var featureHover = function(pixel) {
 
 //add pointerhand
 map.on('pointermove', function(e) {
-  if (e.dragging) return;      
+  if (e.dragging) return;
   var pixel = map.getEventPixel(e.originalEvent);
-  var hit = map.hasFeatureAtPixel(pixel);       
+  var hit = map.hasFeatureAtPixel(pixel);
   //map.getTargetElement().style.cursor = hit ? 'pointer' : '';
   featureHover(pixel);
 });
