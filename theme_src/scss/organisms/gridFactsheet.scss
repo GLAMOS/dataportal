@@ -2,20 +2,36 @@
   @extend %readingWidth;
   display: grid;
   grid-gap: 15px;
-  grid-template-rows: $pageTitleColumn auto minmax(300px, 35vh) auto;
   grid-template-columns: repeat(4, 1fr);
   @include smDown {
     padding: 0 15px;
+    grid-template-rows: $pageTitleColumn minmax(300px, 35vh) minmax(300px, 35vh) auto;
   }
   @include smUp {
     grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: $pageTitleColumn auto minmax(300px, 35vh) auto;
   }
   .factsheetHead {
     grid-column: 1/-1;
+    @include smUp {
+      grid-column: 2/-2;
+    }
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-
+    justify-content: space-between;
+    .pageTitle {
+      font-weight: 700;
+      width: 100%;
+      @include smUp {
+        width: 70%;
+      }
+    }
+    .fieldSearchWrapper {
+      width: 100%;
+      @include smUp {
+        width: 30%;
+      }
+    }
   }
   .fsMap {
     grid-column: 1/-1;
