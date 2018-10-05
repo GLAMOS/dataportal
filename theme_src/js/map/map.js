@@ -191,6 +191,14 @@ if (document.getElementById('factsheet-map')) {
 
 
 
+
+
+
+
+
+
+
+
 //when the site loads the first time:
 //es wird ein Gletscher gelesen aus einer liste von 20 definierten VIPs
 //todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
@@ -257,6 +265,7 @@ var selected = initialFeature;
 
 
 
+
 /****************************************************************************************************************
  * ** add interactivity to the map
  ****************************************************************************************************************/
@@ -316,6 +325,33 @@ var selected = initialFeature;
         }
 
     });
+
+     // var stateObj = { foo: "bar" };
+// history.pushState(stateObj, "page 2", "bar.html");
+    //pushState() takes three parameters: a state object, a title (which is currently ignored), and (optionally) a URL.
+
+
+    //TODO: Fallunterscheidung: falls name nicht vorhanden nehme sgi id
+
+//1. testen ob ein slug vorhanden ist
+//falls ja, diesen nehmen und als initialgletscher setzen
+//dafür den namen in daten(bank?) suchen und schluesselwerte rausschreiben bzw. mit coordinaten initialgletscher setzen
+//falls nein - random initialgletscher nehmen
+//windows.location setzen mit initialgletschernamen
+//2. bei onclick auf karte testen ob es ein feature gibt
+//falls ja ob es einen namen gibt
+//windows.location setzen mit initialgletschernamen
+// falls kein name vorhanden, windows.location auf sgi id setzen
+
+//pushstate: 
+
+
+    //window.location.pathname.split("/").slice(1).join("/");
+
+    //window.location = "/gletscher/name/" + encodeURIComponent(lastFeature.get("glacier_short_name"));
+    window.location = "#name";
+    //histoy.pushstate(window.location, "next page", window.location);
+
   };
   
   map.on('click',onMapClick);
@@ -376,7 +412,4 @@ map.on('pointermove', function(e) {
 
 
 
-      //TODO: Fallunterscheidung: falls name nicht vorhanden nehme sgi id
-    //pushstate
-    //window.location.pathname.split("/").slice(1).join("/"));
-    //window.location = "/glacier/name/" + encodeURIComponent(lastFeature.get("glacier_short_name"));
+    
