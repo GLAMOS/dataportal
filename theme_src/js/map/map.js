@@ -21,7 +21,7 @@ var noDataGlacierStyle = new Style({
   image: new Circle(({
     radius: 2,
     fill: new Fill({
-      color: 'black'
+      color: 'red'
     })
   }))
 });
