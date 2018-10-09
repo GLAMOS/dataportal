@@ -21,7 +21,7 @@ var noDataGlacierStyle = new Style({
   image: new Circle(({
     radius: 2,
     fill: new Fill({
-      color: 'red'
+      color: 'black'
     })
   }))
 });
@@ -203,8 +203,8 @@ var selectedOverlay = new VectorLayer({
 //es wird ein Gletscher gelesen aus einer liste von 20 definierten VIPs
 //todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
 
-var slug = window.location.pathname.split("/").slice(1).join("/"); // 'gletscher/name/Aletschgletscher'
-if (slug == 'B36\/26') {
+//var slug = window.location.pathname.split("/").slice(1).join("/"); // 'gletscher/name/Aletschgletscher'
+if (slug == 'B36/26') {
 
   var coordX = glacierVips[glacierId].coordx;
   var coordY = glacierVips[glacierId].coordy;
@@ -422,4 +422,5 @@ map.on('pointermove', function (e) {
 
 
 
-
+//Buttons clonen:
+//https://api.jquery.com/clone/
