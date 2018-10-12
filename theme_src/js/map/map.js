@@ -6,6 +6,7 @@ import ImageWMS from 'ol/source/ImageWMS';
 import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
 import Vector from 'ol/source/Vector';
+import bbox from 'ol/loadingstrategy';
 import Circle from 'ol/style/Circle';
 import { Icon, Style, Stroke, Fill } from 'ol/style';
 import { defaults as Interactions } from 'ol/interaction';
@@ -16,6 +17,16 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
+
+
+var hidePoints = new Style({
+  image: new Circle(({
+    radius: 0,
+    fill: new Fill({
+      color: 'black'
+    })
+  }))
+});
 
 var noDataGlacierStyle = new Style({
   image: new Circle(({
@@ -85,6 +96,7 @@ style[0] = noDataGlacierStyle;
 style[1] = defaultGlacierStyle;
 style[2] = selectableStyle;
 style[3] = selectableStyleSmall;
+style[4] = hidePoints;
 
 
 function filterFeature(feature) {
@@ -112,7 +124,54 @@ function switchStyle(feature, resolution) { //console.log(resolution);
   }
 };
 
+var unit = function (x) {
+  if (x >= -999 && x <= 999)
+    return x + ' m';
+  else
+    return Math.round(x / 100) / 10 + ' km';
+};
 
+function fillSchluesseldaten (featureId, page){
+console.log('fillSchlüsseldaten: ' + page);
+  var infoboxGlacierName = document.getElementById("infobox-glaciername");
+  var infoboxLengthCumulative = document.getElementById("infobox-length--cumulative");
+  var infoboxMassCumulative = document.getElementById("infobox-mass--cumulative");
+  var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
+  var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
+  var infoboxLengthDuration = document.getElementById("infobox-length--duration");
+  var infoboxMassDuration = document.getElementById("infobox-mass--duration");
+
+  console.log(infoboxGlacierName);
+    if (gletscher_source.getFeatureById(featureId).get('has_mass_value') == 't') {
+      infoboxMassTimespan.innerHTML = gletscher_source.getFeatureById(featureId).get('date_from_mass').toFixed(0) + ' &ndash; ' + gletscher_source.getFeatureById(featureId).get('date_to_mass').toFixed(0);
+      infoboxMassDuration.innerHTML = gletscher_source.getFeatureById(featureId).get('mass_anzahl_jahre').toFixed(0) + ' Jahre';
+      infoboxMassCumulative.innerHTML = unit(gletscher_source.getFeatureById(featureId).get('last_mass_change_cumulative')) + '&sup3;';
+    }
+    else {
+      infoboxMassTimespan.innerHTML = '--';
+      infoboxMassDuration.innerHTML = '--';
+      infoboxMassCumulative.innerHTML = '--';
+    }
+
+    if (gletscher_source.getFeatureById(featureId).get('has_length_value') == 't') {
+      infoboxLengthTimespan.innerHTML = gletscher_source.getFeatureById(featureId).get('date_from_length').toFixed(0) + ' &ndash; ' + gletscher_source.getFeatureById(featureId).get('date_to_length').toFixed(0);
+      infoboxLengthDuration.innerHTML = gletscher_source.getFeatureById(featureId).get('length_anzahl_jahre').toFixed(0) + ' Jahre';
+      infoboxLengthCumulative.innerHTML = unit(gletscher_source.getFeatureById(featureId).get('last_length_change_cumulative'));
+    }
+    else {
+      infoboxLengthTimespan.innerHTML = '--';
+      infoboxLengthDuration.innerHTML = '--';
+      infoboxLengthCumulative.innerHTML = '--';
+    }
+    infoboxGlacierName.innerHTML = gletscher_source.getFeatureById(featureId).get('glacier_short_name');
+
+  if (page == 'factsheet') {
+    infoboxGlacierName.innerHTML = gletscher_source.getFeatureById(featureId).get('glacier_short_name') + ' &ndash; Factsheet';
+  }
+
+};
+
+/*
 //ist im moment statische datei - sollte vom glamosserver kommen
 var gletscher_alle = new VectorLayer({
   source: new Vector({
@@ -122,9 +181,101 @@ var gletscher_alle = new VectorLayer({
   map: map,
   style: switchStyle //style different depending on data availibility
 });
-gletscher_alle.set('name', 'gletscher_alle');
 
-//gletscher_alle.getSource().getFeatures().setId('glacier_full_name');
+*/
+
+//liste mit VIP gletschern - noch unklar wo diese später herkommt
+var glacierVips = glacier_vip.features.map(function (el) {
+  return el.properties;
+});
+
+var format = new GeoJSON;
+var url = '/geo/glamos_inventory_dummy.geojson';
+var gletscher_id;// = 'B36\/26'; //default = Aletschgletscher
+var initialFeature;
+var selected;
+
+
+// var slug = window.location.pathname.split("/").slice(1).join("/"); // 'gletscher/name/Aletschgletscher'
+var test = window.location.pathname.split("/").slice(1).join("/");
+if (test) {
+  console.log(window.location.pathname.split("/").slice(1).join("/"));
+}
+else {
+  console.log('no slug');
+};
+
+// var id_from_slug = gletscher_source.getFeatureById(slug);
+var id_from_slug = 'A10g\/05';
+
+
+var gletscher_source = new Vector({
+  strategy: bbox,
+  loader: function (extent, resolution, projection) {
+    $.ajax(url).then(function (response) {
+      var features = format.readFeatures(response,
+        { featureProjection: 'EPSG:3857' });
+      gletscher_source.addFeatures(features);
+      
+      if (gletscher_source.getFeatureById(id_from_slug)) { //falls es einen slug gibt und der Gletscher im Datenset gefunden wird
+        // console.log(gletscher_source.getFeatureById(id_from_slug).getGeometry().getCoordinates()); //evt mit getCoordinate aber dann noch x und y seperieren
+        gletscher_id = id_from_slug;
+        console.log('Slug gletscher: ' + id_from_slug);
+        fillSchluesseldaten(id_from_slug, page);
+        var coordX = gletscher_source.getFeatureById(id_from_slug).get('coordx');
+        var coordY = gletscher_source.getFeatureById(id_from_slug).get('coordy');
+      }
+      else {
+
+        //when the site loads the first time:
+        //es wird ein Gletscher gelesen aus einer liste von 12 definierten VIPs
+        //todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
+        var min = 1;
+        var max = 12;
+        var randomNumber = Math.floor((Math.random() * (max - min)) + min);
+        var id_from_vips = glacierVips[randomNumber].pk_sgi;
+        gletscher_id = id_from_vips;
+
+        console.log('random gletscher: ' + id_from_vips);
+        fillSchluesseldaten(id_from_vips, page);
+        var coordX = gletscher_source.getFeatureById(id_from_vips).get('coordx');
+        var coordY = gletscher_source.getFeatureById(id_from_vips).get('coordy');
+      };
+
+      var extent_frompoint = [coordX, coordY, coordX, coordY];
+      map.getView().fit(extent_frompoint, { size: map.getSize(), maxZoom: 11 });
+
+     initialFeature = new Feature({
+        geometry: new Point([coordX, coordY]),
+        style: activeStyle
+      });
+      initialFeature.setId('initialGlacier');
+      selectedOverlay.getSource().addFeature(initialFeature);
+      selected = initialFeature;
+    });
+
+  }
+});
+
+
+var gletscher_alle = new VectorLayer({
+  source: gletscher_source,
+  map: map,
+  style: switchStyle //style different depending on data availibility
+});
+gletscher_alle.set('name', 'gletscher_alle');
+gletscher_source.set('id','pk_sgi');
+
+
+var selectedOverlay = new VectorLayer({
+  source: new Vector(),
+  map: map,
+  style: activeStyle
+});
+
+
+
+
 
 // define 3 Map instances each for one tab: 
 var page = null;
@@ -134,6 +285,7 @@ if (document.getElementById('factsheet-map')) {
   //only one map-layer, static map with glacier in center (dynamically set)
   var map = new Map({
     target: 'factsheet-map',
+    extent: [650000, 4000000, 1200000, 6500000],
     layers: [eiszeit],
     interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
     controls: [],//remove zoom for factsheetwindow
@@ -146,6 +298,8 @@ if (document.getElementById('factsheet-map')) {
   });
 
   page = 'factsheet';
+  map.addLayer(gletscher_alle);
+  gletscher_alle.setStyle(hidePoints);
 
 } else if (document.getElementById('monitoring-map')) {
 
@@ -153,6 +307,7 @@ if (document.getElementById('factsheet-map')) {
     target: 'monitoring-map',
     layers: [pixel_500px, pixel_1000px, eiszeit, glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010],
     view: new View({
+      extent: [650000, 4000000, 1200000, 6500000],
       center: [903280, 5913450],
       zoom: 10,
       minZoom: 8,
@@ -170,6 +325,7 @@ if (document.getElementById('factsheet-map')) {
     //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
     //controls: [],//remove zoom for factsheetwindow
     view: new View({
+      extent: [650000, 4000000, 1200000, 6500000],
       center: [903280, 5913450],
       zoom: 10,
       minZoom: 8,
@@ -182,107 +338,11 @@ if (document.getElementById('factsheet-map')) {
 } else
   page = 'other';
 
-
-var selectedOverlay = new VectorLayer({
-  source: new Vector(),
-  map: map,
-  style: activeStyle
-});
-
-
-
-
-
-
-
-
-
-//gletscher_alle.getFeatureById(2)
-
-//when the site loads the first time:
-//es wird ein Gletscher gelesen aus einer liste von 20 definierten VIPs
-//todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
-
-//var slug = window.location.pathname.split("/").slice(1).join("/"); // 'gletscher/name/Aletschgletscher'
-if (slug == 'B36/26') {
-
-  var coordX = glacierVips[glacierId].coordx;
-  var coordY = glacierVips[glacierId].coordy;
-}
-else {
-
-  //https://gis.stackexchange.com/questions/133481/how-get-the-attributes-list-from-a-feature-in-openlayers-3
-  console.log(gletscher_alle.getSource());//.getFeatureById('A0000'));
-  var min = 1;
-  var max = 12;
-  var glacierId = Math.floor((Math.random() * (max - min)) + min);
-
-  //push all features into variable
-  var glacierVips = glacier_vip.features.map(function (el) {
-    return el.properties;
-  })
-  var coordX = glacierVips[glacierId].coordx;
-  var coordY = glacierVips[glacierId].coordy;
-}
-
-var extent_frompoint = [coordX, coordY, coordX, coordY];
-
-
-//Frage: Besser: Ausdehnung berechnen(dafür könnte man polygone aus datenbank verwenden) 
-//zur vereinfachung: maxZoom festgelegt und nur Punkte eingelesen
-map.getView().fit(extent_frompoint, { size: map.getSize(), maxZoom: 11 });
-
-
-/****************************************************************************************************************
-//fill infobox from file when entering site from extern (random glacier)
- ****************************************************************************************************************/
-
-var unit = function (x) {
-  if (x >= -999 && x <= 999)
-    return x + ' m';
-  else
-    return Math.round(x / 100) / 10 + ' km';
-};
-
-
-var infoboxGlacierName = document.getElementById("infobox-glaciername");
-var infoboxLengthCumulative = document.getElementById("infobox-length--cumulative");
-var infoboxMassCumulative = document.getElementById("infobox-mass--cumulative");
-var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
-var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
-var infoboxLengthDuration = document.getElementById("infobox-length--duration");
-var infoboxMassDuration = document.getElementById("infobox-mass--duration");
-
-infoboxMassDuration.innerHTML = glacierVips[glacierId].mass_anzahl_jahre.toFixed(0) + ' Jahre';
-infoboxLengthDuration.innerHTML = glacierVips[glacierId].length_anzahl_jahre.toFixed(0) + ' Jahre';
-infoboxLengthTimespan.innerHTML = glacierVips[glacierId].date_from_length.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_length.toFixed(0);
-infoboxMassTimespan.innerHTML = glacierVips[glacierId].date_from_mass.toFixed(0) + ' &ndash; ' + glacierVips[glacierId].date_to_mass.toFixed(0);
-infoboxLengthCumulative.innerHTML = unit(glacierVips[glacierId].last_length_change_cumulative);
-infoboxMassCumulative.innerHTML = unit(glacierVips[glacierId].last_mass_change_cumulative) + '&sup3;';
-infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name;
-
-if (page == 'factsheet') {
-  infoboxGlacierName.innerHTML = glacierVips[glacierId].glacier_short_name + ' &ndash; Factsheet';
-}
-
-
-var initialFeature = new Feature({
-  geometry: new Point([coordX, coordY]),
-  style: activeStyle
-});
-initialFeature.setId('initialGlacier');
-
-selectedOverlay.getSource().addFeature(initialFeature);
-var selected = initialFeature;
-
-
-
+  map.addLayer(selectedOverlay);
 
 /****************************************************************************************************************
  * ** add interactivity to the map
  ****************************************************************************************************************/
-
-
 
 // when the user clicks on a feature, get the name property
 // from each feature under the mouse and display it
@@ -290,40 +350,20 @@ function onMapClick(browserEvent) {
   var coordinate = browserEvent.coordinate;
   var pixel = map.getPixelFromCoordinate(coordinate);
 
-  //fill infobox from feature    
+  //1. fill infobox from feature    
   //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
   //es wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
   let lastFeature = null;
   map.forEachFeatureAtPixel(pixel, function (feature) {
-    console.log(feature.getId());
     //click nur wenn es werte oder namen hat
     if (filterFeature(feature)) {
-      if (feature.get('has_mass_value') == 't') {
-        infoboxMassTimespan.innerHTML = feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0);
-        infoboxMassDuration.innerHTML = feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre';
-        infoboxMassCumulative.innerHTML = unit(feature.get('last_mass_change_cumulative')) + '&sup3;';
-      }
-      else {
-        infoboxMassTimespan.innerHTML = '--';
-        infoboxMassDuration.innerHTML = '--';
-        infoboxMassCumulative.innerHTML = '--';
-      }
-
-      if (feature.get('has_length_value') == 't') {
-        infoboxLengthTimespan.innerHTML = feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0);
-        infoboxLengthDuration.innerHTML = feature.get('length_anzahl_jahre').toFixed(0) + ' Jahre';
-        infoboxLengthCumulative.innerHTML = unit(feature.get('last_length_change_cumulative'));
-      }
-      else {
-        infoboxLengthTimespan.innerHTML = '--';
-        infoboxLengthDuration.innerHTML = '--';
-        infoboxLengthCumulative.innerHTML = '--';
-      }
-      infoboxGlacierName.innerHTML = feature.get('glacier_short_name');
+      gletscher_id = feature.getId();
+      fillSchluesseldaten(feature.getId(), page);      
       //TODO wenn null = leer
       lastFeature = feature;
-
     }
+
+    //2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu
     if (feature !== selected && filterFeature(feature)) {
       if (selected) {
         selectedOverlay.getSource().removeFeature(selected);
@@ -334,34 +374,13 @@ function onMapClick(browserEvent) {
       }
       selected = feature;
     }
-
   });
-
-
-
-
-  // var stateObj = { foo: "bar" };
-  // history.pushState(stateObj, "page 2", "bar.html");
-  //pushState() takes three parameters: a state object, a title (which is currently ignored), and (optionally) a URL.
-  //TODO: Fallunterscheidung: falls name nicht vorhanden nehme sgi id
-  //1. testen ob ein slug vorhanden ist
-  //falls ja, diesen nehmen und als initialgletscher setzen
-  //dafür den namen in daten(bank?) suchen und schluesselwerte rausschreiben bzw. mit coordinaten initialgletscher setzen
-  //falls nein - random initialgletscher nehmen
-  //windows.location setzen mit initialgletschernamen
-  //2. bei onclick auf karte testen ob es ein feature gibt
-  //falls ja ob es einen namen gibt
-  //windows.location setzen mit initialgletschernamen
-  // falls kein name vorhanden, windows.location auf sgi id setzen
-
-
-
-  //window.location.pathname.split("/").slice(1).join("/");
-
+  //3. fuege neuen slug hinzu:
   //window.location = "/gletscher/name/" + encodeURIComponent(lastFeature.get("glacier_short_name"));
-  window.location = "#" + encodeURIComponent(lastFeature.get("glacier_short_name"));
+  if (lastFeature) {
+    window.location = "#" + encodeURIComponent(lastFeature.get("glacier_short_name"));
+  }
   //history.pushState(window.location, "next page", window.location);
-
 };
 
 map.on('click', onMapClick);
@@ -424,3 +443,4 @@ map.on('pointermove', function (e) {
 
 //Buttons clonen:
 //https://api.jquery.com/clone/
+//https://api.jquery.com/category/miscellaneous/dom-element-methods/
