@@ -17,8 +17,6 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
-
-
 var hidePoints = new Style({
   image: new Circle(({
     radius: 0,
@@ -195,19 +193,7 @@ var gletscher_id;// = 'B36\/26'; //default = Aletschgletscher
 var initialFeature;
 var selected;
 
-
-// var slug = window.location.pathname.split("/").slice(1).join("/"); // 'gletscher/name/Aletschgletscher'
-var test = window.location.pathname.split("/").slice(1).join("/");
-if (test) {
-  console.log(window.location.pathname.split("/").slice(1).join("/"));
-}
-else {
-  console.log('no slug');
-};
-
-// var id_from_slug = gletscher_source.getFeatureById(slug);
-var id_from_slug = 'A10g\/05';
-
+let id_from_slug;
 
 var gletscher_source = new Vector({
   strategy: bbox,
@@ -216,12 +202,25 @@ var gletscher_source = new Vector({
       var features = format.readFeatures(response,
         { featureProjection: 'EPSG:3857' });
       gletscher_source.addFeatures(features);
-      
-      if (gletscher_source.getFeatureById(id_from_slug)) { //falls es einen slug gibt und der Gletscher im Datenset gefunden wird
+            
+      // var id_from_slug = gletscher_source.getFeatureById(slug);
+      console.log("(window.location.hash = '" + window.location.hash + "'");
+      id_from_slug = decodeURIComponent((window.location.hash.match(/^#?(.+)/) || [, ""])[1]);
+        
+      /* DEBUG */
+      console.log("id_from_slug =", id_from_slug);
+
+      /* Falls es einen slug gibt und der Gletscher im Datenset gefunden wird */
+      if (id_from_slug
+          && gletscher_source.getFeatureById(id_from_slug)) { 
         // console.log(gletscher_source.getFeatureById(id_from_slug).getGeometry().getCoordinates()); //evt mit getCoordinate aber dann noch x und y seperieren
         gletscher_id = id_from_slug;
         console.log('Slug gletscher: ' + id_from_slug);
         fillSchluesseldaten(id_from_slug, page);
+        window.location.hash = id_from_slug;
+
+        //add Eventlistener auf alle Links
+
         var coordX = gletscher_source.getFeatureById(id_from_slug).get('coordx');
         var coordY = gletscher_source.getFeatureById(id_from_slug).get('coordy');
       }
@@ -234,10 +233,12 @@ var gletscher_source = new Vector({
         var max = 12;
         var randomNumber = Math.floor((Math.random() * (max - min)) + min);
         var id_from_vips = glacierVips[randomNumber].pk_sgi;
+        
         gletscher_id = id_from_vips;
-
         console.log('random gletscher: ' + id_from_vips);
         fillSchluesseldaten(id_from_vips, page);
+        window.location.hash = id_from_vips;
+        
         var coordX = gletscher_source.getFeatureById(id_from_vips).get('coordx');
         var coordY = gletscher_source.getFeatureById(id_from_vips).get('coordy');
       };
@@ -274,16 +275,13 @@ var selectedOverlay = new VectorLayer({
 });
 
 
-
-
-
 // define 3 Map instances each for one tab: 
-var page = null;
-var map = null;
+let page = null;
+let map = null;
 if (document.getElementById('factsheet-map')) {
 
   //only one map-layer, static map with glacier in center (dynamically set)
-  var map = new Map({
+  map = new Map({
     target: 'factsheet-map',
     extent: [650000, 4000000, 1200000, 6500000],
     layers: [eiszeit],
@@ -303,7 +301,7 @@ if (document.getElementById('factsheet-map')) {
 
 } else if (document.getElementById('monitoring-map')) {
 
-  var map = new Map({
+  map = new Map({
     target: 'monitoring-map',
     layers: [pixel_500px, pixel_1000px, eiszeit, glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010],
     view: new View({
@@ -319,7 +317,7 @@ if (document.getElementById('factsheet-map')) {
   map.addLayer(gletscher_alle);
 } else if (document.getElementById('home-map')) {
   //only one map-layer - no layerswitcher
-  var map = new Map({
+  map = new Map({
     target: 'home-map',
     layers: [pixel_500px, pixel_1000px, eiszeit],
     //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
@@ -339,6 +337,8 @@ if (document.getElementById('factsheet-map')) {
   page = 'other';
 
   map.addLayer(selectedOverlay);
+  
+
 
 /****************************************************************************************************************
  * ** add interactivity to the map
@@ -378,7 +378,21 @@ function onMapClick(browserEvent) {
   //3. fuege neuen slug hinzu:
   //window.location = "/gletscher/name/" + encodeURIComponent(lastFeature.get("glacier_short_name"));
   if (lastFeature) {
-    window.location = "#" + encodeURIComponent(lastFeature.get("glacier_short_name"));
+    window.location.hash =
+    //  encodeURIComponent(
+        gletscher_id
+    //  )
+    ;
+
+  //4. Add Eventlistener auf alle Links:
+  /*
+document.getElementById().addEventListener("click", function (e) {
+  console.log(window.location.hash);
+  console.log(this.href + window.location.hash);
+  e.preventDefault();
+}, false);
+*/
+
   }
   //history.pushState(window.location, "next page", window.location);
 };
@@ -401,7 +415,7 @@ var hoverOverlay = new VectorLayer({
 
 var hover;
 var featureHover = function (pixel) {
-  var feature = map.forEachFeatureAtPixel(pixel, function (feature) {
+  const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
 
     var has_mass_value = feature.get('has_mass_value');
     var has_length_value = feature.get('has_length_value');
@@ -444,3 +458,5 @@ map.on('pointermove', function (e) {
 //Buttons clonen:
 //https://api.jquery.com/clone/
 //https://api.jquery.com/category/miscellaneous/dom-element-methods/
+
+
