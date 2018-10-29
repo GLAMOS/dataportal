@@ -16,6 +16,7 @@ REMOTE=${REMOTE_USER}@${REMOTE_HOST}
 # Meteotest frontent asset paths to sync.
 PATH_WWW_ROOT="www"
 PATH_WWW_THEME="${PATH_WWW_ROOT}/theme"
+PATH_WWW_GEO="${PATH_WWW_ROOT}/geo"
 
 # Build assets
 if [ "$CI_COMMIT_REF_NAME" == "TEST" ]; then
@@ -45,6 +46,7 @@ fi
 
 rsync -vv -a --exclude='*/' --delete "${PATH_WWW_ROOT}" "${REMOTE}:${PATH_WWW_ROOT}"
 rsync -vv -a --delete "${PATH_WWW_THEME}" "${REMOTE}:${PATH_WWW_ROOT}"
+rsync -vv -a --delete "${PATH_WWW_GEO}" "${REMOTE}:${PATH_WWW_ROOT}"
 rsync -vv -a --delete 'config' 'templates' 'vendor' \
   "${REMOTE}:"
 
