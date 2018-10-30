@@ -17,6 +17,7 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
+
 var hidePoints = new Style({
   image: new Circle(({
     radius: 0,
@@ -204,7 +205,7 @@ var gletscher_source = new Vector({
       gletscher_source.addFeatures(features);
             
       // var id_from_slug = gletscher_source.getFeatureById(slug);
-      console.log("(window.location.hash = '" + window.location.hash + "'");
+      console.log("window.location.hash = '" + window.location.hash + "'");
       id_from_slug = decodeURIComponent((window.location.hash.match(/^#?(.+)/) || [, ""])[1]);
         
       /* DEBUG */
@@ -260,6 +261,8 @@ var gletscher_source = new Vector({
 
 
 var gletscher_alle = new VectorLayer({
+  name: 'Gletscher Inventar',
+  preview: "http://www.culture.gouv.fr/Wave/image/memoire/2445/sap40_z0004141_v.jpg",
   source: gletscher_source,
   map: map,
   style: switchStyle //style different depending on data availibility
@@ -450,7 +453,6 @@ map.on('pointermove', function (e) {
   map.getTargetElement().style.cursor = hit ? 'pointer' : '';
   featureHover(pixel);
 });
-
 
 
 
