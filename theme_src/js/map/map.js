@@ -389,15 +389,19 @@ function onMapClick(browserEvent) {
 
   //4. Add Eventlistener auf alle Links:
   /*
-document.getElementById().addEventListener("click", function (e) {
-  console.log(window.location.hash);
+  alert(document.getElementById("infobox-crosslink"));
+
+  document.getElementById("infobox-crosslink").setAttribute("title", feature.get('glacier_short_name'));
+  
+  document.getElementById("infobox-crosslink").addEventListener("click", function (e) {
+  alert("behalte meinen hash: " + window.location.hash);
   console.log(this.href + window.location.hash);
   e.preventDefault();
 }, false);
 */
 
+
   }
-  //history.pushState(window.location, "next page", window.location);
 };
 
 map.on('click', onMapClick);
