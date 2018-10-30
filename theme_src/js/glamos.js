@@ -14,10 +14,10 @@ $(document).ready(function () {
   $("#mainMobileNav").mmenu();
 
   //initialise mapviewer menu
-  $("#navMapViewer").mmenu({
+/*  $("#navMapViewer").mmenu({
     navbar: false,
     extensions: ["position-right"]
-  });
+  });*/
 
   //initializes the single preview image lightbox
   $('.imgGallery').lightGallery({
