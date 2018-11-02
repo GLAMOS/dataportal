@@ -288,7 +288,6 @@ var gletscher_source = new Vector({
 
 var gletscher_alle = new VectorLayer({
   name: 'Gletscher Inventar',
-  preview: "http://www.culture.gouv.fr/Wave/image/memoire/2445/sap40_z0004141_v.jpg",
   source: gletscher_source,
   map: map,
   style: switchStyle //style different depending on data availibility
@@ -403,12 +402,7 @@ function onMapClick(browserEvent) {
       }
       selected = feature;
     }
-
-
-  
-
   });
-
 
   //3. fuege neuen slug hinzu:
   if (lastFeature) {
@@ -417,19 +411,7 @@ function onMapClick(browserEvent) {
         gletscher_id
     //  )
     ;
-
-    //4. Add Eventlistener auf alle Links:
-  
-  //alert(document.getElementById("navbar-mapViewer"));
-
-//  document.getElementById("navbar-mapViewer").setAttribute("title", lastFeature.get('glacier_short_name'));
-
-
-  
-
   }
-
-
 };
 
 map.on('click', onMapClick);
