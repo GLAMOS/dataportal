@@ -17,6 +17,7 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
+
 var hidePoints = new Style({
   image: new Circle(({
     radius: 0,
@@ -168,7 +169,31 @@ console.log('fillSchlüsseldaten: ' + page);
   }
 
 };
+/*
+function remove_first_occurrence(str, searchstr)       {
+	var index = str.indexOf(searchstr);
+	if (index === -1) {
+		return str;
+	}
+	return str.slice(0, index) + str.slice(index + searchstr.length);
+}
 
+*/
+
+function dynamicLinks() {
+  let dynamicElements = document.querySelectorAll(`#navbar-mapViewer, #navbar-factsheetListing,
+    #navbar-homepage, #oversight-mapViewer, #oversight-factsheet, #oversight-download,
+    #infobox-glaciername--link`);
+ 
+  for (var i = 0; i < dynamicElements.length; i++){
+
+   dynamicElements[i].addEventListener("click", function (e) {
+    window.location.href = this.href + window.location.hash;
+     e.preventDefault();
+   }, false);
+ 
+ }
+};
 /*
 //ist im moment statische datei - sollte vom glamosserver kommen
 var gletscher_alle = new VectorLayer({
@@ -204,11 +229,12 @@ var gletscher_source = new Vector({
       gletscher_source.addFeatures(features);
             
       // var id_from_slug = gletscher_source.getFeatureById(slug);
-      console.log("(window.location.hash = '" + window.location.hash + "'");
+      //console.log("window.location.hash = '" + window.location.hash + "'");
       id_from_slug = decodeURIComponent((window.location.hash.match(/^#?(.+)/) || [, ""])[1]);
         
       /* DEBUG */
       console.log("id_from_slug =", id_from_slug);
+      dynamicLinks();
 
       /* Falls es einen slug gibt und der Gletscher im Datenset gefunden wird */
       if (id_from_slug
@@ -239,6 +265,7 @@ var gletscher_source = new Vector({
         fillSchluesseldaten(id_from_vips, page);
         window.location.hash = id_from_vips;
         
+        
         var coordX = gletscher_source.getFeatureById(id_from_vips).get('coordx');
         var coordY = gletscher_source.getFeatureById(id_from_vips).get('coordy');
       };
@@ -260,6 +287,7 @@ var gletscher_source = new Vector({
 
 
 var gletscher_alle = new VectorLayer({
+  name: 'Gletscher Inventar',
   source: gletscher_source,
   map: map,
   style: switchStyle //style different depending on data availibility
@@ -375,26 +403,15 @@ function onMapClick(browserEvent) {
       selected = feature;
     }
   });
+
   //3. fuege neuen slug hinzu:
-  //window.location = "/gletscher/name/" + encodeURIComponent(lastFeature.get("glacier_short_name"));
   if (lastFeature) {
     window.location.hash =
     //  encodeURIComponent(
         gletscher_id
     //  )
     ;
-
-  //4. Add Eventlistener auf alle Links:
-  /*
-document.getElementById().addEventListener("click", function (e) {
-  console.log(window.location.hash);
-  console.log(this.href + window.location.hash);
-  e.preventDefault();
-}, false);
-*/
-
   }
-  //history.pushState(window.location, "next page", window.location);
 };
 
 map.on('click', onMapClick);
@@ -450,7 +467,6 @@ map.on('pointermove', function (e) {
   map.getTargetElement().style.cursor = hit ? 'pointer' : '';
   featureHover(pixel);
 });
-
 
 
 
