@@ -12,7 +12,7 @@
   @extend %hiddenSmDown;
 }
 .indexMap {
-  background-color: #765;
+  background-color: $glamosColor;
   grid-column: 1/-1;
   @include smDown {
     margin-top: 50px;
