@@ -169,7 +169,31 @@ console.log('fillSchlüsseldaten: ' + page);
   }
 
 };
+/*
+function remove_first_occurrence(str, searchstr)       {
+	var index = str.indexOf(searchstr);
+	if (index === -1) {
+		return str;
+	}
+	return str.slice(0, index) + str.slice(index + searchstr.length);
+}
 
+*/
+
+function dynamicLinks() {
+  let dynamicElements = document.querySelectorAll(`#navbar-mapViewer, #navbar-factsheetListing,
+    #navbar-homepage, #oversight-mapViewer, #oversight-factsheet, #oversight-download,
+    #infobox-glaciername--link`);
+ 
+  for (var i = 0; i < dynamicElements.length; i++){
+
+   dynamicElements[i].addEventListener("click", function (e) {
+    window.location.href = this.href + window.location.hash;
+     e.preventDefault();
+   }, false);
+ 
+ }
+};
 /*
 //ist im moment statische datei - sollte vom glamosserver kommen
 var gletscher_alle = new VectorLayer({
@@ -205,11 +229,12 @@ var gletscher_source = new Vector({
       gletscher_source.addFeatures(features);
             
       // var id_from_slug = gletscher_source.getFeatureById(slug);
-      console.log("window.location.hash = '" + window.location.hash + "'");
+      //console.log("window.location.hash = '" + window.location.hash + "'");
       id_from_slug = decodeURIComponent((window.location.hash.match(/^#?(.+)/) || [, ""])[1]);
         
       /* DEBUG */
       console.log("id_from_slug =", id_from_slug);
+      dynamicLinks();
 
       /* Falls es einen slug gibt und der Gletscher im Datenset gefunden wird */
       if (id_from_slug
@@ -239,6 +264,7 @@ var gletscher_source = new Vector({
         console.log('random gletscher: ' + id_from_vips);
         fillSchluesseldaten(id_from_vips, page);
         window.location.hash = id_from_vips;
+        
         
         var coordX = gletscher_source.getFeatureById(id_from_vips).get('coordx');
         var coordY = gletscher_source.getFeatureById(id_from_vips).get('coordy');
@@ -377,9 +403,14 @@ function onMapClick(browserEvent) {
       }
       selected = feature;
     }
+
+
+  
+
   });
+
+
   //3. fuege neuen slug hinzu:
-  //window.location = "/gletscher/name/" + encodeURIComponent(lastFeature.get("glacier_short_name"));
   if (lastFeature) {
     window.location.hash =
     //  encodeURIComponent(
@@ -387,21 +418,18 @@ function onMapClick(browserEvent) {
     //  )
     ;
 
-  //4. Add Eventlistener auf alle Links:
-  /*
-  alert(document.getElementById("infobox-crosslink"));
-
-  document.getElementById("infobox-crosslink").setAttribute("title", feature.get('glacier_short_name'));
+    //4. Add Eventlistener auf alle Links:
   
-  document.getElementById("infobox-crosslink").addEventListener("click", function (e) {
-  alert("behalte meinen hash: " + window.location.hash);
-  console.log(this.href + window.location.hash);
-  e.preventDefault();
-}, false);
-*/
+  //alert(document.getElementById("navbar-mapViewer"));
 
+//  document.getElementById("navbar-mapViewer").setAttribute("title", lastFeature.get('glacier_short_name'));
+
+
+  
 
   }
+
+
 };
 
 map.on('click', onMapClick);
