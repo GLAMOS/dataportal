@@ -21,11 +21,11 @@
   </div>
 {% endmacro %}
 
-{% macro majorLink(valueParam, labelParam, buttonParam) %}
+{% macro majorLink(valueParam, labelParam, buttonParam, idParam) %}
   <div class="majorLink">
     <p>{{ valueParam }}</p>
     <small>{{ labelParam | t }}</small>
-    <a href="{{ buttonParam.url }}" class="btn">{{ buttonParam.title }}</a>
+    <a href="{{ buttonParam.url }}" class="btn" id="oversight-{{ idParam }}">{{ buttonParam.title }}</a>
   </div>
 {% endmacro %}
 

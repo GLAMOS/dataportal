@@ -3,12 +3,16 @@ $gapSize: 3px;
 
 .navMobileToggle {
   //background-color: green;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
   a {
     color: $txtColor;
+    display: block;
+    @extend %fontM;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &:hover {
       color: $markerColor;
     }
@@ -19,8 +23,9 @@ $gapSize: 3px;
 .navMapViewerToggle {
   @extend %hiddenSmUp;
   position: absolute;
+  z-index: 100;
   right: 10px;
-  top: 60px;
+  top: 10px;
   border-radius: 50%;
   background-color: $txtInvert;
   background-image: url('/theme/img/magnifier.svg');
