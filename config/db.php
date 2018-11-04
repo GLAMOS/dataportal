@@ -18,6 +18,7 @@ return [
     'tablePrefix' => getenv('DB_TABLE_PREFIX'),
     'port' => getenv('DB_PORT'),
     'attributes' => [
-        PDO::MYSQL_ATTR_SSL_CA => getenv('DB_CERTIFICATE'),
+        /* FIXME: Access local database via SSL/TLS, too */
+        //PDO::MYSQL_ATTR_SSL_CA => getenv('DB_CERTIFICATE'),
     ],
 ];
