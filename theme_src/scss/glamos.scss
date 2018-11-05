@@ -3,6 +3,7 @@
 @import "../../node_modules/jquery.mmenu/dist/extensions/positioning/jquery.mmenu.positioning";
 @import "../../node_modules/lightgallery/src/css/lightgallery";
 @import "../../node_modules/gugus-media-queries/gugus-media-queries";
+@import '../../node_modules/ol/ol';
 @import "../../node_modules/c3/c3";
 
 @import 'variables';
@@ -55,6 +56,3 @@
 
 //latest import
 @import 'IEhack';
-
-//plugin imports
-@import '../../../node_modules/ol/ol.css';
