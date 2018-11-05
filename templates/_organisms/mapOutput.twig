@@ -1,21 +1,17 @@
 <div class="outputContainer">
-
   <div class="chartControls">
-
-    <select class="chartParamSelect" name="chartParamSelect">
-      <option value="">{{ 'Längenänderung' | t }}</option>
-      <option value="">{{ 'Massenbilanz' | t }}</option>
+    <select id="chart_param">
+      <option value="length_change">{{ 'Längenänderung' | t }}</option>
+      <option value="mass_change">{{ 'Massenbilanz' | t }}</option>
       {#<option value="">{{ 'Volumenänderung' | t }}</option>
       <option value="">{{ 'Eisdicken' | t }}</option>
       <option value="">{{ 'Geschwindigkeiten' | t }}</option>
       <option value="">{{ 'Firntemperaturen' | t }}</option>#}
     </select>
 
-      <div class="btnGroup">
-        <button class="btn">{{ 'Export PDF' | t }}</button><button class="btn">{{ 'Export CSV' | t }}</button>
-      </div>
-
-
+    <div class="btnGroup">
+      <button class="btn">{{ 'Export PDF' | t }}</button><button class="btn">{{ 'Export CSV' | t }}</button>
+    </div>
   </div>
 
   <div class="chartContainer">
@@ -23,5 +19,4 @@
       Daten werden geladen&nbsp;...
     </div>
   </div>
-
 </div>

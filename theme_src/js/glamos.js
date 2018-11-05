@@ -41,13 +41,13 @@ import './map/map.js';
     $('#mainMobileNav').mmenu();
 
     //initialise mapviewer menu
-    $("#navMapViewer").mmenu({
+    $('#navMapViewer').mmenu({
       navbar: false,
-      extensions: ["position-right"]
+      extensions: ['position-right']
     });
 
     //if link is in dropdown pass activeclass along to toplevel
-    $(".active").parent().closest('.dropDown').addClass('active');
+    $('.active').parent().closest('.dropDown').addClass('active');
 
     //initializes the single preview image lightbox
     $('.imgGallery').lightGallery({
@@ -64,27 +64,30 @@ import './map/map.js';
     });
 
     //scroll to anchor
-    $(".anchorNav a").click(function(e) {
-        e.preventDefault();
-        var aid = $(this).attr("href");
-        $('html,body').animate({scrollTop: $(aid).offset().top},'slow');
+    $('.anchorNav a').click(function (e) {
+      e.preventDefault();
+      const aid = $(this).attr('href');
+      $('html,body').animate({scrollTop: $(aid).offset().top}, 'slow');
     });
 
     //sticky anchor anchorNav
-    $(window).scroll(function(){
-      var offset = 0;
-    	var sticky = false;
-    	var top = $(window).scrollTop();
+    $(window).scroll(function () {
+      const offset = 0;
+      let sticky = false;
+      const top = $(window).scrollTop();
 
-    	if ($(".mm-page").offset().top < top) {
-    		$(".stickyNav").addClass("sticky");
-    		sticky = true;
-    	} else {
-    		$(".stickyNav").removeClass("sticky");
-    	}
+      if ($('.mm-page').offset().top < top) {
+        $('.stickyNav').addClass('sticky');
+        sticky = true;
+      } else {
+        $('.stickyNav').removeClass('sticky');
+      }
     });
 
-    const URI = '/geo/griessgletscher_length_change.geojson';
+    const URIS = {
+      length_change: '/geo/griessgletscher_length_change.geojson',
+      mass_change: '/geo/griessgletscher_mass_change.geojson'
+    };
     let loaded = false;
     const onload = function () {
       loaded = true;
@@ -168,10 +171,11 @@ import './map/map.js';
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', URI, true);
+    xhr.open('GET', URIS.length_change, true);
     xhr.onload = onload;
     xhr.onreadystatechange = function () {
       if (loaded) return;
+
       if (xhr.readyState == 4 && xhr.status === 200)
       {
         loaded = true;
