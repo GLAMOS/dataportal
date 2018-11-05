@@ -161,7 +161,7 @@ rules:
   ## 23.1
   id-length:
     - warn
-    - exceptions: [e, i]
+    - exceptions: [e, i, $]
   ## 23.3
   new-cap: error
 
