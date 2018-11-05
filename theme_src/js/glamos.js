@@ -5,68 +5,140 @@ import c3 from 'c3';
 import ieDetector from './ieDetector';
 ieDetector();
 
+(function (global, $) {
+  function getDate (dateString)
+  {
+    return dateString.replace(/\//g, '-');
+  }
 
-$(document).ready(function () {
-  //initialise Mobile Menu
-  $('#mainMobileNav').mmenu();
+  function formatNumber (value)
+  {
+    return String(value).replace('-', '&minus;');
+  }
 
-  //initialise mapviewer menu
-  $('#navMapViewer').mmenu({
-    navbar: false,
-    extensions: ['position-right']
-  });
+  $(document).ready(function () {
+    //initialise Mobile Menu
+    $('#mainMobileNav').mmenu();
 
-  //initializes the single preview image lightbox
-  $('.imgGallery').lightGallery({
-    selector: '.zoomItem'
-  });
+    //initialise mapviewer menu
+    $('#navMapViewer').mmenu({
+      navbar: false,
+      extensions: ['position-right']
+    });
 
-  //initialize download Tabs
-  $('ul.tabLinks a').on('click', function () {
-    const CLASS_NAME = 'current';
-    const TAB_ID = $(this).attr('data-tab');
-    const HREF_VALUE = $(this).attr('href');
+    //initializes the single preview image lightbox
+    $('.imgGallery').lightGallery({
+      selector: '.zoomItem'
+    });
 
-    $('ul.tabLinks a').removeClass(CLASS_NAME);
-    $('.tabPanel').removeClass(CLASS_NAME);
+    //initialize download Tabs
+    $('ul.tabLinks a').on('click', function () {
+      const CLASS_NAME = 'current';
+      const TAB_ID = $(this).attr('data-tab');
+      const HREF_VALUE = $(this).attr('href');
 
-    $(this).addClass(CLASS_NAME);
-    $('#' + TAB_ID).addClass(CLASS_NAME);
+      $('ul.tabLinks a').removeClass(CLASS_NAME);
+      $('.tabPanel').removeClass(CLASS_NAME);
 
-    //add hash to url
-    if (history.pushState) {
-      history.pushState(null, null, HREF_VALUE);
-    }
-    else {
-      location.hash = HREF_VALUE;
-    }
-  });
+      $(this).addClass(CLASS_NAME);
+      $('#' + TAB_ID).addClass(CLASS_NAME);
 
-  const chart = c3.generate({
-    bindto: '#chart',
-    data: {
-      columns: [
-        ['data1', 30, 200, 100, 400, 150, 250],
-        ['data2', 50, 20, 10, 40, 15, 25]
-      ],
-      axes: {
-        data2: 'y2'
+      //add hash to url
+      if (history.pushState) {
+        history.pushState(null, null, HREF_VALUE);
       }
-    },
-    axis: {
-      y: {
-        label: { // ADD
-          text: 'Y Label',
-          position: 'outer-middle'
-        }
-      },
-      y2: {
-        show: true,
-        label: { // ADD
-          text: 'Y2 Label',
-          position: 'outer-middle'
-        }
+      else {
+        location.hash = HREF_VALUE;
       }
+    });
+
+    const URI = '/geo/griessgletscher_length_change.geojson';
+    let loaded = false;
+    const onload = function () {
+      loaded = true;
+      const json = JSON.parse(xhr.responseText);
+      const DATA = json.features.map((feature) => feature.properties);
+      const X_AXIS_NAME = 'Datum';
+      const LINE_LABEL = DATA[0].glacier_short_name;
+      const YEARS = [X_AXIS_NAME, getDate(DATA[0].date_from_length)]
+        .concat(DATA.map((entry) => getDate(entry.date_to_length)));
+      const CUM_LENGTHS = [LINE_LABEL, 0]
+        .concat(DATA.map((entry) => entry.length_cum));
+
+      // console.log(DATA);
+      // console.log(YEARS);
+      // console.log(CUM_LENGTHS);
+
+      const CHART = c3.generate({
+        bindto: '#chart',
+        data: {
+          columns: [YEARS, CUM_LENGTHS],
+          xs: {
+            [LINE_LABEL]: X_AXIS_NAME
+          },
+          axes: {
+            [LINE_LABEL]: 'y'
+          }
+        },
+        axis: {
+          x: {
+            // label: 'Jahr',
+            // position: 'outer-center',
+            tick: {
+              format: '%Y', //-%m-%d'
+              outer: false
+            },
+            type: 'timeseries',
+          },
+          y: {
+            label: {
+              position: 'outer-middle',
+              text: 'Kumulative Längenänderung (m)',
+            },
+            tick: {
+              outer: false
+            }
+          }
+        },
+        tooltip: {
+          format: {
+            value (value) { return `${formatNumber(value)}\xA0m`; }
+          }
+        }
+      });
+    };
+
+    /* TODO: Write a fetch API wrapper */
+    // fetch(URI)
+    // .then((response) => response.json())
+    // .then((json) => {
+    if (typeof XMLHttpRequest == 'undefined')
+    {
+      global.XMLHttpRequest = function () {
+        let xhr = null;
+
+        /* Legacy IE */
+        try
+        {
+          xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        catch (e) {}
+
+        return xhr;
+      };
     }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', URI, true);
+    xhr.onload = onload;
+    xhr.onreadystatechange = function () {
+      if (loaded) return;
+      if (xhr.readyState == 4 && xhr.status === 200)
+      {
+        loaded = true;
+        onload();
+      }
+    };
+    xhr.send(null);
   });
-});
+}(this, $));
