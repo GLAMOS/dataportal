@@ -49,7 +49,7 @@ return array (
       '@enupal/translate' => $vendorDir . '/enupal/translate/src',
     ),
     'name' => 'Enupal Translate',
-    'version' => '1.1.3',
+    'version' => '1.1.5',
     'schemaVersion' => '1.0.0',
     'description' => 'Translate your website templates and plugins into multiple languages. Bulk translation with Google Translate or Yandex.',
     'developer' => 'Enupal',
