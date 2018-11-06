@@ -24,6 +24,7 @@ return array(
     'modules\\' => array($baseDir . '/modules'),
     'mmikkel\\cpclearcache\\' => array($vendorDir . '/mmikkel/cp-clearcache/src'),
     'mikehaertl\\shellcommand\\' => array($vendorDir . '/mikehaertl/php-shellcommand/src'),
+    'ether\\seo\\' => array($vendorDir . '/ether/seo/src'),
     'enupal\\translate\\' => array($vendorDir . '/enupal/translate/src'),
     'enshrined\\svgSanitize\\' => array($vendorDir . '/enshrined/svg-sanitize/src'),
     'creocoder\\nestedsets\\' => array($vendorDir . '/creocoder/yii2-nested-sets/src'),

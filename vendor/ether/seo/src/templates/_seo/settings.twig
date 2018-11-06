@@ -1,0 +1,72 @@
+{% import "_includes/forms" as forms %}
+{% do view.registerAssetBundle("ether\\seo\\resources\\SeoFieldSettingsAssets") %}
+{% set default = default is defined ? default : false %}
+
+{{ forms.textField({
+	label: (default ? 'Default ') ~ 'Title Suffix',
+	instructions: 'A string appended, after a space, to the page title. This can be removed on a per-entry basis.',
+	name: 'titleSuffix',
+	id: 'titleSuffix',
+	value: settings.titleSuffix is defined and settings.titleSuffix != ""
+		? settings.titleSuffix
+		: globalSettings is defined
+			? globalSettings.titleSuffix,
+}) }}
+
+{# Only show this option on a per-field basis, not globally #}
+{% if globalSettings is defined %}
+	{{ forms.lightswitchField({
+		label: 'Use suffix as prefix',
+		instructions: 'If you\'ve got one of *those* clients who want the site name to come before the page title, switching this on will do that.',
+		name: 'suffixAsPrefix',
+		id: 'suffixAsPrefix',
+		on: settings.suffixAsPrefix,
+	}) }}
+{% endif %}
+
+{% if volumes %}
+	{{ forms.elementSelectField({
+		label: (default ? 'Default ') ~ 'Social Image',
+		instructions: 'The image that will be used when the page is shared via social networks. This can be modified on a per-entry basis.',
+		name: 'socialImage',
+		id: 'socialImage',
+		elements: settings.socialImage|length ? craft.assets.id(settings.socialImage).all() : null,
+		limit: 1,
+		elementType: 'craft\\elements\\Asset',
+	}) }}
+{% else %}
+	{{ forms.field(
+		{
+			label: (default ? 'Default ') ~ 'Social Image',
+		},
+		'<p class="error">You\'ll need a volume before you can select a social image!</p>'
+	) }}
+{% endif %}
+
+{# Only show this option on a per-field basis, not globally #}
+{% if globalSettings is defined %}
+	{{ forms.lightswitchField({
+		label: 'Hide Social Meta Tab',
+		instructions: 'Will hide the social meta tab when switched on. This is useful if you have pre-existing social media fields.',
+		name: 'hideSocial',
+		id: 'hideSocial',
+		on: "hideSocial" in settings|keys and settings.hideSocial is defined ? settings.hideSocial : false,
+	}) }}
+
+	{% set robots %}
+		{% include 'seo/_seo/robots' with {
+			robots: settings.robots
+			? settings.robots
+			: globalSettings is defined
+			? globalSettings.robots,
+			name: 'robots',
+		} %}
+	{% endset %}
+	{{ forms.field(
+		{
+			label: 'Robots'|t,
+			instructions: 'Set the default global robots directives. This can be changed on a per-entry basis'|t,
+		},
+		robots
+	) }}
+{% endif %}

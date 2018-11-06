@@ -45,6 +45,7 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         ),
         'e' => 
         array (
+            'ether\\seo\\' => 10,
             'enupal\\translate\\' => 17,
             'enshrined\\svgSanitize\\' => 22,
         ),
@@ -198,6 +199,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'mikehaertl\\shellcommand\\' => 
         array (
             0 => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src',
+        ),
+        'ether\\seo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ether/seo/src',
         ),
         'enupal\\translate\\' => 
         array (
@@ -2721,6 +2726,33 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'enupal\\translate\\variables\\TranslateVariable' => __DIR__ . '/..' . '/enupal/translate/src/variables/TranslateVariable.php',
         'enupal\\translate\\web\\FontAwesomeAsset' => __DIR__ . '/..' . '/enupal/translate/src/web/FontAwesomeAsset.php',
         'enupal\\translate\\web\\TranslateAsset' => __DIR__ . '/..' . '/enupal/translate/src/web/TranslateAsset.php',
+        'ether\\seo\\Seo' => __DIR__ . '/..' . '/ether/seo/src/Seo.php',
+        'ether\\seo\\Variable' => __DIR__ . '/..' . '/ether/seo/src/Variable.php',
+        'ether\\seo\\controllers\\RedirectsController' => __DIR__ . '/..' . '/ether/seo/src/controllers/RedirectsController.php',
+        'ether\\seo\\controllers\\SchemaController' => __DIR__ . '/..' . '/ether/seo/src/controllers/SchemaController.php',
+        'ether\\seo\\controllers\\SeoController' => __DIR__ . '/..' . '/ether/seo/src/controllers/SeoController.php',
+        'ether\\seo\\controllers\\SettingsController' => __DIR__ . '/..' . '/ether/seo/src/controllers/SettingsController.php',
+        'ether\\seo\\controllers\\SitemapController' => __DIR__ . '/..' . '/ether/seo/src/controllers/SitemapController.php',
+        'ether\\seo\\controllers\\sitemap\\XmlController' => __DIR__ . '/..' . '/ether/seo/src/controllers/sitemap/XmlController.php',
+        'ether\\seo\\fields\\SeoField' => __DIR__ . '/..' . '/ether/seo/src/fields/SeoField.php',
+        'ether\\seo\\listeners\\GetCraftQLSchema' => __DIR__ . '/..' . '/ether/seo/src/listeners/GetCraftQLSchema.php',
+        'ether\\seo\\migrations\\Install' => __DIR__ . '/..' . '/ether/seo/src/migrations/Install.php',
+        'ether\\seo\\migrations\\m180906_152947_add_site_id_to_redirects' => __DIR__ . '/..' . '/ether/seo/src/migrations/m180906_152947_add_site_id_to_redirects.php',
+        'ether\\seo\\models\\Redirect' => __DIR__ . '/..' . '/ether/seo/src/models/Redirect.php',
+        'ether\\seo\\models\\Settings' => __DIR__ . '/..' . '/ether/seo/src/models/Settings.php',
+        'ether\\seo\\models\\Sitemap' => __DIR__ . '/..' . '/ether/seo/src/models/Sitemap.php',
+        'ether\\seo\\models\\data\\BaseDataModel' => __DIR__ . '/..' . '/ether/seo/src/models/data/BaseDataModel.php',
+        'ether\\seo\\models\\data\\SeoData' => __DIR__ . '/..' . '/ether/seo/src/models/data/SeoData.php',
+        'ether\\seo\\models\\data\\SocialData' => __DIR__ . '/..' . '/ether/seo/src/models/data/SocialData.php',
+        'ether\\seo\\records\\RedirectRecord' => __DIR__ . '/..' . '/ether/seo/src/records/RedirectRecord.php',
+        'ether\\seo\\records\\SitemapRecord' => __DIR__ . '/..' . '/ether/seo/src/records/SitemapRecord.php',
+        'ether\\seo\\resources\\RedirectsAssets' => __DIR__ . '/..' . '/ether/seo/src/resources/RedirectsAssets.php',
+        'ether\\seo\\resources\\SeoFieldAssets' => __DIR__ . '/..' . '/ether/seo/src/resources/SeoFieldAssets.php',
+        'ether\\seo\\resources\\SeoFieldSettingsAssets' => __DIR__ . '/..' . '/ether/seo/src/resources/SeoFieldSettingsAssets.php',
+        'ether\\seo\\services\\RedirectsService' => __DIR__ . '/..' . '/ether/seo/src/services/RedirectsService.php',
+        'ether\\seo\\services\\SeoService' => __DIR__ . '/..' . '/ether/seo/src/services/SeoService.php',
+        'ether\\seo\\services\\SitemapService' => __DIR__ . '/..' . '/ether/seo/src/services/SitemapService.php',
+        'ether\\seo\\web\\twig\\Extension' => __DIR__ . '/..' . '/ether/seo/src/web/twig/Extension.php',
         'mikehaertl\\shellcommand\\Command' => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src/Command.php',
         'mmikkel\\cpclearcache\\CpClearCache' => __DIR__ . '/..' . '/mmikkel/cp-clearcache/src/CpClearCache.php',
         'mmikkel\\cpclearcache\\CpClearCacheBundle' => __DIR__ . '/..' . '/mmikkel/cp-clearcache/src/CpClearCacheBundle.php',
