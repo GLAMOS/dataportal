@@ -2,8 +2,10 @@ import $ from 'jquery';
 import 'jquery.mmenu';
 import 'lightgallery';
 import c3 from 'c3';
-import ieDetector from './ieDetector';
+
+import ieDetector from '@kspr/gugus-ie-detector';
 ieDetector();
+
 import './map/map.js';
 
 (function (global, $) {
