@@ -5,16 +5,22 @@
   justify-content: space-between;
   > div {
     display: flex;
+    justify-content: space-between;
     grid-column: 1/-1;
     @include smUp {
       grid-column: 3/-2;
     }
-    * {
-      padding-right: 10px;
-    }
   }
   @include smDown {
     padding: 0 15px;
+  }
+  ul {
+    @extend %verticalList;
+    @extend %fontM;
+    list-style-type: none;
+    li {
+      padding-right: 10px;
+    }
   }
 }
 .homepage {
