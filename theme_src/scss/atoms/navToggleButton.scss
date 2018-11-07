@@ -2,7 +2,6 @@ $burgerSize: 3px;
 $gapSize: 3px;
 
 .navMobileToggle {
-  //background-color: green;
   height: 100%;
   a {
     color: $txtColor;
@@ -23,7 +22,7 @@ $gapSize: 3px;
 .navMapViewerToggle {
   @extend %hiddenSmUp;
   position: absolute;
-  z-index: 100;
+  z-index: 10;
   right: 10px;
   top: 10px;
   border-radius: 50%;
