@@ -7,5 +7,8 @@
   .cardTitle {
     margin: 0;
     width: 100%;
+    @extend %fontL;
+    font-weight: 700;
+    padding-bottom: 20px;
   }
 }

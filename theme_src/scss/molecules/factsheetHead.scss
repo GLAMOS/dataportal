@@ -1,0 +1,12 @@
+.factsheetListing {
+  .titleLabel {
+    display: block;
+    @extend %fontL;
+    font-weight: 700;
+    padding-top: 20px;
+  }
+  .fieldSearchWrapper {
+    align-items: flex-end;
+    padding-bottom: 10px;
+  }
+}

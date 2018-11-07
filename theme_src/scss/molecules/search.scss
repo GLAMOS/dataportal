@@ -10,10 +10,15 @@
     height: 30px;
     @extend %fontM;
     border: solid 1px $lightBorder;
-    min-width: 70%;
     &::-moz-placeholder {
       color: $markerColor;
       padding-left: 20px;
+    }
+    @include smUp {
+      width: 110px;
+    }
+    @include mdUp {
+      max-width: 70%;
     }
   }
   button {
@@ -24,5 +29,6 @@
     color: $txtInvert;
     border-radius: 0 40px 40px 0;
     margin: 0;
+    max-width: 85px;
   }
 }

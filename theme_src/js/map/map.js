@@ -165,7 +165,7 @@ console.log('fillSchlüsseldaten: ' + page);
     infoboxGlacierName.innerHTML = gletscher_source.getFeatureById(featureId).get('glacier_short_name');
 
   if (page == 'factsheet') {
-    infoboxGlacierName.innerHTML = gletscher_source.getFeatureById(featureId).get('glacier_short_name') + ' &ndash; Factsheet';
+    infoboxGlacierName.innerHTML = gletscher_source.getFeatureById(featureId).get('glacier_short_name');
   }
 
 };
@@ -184,14 +184,14 @@ function dynamicLinks() {
   let dynamicElements = document.querySelectorAll(`#navbar-mapViewer, #navbar-factsheetListing,
     #navbar-homepage, #oversight-mapViewer, #oversight-factsheet, #oversight-download,
     #infobox-glaciername--link`);
- 
+
   for (var i = 0; i < dynamicElements.length; i++){
 
    dynamicElements[i].addEventListener("click", function (e) {
     window.location.href = this.href + window.location.hash;
      e.preventDefault();
    }, false);
- 
+
  }
 };
 /*
@@ -227,18 +227,18 @@ var gletscher_source = new Vector({
       var features = format.readFeatures(response,
         { featureProjection: 'EPSG:3857' });
       gletscher_source.addFeatures(features);
-            
+
       // var id_from_slug = gletscher_source.getFeatureById(slug);
       //console.log("window.location.hash = '" + window.location.hash + "'");
       id_from_slug = decodeURIComponent((window.location.hash.match(/^#?(.+)/) || [, ""])[1]);
-        
+
       /* DEBUG */
       console.log("id_from_slug =", id_from_slug);
       dynamicLinks();
 
       /* Falls es einen slug gibt und der Gletscher im Datenset gefunden wird */
       if (id_from_slug
-          && gletscher_source.getFeatureById(id_from_slug)) { 
+          && gletscher_source.getFeatureById(id_from_slug)) {
         // console.log(gletscher_source.getFeatureById(id_from_slug).getGeometry().getCoordinates()); //evt mit getCoordinate aber dann noch x und y seperieren
         gletscher_id = id_from_slug;
         console.log('Slug gletscher: ' + id_from_slug);
@@ -259,13 +259,13 @@ var gletscher_source = new Vector({
         var max = 12;
         var randomNumber = Math.floor((Math.random() * (max - min)) + min);
         var id_from_vips = glacierVips[randomNumber].pk_sgi;
-        
+
         gletscher_id = id_from_vips;
         console.log('random gletscher: ' + id_from_vips);
         fillSchluesseldaten(id_from_vips, page);
         window.location.hash = id_from_vips;
-        
-        
+
+
         var coordX = gletscher_source.getFeatureById(id_from_vips).get('coordx');
         var coordY = gletscher_source.getFeatureById(id_from_vips).get('coordy');
       };
@@ -303,7 +303,7 @@ var selectedOverlay = new VectorLayer({
 });
 
 
-// define 3 Map instances each for one tab: 
+// define 3 Map instances each for one tab:
 let page = null;
 let map = null;
 if (document.getElementById('factsheet-map')) {
@@ -313,7 +313,7 @@ if (document.getElementById('factsheet-map')) {
     target: 'factsheet-map',
     extent: [650000, 4000000, 1200000, 6500000],
     layers: [eiszeit],
-    interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
+    interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
     controls: [],//remove zoom for factsheetwindow
     view: new View({
       center: [903280, 5913450],
@@ -348,7 +348,7 @@ if (document.getElementById('factsheet-map')) {
   map = new Map({
     target: 'home-map',
     layers: [pixel_500px, pixel_1000px, eiszeit],
-    //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow 
+    //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
     //controls: [],//remove zoom for factsheetwindow
     view: new View({
       extent: [650000, 4000000, 1200000, 6500000],
@@ -365,7 +365,7 @@ if (document.getElementById('factsheet-map')) {
   page = 'other';
 
   map.addLayer(selectedOverlay);
-  
+
 
 
 /****************************************************************************************************************
@@ -378,7 +378,7 @@ function onMapClick(browserEvent) {
   var coordinate = browserEvent.coordinate;
   var pixel = map.getPixelFromCoordinate(coordinate);
 
-  //1. fill infobox from feature    
+  //1. fill infobox from feature
   //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
   //es wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
   let lastFeature = null;
@@ -386,7 +386,7 @@ function onMapClick(browserEvent) {
     //click nur wenn es werte oder namen hat
     if (filterFeature(feature)) {
       gletscher_id = feature.getId();
-      fillSchluesseldaten(feature.getId(), page);      
+      fillSchluesseldaten(feature.getId(), page);
       //TODO wenn null = leer
       lastFeature = feature;
     }
@@ -417,7 +417,7 @@ function onMapClick(browserEvent) {
 map.on('click', onMapClick);
 
 
-//add hoverstyle 
+//add hoverstyle
 var hoverOverlay = new VectorLayer({
   source: new Vector(),
   map: map,
@@ -474,5 +474,3 @@ map.on('pointermove', function (e) {
 //Buttons clonen:
 //https://api.jquery.com/clone/
 //https://api.jquery.com/category/miscellaneous/dom-element-methods/
-
-

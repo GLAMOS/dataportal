@@ -6,11 +6,7 @@
 {% block content %}
 
   <div class="factsheetGrid">
-    <div class="factsheetHead">
-      <h2 class="pageTitle" id="infobox-glaciername">Rhonegletscher</h2>
-      {% include '_molecules/fieldSearch' %}
-    </div>
-
+    {% include '_molecules/factsheetHead' %}
     {% include '_molecules/cardMap' %}
     {% include '_molecules/cardMeasurements' %}
     {% include '_molecules/cardExport' %}
@@ -23,7 +19,7 @@
     {{ macro.cardChart('Eisdicke', 'chartOne') }}
     {{ macro.cardChart('Geschwindigkeit', 'chartFour') }}
     {{ macro.cardChart('Firntemperatur', 'chartfive') }} #}
-    
+
   </div>
 
 {% endblock %}

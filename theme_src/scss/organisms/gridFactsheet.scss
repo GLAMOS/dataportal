@@ -11,26 +11,16 @@
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: $pageTitleColumn auto minmax(300px, 35vh) auto;
   }
-  .factsheetHead {
-    grid-column: 1/-1;
+  .pageTitle {
+    grid-column: span 5;
+    align-self: flex-end;
+  }
+  .fieldSearchWrapper {
     @include smUp {
-      grid-column: 2/-2;
-      display: grid;
-      grid-template-columns: auto 200px;
+      grid-column: span 3;
     }
-    .pageTitle {
-      font-weight: 700;
-      line-height: 1;
-      grid-column: 1;
-      @include smUp {
-
-      }
-    }
-    .fieldSearchWrapper {
-      grid-column: 2;
-      @include smUp {
-
-      }
+    @include mdUp {
+      grid-column: span 2;
     }
   }
   .fsMap {
