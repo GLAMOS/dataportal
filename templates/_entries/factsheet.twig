@@ -10,8 +10,12 @@
     {% include '_molecules/cardMap' %}
     {% include '_molecules/cardMeasurements' %}
     {% include '_molecules/cardExport' %}
-    {{ macro.cardChart('Längenänderung', 'chartOne') }}
-    {{ macro.cardChart('Massenbilanz', 'chartTwo') }}
+    <div class="factsheetChartBox">
+      {{ macro.cardChart('Längenänderung', 'chartOne') }}
+      {{ macro.cardChart('Massenbilanz', 'chartTwo') }}
+      {{ macro.cardChart('3', 'chartOne') }}
+      {{ macro.cardChart('4', 'chartTwo') }}
+    </div>
     {% include '_molecules/cardPhoto' %}
     {% include '_molecules/cardComment' %}
 

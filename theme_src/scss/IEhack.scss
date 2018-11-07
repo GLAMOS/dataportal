@@ -1,20 +1,25 @@
+$ieColumnsDesktop: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 280px 20px;
+
 .internetExplorer {
   &.ie11 {
     //lets do this
     .navGrid {
       display: -ms-grid;
-      -ms-grid-columns: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 280px 20px;
+      -ms-grid-columns: $ieColumnsDesktop;
       img {
         width: 100px;
       }
       .glamosBrand {
-        -ms-grid-column: 4;
+        -ms-grid-column: 2;
+        -ms-grid-column-span: 2;
       }
       .navMain {
-        -ms-grid-column: 6;
+        -ms-grid-column: 5;
+        -ms-grid-column-span: 6;
       }
       .navLang {
-        -ms-grid-column: 2;
+        -ms-grid-column: 11;
+        -ms-grid-column-span: 4;
       }
     }
     //gridMapViewer
@@ -45,7 +50,7 @@
       display: -ms-grid;
       @include smUp {
         -ms-grid-rows: 140px 490px 40px auto auto;
-        -ms-grid-columns: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 280px 20px;
+        -ms-grid-columns: $ieColumnsDesktop;
         height: 100vh;
       }
       .indexHead {
@@ -92,12 +97,50 @@
       }
     }
     .footer {
-
+      display: -ms-grid;
+      -ms-grid-columns: $ieColumnsDesktop;
     }
     .factsheetGrid {
       display: -ms-grid;
       -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
-      -ms-grid-rows: 20vh 300px 35vh auto;
+      -ms-grid-rows: 20vh auto 300px auto auto auto auto;
+      .pageTitle {
+        -ms-grid-column: 2;
+        -ms-grid-column-span: 5;
+        -ms-grid-row: 1;
+      }
+      .fieldSearchWrapper {
+        -ms-grid-column: 6;
+        -ms-grid-column-span: 2;
+        -ms-grid-row: 1;
+      }
+      .fsMap {
+        -ms-grid-column-span: 5;
+        -ms-grid-row: 2;
+      }
+      .fsMeasurements {
+        -ms-grid-column: 6;
+        -ms-grid-column-span: 2;
+        -ms-grid-row: 2;
+      }
+      .fsExport {
+        -ms-grid-column: 8;
+        -ms-grid-column-span: 1;
+        -ms-grid-row: 2;
+      }
+      .factsheetChartBox {
+        -ms-grid-row: 3;
+        -ms-grid-column-span: 8;
+      }
+      .fsPhoto {
+        -ms-grid-row: 4;
+        -ms-grid-column-span: 2;
+      }
+      .fsComment {
+        -ms-grid-column: 3;
+        -ms-grid-row: 4;
+        -ms-grid-column-span: 6;
+      }
     }
   }
 }

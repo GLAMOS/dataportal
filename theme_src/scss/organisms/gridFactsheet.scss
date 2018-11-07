@@ -55,8 +55,20 @@
   .fsExport {
     @extend %hiddenSmDown
   }
-  .fsChart {
-    grid-column: span 4;
+  .factsheetChartBox {
+    grid-column: 1/-1;
+    display: flex;
+    flex-wrap: wrap;
+    .fsChart {
+      width: 49%;
+      margin-bottom: 20px;
+      &:nth-child(odd) {
+        margin-right: 10px;
+      }
+      &:nth-child(even) {
+        margin-left: 10px;
+      }
+    }
   }
 
 }
