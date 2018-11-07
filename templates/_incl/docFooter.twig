@@ -1,8 +1,13 @@
+{% set impressumLink = craft.entries.section('impressum').one() %}
+
 <div class="footer">
   <div>
-    <p>Directed by <a href="https://www.uzh.ch" target="_blank">Uni Zürich</a></p>
-    <p>Financed by <a href="https://www.bafu.admin.ch" target="_blank">BAFU</a></p>
-    <p>Design & Tech by <a href="#" target="_blank">Meteotest</a></p>
+    <ul>
+      <li>© GLAMOS</li>
+      <li><a href="{{ impressumLink.url }}">{{ impressumLink.title }}</a></li>
+    </ul>
+    <p>Design & Tech by <a href="https://meteotest.ch/" target="_blank">Meteotest AG</a></p>
   </div>
+
 
 </div>

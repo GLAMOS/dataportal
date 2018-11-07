@@ -36,3 +36,9 @@ h1.currentGlacier {
 p {
   @extend %fontM;
 }
+a {
+  color: $markerColor;
+  &:hover {
+    text-decoration: none;
+  }
+}
