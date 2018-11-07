@@ -23,7 +23,7 @@ $pageTitleColumn: minmax(min-content, 20vh);
 
 //creates acontainer wich is not too wide for better reading
 %readingWidth {
-  padding-bottom: 30px;
+  padding: 0 15px 30px 15px;
   @include smUp {
     max-width: 960px;
     margin: auto;

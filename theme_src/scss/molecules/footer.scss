@@ -5,7 +5,10 @@
   justify-content: space-between;
   > div {
     display: flex;
-    grid-column: 3/-2;
+    grid-column: 1/-1;
+    @include smUp {
+      grid-column: 3/-2;
+    }
     * {
       padding-right: 10px;
     }
@@ -20,5 +23,8 @@
     max-width: 100%;
     padding: 0;
     @extend %horizontalGrid;
+    @include smDown {
+      padding: 0 15px;
+    }
   }
 }
