@@ -9,7 +9,7 @@
       list-style-type: none;
       background-color: white;
       @include boxShadow;
-      border: solid 1px #efefef;
+      border: solid 1px $lightBorder;
       li {
         a {
           padding: 5px 10px;
