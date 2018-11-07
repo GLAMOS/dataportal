@@ -32,3 +32,16 @@
     max-width: 85px;
   }
 }
+
+
+//mobile sidbar drawer
+.mm-panel {
+  .sidebarContainer {
+    .fieldSearchWrapper {
+      padding: 0;
+      input {
+        width: 60%;
+      }
+    }
+  }
+}

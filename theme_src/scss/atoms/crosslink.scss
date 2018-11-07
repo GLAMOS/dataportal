@@ -17,3 +17,14 @@
     fill: $markerColor;
   }
 }
+
+
+//mobile sidebar drawer
+.mm-panel {
+  .sidebarContainer {
+    .titleCrosslink {
+      right: 0;
+      top: -10px;
+    }
+  }
+}

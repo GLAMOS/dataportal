@@ -40,9 +40,6 @@
     }
     .navMain {
       @include smUp {
-        grid-column: 2/12;
-      }
-      @include mdUp {
         grid-column: 5/12;
       }
       @include lgUp {

@@ -16,6 +16,7 @@ body {
   font-weight: 700;
   align-self: center;
   @extend %hyphenate;
+  line-height: 1;
 }
 h2.currentGlacier span {
   position: relative;

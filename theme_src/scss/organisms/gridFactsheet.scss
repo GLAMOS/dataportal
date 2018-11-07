@@ -5,17 +5,21 @@
   grid-template-columns: repeat(4, 1fr);
   @include smDown {
     padding: 0 15px;
-    grid-template-rows: $pageTitleColumn minmax(300px, 35vh) minmax(300px, 35vh) auto;
+    grid-template-rows: auto auto minmax(300px, 35vh) auto;
   }
   @include smUp {
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: $pageTitleColumn auto minmax(300px, 35vh) auto;
   }
   .pageTitle {
-    grid-column: span 5;
-    align-self: flex-end;
+    grid-column: 1/-1;
+    @include smUp {
+      grid-column: span 5;
+      align-self: flex-end;
+    }
   }
   .fieldSearchWrapper {
+    grid-column: 1/-1;
     @include smUp {
       grid-column: span 3;
     }
@@ -32,6 +36,9 @@
   .fsMeasurements {
     grid-column: 1/-1;
     @include smUp {
+      grid-column: span 3;
+    }
+    @include mdUp {
       grid-column: span 2;
     }
   }
@@ -53,20 +60,18 @@
     }
   }
   .fsExport {
-    @extend %hiddenSmDown
+    @extend %hiddenMdDown
   }
   .factsheetChartBox {
     grid-column: 1/-1;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     .fsChart {
-      width: 49%;
+      width: 100%;
       margin-bottom: 20px;
-      &:nth-child(odd) {
-        margin-right: 10px;
-      }
-      &:nth-child(even) {
-        margin-left: 10px;
+      @include smUp {
+        width: 49%;
       }
     }
   }
