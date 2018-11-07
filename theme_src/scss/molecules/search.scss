@@ -14,9 +14,9 @@
       color: $markerColor;
       padding-left: 20px;
     }
-    @include smUp {
-      width: 110px;
-    }
+    // @include smUp {
+    //   width: 110px;
+    // }
     @include mdUp {
       max-width: 70%;
     }
