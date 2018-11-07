@@ -1,11 +1,12 @@
 $ieColumnsDesktop: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 280px 20px;
 
 .internetExplorer {
-  &.ie11 {
+  &.ie11, &.ie10, &.ie9 {
     //lets do this
     .navGrid {
       display: -ms-grid;
       -ms-grid-columns: $ieColumnsDesktop;
+      border-bottom: solid 1px $lightBorder;
       img {
         width: 100px;
       }
@@ -117,20 +118,32 @@ $ieColumnsDesktop: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 280px 20px;
       .fsMap {
         -ms-grid-column-span: 5;
         -ms-grid-row: 2;
+        margin-bottom: 20px;
+        margin-right: 10px;
+        border: solid 1px $lightBorder;
       }
       .fsMeasurements {
         -ms-grid-column: 6;
         -ms-grid-column-span: 2;
         -ms-grid-row: 2;
+        margin-left: 10px;
+        border: solid 1px $lightBorder;
+        margin-bottom: 20px;
       }
       .fsExport {
         -ms-grid-column: 8;
         -ms-grid-column-span: 1;
         -ms-grid-row: 2;
+        margin-left: 10px;
+        margin-bottom: 20px;
+        border: solid 1px $lightBorder;
       }
       .factsheetChartBox {
         -ms-grid-row: 3;
         -ms-grid-column-span: 8;
+        .fsChart {
+          border: solid 1px $lightBorder;
+        }
       }
       .fsPhoto {
         -ms-grid-row: 4;

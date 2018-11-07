@@ -49,12 +49,14 @@ body {
 %boxShadow {
   -webkit-box-shadow: 2px 1px 3px 0 $shadowColor;
   -moz-box-shadow: 2px 1px 3px 0 $shadowColor;
+  -ms-box-shadow:  2px 1px 3px 0 $shadowColor;
   box-shadow: 2px 1px 3px 0 $shadowColor;
 }
 
 @mixin boxShadow{
   -webkit-box-shadow: 2px 1px 3px 0 $shadowColor;
   -moz-box-shadow: 2px 1px 3px 0 $shadowColor;
+  -ms-box-shadow:  2px 1px 3px 0 $shadowColor;
   box-shadow: 2px 1px 3px 0 $shadowColor;
 }
 
