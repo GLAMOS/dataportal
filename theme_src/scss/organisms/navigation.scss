@@ -40,7 +40,6 @@
       text-decoration: none;
       padding: 0 10px;
       color: $txtColor;
-      border-bottom: solid 4px white;
     }
     &.active, &.activeLang, a:hover {
       background-color: $txtInvert;
@@ -52,6 +51,9 @@
 //index styling
 .navIndex {
   .navMain, .navLang {
+    li  a {
+      border-bottom: solid 4px white;
+    }
     > li {
       &.active a, &.activeLang a, a:hover {
         text-decoration: none;
