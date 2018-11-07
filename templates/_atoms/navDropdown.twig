@@ -1,10 +1,14 @@
 {% set navDropdown = craft.entries.id('8,7').fixedOrder(true).all() %}
+{% set currentID = entry.id %}
+
 <li class="dropDown">
   <a href="#">{{ 'Info' | t }}</a>
   <ul>
     {% for nav in navDropdown %}
       {% if loop.first %}{% endif %}
-      <li><a href="{{ nav.url }}">{{ nav.title }}</a></li>
+      <li class="{% if currentID == nav.id %}active{% endif %}">
+        <a href="{{ nav.url }}">{{ nav.title }}</a>
+      </li>
     {% endfor %}
   </ul>
 </li>

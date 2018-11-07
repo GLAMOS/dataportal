@@ -29,6 +29,9 @@ import './map/map.js';
       extensions: ["position-right"]
     });
 
+    //if link is in dropdown pass activeclass along to toplevel
+    $(".active").parent().closest('.dropDown').addClass('active');
+
     //initializes the single preview image lightbox
     $('.imgGallery').lightGallery({
       selector: '.zoomItem',
