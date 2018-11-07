@@ -4,8 +4,10 @@
   text-decoration: none;
   width: 20px;
   height: 20px;
-  top: -20px;
-  right: 0;
+  @include smUp {
+    top: -20px;
+    right: 0;
+  }
   &:hover {
     svg circle {
       fill: darken($markerColor, 20%);

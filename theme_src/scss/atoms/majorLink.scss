@@ -5,6 +5,7 @@
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding-bottom: 10px;
   }
   @include smUp {
     flex-direction: column;
@@ -12,19 +13,14 @@
   p {
     @extend %fontXL;
     font-weight: 700;
-    @include smDown {
-      order: 2;
-    }
   }
   small {
     @extend %fontM;
     display: block;
     font-weight: 700;
-    padding-top: 3px;
     @include smDown {
       order: 2;
-      width: 100%;
-      text-align: right;
+      width: 50%;
     }
   }
   a {

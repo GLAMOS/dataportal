@@ -12,7 +12,6 @@
     @extend %horizontalGrid;
     .glamosBrand {
       grid-column: span 3;
-      @extend %hiddenMdDown;
       @include smUp {
         grid-column: 2/5;
       }

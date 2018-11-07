@@ -18,6 +18,7 @@ body {
   @extend %hyphenate;
 }
 h2.currentGlacier span {
+  position: relative;
   @extend %fontXL;
   font-weight: 700 !important;
   padding-bottom: 20px;

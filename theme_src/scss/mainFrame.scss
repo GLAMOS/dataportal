@@ -38,5 +38,7 @@ $pageTitleColumn: minmax(min-content, 20vh);
   margin-top: 50px;
 }
 .homepage .content {
-  margin-top: 0;
+  @include smUp {
+    margin-top: 0;
+  }
 }

@@ -16,6 +16,7 @@
   grid-column: 1/-1;
   @include smDown {
     margin-top: 50px;
+    min-height: 400px
   }
   @include smUp {
     grid-row: 2/4;
@@ -25,7 +26,7 @@
   //background-color: yellow;
   padding-top: 30px;
   grid-column: 1/-1;
-  z-index: 100;
+  z-index: 10;
   @include smUp {
     grid-column: -3/-2;
     grid-row: 2/3;

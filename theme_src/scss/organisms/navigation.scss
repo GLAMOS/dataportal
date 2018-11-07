@@ -65,3 +65,21 @@
     }
   }
 }
+//mobile navi
+.mm-wrapper_opened {
+  .mm-page {
+    @extend %boxShadow;
+  }
+}
+.mm-menu {
+  background: $lightBorder;
+  a {
+    @extend %fontM;
+  }
+  .active, .activeLang {
+    background-color: $glamosColor;
+    &.mm-listitem:after {
+      border: none;
+    }
+  }
+}
