@@ -1,7 +1,7 @@
 .indexGrid {
   display: grid;
   @extend %horizontalGrid;
-  grid-template-rows: 70vh auto;
+  grid-template-rows: auto 70vh auto;
   @include smUp {
     grid-template-rows: minmax(140px, 20vh) minmax(480px, 50vh) 40px minmax(150px, 10vh) auto;
   }
@@ -14,10 +14,6 @@
 .indexMap {
   background-color: $glamosColor;
   grid-column: 1/-1;
-  @include smDown {
-    margin-top: 50px;
-    min-height: 400px
-  }
   @include smUp {
     grid-row: 2/4;
   }
@@ -47,8 +43,13 @@
   margin-top: 20px;
   position: relative;
   z-index: 100;
-  @include smDown {
-    margin-top: 30px;
+  .twitterFeed {
+    @extend %hiddenSmDown;
+  }
+  .twitterDirect {
+    display: block;
+    text-align: center;
+    @extend %hiddenSmUp;
   }
   iframe {
     @extend %boxShadow;
