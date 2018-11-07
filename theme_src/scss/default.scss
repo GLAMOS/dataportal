@@ -15,9 +15,23 @@ body {
   @extend %fontXXL;
   font-weight: 700;
   align-self: center;
+  @extend %hyphenate;
+  line-height: 1;
 }
-h2.currentGlacier {
+h2.currentGlacier span {
+  position: relative;
   @extend %fontXL;
-  font-weight: 700;
+  font-weight: 700 !important;
   padding-bottom: 20px;
+  @extend %hyphenate;
+}
+h1.currentGlacier {
+  position: relative;
+  @extend %fontXL;
+  font-weight: 700 !important;
+  @extend %hyphenate;
+}
+
+p {
+  @extend %fontM;
 }

@@ -33,12 +33,15 @@
   height: 100%;
   li {
     height: 100%;
-    a {
+    > a {
       height: 100%;
       display: flex;
       align-items: center;
       text-decoration: none;
-      padding: 0 10px;
+      padding: 0 5px;
+      @include mdUp {
+        padding: 0 10px;
+      }
       color: $txtColor;
     }
     &.active, &.activeLang, a:hover {
@@ -51,12 +54,32 @@
 //index styling
 .navIndex {
   .navMain, .navLang {
+    li  a {
+      border-bottom: solid 4px white;
+    }
     > li {
       &.active a, &.activeLang a, a:hover {
         text-decoration: none;
         border-bottom: solid 4px $glamosColor;
-        margin-top: 2px;
       }
+    }
+  }
+}
+//mobile navi
+.mm-wrapper_opened {
+  .mm-page {
+    @extend %boxShadow;
+  }
+}
+.mm-menu {
+  background: $lightBorder;
+  a {
+    @extend %fontM;
+  }
+  .active, .activeLang {
+    background-color: $glamosColor;
+    &.mm-listitem:after {
+      border: none;
     }
   }
 }

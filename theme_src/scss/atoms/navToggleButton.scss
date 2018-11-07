@@ -27,7 +27,7 @@ $gapSize: 3px;
   right: 10px;
   top: 10px;
   border-radius: 50%;
-  background-color: $txtInvert;
+  background-color: $glamosColor;
   background-image: url('/theme/img/magnifier.svg');
   background-repeat: no-repeat;
   background-size: 50%;
@@ -36,5 +36,11 @@ $gapSize: 3px;
   height: 44px;
   &:hover {
     opacity: 0.5;
+  }
+}
+//hack for when drawer is opened. prevents link from jumping.
+.mm-wrapper_opened {
+  .navMapViewerToggle {
+    top: 60px;
   }
 }

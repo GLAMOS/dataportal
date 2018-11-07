@@ -8,11 +8,17 @@
     background-color: lighten($glamosColor,30%);
     padding-left: 20px;
     height: 30px;
-    border: none;
-    min-width: 70%;
+    @extend %fontM;
+    border: solid 1px $lightBorder;
     &::-moz-placeholder {
       color: $markerColor;
       padding-left: 20px;
+    }
+    @include smUp {
+      width: 110px;
+    }
+    @include mdUp {
+      max-width: 70%;
     }
   }
   button {
@@ -23,5 +29,19 @@
     color: $txtInvert;
     border-radius: 0 40px 40px 0;
     margin: 0;
+    max-width: 85px;
+  }
+}
+
+
+//mobile sidbar drawer
+.mm-panel {
+  .sidebarContainer {
+    .fieldSearchWrapper {
+      padding: 0;
+      input {
+        width: 60%;
+      }
+    }
   }
 }

@@ -2,8 +2,10 @@ import $ from 'jquery';
 import 'jquery.mmenu';
 import 'lightgallery';
 import c3 from 'c3';
-import ieDetector from './ieDetector';
+
+import ieDetector from '@kspr/gugus-ie-detector';
 ieDetector();
+
 import './map/map.js';
 
 (function (global, $) {
@@ -22,10 +24,13 @@ import './map/map.js';
     $('#mainMobileNav').mmenu();
 
     //initialise mapviewer menu
-    /*  $("#navMapViewer").mmenu({
+    $("#navMapViewer").mmenu({
       navbar: false,
       extensions: ["position-right"]
-    });*/
+    });
+
+    //if link is in dropdown pass activeclass along to toplevel
+    $(".active").parent().closest('.dropDown').addClass('active');
 
     //initializes the single preview image lightbox
     $('.imgGallery').lightGallery({

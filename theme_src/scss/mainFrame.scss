@@ -1,13 +1,12 @@
-$sidebarGridSize: 30vw;
-$sidebarMDgridSize: 300px;
-$sidebarLGgridSize: 400px;
-
 $viewportMaxHeight: 568px;
 
 //this is the horizontal grid for all grids so it matches the navigation (except factsheet)
 %horizontalGrid {
   grid-template-columns: repeat(4, 1fr);
   @include smUp {
+    grid-template-columns: 20px repeat(10, 1fr) minmax(200px, 1fr) 20px;
+  }
+  @include mdUp {
     grid-template-columns: 20px repeat(10, 1fr) minmax(300px, 1fr) 20px;
   }
 }
@@ -39,5 +38,7 @@ $pageTitleColumn: minmax(min-content, 20vh);
   margin-top: 50px;
 }
 .homepage .content {
-  margin-top: 0;
+  @include smUp {
+    margin-top: 0;
+  }
 }

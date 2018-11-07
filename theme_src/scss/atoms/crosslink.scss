@@ -4,6 +4,10 @@
   text-decoration: none;
   width: 20px;
   height: 20px;
+  @include smUp {
+    top: -20px;
+    right: 0;
+  }
   &:hover {
     svg circle {
       fill: darken($markerColor, 20%);
@@ -11,5 +15,16 @@
   }
   svg circle {
     fill: $markerColor;
+  }
+}
+
+
+//mobile sidebar drawer
+.mm-panel {
+  .sidebarContainer {
+    .titleCrosslink {
+      right: 0;
+      top: -10px;
+    }
   }
 }

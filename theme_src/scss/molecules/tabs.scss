@@ -4,9 +4,10 @@ ul.tabLinks {
 	list-style: none;
 	display: flex;
   & li {
+		@extend %fontM;
 		a {
 			color: #222;
-			background: $shadowColor;
+			background: $lightBorder;
 	  	display: block;
 			text-decoration: none;
 			padding: 10px 15px;
@@ -20,7 +21,7 @@ ul.tabLinks {
 }
 .tabPanel {
 	display: none;
-	background: $shadowColor;
+	background: white;
 	border: solid 2px $glamosColor;
 	padding: 15px;
 	margin-bottom: 30px;

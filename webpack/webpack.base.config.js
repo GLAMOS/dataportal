@@ -7,7 +7,7 @@ module.exports = {
       'lightgallery',
       'respimage',
       'jquery.mmenu',
-      './theme_src/js/ieDetector.js',
+      '@kspr/gugus-ie-detector',
       './theme_src/js/glamos.js',
       './theme_src/js/map/map.js'
     ]

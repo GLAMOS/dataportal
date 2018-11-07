@@ -42,7 +42,7 @@
       @include smUp {
         grid-column: 5/12;
       }
-      @include mdUp {
+      @include lgUp {
         grid-column: 6/12;
       }
       @extend %hiddenSmDown;

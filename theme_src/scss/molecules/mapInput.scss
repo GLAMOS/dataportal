@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: desaturate( $glamosColor, 40% );
+  background-color: $secondaryColor;
   .sidebarControls {
     //background-color: red;
   }

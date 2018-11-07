@@ -3,9 +3,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-end;
   .cardTitle {
     margin: 0;
     width: 100%;
+    @extend %fontL;
+    font-weight: 700;
+    padding-bottom: 20px;
   }
 }

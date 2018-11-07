@@ -9,6 +9,7 @@
   .chartControls {
     padding: 15px 0;
     display: flex;
+    @extend %fontM;
     justify-content: space-between;
     align-items: center;
     select {
