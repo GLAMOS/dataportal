@@ -34,6 +34,7 @@ body {
 %verticalList {
   list-style-type: none;
   display: flex;
+  align-items: center;
   padding: 0;
   margin: 0;
   //justify-content: space-between;
@@ -44,6 +45,12 @@ body {
   }
 }
 %boxShadow {
+  -webkit-box-shadow: 3px 5px 5px 0px $shadowColor;
+  -moz-box-shadow: 3px 5px 5px 0px $shadowColor;
+  box-shadow: 3px 5px 5px 0px $shadowColor;
+}
+
+@mixin boxShadow{
   -webkit-box-shadow: 3px 5px 5px 0px $shadowColor;
   -moz-box-shadow: 3px 5px 5px 0px $shadowColor;
   box-shadow: 3px 5px 5px 0px $shadowColor;

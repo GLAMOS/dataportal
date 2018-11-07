@@ -33,13 +33,14 @@
   height: 100%;
   li {
     height: 100%;
-    a {
+    > a {
       height: 100%;
       display: flex;
       align-items: center;
       text-decoration: none;
       padding: 0 10px;
       color: $txtColor;
+      border-bottom: solid 4px white;
     }
     &.active, &.activeLang, a:hover {
       background-color: $txtInvert;
@@ -55,7 +56,6 @@
       &.active a, &.activeLang a, a:hover {
         text-decoration: none;
         border-bottom: solid 4px $glamosColor;
-        margin-top: 2px;
       }
     }
   }
