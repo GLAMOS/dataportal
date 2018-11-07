@@ -3,7 +3,7 @@ $glamosColor: #45CADD;
 $txtColor: rgba(0, 0, 0, 0.75);
 $txtInvert: white;
 $txtSecColor: grey;
-$shadowColor: #e6e6e6;
+$shadowColor: #30303033;
 $linkColor: pink;
 
 $markerColor: #a52a2a;
@@ -45,15 +45,15 @@ body {
   }
 }
 %boxShadow {
-  -webkit-box-shadow: 2px 1px 5px 0 $shadowColor;
-  -moz-box-shadow: 2px 1px 5px 0 $shadowColor;
-  box-shadow: 2px 1px 5px 0 $shadowColor;
+  -webkit-box-shadow: 2px 1px 3px 0 $shadowColor;
+  -moz-box-shadow: 2px 1px 3px 0 $shadowColor;
+  box-shadow: 2px 1px 3px 0 $shadowColor;
 }
 
 @mixin boxShadow{
-  -webkit-box-shadow: 2px 1px 5px 0 $shadowColor;
-  -moz-box-shadow: 2px 1px 5px 0 $shadowColor;
-  box-shadow: 2px 1px 5px 0 $shadowColor;
+  -webkit-box-shadow: 2px 1px 3px 0 $shadowColor;
+  -moz-box-shadow: 2px 1px 3px 0 $shadowColor;
+  box-shadow: 2px 1px 3px 0 $shadowColor;
 }
 
 html, *, body {
