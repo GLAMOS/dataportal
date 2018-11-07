@@ -361,11 +361,11 @@ if (document.getElementById('factsheet-map')) {
 
   page = 'home';
   map.addLayer(gletscher_alle);
-} else
+} else {
   page = 'other';
+}
 
-  map.addLayer(selectedOverlay);
-
+map && map.addLayer(selectedOverlay);
 
 
 /****************************************************************************************************************
@@ -414,7 +414,7 @@ function onMapClick(browserEvent) {
   }
 };
 
-map.on('click', onMapClick);
+map && map.on('click', onMapClick);
 
 
 //add hoverstyle
@@ -457,7 +457,7 @@ var featureHover = function (pixel) {
 
 
 //add pointerhand
-map.on('pointermove', function (e) {
+map && map.on('pointermove', function (e) {
   if (e.dragging) return;
   var pixel = map.getEventPixel(e.originalEvent);
   var hit = map.forEachFeatureAtPixel(pixel, function (feature) {
