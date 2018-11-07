@@ -21,7 +21,10 @@ h2.currentGlacier span {
   font-weight: 700 !important;
   padding-bottom: 20px;
 }
-
+h1.currentGlacier span{
+  @extend %fontXL;
+  font-weight: 700 !important;
+}
 
 p {
   @extend %fontM;

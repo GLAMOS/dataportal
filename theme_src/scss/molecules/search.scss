@@ -8,7 +8,8 @@
     background-color: lighten($glamosColor,30%);
     padding-left: 20px;
     height: 30px;
-    border: none;
+    @extend %fontM;
+    border: solid 1px $lightBorder;
     min-width: 70%;
     &::-moz-placeholder {
       color: $markerColor;

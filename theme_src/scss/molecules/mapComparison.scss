@@ -11,6 +11,7 @@
     background-color: transparent;
     border: none;
     display: inline;
+    @extend %fontM;
   }
   .close {
     width: 20px;
