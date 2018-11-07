@@ -45,15 +45,15 @@ body {
   }
 }
 %boxShadow {
-  -webkit-box-shadow: 3px 5px 5px 0px $shadowColor;
-  -moz-box-shadow: 3px 5px 5px 0px $shadowColor;
-  box-shadow: 3px 5px 5px 0px $shadowColor;
+  -webkit-box-shadow: 2px 1px 5px 0 $shadowColor;
+  -moz-box-shadow: 2px 1px 5px 0 $shadowColor;
+  box-shadow: 2px 1px 5px 0 $shadowColor;
 }
 
 @mixin boxShadow{
-  -webkit-box-shadow: 3px 5px 5px 0px $shadowColor;
-  -moz-box-shadow: 3px 5px 5px 0px $shadowColor;
-  box-shadow: 3px 5px 5px 0px $shadowColor;
+  -webkit-box-shadow: 2px 1px 5px 0 $shadowColor;
+  -moz-box-shadow: 2px 1px 5px 0 $shadowColor;
+  box-shadow: 2px 1px 5px 0 $shadowColor;
 }
 
 html, *, body {
