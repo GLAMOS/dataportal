@@ -14,3 +14,12 @@
   color: $txtColor;
   background-color: transparent;
 }
+//hack for jumpy fixed navbar on opening the mobile menu
+.mm-wrapper_opened {
+  .navBar {
+    position: relative;
+  }
+  .content, .gridMapViewer {
+    margin-top: 0;
+  }
+}
