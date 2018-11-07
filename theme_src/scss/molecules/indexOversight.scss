@@ -9,6 +9,9 @@
   }
   @extend %horizontalGrid;
   .majorLink {
+    .btn {
+      @extend %fontM;
+    }
     @include smUp {
       &:nth-child(2n+1) {
         grid-column: 3/6;

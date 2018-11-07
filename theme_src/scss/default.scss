@@ -16,8 +16,13 @@ body {
   font-weight: 700;
   align-self: center;
 }
-h2.currentGlacier {
+h2.currentGlacier span {
   @extend %fontXL;
-  font-weight: 700;
+  font-weight: 700 !important;
   padding-bottom: 20px;
+}
+
+
+p {
+  @extend %fontM;
 }
