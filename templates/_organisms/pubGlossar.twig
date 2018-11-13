@@ -1,12 +1,12 @@
 {% import '_incl/docMacros' as macro %}
 
-{% for item in craft.entries.section('glossar').order('title asc').all() %}
+{% for item in craft.entries.section('glossar').orderBy('title asc').all() %}
   <div class="pubEntry" id="{{ item.slug }}">
     <div>
       <h4 class="pubEntryTitle">{{ item.title }}</h4>
       {{ macro.richText(item.glossarText) }}
     </div>
-    {% for asset in item.glossarImg %}
+    {% for asset in item.glossarImg.all() %}
         {% include '_atoms/glossarPhoto' %}
     {% endfor %}
   </div>
