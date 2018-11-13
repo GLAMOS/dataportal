@@ -17,18 +17,4 @@
       margin-bottom: 10px;
     }
   }
-  .navGlossar {
-    @extend %hiddenSmDown;
-    list-style-type: none;
-    @extend %fontM;
-    li a {
-      display: block;
-      text-decoration: none;
-      border-bottom: solid 1px $glamosColor;
-      &:hover {
-        text-decoration: none;
-        background-color: $glamosColor;
-      }
-    }
-  }
 }
