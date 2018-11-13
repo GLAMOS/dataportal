@@ -1,0 +1,22 @@
+.anchorNav {
+  padding-top: 50px;
+  @extend %hiddenSmDown;
+  list-style-type: none;
+  @extend %fontM;
+  li a {
+    display: block;
+    text-decoration: none;
+    border-bottom: solid 1px $glamosColor;
+    &:hover {
+      text-decoration: none;
+      background-color: $glamosColor;
+    }
+  }
+}
+.pubContentSection:before {
+  display: block;
+  content: " ";
+  margin-top: -75px; // Set the Appropriate Height
+  height: 75px; // Set the Appropriate Height
+  visibility: hidden;
+}
