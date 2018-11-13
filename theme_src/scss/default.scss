@@ -24,7 +24,7 @@ body {
   border-bottom: solid 4px $glamosColor;
   padding-bottom: 10px;
 }
-.scientificTitle {
+.scientificTitle, .pubEntryTitle {
   @extend %fontM;
   font-weight: 700 !important;
   margin-bottom: 0;

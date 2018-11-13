@@ -1,7 +1,7 @@
 {% import '_incl/docMacros' as macro %}
 
 {% for item in craft.entries.section('pressInfo').all() %}
-  <div class="entry">
+  <div class="pubEntry">
     <h4 class="scientificTitle">
       {{ macro.pubDate(item.releaseDate)}},
       {{ item.publisher }} «{{ item.title }}»

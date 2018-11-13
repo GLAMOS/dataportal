@@ -1,0 +1,7 @@
+{% import '_incl/docMacros' as macro %}
+
+<ul class="navGlossar">
+  {% for item in craft.entries.section('glossar').order('title asc').all() %}
+    <li><a href="#{{ item.slug }}">{{ item.title }}</a> </li>
+  {% endfor %}
+</ul>

@@ -4,20 +4,21 @@
     overflow: hidden;
     position: relative;
   }
-  .zoomItem {
-    img {
-      object-fit: cover;
-      min-height: 100%;
-      @extend %cardDesignBeta;
-      &:hover {
-        cursor: pointer;
-        box-shadow: none;
-      }
-    }
-  }
   .btn {
     position: absolute;
     right: 10px;
     bottom: -5px;
+  }
+}
+.zoomItem {
+  img {
+    object-fit: cover;
+    min-height: 100%;
+    @extend %cardDesignBeta;
+    &:hover {
+      cursor: pointer;
+      box-shadow: none;
+      opacity: 0.7;
+    }
   }
 }

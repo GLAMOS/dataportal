@@ -1,9 +1,11 @@
 .publikationen {
-  .entry {
+  .pubEntry {
     p {
       margin-top: 0;
+      @extend %hyphenate;
     }
     .scientificTitle {
+      @extend %hyphenate;
       span.normal {
         font-weight: 400;
       }
