@@ -59,6 +59,27 @@ import './map/map.js';
       }
     });
 
+    //scroll to anchor
+    $(".anchorNav a").click(function(e) {
+        e.preventDefault();
+        var aid = $(this).attr("href");
+        $('html,body').animate({scrollTop: $(aid).offset().top},'slow');
+    });
+
+    //sticky anchor anchorNav
+    $(window).scroll(function(){
+      var offset = 0;
+    	var sticky = false;
+    	var top = $(window).scrollTop();
+
+    	if ($(".mm-page").offset().top < top) {
+    		$(".stickyNav").addClass("sticky");
+    		sticky = true;
+    	} else {
+    		$(".stickyNav").removeClass("sticky");
+    	}
+    });
+
     const URI = '/geo/griessgletscher_length_change.geojson';
     let loaded = false;
     const onload = function () {
