@@ -12,6 +12,15 @@
   }
   .pageTitle {
     grid-column: 1/-1;
+    width: 100%;
+  }
+  .contentHead {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .pubContentSection, .contentHead {
+    grid-column: 2/-3;
   }
   .column {
     &1 {

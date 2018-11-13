@@ -1,0 +1,13 @@
+{% import '_incl/docMacros' as macro %}
+
+{% for item in craft.entries.section('annualReport').all() %}
+  <div class="entry">
+    <h4 class="scientificTitle">
+      {{ item.title }}
+      <span class="normal">
+        {% include '_atoms/authors' %}, 
+        {{ macro.textField(item.publikationsmedium)}}
+      </span>
+    </h4>
+  </div>
+{% endfor %}
