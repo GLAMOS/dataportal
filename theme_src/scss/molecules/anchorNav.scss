@@ -1,5 +1,6 @@
 .anchorNav {
-  padding-top: 50px;
+  padding: 0;
+  margin: 0;
   @extend %hiddenSmDown;
   list-style-type: none;
   @extend %fontM;
@@ -19,4 +20,10 @@
   margin-top: -60px; // Set the Appropriate Height
   height: 60px; // Set the Appropriate Height
   visibility: hidden;
+}
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  height: 100px;
+  top: 50px;
 }
