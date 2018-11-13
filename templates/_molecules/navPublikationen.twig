@@ -1,12 +1,11 @@
-
-<ul class="anchorNav">
-    <li><a href="#{{ entry.titleMedienmitteilungen | replace(' ', '-') }}">
+<ul class="anchorNav stickyNav">
+    <li><a href="#{{ entry.titleMedienmitteilungen | kebab }}">
       {{ entry.titleMedienmitteilungen }}</a>
     </li>
-    <li><a href="#{{ entry.titleJahresberichte | replace(' ', '-')  }}">
+    <li><a href="#{{ entry.titleJahresberichte | kebab  }}">
       {{ entry.titleJahresberichte }}</a>
     </li>
-    <li><a href="#{{ entry.titleJahrbuecher | replace(' ', '-')  }}">
+    <li><a href="#{{ entry.titleJahrbuecher | kebab  }}">
       {{ entry.titleJahrbuecher }}</a>
     </li>
 </ul>

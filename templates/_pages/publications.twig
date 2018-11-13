@@ -9,20 +9,20 @@
      {% if entry.leadtextPublikationen %}{{ macro.richText(entry.leadtextPublikationen) }}{% endif %}
     </div>
 
-    <div class="pubContentSection" id="{{ entry.titleMedienmitteilungen | replace(' ', '-')  }}">
-      <h3 class="sectionTitle">{{ entry.titleMedienmitteilungen }}</h3>
+    <div class="pubContentSection">
+      <h3 class="sectionTitle" id="{{ entry.titleMedienmitteilungen | kebab  }}">{{ entry.titleMedienmitteilungen }}</h3>
       {% if entry.leadtextMedienmitteilungen %}{{ macro.richText(entry.leadtextMedienmitteilungen) }}{% endif %}
       {% include '_organisms/pubPressInfo' %}
     </div>
 
-    <div class="pubContentSection" id="{{ entry.titleJahresberichte | replace(' ', '-')  }}">
-      <h3 class="sectionTitle">{{ entry.titleJahresberichte }}</h3>
+    <div class="pubContentSection">
+      <h3 class="sectionTitle" id="{{ entry.titleJahresberichte | kebab  }}">{{ entry.titleJahresberichte }}</h3>
       {% if entry.leadtextJahresberichte %}{{ macro.richText(entry.leadtextJahresberichte) }}{% endif %}
       {% include '_organisms/pubJahresberichte' %}
     </div>
 
-    <div class="pubContentSection" id="{{ entry.titleJahrbuecher | replace(' ', '-') }}">
-      <h3 class="sectionTitle">{{ entry.titleJahrbuecher }}</h3>
+    <div class="pubContentSection">
+      <h3 class="sectionTitle" id="{{ entry.titleJahrbuecher | kebab }}">{{ entry.titleJahrbuecher }}</h3>
       {% if entry.leadtextJahrbuecher %}{{ macro.richText(entry.leadtextJahrbuecher) }}{% endif %}
       {% include '_organisms/pubJahrbuecher' %}
     </div>
