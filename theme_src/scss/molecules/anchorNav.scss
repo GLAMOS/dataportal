@@ -14,7 +14,7 @@
     }
   }
 }
-.sectionTitle:before {
+.sectionTitle:before, .pubEntryTitle:before {
   display: block;
   content: " ";
   margin-top: -60px; // Set the Appropriate Height
