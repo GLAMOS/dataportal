@@ -1,10 +1,15 @@
 {# Page title with fallback #}
 {%- set pageTitle -%}
-  {{ entry.title }} - {% if entry.seoTitle %}{{ entry.seoTitle }}{% else %}{{ seo.seoTitle }}{% endif %}
+   {% if entry.seoTitle %}
+    {{ entry.seoTitle }}
+  {% else %}
+    {{ entry.title }}
+  {% endif %}
 {%- endset -%}
 
 {# Page suffix without fallback #}
 {%- set pageSuffix -%}
+  {% if seo.seoTitle %} {{ seo.seoTitle }} {% endif %}
   {% if seo.seoSuffix %} | {{ seo.seoSuffix }}{% endif %}
 {%- endset -%}
 
