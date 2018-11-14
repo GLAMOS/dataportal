@@ -31,7 +31,7 @@
     "lightgallery": "^1.6.6",
     "node-sass": "^4.7.2",
     "ol": "^5.2.0",
-    "parallelshell": "^3.0.1",
+    "parallelshell": "3.0.1",
     "postcss": "^6.0.19",
     "postcss-cli": "^4.1.1",
     "respimage": "^1.4.2",
