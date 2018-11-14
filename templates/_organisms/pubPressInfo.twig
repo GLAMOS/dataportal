@@ -1,6 +1,6 @@
 {% import '_incl/docMacros' as macro %}
 
-{% for item in craft.entries.section('pressInfo').all() %}
+{% for item in craft.entries.section('pressInfo').orderBy('releaseDate desc').all() %}
   <div class="pubEntry">
     <h4 class="scientificTitle">
       {{ macro.pubDate(item.releaseDate)}},

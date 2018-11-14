@@ -22,8 +22,13 @@
   @extend %verticalList;
 }
 .navLang {
-  @extend %fontS;
+  @extend %fontM;
   @extend %verticalList;
+}
+@include smUp {
+  .homepage .navLang {
+    padding-left: 20px;
+  }
 }
 #mainMobileNav:not( .mm-menu ), #navMapViewer:not( .mm-menu ){
    display: none;
