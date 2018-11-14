@@ -31,15 +31,17 @@
   {% endfor %}
 {% endset %}
 
+{% set seoTransform = { mode: 'crop', width: 1200, height: 630, quality: 75, position: 'center-center' } %}
+
 {# seo image with fallback #}
 {% set pageImage %}
   {% if entry.seoImage.exists() %}
     {% for asset in entry.seoImage.all() %}
-      <meta property="og:image" content="{{ asset.url }}" />
+      <meta property="og:image" content="{{ asset.url(seoTransform) }}" />
     {% endfor %}
   {% else %}
     {% for asset in seo.seoImage.all() %}
-      <meta property="og:image" content="{{ asset.url }}" />
+      <meta property="og:image" content="{{ asset.url(seoTransform) }}" />
     {% endfor %}
   {% endif %}
 {% endset %}
