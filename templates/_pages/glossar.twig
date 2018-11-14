@@ -1,0 +1,15 @@
+{% extends "_layout" %}
+{% import '_incl/docMacros' as macro %}
+
+{% block content %}
+  <div class="contentGrid">
+
+    <div class="contentHead">
+      <h2 class="pageTitle">{{ entry.title }}</h2>
+     {% if entry.leadtextGlossar %}{{ macro.richText(entry.leadtextGlossar) }}{% endif %}
+    </div>
+
+    {% include '_organisms/pubGlossar' %}
+    {% include '_molecules/navGlossar' %}
+  </div>
+{% endblock %}

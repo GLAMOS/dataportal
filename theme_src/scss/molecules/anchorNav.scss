@@ -1,0 +1,29 @@
+.anchorNav {
+  padding: 0;
+  margin: 0;
+  @extend %hiddenSmDown;
+  list-style-type: none;
+  @extend %fontM;
+  li a {
+    display: block;
+    text-decoration: none;
+    border-bottom: solid 1px $glamosColor;
+    &:hover {
+      text-decoration: none;
+      background-color: $glamosColor;
+    }
+  }
+}
+.sectionTitle:before {
+  display: block;
+  content: " ";
+  margin-top: -60px; // Set the Appropriate Height
+  height: 60px; // Set the Appropriate Height
+  visibility: hidden;
+}
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  height: 100px;
+  top: 50px;
+}

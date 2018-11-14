@@ -18,6 +18,17 @@ body {
   @extend %hyphenate;
   line-height: 1;
 }
+.sectionTitle {
+  @extend %fontXL;
+  font-weight: 700 !important;
+  border-bottom: solid 4px $glamosColor;
+  padding-bottom: 10px;
+}
+.scientificTitle, .pubEntryTitle {
+  @extend %fontM;
+  font-weight: 700 !important;
+  margin-bottom: 0;
+}
 h2.currentGlacier {
   position: relative;
   width: 100%;

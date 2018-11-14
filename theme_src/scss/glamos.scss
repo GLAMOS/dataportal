@@ -38,6 +38,7 @@
 @import 'molecules/cardPhoto';
 @import 'molecules/tabs';
 @import 'molecules/footer';
+@import 'molecules/anchorNav';
 
 //_organisms
 @import 'organisms/navigation';
@@ -51,6 +52,9 @@
 @import 'organisms/mapOutput';
 @import 'organisms/factsheetCards';
 @import 'organisms/indexGlacierData';
+@import 'organisms/publications';
+@import 'organisms/glossar';
+
 
 //templates
 @import 'templates/factsheet';

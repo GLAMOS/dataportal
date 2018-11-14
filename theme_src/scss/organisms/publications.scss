@@ -1,0 +1,17 @@
+.publikationen {
+  .pubEntry {
+    p {
+      margin-top: 0;
+      @extend %hyphenate;
+    }
+    .scientificTitle {
+      @extend %hyphenate;
+      span.normal {
+        font-weight: 400;
+      }
+    }
+  }
+  .pubContentSection {
+    margin-bottom: 30px;
+  }
+}

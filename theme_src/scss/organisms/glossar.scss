@@ -1,0 +1,20 @@
+.glossarListing {
+  .pubEntry {
+    display: flex;
+    border-bottom: solid 1px $glamosColor;
+    .pubEntryTitle {
+      margin: 0;
+    }
+    p {
+      @extend %hyphenate;
+    }
+    > div {
+      padding-right: 5px;
+    }
+    img {
+      flex-shrink: 0;
+      width: inherit;
+      margin-bottom: 10px;
+    }
+  }
+}

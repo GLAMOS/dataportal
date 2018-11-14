@@ -1,0 +1,16 @@
+{% set thumb = { mode: 'crop', width: 100, height: 100, quality: 75, position: 'top-center' } %}
+{% set LightboxImg = { mode: 'fit', width: 800, height: 800, quality: 75} %}
+
+<div class="imgGallery">
+
+  <div data-src="{{ asset.url(LightboxImg) }}" title="{{ asset.title }}" class="zoomItem">
+    <img src="{{ asset.url(thumb) }}">
+  </div>
+
+  {# <div data-src="http://via.placeholder.com/800x600?text=hidden+image+1" class="zoomItem"></div>
+  <div data-src="http://via.placeholder.com/800x600?text=hidden+image+2" class="zoomItem"></div>
+  <div data-src="http://via.placeholder.com/800x600?text=hidden+image+3" class="zoomItem"></div>
+  <div data-src="http://via.placeholder.com/800x600?text=hidden+image+4" class="zoomItem"></div>
+  <div data-src="http://via.placeholder.com/800x600?text=hidden+image+5" class="zoomItem"></div> #}
+
+</div>

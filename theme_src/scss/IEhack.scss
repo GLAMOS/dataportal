@@ -100,6 +100,10 @@ $ieColumnsDesktop: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 280px 20px;
     .footer {
       display: -ms-grid;
       -ms-grid-columns: $ieColumnsDesktop;
+      width: 100%;
+      > div {
+        -ms-grid-column-span: 8;
+      }
     }
     .factsheetGrid {
       display: -ms-grid;
@@ -154,6 +158,14 @@ $ieColumnsDesktop: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 280px 20px;
         -ms-grid-row: 4;
         -ms-grid-column-span: 6;
       }
+    }
+    .pubContentSection {
+      width: 80%;
+      float: left;
+    }
+    .anchorNav {
+      width: 18%;
+      float: right;
     }
   }
 }
