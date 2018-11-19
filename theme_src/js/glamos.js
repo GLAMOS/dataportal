@@ -11,10 +11,18 @@ import controller from './controller'
 import './map/map.js';
 
 (function (global, $) {
-  function getDate (dateString)
+  function clone (orig, props)
   {
-    return dateString.replace(/\//g, '-');
+    const CLONE = Object.create(Object.getPrototypeOf(orig));
+    Object.keys(orig).forEach((key) => { CLONE[key] = orig[key]; });
+    if (props) Object.keys(props).forEach((key) => { CLONE[key] = props[key]; });
+    return CLONE;
   }
+
+  // function getDate (dateString)
+  // {
+  //   return dateString.replace(/\//g, '-');
+  // }
 
   function formatNumber (value)
   {
@@ -85,35 +93,43 @@ import './map/map.js';
     });
 
     const URIS = {
-      length_change: '/geo/griessgletscher_length_change.geojson',
+      length_change: '/glacier-data.php', // '/geo/griessgletscher_length_change.geojson',
       mass_change: '/geo/griessgletscher_mass_change.geojson'
     };
     let loaded = false;
     const onload = function () {
-      loaded = true;
-      const json = JSON.parse(xhr.responseText);
-      const DATA = json.features.map((feature) => feature.properties);
-      const X_AXIS_NAME = 'Datum';
-      const LINE_LABEL = DATA[0].glacier_short_name;
-      const YEARS = [X_AXIS_NAME, getDate(DATA[0].date_from_length)]
-        .concat(DATA.map((entry) => getDate(entry.date_to_length)));
-      const CUM_LENGTHS = [LINE_LABEL, 0]
-        .concat(DATA.map((entry) => entry.length_cum));
+      if (loaded) return;
 
-      // console.log(DATA);
+      loaded = true;
+      const DATA = JSON.parse(xhr.responseText);
+
+      const X_AXIS_NAME = 'Datum';
+      const LINE_LABEL = DATA[0].glacier_full_name;
+      // const YEARS = [X_AXIS_NAME, getDate(DATA[0].date_from_length)]
+      //   .concat(DATA.map((entry) => getDate(entry.date_to_length)));
+      // const CUM_LENGTHS = [LINE_LABEL, 0]
+      //   .concat(DATA.map((entry) => entry.length_cum));
+
+      console.log(DATA);
       // console.log(YEARS);
       // console.log(CUM_LENGTHS);
 
       const CHART = c3.generate({
         bindto: '#chart',
         data: {
-          columns: [YEARS, CUM_LENGTHS],
+          // columns: [YEARS, CUM_LENGTHS],
           type: 'spline',
+          json: DATA,
+          // url: '/glacier-data.php',
+          keys: {
+            x: 'year_to',
+            value: ['variation_cumulative']
+          },
           xs: {
             [LINE_LABEL]: X_AXIS_NAME
           },
           axes: {
-            [LINE_LABEL]: 'y'
+            [LINE_LABEL]: 'variation_cumulative'
           }
         },
         legend: {
@@ -126,11 +142,11 @@ import './map/map.js';
         axis: {
           x: {
             tick: {
-              format: '%Y', //-%m-%d'
+              // format: '%Y', //-%m-%d'
               outer: false,
               rotate: 45
             },
-            type: 'timeseries',
+            // type: 'timeseries',
           },
           y: {
             label: {
@@ -178,7 +194,6 @@ import './map/map.js';
 
       if (xhr.readyState == 4 && xhr.status === 200)
       {
-        loaded = true;
         onload();
       }
     };
