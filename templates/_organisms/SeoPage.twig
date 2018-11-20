@@ -9,8 +9,8 @@
 
 {# Page suffix without fallback #}
 {%- set pageSuffix -%}
-  {% if seo.seoTitle %} {{ seo.seoTitle }} {% endif %}
   {% if seo.seoSuffix %} | {{ seo.seoSuffix }}{% endif %}
+  {% if seo.seoTitle %} {{ seo.seoTitle }} {% endif %}
 {%- endset -%}
 
 {# Page description with fallback #}
