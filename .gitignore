@@ -16,10 +16,16 @@ Thumbs.db
 npm-debug.log
 package-lock.json
 
+# CMS User Uploaded Assets
+
+/www/assets/images/*
+/www/assets/files/*
+
+# Common
+
 /log/
 /storage/
 /.env
-/www/assets/images/
 /www/theme/js/glamos.dev.js.map
 /www/theme/js/glamos.dev.js
 /www/theme/css/glamos.dev.css.map
