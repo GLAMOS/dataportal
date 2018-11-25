@@ -8,13 +8,13 @@ parserOptions:
   sourceType: module
 rules:
   indent:
-    - error
+    - warn
     - 2
   linebreak-style:
     - error
     - unix
   quotes:
-    - error
+    - warn
     - single
     - avoidEscape: true
       allowTemplateLiterals: true
@@ -29,8 +29,6 @@ rules:
   no-var: error
   ## 3.1
   no-new-object: error
-  ## 3.3
-  object-shorthand: error
   ## 3.6
   quote-props:
     - error
@@ -114,15 +112,7 @@ rules:
   keyword-spacing: error
   ## 19.4
   space-infix-ops: error
-  ## 19.6
-  newline-per-chained-call:
-    - error
-    - ignoreChainWithDepth: 3
   no-whitespace-before-property: error
-  ## 19.8
-  padded-blocks:
-    - error
-    - never
   ## 19.9
   space-in-parens: error
   ## 19.10
@@ -161,13 +151,38 @@ rules:
   ## 23.1
   id-length:
     - warn
-    - exceptions: [e, i, $]
+    - exceptions: [e, i, x, y, $]
   ## 23.3
   new-cap: error
 
-  ## Best practices
+  ## Best practice overrides
+
+  ## 19.6 (Default: warn)
+  newline-per-chained-call:
+    - warn
+    - ignoreChainWithDepth: 4
+
+  ## 19.8 (default: error)
+  padded-blocks:
+    - warn
+    - never
+
+  ## default: error
+  no-console: warn
+
   no-empty:
     - error
     - allowEmptyCatch: true
+
+  ## allow sparse arrays
   no-sparse-arrays: 0
+
   no-useless-concat: warn
+
+  ## 3.3 (default: error)
+  object-shorthand: warn
+
+  # warn, always should be the default, but is not
+  template-curly-spacing:
+    - warn
+    - never

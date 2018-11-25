@@ -6,19 +6,21 @@ import c3 from 'c3';
 import ieDetector from '@kspr/gugus-ie-detector';
 ieDetector();
 
-import controller from './controller'
+import controller from './controller';
 
 import './map/map.js';
 
 (function (global, $) {
-  function clone (orig, props)
-  {
-    const CLONE = Object.create(Object.getPrototypeOf(orig));
-    Object.keys(orig).forEach((key) => { CLONE[key] = orig[key]; });
-    if (props) Object.keys(props).forEach((key) => { CLONE[key] = props[key]; });
-    return CLONE;
-  }
+  /* TODO: Done in PHP now; keep for library until clean-up */
+  // function clone (orig, props)
+  // {
+  //   const CLONE = Object.create(Object.getPrototypeOf(orig));
+  //   Object.keys(orig).forEach((key) => { CLONE[key] = orig[key]; });
+  //   if (props) Object.keys(props).forEach((key) => { CLONE[key] = props[key]; });
+  //   return CLONE;
+  // }
 
+  /* TODO: Useful if we can get dates for time series */
   // function getDate (dateString)
   // {
   //   return dateString.replace(/\//g, '-');
@@ -29,71 +31,68 @@ import './map/map.js';
     return String(value).replace('-', '&minus;');
   }
 
-  function getAvailableDownloadTabs() {
-    return $('.tabContainer a[data-tab]').map( (ix,el) => el.getAttribute('data-tab') );
+  function getAvailableDownloadTabs () {
+    return $('.tabContainer a[data-tab]').map((_ix, el) => el.getAttribute('data-tab'));
   }
   controller.bridge({getAvailableDownloadTabs});
 
-  function selectDownloadTab(TAB_ID) {
+  function selectDownloadTab (TAB_ID) {
     const CLASS_NAME = 'current';
     $('ul.tabLinks a').removeClass(CLASS_NAME);
     $('.tabPanel').removeClass(CLASS_NAME);
 
-    $('a[data-tab="' + TAB_ID + '"]').addClass(CLASS_NAME);
-    $('#' + TAB_ID).addClass(CLASS_NAME);
+    $(`a[data-tab="${TAB_ID}"]`).addClass(CLASS_NAME);
+    $(`#${TAB_ID}`).addClass(CLASS_NAME);
   }
-  controller.bridge({selectDownloadTab})
+  controller.bridge({selectDownloadTab});
 
   $(document).ready(function () {
-    //initialise Mobile Menu //
+    /* Initialize menu for mobiles */
     $('#mainMobileNav').mmenu();
 
-    //initialise mapviewer menu
+    /* Initialize map viewer menu */
     $('#navMapViewer').mmenu({
       navbar: false,
       extensions: ['position-right']
     });
 
-    //if link is in dropdown pass activeclass along to toplevel
+    /* Add active class to ancestor if link is in dropdown */
     $('.active').parent().closest('.dropDown').addClass('active');
 
-    //initializes the single preview image lightbox
+    /* initializes the single preview image lightbox */
     $('.imgGallery').lightGallery({
       selector: '.zoomItem',
       download: false
     });
 
-    //initialize download Tabs
+    /* Initialize download tabs */
     $('ul.tabLinks a').on('click', function (ev) {
-      ev.preventDefault()
+      ev.preventDefault();
       const TAB_ID = $(this).attr('data-tab');
 
-      controller.changeDownloadTab(TAB_ID)
+      controller.changeDownloadTab(TAB_ID);
     });
 
-    //scroll to anchor
+    /* Scroll to anchor */
     $('.anchorNav a').click(function (e) {
       e.preventDefault();
       const aid = $(this).attr('href');
       $('html,body').animate({scrollTop: $(aid).offset().top}, 'slow');
     });
 
-    //sticky anchor anchorNav
+    /* Sticky anchor anchorNav */
     $(window).scroll(function () {
-      const offset = 0;
-      let sticky = false;
       const top = $(window).scrollTop();
 
       if ($('.mm-page').offset().top < top) {
         $('.stickyNav').addClass('sticky');
-        sticky = true;
       } else {
         $('.stickyNav').removeClass('sticky');
       }
     });
 
     const URIS = {
-      length_change: '/glacier-data.php', // '/geo/griessgletscher_length_change.geojson',
+      length_change: '/glacier-data.php',  // '/geo/griessgletscher_length_change.geojson',
       mass_change: '/geo/griessgletscher_mass_change.geojson'
     };
     let loaded = false;
@@ -110,6 +109,7 @@ import './map/map.js';
       // const CUM_LENGTHS = [LINE_LABEL, 0]
       //   .concat(DATA.map((entry) => entry.length_cum));
 
+      /* DEBUG */
       console.log(DATA);
       // console.log(YEARS);
       // console.log(CUM_LENGTHS);
@@ -170,6 +170,8 @@ import './map/map.js';
     // fetch(URI)
     // .then((response) => response.json())
     // .then((json) => {
+
+    /* TODO: Remove if we do not support UAs that do not have native XHR */
     if (typeof XMLHttpRequest == 'undefined')
     {
       global.XMLHttpRequest = function () {
@@ -200,8 +202,6 @@ import './map/map.js';
     xhr.send(null);
   });
 
-
-  // -----
-  controller.onPageLoad()
-
+  /* ----- */
+  controller.onPageLoad();
 }(this, $));
