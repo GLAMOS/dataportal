@@ -91,8 +91,9 @@ import './map/map.js';
       }
     });
 
+    const ID = window.location.hash.replace(/^#/, '');
     const URIS = {
-      length_change: '/glacier-data.php',  // '/geo/griessgletscher_length_change.geojson',
+      length_change: `/glacier-data.php?id=${ID}`, // '/geo/griessgletscher_length_change.geojson',
       mass_change: '/geo/griessgletscher_mass_change.geojson'
     };
     let loaded = false;
@@ -101,6 +102,12 @@ import './map/map.js';
 
       loaded = true;
       const DATA = JSON.parse(xhr.responseText);
+
+      if (!DATA || DATA.length === 0)
+      {
+        document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
+        return;
+      }
 
       const X_AXIS_NAME = 'Datum';
       const LINE_LABEL = DATA[0].glacier_full_name;

@@ -50,7 +50,7 @@ catch (\PDOException $e)
 //     die("Connection is broken\n");
 // }
 
-$glacier_id = 'B90/04';
+$glacier_id = @$_GET['id'] ?: 'B90/04';
 
 $res = $conn->prepare(<<<postgreSQL
     SELECT glacier_full_name, year_from, year_to, variation_cumulative
