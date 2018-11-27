@@ -1,4 +1,8 @@
-<ul class="anchorNav stickyNav">
+{% import '_incl/docMacros' as macro %}
+
+<div class="sideBar stickyNav">
+  {{ macro.richText(entry.sidebarText) }}
+  <ul class="anchorNav stickyNav">
     <li><a href="#{{ entry.titleMedienmitteilungen | kebab }}">
       {{ entry.titleMedienmitteilungen }}</a>
     </li>
@@ -8,4 +12,5 @@
     <li><a href="#{{ entry.titleJahrbuecher | kebab  }}">
       {{ entry.titleJahrbuecher }}</a>
     </li>
-</ul>
+  </ul>
+</div>
