@@ -3,7 +3,11 @@
 {% for item in craft.entries.section('annualBook').all() %}
   <div class="pubEntry">
     <h4 class="scientificTitle">
-      {{ item.title }}<br>
+      {% if item.pubDoc | length %}
+        {% include '_atoms/pubDoc' %}<br>
+      {% else %}
+        {{ item.title }}<br>
+      {% endif %}
       <span class="normal">
         {% include '_atoms/authors' %}
         {{ macro.textField(item.publikationsmedium)}}

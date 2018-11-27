@@ -1,0 +1,16 @@
+{%- for block in item.pubDoc -%}
+  {% switch block.type %}
+
+    {% case "mxDocPubPDF" %}
+
+      {% for asset in block.cellFile %}
+        <a href="{{ asset.url }}">{{ item.title }}</a>
+      {% endfor %}
+
+    {% case "mxDocPubExt" %}
+
+      <a href="{{ block.cellLink }}" target="_blank">{{ item.title }}</a>
+
+  {% endswitch %}
+
+{% endfor %}
