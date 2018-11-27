@@ -44,8 +44,11 @@ h1.currentGlacier {
   @extend %hyphenate;
 }
 
-p {
+p, li, ul {
   @extend %fontM;
+}
+ul {
+  padding-left: 15px;
 }
 a {
   color: $markerColor;
