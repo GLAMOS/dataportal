@@ -13,14 +13,14 @@
 
 {% macro singleValue(valueParam, unitParam, labelParam, idParam) %}
   <div class="singleValue">
-    <p id="{{ idParam }}">{{ valueParam }}{{ unitParam }}</p>
+    <p class="{{ idParam }}">{{ valueParam }}{{ unitParam }}</p>
     <small>{{ labelParam | t }}</small>
   </div>
 {% endmacro %}
 
 {% macro timeValue(valueParam, unitParam, labelParam, idParam) %}
   <div class="timeValue">
-    <p id="{{ idParam }}">{{ valueParam }}{{ unitParam }}</p>
+    <p class="{{ idParam }}">{{ valueParam }}{{ unitParam }}</p>
     <small>{{ labelParam | t }}</small>
   </div>
 {% endmacro %}
