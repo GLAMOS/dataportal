@@ -1,8 +1,24 @@
 {% import '_incl/docMacros' as macro %}
 
+{% set imgTransform = {
+    mode: 'fit',
+    width: 800,
+    quality: 75,
+} %}
+
+
+
 {% for block in entry.pageText.all() %}
+  <span class="offsetPusher {{ block.cellColumnStart }}"></span>
+
   {% switch block.type %}
     {% case "mxTxt" %}
-    <div class="{{ block.cellColumn}} {{ block.cellColumnOffset}}">{{ macro.richText(block.cellTxt)}}</div>
+      <div class="{{ block.cellColumn}}">{{ macro.richText(block.cellTxt) }}</div>
+    {% case "mxImg" %}
+      <div class="{{ block.cellColumn}}">
+        {% for asset in block.cellImg %}
+          <img src="{{ asset.url(imgTransform) }}" alt="{{ asset.title }}">
+        {% endfor %}
+      </div>
   {% endswitch %}
 {% endfor %}
