@@ -1,4 +1,7 @@
 .matrixGridPage {
+  img {
+    margin-top: 16px;
+  }
   .column, .offset {
     &8 {
       grid-column: span 8;
