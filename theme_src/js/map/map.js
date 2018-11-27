@@ -132,16 +132,18 @@ var unit = function (x) {
 
 function fillSchluesseldaten (featureId, page){
 console.log('fillSchlüsseldaten: ' + page);
-  var infoboxGlacierName = document.getElementById("infobox-glaciername");
-  var infoboxLengthCumulative = document.getElementById("infobox-length--cumulative");
-  var infoboxMassCumulative = document.getElementById("infobox-mass--cumulative");
-  var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
-  var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
-  var infoboxLengthDuration = document.getElementById("infobox-length--duration");
-  var infoboxMassDuration = document.getElementById("infobox-mass--duration");
+  var infoboxGlacierName = document.getElementsByClassName("infobox-glaciername");
+  var infoboxLengthCumulative = document.getElementsByClassName("infobox-length--cumulative");
+  var infoboxMassCumulative = document.getElementsByClassName("infobox-mass--cumulative");
+  var infoboxLengthTimespan = document.getElementsByClassName("infobox-length--timespan");
+  var infoboxMassTimespan = document.getElementsByClassName("infobox-mass--timespan");
+  var infoboxLengthDuration = document.getElementsByClassName("infobox-length--duration");
+  var infoboxMassDuration = document.getElementsByClassName("infobox-mass--duration");
 
   function updateValue(el, value) {
-      el.innerHTML = value;
+    for( var i = 0; i < el.length; i++) {
+      el[i].innerHTML = value;
+    }
   }
 
   console.log(infoboxGlacierName);
