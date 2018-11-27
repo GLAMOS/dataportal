@@ -1,0 +1,36 @@
+.matrixGridPage {
+  .column, .offset {
+    &8 {
+      grid-column: span 8;
+    }
+    &7 {
+      grid-column: span 7;
+    }
+    &6 {
+      grid-column: span 6;
+    }
+    &5 {
+      grid-column: span 5;
+    }
+    &4 {
+      grid-column: span 4;
+    }
+    &3 {
+      grid-column: span 3;
+    }
+    &2 {
+      grid-column: span 2;
+    }
+    &1 {
+      grid-column: span 1;
+    }
+  }
+  .offsetPusher {
+    min-height: 10px;
+    visibility: hidden;
+    @extend %hiddenSmDown;
+    &.offset0 {
+      display: none;
+    }
+  }
+}
