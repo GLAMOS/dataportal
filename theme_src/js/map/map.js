@@ -132,40 +132,46 @@ var unit = function (x) {
 
 function fillSchluesseldaten (featureId, page){
 console.log('fillSchlüsseldaten: ' + page);
-  var infoboxGlacierName = document.getElementById("infobox-glaciername");
-  var infoboxLengthCumulative = document.getElementById("infobox-length--cumulative");
-  var infoboxMassCumulative = document.getElementById("infobox-mass--cumulative");
-  var infoboxLengthTimespan = document.getElementById("infobox-length--timespan");
-  var infoboxMassTimespan = document.getElementById("infobox-mass--timespan");
-  var infoboxLengthDuration = document.getElementById("infobox-length--duration");
-  var infoboxMassDuration = document.getElementById("infobox-mass--duration");
+  var infoboxGlacierName = document.getElementsByClassName("infobox-glaciername");
+  var infoboxLengthCumulative = document.getElementsByClassName("infobox-length--cumulative");
+  var infoboxMassCumulative = document.getElementsByClassName("infobox-mass--cumulative");
+  var infoboxLengthTimespan = document.getElementsByClassName("infobox-length--timespan");
+  var infoboxMassTimespan = document.getElementsByClassName("infobox-mass--timespan");
+  var infoboxLengthDuration = document.getElementsByClassName("infobox-length--duration");
+  var infoboxMassDuration = document.getElementsByClassName("infobox-mass--duration");
+
+  function updateValue(el, value) {
+    for( var i = 0; i < el.length; i++) {
+      el[i].innerHTML = value;
+    }
+  }
 
   console.log(infoboxGlacierName);
     if (gletscher_source.getFeatureById(featureId).get('has_mass_value') == 't') {
-      infoboxMassTimespan.innerHTML = gletscher_source.getFeatureById(featureId).get('date_from_mass').toFixed(0) + ' &ndash; ' + gletscher_source.getFeatureById(featureId).get('date_to_mass').toFixed(0);
-      infoboxMassDuration.innerHTML = gletscher_source.getFeatureById(featureId).get('mass_anzahl_jahre').toFixed(0) + ' Jahre';
-      infoboxMassCumulative.innerHTML = unit(gletscher_source.getFeatureById(featureId).get('last_mass_change_cumulative')) + '&sup3;';
+      updateValue(infoboxMassTimespan, gletscher_source.getFeatureById(featureId).get('date_from_mass').toFixed(0) + ' &ndash; ' + gletscher_source.getFeatureById(featureId).get('date_to_mass').toFixed(0) );
+      updateValue(infoboxMassDuration, gletscher_source.getFeatureById(featureId).get('mass_anzahl_jahre').toFixed(0) + ' Jahre' );
+      updateValue(infoboxMassCumulative, unit(gletscher_source.getFeatureById(featureId).get('last_mass_change_cumulative')) + '&sup3;' );
     }
     else {
-      infoboxMassTimespan.innerHTML = '--';
-      infoboxMassDuration.innerHTML = '--';
-      infoboxMassCumulative.innerHTML = '--';
+      updateValue(infoboxMassTimespan, '--');
+      updateValue(infoboxMassDuration, '--');
+      updateValue(infoboxMassCumulative, '--');
     }
 
     if (gletscher_source.getFeatureById(featureId).get('has_length_value') == 't') {
-      infoboxLengthTimespan.innerHTML = gletscher_source.getFeatureById(featureId).get('date_from_length').toFixed(0) + ' &ndash; ' + gletscher_source.getFeatureById(featureId).get('date_to_length').toFixed(0);
-      infoboxLengthDuration.innerHTML = gletscher_source.getFeatureById(featureId).get('length_anzahl_jahre').toFixed(0) + ' Jahre';
-      infoboxLengthCumulative.innerHTML = unit(gletscher_source.getFeatureById(featureId).get('last_length_change_cumulative'));
+      updateValue(infoboxLengthTimespan, gletscher_source.getFeatureById(featureId).get('date_from_length').toFixed(0) + ' &ndash; ' + gletscher_source.getFeatureById(featureId).get('date_to_length').toFixed(0) );
+      updateValue(infoboxLengthDuration, gletscher_source.getFeatureById(featureId).get('length_anzahl_jahre').toFixed(0) + ' Jahre' );
+      updateValue(infoboxLengthCumulative, unit(gletscher_source.getFeatureById(featureId).get('last_length_change_cumulative')) );
     }
     else {
-      infoboxLengthTimespan.innerHTML = '--';
-      infoboxLengthDuration.innerHTML = '--';
-      infoboxLengthCumulative.innerHTML = '--';
+      updateValue(infoboxLengthTimespan, '--');
+      updateValue(infoboxLengthDuration, '--');
+      updateValue(infoboxLengthCumulative, '--');
     }
-    infoboxGlacierName.innerHTML = gletscher_source.getFeatureById(featureId).get('glacier_short_name');
+    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get('glacier_short_name') );
 
   if (page == 'factsheet') {
-    infoboxGlacierName.innerHTML = gletscher_source.getFeatureById(featureId).get('glacier_short_name');
+    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get('glacier_short_name') );
   }
 
 };
