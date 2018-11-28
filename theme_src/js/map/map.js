@@ -224,8 +224,12 @@ function enableSearch( gletscher_features) {
         searchData[i] = { label: gl.values_.glacier_full_name, value: gl };
       }
 
+      function onSelect(ev, ui) {
+        selectGlacier( ui.item.value);
+      }
       searchInput.autocomplete({
           source: searchData,
+          select: onSelect,
       });
 }
 
