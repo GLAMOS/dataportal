@@ -229,6 +229,7 @@ function enableSearch( gletscher_features) {
 
       function onSelect(ev, ui) {
         selectGlacier( ui.item.value);
+        //TODO: if monitoring, add to selection list
         // emptify search bar
         ev.preventDefault();   // otherwise ui.item.value shows up in input
         $(ev.target).val("");
@@ -440,6 +441,8 @@ function selectGlacier(feature, pan=true) {
       var center = [ selected.get('coordx'), selected.get('coordy') ];
       map.getView().setCenter(center);
     }
+
+    //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
 
     //3. fuege neuen slug hinzu, triggert neuladen
     window.location.hash =
