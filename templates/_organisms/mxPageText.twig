@@ -6,7 +6,7 @@
     quality: 75,
 } %}
 
-{% set pageContent = entry.pageText.with(['cellImg']).all() %}
+{% set pageContent = entry.pageText.all() %}
 
 {% for block in pageContent %}
   <span class="offsetPusher {{ block.cellColumnStart }}"></span>
@@ -16,7 +16,7 @@
       <div class="{{ block.cellColumn}}">{{ macro.richText(block.cellTxt) }}</div>
     {% case "mxImg" %}
       <div class="{{ block.cellColumn}}">
-        {% for asset in block.cellImg %}
+        {% for asset in block.cellImg.all() %}
           <img src="{{ asset.url(imgTransform) }}" alt="{{ asset.title }}">
         {% endfor %}
       </div>

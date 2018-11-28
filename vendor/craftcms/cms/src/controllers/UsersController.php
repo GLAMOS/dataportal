@@ -104,6 +104,7 @@ class UsersController extends Controller
      * Displays the login template, and handles login post requests.
      *
      * @return Response|null
+     * @throws BadRequestHttpException
      */
     public function actionLogin()
     {
@@ -120,8 +121,8 @@ class UsersController extends Controller
         // First, a little house-cleaning for expired, pending users.
         Craft::$app->getUsers()->purgeExpiredPendingUsers();
 
-        $loginName = Craft::$app->getRequest()->getBodyParam('loginName');
-        $password = Craft::$app->getRequest()->getBodyParam('password');
+        $loginName = (string)Craft::$app->getRequest()->getRequiredBodyParam('loginName');
+        $password = (string)Craft::$app->getRequest()->getRequiredBodyParam('password');
         $rememberMe = (bool)Craft::$app->getRequest()->getBodyParam('rememberMe');
 
         // Does a user exist with that username/email?
@@ -174,9 +175,10 @@ class UsersController extends Controller
         $request = Craft::$app->getRequest();
 
         $userId = $request->getBodyParam('userId');
-        $originalUserId = $userService->getId();
 
-        $session->set(User::IMPERSONATE_KEY, $originalUserId);
+        // Save the original user ID to the session now so User::findIdentity()
+        // knows not to worry if the user isn't active yet
+        $session->set(User::IMPERSONATE_KEY, $userService->getId());
 
         if (!$userService->loginByUserId($userId)) {
             $session->remove(User::IMPERSONATE_KEY);
