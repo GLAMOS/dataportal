@@ -1,6 +1,6 @@
 {% import '_incl/docMacros' as macro %}
 
-{% for item in craft.entries.section('annualBook').all() %}
+{% for item in craft.entries.section('annualBook').with(['pubDoc']).all() %}
   <div class="pubEntry">
     <h4 class="scientificTitle">
       {{ item.title }}<br>
