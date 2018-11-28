@@ -1,8 +1,8 @@
 {
     "name": "mmikkel/cp-clearcache",
-    "description": "Fewer clicks to get clearin'",
+    "description": "Less clickin’ to get clearin’",
     "type": "craft-plugin",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "keywords": [
         "craft",
         "cms",
