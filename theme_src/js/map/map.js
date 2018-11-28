@@ -420,7 +420,7 @@ function mouse2features(browserEvent) {
 }
 
 // populate Schluesseldaten, highlight selected marker
-function selectGlacier(feature) {
+function selectGlacier(feature, pan=true) {
     //1. fill infobox from feature
     gletscher_id = feature.getId();
     fillSchluesseldaten(gletscher_id, page);
@@ -434,6 +434,12 @@ function selectGlacier(feature) {
     //hoverOverlay.getSource().removeFeature(hover);
     selectedOverlay.getSource().addFeature(feature);
     selected = feature;
+
+    // possibly pan the map to the highlighted marker
+    if(pan) {
+      var center = [ selected.get('coordx'), selected.get('coordy') ];
+      map.getView().setCenter(center);
+    }
 
     //3. fuege neuen slug hinzu, triggert neuladen
     window.location.hash =
