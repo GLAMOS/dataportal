@@ -101,6 +101,7 @@ import './map/map.js';
         bindto: '#chart',
         data: {
           columns: [YEARS, CUM_LENGTHS],
+          type: 'spline',
           xs: {
             [LINE_LABEL]: X_AXIS_NAME
           },
@@ -108,23 +109,29 @@ import './map/map.js';
             [LINE_LABEL]: 'y'
           }
         },
+        legend: {
+          show: false
+        },
+        grid: {
+          y: { show: true },
+          x: { show: true }
+        },
         axis: {
           x: {
-            // label: 'Jahr',
-            // position: 'outer-center',
             tick: {
               format: '%Y', //-%m-%d'
-              outer: false
+              outer: false,
+              rotate: 45
             },
             type: 'timeseries',
           },
           y: {
             label: {
-              position: 'outer-middle',
+              position: 'inner-middle',
               text: 'Kumulative Längenänderung (m)',
             },
             tick: {
-              outer: false
+              outer: false,
             }
           }
         },

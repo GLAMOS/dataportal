@@ -1,0 +1,17 @@
+
+//charts
+.c3 {
+  text {
+    font-family: 'Barlow', sans-serif;
+    color: $txtColor;
+  }
+  .c3-axis-y-label {
+    @extend %fontS;
+  }
+  .tick {
+    @extend %fontXS;
+  }
+  path.c3-shape {
+    stroke: red;
+  }
+}
