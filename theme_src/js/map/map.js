@@ -226,6 +226,9 @@ function enableSearch( gletscher_features) {
 
       function onSelect(ev, ui) {
         selectGlacier( ui.item.value);
+        // emptify search bar
+        ev.preventDefault();   // otherwise ui.item.value shows up in input
+        $(ev.target).val("");
       }
       searchInput.autocomplete({
           source: searchData,
