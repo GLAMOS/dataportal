@@ -3,6 +3,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
+  {% include '_incl/docWebfont' %}
+
   {% if not craft.app.config.general.devMode %}
     <link href="/theme/css/glamos.min.css?version={{ themeVersions }}" rel="stylesheet">
   {% else %}
@@ -11,7 +13,7 @@
 
   {% include '_organisms/SeoPage' %}
   {% include '_incl/docFavicons' %}
-  {% include '_incl/docWebfont' %}
+
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
