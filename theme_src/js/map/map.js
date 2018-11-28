@@ -222,7 +222,7 @@ function enableSearch( gletscher_features) {
       if( ! searchInput.length || ! gletscher_features.length)  return;
       for( var i = 0; i < gletscher_features.length; i++) {
         var gl = gletscher_features[i];
-        searchData[i] = { label: gl.values_.glacier_full_name, value: gl };
+        searchData[i] = { label: gl.values_.glacier_short_name, value: gl };
       }
 
       function onSelect(ev, ui) {
