@@ -459,7 +459,7 @@ function onMapClick(browserEvent) {
 
   //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
   //es wird nur das letzte feature beachtet
-  selectGlacier( features[features.length-1] );
+  selectGlacier( features[features.length-1], false );
 }
 
 map && map.on('click', onMapClick);
