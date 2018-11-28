@@ -239,7 +239,7 @@ var format = new GeoJSON;
 var url = '/geo/glamos_inventory_dummy.geojson';
 var gletscher_id;// = 'B36\/26'; //default = Aletschgletscher
 var initialFeature;
-var selected;
+var selected;   // the one feature (glacier) which is selected
 
 let id_from_slug;
 
@@ -398,47 +398,53 @@ map && map.addLayer(selectedOverlay);
  * ** add interactivity to the map
  ****************************************************************************************************************/
 
-// when the user clicks on a feature, get the name property
-// from each feature under the mouse and display it
-function onMapClick(browserEvent) {
+// get all features under the mouse
+function mouse2features(browserEvent) {
   var coordinate = browserEvent.coordinate;
   var pixel = map.getPixelFromCoordinate(coordinate);
+  var features = [];
+  map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+    features.push(feature);
+  });
+  return features;
+}
 
-  //1. fill infobox from feature
-  //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
-  //es wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
-  let lastFeature = null;
-  map.forEachFeatureAtPixel(pixel, function (feature) {
-    //click nur wenn es werte oder namen hat
-    if (filterFeature(feature)) {
-      gletscher_id = feature.getId();
-      fillSchluesseldaten(feature.getId(), page);
-      //TODO wenn null = leer
-      lastFeature = feature;
+// populate Schluesseldaten, highlight selected marker
+function selectGlacier(feature) {
+    //1. fill infobox from feature
+    gletscher_id = feature.getId();
+    fillSchluesseldaten(gletscher_id, page);
+
+    //2a. reset current selection
+    if (selected) {
+      selectedOverlay.getSource().removeFeature(selected);
     }
 
     //2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu
-    if (feature !== selected && filterFeature(feature)) {
-      if (selected) {
-        selectedOverlay.getSource().removeFeature(selected);
-      }
-      if (feature) {
-        //hoverOverlay.getSource().removeFeature(hover);
-        selectedOverlay.getSource().addFeature(feature);
-      }
-      selected = feature;
-    }
-  });
+    //hoverOverlay.getSource().removeFeature(hover);
+    selectedOverlay.getSource().addFeature(feature);
+    selected = feature;
 
-  //3. fuege neuen slug hinzu:
-  if (lastFeature) {
+    //3. fuege neuen slug hinzu, triggert neuladen
     window.location.hash =
     //  encodeURIComponent(
         gletscher_id
     //  )
     ;
-  }
-};
+}
+
+// when the user clicks on a feature, select it
+// (last one in DOM if cursor hit multiple features)
+function onMapClick(browserEvent) {
+  var features = mouse2features(browserEvent);
+  // consider only glaciers with data
+  features = features.filter(filterFeature);
+  if( !features.length)  return;
+
+  //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
+  //es wird nur das letzte feature beachtet
+  selectGlacier( features[features.length-1] );
+}
 
 map && map.on('click', onMapClick);
 
