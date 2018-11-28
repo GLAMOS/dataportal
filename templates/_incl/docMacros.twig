@@ -6,9 +6,9 @@
   {{ string | striptags('<p><a><strong><br><ul><li><em>')  | raw }}
 {% endmacro %}
 
-{% macro pubDate(dateParam) %}
+{%- macro pubDate(dateParam) -%}
   {{ dateParam | date('short') }}
-{% endmacro %}
+{%- endmacro -%}
 
 
 {% macro singleValue(valueParam, unitParam, labelParam, idParam) %}

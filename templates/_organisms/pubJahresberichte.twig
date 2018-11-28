@@ -3,9 +3,9 @@
 {% for item in craft.entries.section('annualReport').all() %}
   <div class="pubEntry">
     <h4 class="scientificTitle">
-      {{ item.title }}
+      {{ item.title }}<br>
       <span class="normal">
-        {% include '_atoms/authors' %},
+        {% include '_atoms/authors' %}
         {{ macro.textField(item.publikationsmedium)}}
       </span>
     </h4>
