@@ -18,6 +18,8 @@ import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
 
+var DISPLAY_NAME = 'glacier_short_name';
+
 var hidePoints = new Style({
   image: new Circle(({
     radius: 0,
@@ -168,10 +170,10 @@ console.log('fillSchlüsseldaten: ' + page);
       updateValue(infoboxLengthDuration, '--');
       updateValue(infoboxLengthCumulative, '--');
     }
-    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get('glacier_short_name') );
+    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get(DISPLAY_NAME) );
 
   if (page == 'factsheet') {
-    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get('glacier_short_name') );
+    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get(DISPLAY_NAME) );
   }
 
 };
@@ -222,7 +224,7 @@ function enableSearch( gletscher_features) {
       if( ! searchInput.length || ! gletscher_features.length)  return;
       for( var i = 0; i < gletscher_features.length; i++) {
         var gl = gletscher_features[i];
-        searchData[i] = { label: gl.values_.glacier_short_name, value: gl };
+        searchData[i] = { label: gl.values_[DISPLAY_NAME], value: gl };
       }
 
       function onSelect(ev, ui) {
