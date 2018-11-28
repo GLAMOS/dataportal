@@ -217,6 +217,7 @@ var gletscher_alle = new VectorLayer({
 // search bar
 function enableSearch( gletscher_features) {
       var searchInput = $('.fieldSearchWrapper input');
+      gletscher_features = gletscher_features.filter(filterFeature);
       var searchData = [];
       if( ! searchInput.length || ! gletscher_features.length)  return;
       for( var i = 0; i < gletscher_features.length; i++) {
