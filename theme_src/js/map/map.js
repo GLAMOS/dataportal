@@ -213,6 +213,23 @@ var gletscher_alle = new VectorLayer({
 
 */
 
+
+// search bar
+function enableSearch( gletscher_features) {
+      var searchInput = $('.fieldSearchWrapper input');
+      var searchData = [];
+      if( ! searchInput.length || ! gletscher_features.length)  return;
+      for( var i = 0; i < gletscher_features.length; i++) {
+        var gl = gletscher_features[i];
+        searchData[i] = { label: gl.values_.glacier_full_name, value: gl };
+      }
+
+      searchInput.autocomplete({
+          source: searchData,
+      });
+}
+
+
 //liste mit VIP gletschern - noch unklar wo diese später herkommt
 var glacierVips = glacier_vip.features.map(function (el) {
   return el.properties;
@@ -233,6 +250,9 @@ var gletscher_source = new Vector({
       var features = format.readFeatures(response,
         { featureProjection: 'EPSG:3857' });
       gletscher_source.addFeatures(features);
+
+      // re-use features ary for search bar
+      enableSearch(features);
 
       // var id_from_slug = gletscher_source.getFeatureById(slug);
       //console.log("window.location.hash = '" + window.location.hash + "'");
