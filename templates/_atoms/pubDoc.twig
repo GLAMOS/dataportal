@@ -4,13 +4,15 @@
     {% case "mxDocPubPDF" %}
 
       {% for asset in block.cellFile %}
-        <a href="{{ asset.url }}">{{ item.title }}</a>
+        <a href="{{ asset.url }}">{{ block.cellLabel }}</a>
       {% endfor %}
 
     {% case "mxDocPubExt" %}
 
-      <a href="{{ block.cellLink }}" target="_blank">{{ item.title }}</a>
+      <a href="{{ block.cellLink }}" target="_blank">{{ block.cellLabel }}</a>
 
   {% endswitch %}
 
-{% endfor %}
+  {% if not loop.last %} / {% endif %}
+
+{%- endfor -%}

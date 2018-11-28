@@ -5,8 +5,9 @@
     <h4 class="scientificTitle">
       {{ item.title }}<br>
       <span class="normal">
-        {% include '_atoms/authors' %}
+        {% include '_atoms/authors' %}<br>
         {{ macro.textField(item.publikationsmedium)}}
+        {% include '_atoms/pubDoc' %}
       </span>
     </h4>
   </div>
