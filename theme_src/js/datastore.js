@@ -14,23 +14,13 @@ import $ from 'jquery';
 // ----- managing list of selected features
 class SelectionList {
   constructor() {
-    this.selectedFeatures = []   // the store
+    let _selectedFeatures = []   // the store
 
-    this.get = this.get.bind(this)
-    this.add = this.add.bind(this)
-    this.remove = this.remove.bind(this)
-  }
+    this.get = () => [..._selectedFeatures]   // return a shallow copy
 
-  get() {
-    return [...this.selectedFeatures]   // return a shallow copy
-  }
+    this.add = (feature) => _selectedFeatures.push(feature)
 
-  add(feature) {
-    this.selectedFeatures.push(feature)
-  }
-
-  remove(callback) {
-    this.selectedFeatures = this.selectedFeatures.filter( callback)
+    this.remove = (callback) => { _selectedFeatures = _selectedFeatures.filter( callback) }
   }
 }
 
