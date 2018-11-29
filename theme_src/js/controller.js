@@ -19,6 +19,9 @@ class Controller {
 
   // -- Home
 
+  mapMarkerHighlighted(feature) {
+  }
+
   searchSelected(feature) {
   }
 
