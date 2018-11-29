@@ -209,6 +209,8 @@ class SelectionList {
     this.refresh()
   }
 
+  //TODO: implement Reset via button
+
   refresh() {
     const contents = this.selectedFeatures.map( this.renderEntry )
     const container = $('#monitoring-glacier--list')
