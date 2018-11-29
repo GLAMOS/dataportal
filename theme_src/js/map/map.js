@@ -193,14 +193,23 @@ class SelectionList {
   constructor() {
     this.selectedFeatures = []
     this.add = this.add.bind(this)
+    this.renderEntry = this.renderEntry.bind(this)
   }
 
   add(feature) {
     this.selectedFeatures.push(feature)
+    this.refresh()
   }
 
   remove(id) {
     this.selectedFeatures = this.selectedFeatures.filter( feat => feat.getId() != id)
+    this.refresh()
+  }
+
+  refresh() {
+    const contents = this.selectedFeatures.map( this.renderEntry )
+    const container = $('#monitoring-glacier--list')
+    $('#monitoring-glacier--list').html(contents)
   }
 
   renderEntry(feature) {
