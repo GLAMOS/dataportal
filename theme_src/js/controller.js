@@ -59,7 +59,7 @@ controller = new Proxy(
   controller,
   { get: function( controller, fn, proxy) {
       return function wrapped() {
-        console.debug('Controller', fn)
+        console.debug('Controller', fn, arguments)
         return controller[fn].apply(this, arguments)
       }
   }}
