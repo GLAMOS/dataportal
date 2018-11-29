@@ -18,7 +18,7 @@ import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
 
-var DISPLAY_NAME = 'glacier_short_name';
+const DISPLAY_NAME = 'glacier_short_name';
 
 var hidePoints = new Style({
   image: new Circle(({
@@ -218,14 +218,14 @@ var gletscher_alle = new VectorLayer({
 
 // search bar
 function enableSearch( gletscher_features) {
-      var searchInput = $('.fieldSearchWrapper input');
+      const searchInput = $('.fieldSearchWrapper input');
+
       gletscher_features = gletscher_features.filter(filterFeature);
-      var searchData = [];
       if( ! searchInput.length || ! gletscher_features.length)  return;
-      for( var i = 0; i < gletscher_features.length; i++) {
-        var gl = gletscher_features[i];
-        searchData[i] = { label: gl.get(DISPLAY_NAME), value: gl };
-      }
+
+      const searchData = gletscher_features.map( feat => (
+        { label: feat.get(DISPLAY_NAME), value: feat }
+      ));
 
       function onSelect(ev, ui) {
         selectGlacier( ui.item.value);
@@ -411,12 +411,10 @@ map && map.addLayer(selectedOverlay);
 
 // get all features under the mouse
 function mouse2features(browserEvent) {
-  var coordinate = browserEvent.coordinate;
-  var pixel = map.getPixelFromCoordinate(coordinate);
-  var features = [];
-  map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-    features.push(feature);
-  });
+  const coordinate = browserEvent.coordinate;
+  const pixel = map.getPixelFromCoordinate(coordinate);
+  const features = [];
+  map.forEachFeatureAtPixel(pixel, (feature, layer) => features.push(feature) );
   return features;
 }
 
@@ -438,7 +436,7 @@ function selectGlacier(feature, pan=true) {
 
     // possibly pan the map to the highlighted marker
     if(pan) {
-      var center = [ selected.get('coordx'), selected.get('coordy') ];
+      const center = [ selected.get('coordx'), selected.get('coordy') ];
       map.getView().setCenter(center);
     }
 
@@ -455,7 +453,7 @@ function selectGlacier(feature, pan=true) {
 // when the user clicks on a feature, select it
 // (last one in DOM if cursor hit multiple features)
 function onMapClick(browserEvent) {
-  var features = mouse2features(browserEvent);
+  let features = mouse2features(browserEvent);
   // consider only glaciers with data
   features = features.filter(filterFeature);
   if( !features.length)  return;
