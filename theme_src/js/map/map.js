@@ -255,8 +255,9 @@ function enableSearch( gletscher_features) {
       ));
 
       function onSelect(ev, ui) {
-        selectGlacier( ui.item.value);
-        //TODO: if monitoring, add to selection list
+        const feature = ui.item.value;
+        selectGlacier(feature);
+        monitoringSelectedFeatureList.add( feature);
         // emptify search bar
         ev.preventDefault();   // otherwise ui.item.value shows up in input
         $(ev.target).val("");
