@@ -11,6 +11,24 @@ import $ from 'jquery';
 // variables
 
 
+// ----- managing the single highlighted/selected feature
+class SingleSelection {
+  constructor() {
+    let _selectedFeature = null   // the store
+
+    this.get = () => _selectedFeature
+
+    this.set = (feature) => { _selectedFeature = feature }
+
+    this.clear = () => { _selectedFeature = null }
+ }
+
+  // by accessing .feature, we may avoid the need to set using parentheses: .set(foo)
+  get feature() { return this.get() }
+  set feature(feature) { return this.set(feature) }
+}
+
+
 // ----- managing list of selected features
 class SelectionList {
   constructor() {
@@ -28,6 +46,7 @@ class SelectionList {
 // -----
 // singleton instances
 
+const highlightedGlacier = new SingleSelection()
 const selectedGlaciers = new SelectionList()
 
 
@@ -35,5 +54,6 @@ const selectedGlaciers = new SelectionList()
 // exports
 
 module.exports = {
+  highlightedGlacier,
   selectedGlaciers,
 }
