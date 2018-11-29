@@ -17,6 +17,7 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
+import urlManager from '../UrlManager'
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 
@@ -246,7 +247,7 @@ function dynamicLinks() {
   for (var i = 0; i < dynamicElements.length; i++){
 
    dynamicElements[i].addEventListener("click", function (e) {
-    window.location.href = this.href + window.location.hash;
+     urlManager.navigateTo( this.href);
      e.preventDefault();
    }, false);
 
@@ -323,8 +324,7 @@ var gletscher_source = new Vector({
       enableSearch(features);
 
       // var id_from_slug = gletscher_source.getFeatureById(slug);
-      //console.log("window.location.hash = '" + window.location.hash + "'");
-      id_from_slug = decodeURIComponent((window.location.hash.match(/^#?(.+)/) || [, ""])[1]);
+      id_from_slug = urlManager.getIdFromUrl();
 
       /* DEBUG */
       console.log("id_from_slug =", id_from_slug);
@@ -337,7 +337,7 @@ var gletscher_source = new Vector({
         gletscher_id = id_from_slug;
         console.log('Slug gletscher: ' + id_from_slug);
         fillSchluesseldaten(id_from_slug, page);
-        window.location.hash = id_from_slug;
+        urlManager.setId(id_from_slug);
 
         //add Eventlistener auf alle Links
 
@@ -357,8 +357,7 @@ var gletscher_source = new Vector({
         gletscher_id = id_from_vips;
         console.log('random gletscher: ' + id_from_vips);
         fillSchluesseldaten(id_from_vips, page);
-        window.location.hash = id_from_vips;
-
+        urlManager.setId(id_from_vips);
 
         var coordX = gletscher_source.getFeatureById(id_from_vips).get('coordx');
         var coordY = gletscher_source.getFeatureById(id_from_vips).get('coordy');
@@ -500,11 +499,7 @@ function selectGlacier(feature, pan=true) {
     //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
 
     //3. fuege neuen slug hinzu, triggert neuladen
-    window.location.hash =
-    //  encodeURIComponent(
-        gletscher_id
-    //  )
-    ;
+    urlManager.setId(gletscher_id);
 }
 
 // when the user clicks on a feature, select it
