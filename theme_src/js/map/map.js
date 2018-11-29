@@ -18,6 +18,8 @@ import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
 
+const DISPLAY_NAME = 'glacier_short_name';
+
 var hidePoints = new Style({
   image: new Circle(({
     radius: 0,
@@ -168,10 +170,10 @@ console.log('fillSchlüsseldaten: ' + page);
       updateValue(infoboxLengthDuration, '--');
       updateValue(infoboxLengthCumulative, '--');
     }
-    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get('glacier_short_name') );
+    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get(DISPLAY_NAME) );
 
   if (page == 'factsheet') {
-    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get('glacier_short_name') );
+    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get(DISPLAY_NAME) );
   }
 
 };
@@ -213,6 +215,39 @@ var gletscher_alle = new VectorLayer({
 
 */
 
+
+/*  Search Bar
+ *
+ * Used on the tabs Home, Monitoring and Factsheet
+ * This function bootstratps the search bar:
+ * - sets up the underlaying data
+ * - attaches autocomplete to the template's input
+ * - handles the select event (choosing a hit)
+ */
+function enableSearch( gletscher_features) {
+      const searchInput = $('.fieldSearchWrapper input');
+
+      gletscher_features = gletscher_features.filter(filterFeature);
+      if( ! searchInput.length || ! gletscher_features.length)  return;
+
+      const searchData = gletscher_features.map( feat => (
+        { label: feat.get(DISPLAY_NAME), value: feat }
+      ));
+
+      function onSelect(ev, ui) {
+        selectGlacier( ui.item.value);
+        //TODO: if monitoring, add to selection list
+        // emptify search bar
+        ev.preventDefault();   // otherwise ui.item.value shows up in input
+        $(ev.target).val("");
+      }
+      searchInput.autocomplete({
+          source: searchData,
+          select: onSelect,
+      });
+}
+
+
 //liste mit VIP gletschern - noch unklar wo diese später herkommt
 var glacierVips = glacier_vip.features.map(function (el) {
   return el.properties;
@@ -222,7 +257,7 @@ var format = new GeoJSON;
 var url = '/geo/glamos_inventory_dummy.geojson';
 var gletscher_id;// = 'B36\/26'; //default = Aletschgletscher
 var initialFeature;
-var selected;
+var selected;   // the one feature (glacier) which is selected
 
 let id_from_slug;
 
@@ -233,6 +268,9 @@ var gletscher_source = new Vector({
       var features = format.readFeatures(response,
         { featureProjection: 'EPSG:3857' });
       gletscher_source.addFeatures(features);
+
+      // re-use features ary for search bar
+      enableSearch(features);
 
       // var id_from_slug = gletscher_source.getFeatureById(slug);
       //console.log("window.location.hash = '" + window.location.hash + "'");
@@ -378,47 +416,59 @@ map && map.addLayer(selectedOverlay);
  * ** add interactivity to the map
  ****************************************************************************************************************/
 
-// when the user clicks on a feature, get the name property
-// from each feature under the mouse and display it
-function onMapClick(browserEvent) {
-  var coordinate = browserEvent.coordinate;
-  var pixel = map.getPixelFromCoordinate(coordinate);
+// get all features under the mouse
+function mouse2features(browserEvent) {
+  const coordinate = browserEvent.coordinate;
+  const pixel = map.getPixelFromCoordinate(coordinate);
+  const features = [];
+  map.forEachFeatureAtPixel(pixel, (feature, layer) => features.push(feature) );
+  return features;
+}
 
-  //1. fill infobox from feature
-  //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
-  //es wird nur das letzte feature gelesen und geschrieben da es ueberschrieben wird in der foreach-schleife
-  let lastFeature = null;
-  map.forEachFeatureAtPixel(pixel, function (feature) {
-    //click nur wenn es werte oder namen hat
-    if (filterFeature(feature)) {
-      gletscher_id = feature.getId();
-      fillSchluesseldaten(feature.getId(), page);
-      //TODO wenn null = leer
-      lastFeature = feature;
+// populate Schluesseldaten, highlight selected marker
+function selectGlacier(feature, pan=true) {
+    //1. fill infobox from feature
+    gletscher_id = feature.getId();
+    fillSchluesseldaten(gletscher_id, page);
+
+    //2a. reset current selection
+    if (selected) {
+      selectedOverlay.getSource().removeFeature(selected);
     }
 
     //2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu
-    if (feature !== selected && filterFeature(feature)) {
-      if (selected) {
-        selectedOverlay.getSource().removeFeature(selected);
-      }
-      if (feature) {
-        //hoverOverlay.getSource().removeFeature(hover);
-        selectedOverlay.getSource().addFeature(feature);
-      }
-      selected = feature;
-    }
-  });
+    //hoverOverlay.getSource().removeFeature(hover);
+    selectedOverlay.getSource().addFeature(feature);
+    selected = feature;
 
-  //3. fuege neuen slug hinzu:
-  if (lastFeature) {
+    // possibly pan the map to the highlighted marker
+    if(pan) {
+      const center = [ selected.get('coordx'), selected.get('coordy') ];
+      map.getView().setCenter(center);
+    }
+
+    //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
+
+    //3. fuege neuen slug hinzu, triggert neuladen
     window.location.hash =
     //  encodeURIComponent(
         gletscher_id
     //  )
     ;
-  }
-};
+}
+
+// when the user clicks on a feature, select it
+// (last one in DOM if cursor hit multiple features)
+function onMapClick(browserEvent) {
+  let features = mouse2features(browserEvent);
+  // consider only glaciers with data
+  features = features.filter(filterFeature);
+  if( !features.length)  return;
+
+  //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
+  //es wird nur das letzte feature beachtet
+  selectGlacier( features[features.length-1], false );
+}
 
 map && map.on('click', onMapClick);
 
