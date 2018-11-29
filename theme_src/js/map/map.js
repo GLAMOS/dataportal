@@ -188,6 +188,17 @@ function remove_first_occurrence(str, searchstr)       {
 
 */
 
+// ----- Monitoring: Selection List
+class SelectionList {
+  constructor() {
+    this.selectedFeatures = []
+  }
+}
+
+var monitoringSelectedFeatureList = new SelectionList();
+
+// -----
+
 function dynamicLinks() {
   let dynamicElements = document.querySelectorAll(`#navbar-mapViewer, #navbar-factsheetListing,
     #navbar-homepage, #oversight-mapViewer, #oversight-factsheet, #oversight-download,
