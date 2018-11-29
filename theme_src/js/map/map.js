@@ -216,7 +216,14 @@ var gletscher_alle = new VectorLayer({
 */
 
 
-// search bar
+/*  Search Bar
+ *
+ * Used on the tabs Home, Monitoring and Factsheet
+ * This function bootstratps the search bar:
+ * - sets up the underlaying data
+ * - attaches autocomplete to the template's input
+ * - handles the select event (choosing a hit)
+ */
 function enableSearch( gletscher_features) {
       const searchInput = $('.fieldSearchWrapper input');
 
