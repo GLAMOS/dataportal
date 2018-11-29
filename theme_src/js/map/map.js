@@ -17,7 +17,8 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
-import { selectedGlaciers } from '../datastore'
+import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
+import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 
 
 const DISPLAY_NAME = 'glacier_short_name';
@@ -221,7 +222,7 @@ class SelectionList {
   }
 
   renderEntry(feature) {
-    const auxClass = (feature == selected) ? 'active' : ''
+    const auxClass = (feature == highlightedGlacier.feature) ? 'active' : ''
     const id = feature.getId()
     const name = feature.get(DISPLAY_NAME)
     return `<div class="comparisonEntry ${auxClass}">
@@ -307,7 +308,6 @@ var format = new GeoJSON;
 var url = '/geo/glamos_inventory_dummy.geojson';
 var gletscher_id;// = 'B36\/26'; //default = Aletschgletscher
 var initialFeature;
-var selected;   // the one feature (glacier) which is selected
 
 let id_from_slug;
 
@@ -373,7 +373,7 @@ var gletscher_source = new Vector({
       });
       initialFeature.setId('initialGlacier');
       selectedOverlay.getSource().addFeature(initialFeature);
-      selected = initialFeature;
+      highlightedGlacier.feature = initialFeature;
     });
 
   }
@@ -482,18 +482,18 @@ function selectGlacier(feature, pan=true) {
     fillSchluesseldaten(gletscher_id, page);
 
     //2a. reset current selection
-    if (selected) {
-      selectedOverlay.getSource().removeFeature(selected);
+    if (highlightedGlacier.feature) {
+      selectedOverlay.getSource().removeFeature( highlightedGlacier.feature);
     }
 
     //2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu
     //hoverOverlay.getSource().removeFeature(hover);
     selectedOverlay.getSource().addFeature(feature);
-    selected = feature;
+    highlightedGlacier.feature = feature;
 
     // possibly pan the map to the highlighted marker
     if(pan) {
-      const center = [ selected.get('coordx'), selected.get('coordy') ];
+      const center = [ highlightedGlacier.feature.get('coordx'), highlightedGlacier.feature.get('coordy') ];
       map.getView().setCenter(center);
     }
 
@@ -550,7 +550,7 @@ var featureHover = function (pixel) {
     return false;
   });
 
-  if (feature !== hover && feature !== selected) {
+  if (feature !== hover && feature !== highlightedGlacier.feature) {
     if (hover) {
       hoverOverlay.getSource().removeFeature(hover);
     }
