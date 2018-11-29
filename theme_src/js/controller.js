@@ -54,6 +54,17 @@ class Controller {
 // singleton instance
 let controller = new Controller()
 
+// -- debugging usage
+controller = new Proxy(
+  controller,
+  { get: function( controller, fn, proxy) {
+      return function wrapped() {
+        console.debug('Controller', fn)
+        return controller[fn].apply(this, arguments)
+      }
+  }}
+)
+
 // -----
 // exports
 
