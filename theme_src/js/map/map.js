@@ -17,6 +17,7 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
+import controller from '../controller'
 import urlManager from '../UrlManager'
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
@@ -287,6 +288,7 @@ function enableSearch( gletscher_features) {
 
       function onSelect(ev, ui) {
         const feature = ui.item.value;
+        controller.searchSelected(feature)
         selectGlacier(feature);
         monitoringSelectedFeatureList.add( feature);
         // emptify search bar
