@@ -192,6 +192,15 @@ function remove_first_occurrence(str, searchstr)       {
 class SelectionList {
   constructor() {
     this.selectedFeatures = []
+    this.add = this.add.bind(this)
+  }
+
+  add(feature) {
+    this.selectedFeatures.push(feature)
+  }
+
+  remove(id) {
+    this.selectedFeatures = this.selectedFeatures.filter( feat => feat.getId() != id)
   }
 }
 
