@@ -17,6 +17,8 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
+import { selectedGlaciers } from '../datastore'
+
 
 const DISPLAY_NAME = 'glacier_short_name';
 
@@ -190,8 +192,8 @@ function remove_first_occurrence(str, searchstr)       {
 
 // ----- Monitoring: Selection List
 class SelectionList {
-  constructor() {
-    this.selectedFeatures = []
+  constructor(datastoreList) {
+    this.store = datastoreList
     this.svgClose = '<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>close</title><path d="M305.5,256,473.75,87.75a35,35,0,0,0-49.5-49.5L256,206.5,87.75,38.25a35,35,0,0,0-49.5,49.5L206.5,256,38.25,424.25a35,35,0,0,0,49.5,49.5L256,305.5,424.25,473.75a35,35,0,0,0,49.5-49.5Z"></path></svg>'
 
     this.add = this.add.bind(this)
@@ -199,20 +201,20 @@ class SelectionList {
   }
 
   add(feature) {
-    this.selectedFeatures.push(feature)
+    this.store.add(feature)
     this.refresh()
   }
 
   remove(id) {
     id = id.replace( '--close', '')
-    this.selectedFeatures = this.selectedFeatures.filter( feat => feat.getId() != id)
+    this.store.remove( feat => feat.getId() != id)
     this.refresh()
   }
 
   //TODO: implement Reset via button
 
   refresh() {
-    const contents = this.selectedFeatures.map( this.renderEntry )
+    const contents = this.store.get().map( this.renderEntry )
     const container = $('#monitoring-glacier--list')
     $('#monitoring-glacier--list').html(contents)
     .find('.btn.close').on('click', (ev) => this.remove(ev.target.id) )
@@ -231,7 +233,7 @@ class SelectionList {
   }
 }
 
-var monitoringSelectedFeatureList = new SelectionList();
+var monitoringSelectedFeatureList = new SelectionList(selectedGlaciers);
 
 // -----
 

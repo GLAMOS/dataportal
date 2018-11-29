@@ -35,3 +35,15 @@ class SelectionList {
 }
 
 
+// -----
+// singleton instances
+
+const selectedGlaciers = new SelectionList()
+
+
+// -----
+// exports
+
+module.exports = {
+  selectedGlaciers,
+}
