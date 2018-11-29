@@ -202,6 +202,17 @@ class SelectionList {
   remove(id) {
     this.selectedFeatures = this.selectedFeatures.filter( feat => feat.getId() != id)
   }
+
+  renderEntry(feature) {
+		const auxClass = (feature == selected) ? 'active' : ''
+		const id = feature.getId()
+		const name = feature.get(DISPLAY_NAME)
+		return `<div class="comparisonEntry ${auxClass}">
+        <button type="button" name="highlight" class="glacierName" id="${id}--list">${name}</button>
+        <button type="button" name="remove" class="btn close" id="${id}--close">
+        </button>
+      </div>`
+  }
 }
 
 var monitoringSelectedFeatureList = new SelectionList();
