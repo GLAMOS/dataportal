@@ -210,7 +210,7 @@ class SelectionList {
 
   remove(id) {
     id = id.replace( '--close', '')
-    this.store.remove( feat => feat.getId() != id)
+    controller.selectionListRemove(id)
     this.refresh()
   }
 

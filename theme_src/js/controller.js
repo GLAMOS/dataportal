@@ -1,5 +1,7 @@
 'use strict';
 
+import { selectedGlaciers } from './datastore'
+
 
 // -----
 // constants
@@ -43,6 +45,7 @@ class Controller {
   }
 
   selectionListRemove(id) {
+    selectedGlaciers.remove( feat => feature2id(feat) != id )
   }
 
   selectionListReset(id) {
