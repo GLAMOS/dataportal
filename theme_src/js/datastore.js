@@ -41,6 +41,8 @@ class SelectionList {
     this.remove = (callback) => { _selectedFeatures = _selectedFeatures.filter( callback) }
 
     this.clear = () => { _selectedFeatures = [] }
+
+    this.findById = (id) => _selectedFeatures.find( feat => feat.getId() == id )
   }
 }
 
