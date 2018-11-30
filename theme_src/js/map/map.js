@@ -208,6 +208,12 @@ class SelectionList {
     this.refresh()
   }
 
+  select(id) {
+    id = id.replace( '--list', '')
+    controller.selectionListHighlight(id)
+    this.refresh()
+  }
+
   remove(id) {
     id = id.replace( '--close', '')
     controller.selectionListRemove(id)
@@ -220,6 +226,7 @@ class SelectionList {
     const contents = this.store.get().map( this.renderEntry )
     const container = $('#monitoring-glacier--list')
     $('#monitoring-glacier--list').html(contents)
+    .find('[name="highlight"]').on('click', (ev) => this.select(ev.target.id) ).end()
     .find('[name="remove"]').on('click', (ev) => this.remove(ev.target.id) ).end()
   }
 
