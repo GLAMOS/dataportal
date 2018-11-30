@@ -8,6 +8,8 @@
 // -----
 // variables
 
+let bridge = {}   // store references to functions that should be moved herein
+
 
 // -----
 // helpers
@@ -54,8 +56,17 @@ class Controller {
 
 }
 
-// singleton instance
+
+// -----
+
+// -- singleton instance
 let controller = new Controller()
+
+// -- inject foreign implemented function into controller (they should be moved here though)
+controller.bridge = function(options) {
+  Object.assign( bridge, options)
+}
+
 
 // -- debugging usage
 controller = new Proxy(
