@@ -220,7 +220,7 @@ class SelectionList {
     const contents = this.store.get().map( this.renderEntry )
     const container = $('#monitoring-glacier--list')
     $('#monitoring-glacier--list').html(contents)
-    .find('.btn.close').on('click', (ev) => this.remove(ev.target.id) )
+    .find('[name="remove"]').on('click', (ev) => this.remove(ev.target.id) ).end()
   }
 
   renderEntry(feature) {
