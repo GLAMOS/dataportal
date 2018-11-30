@@ -41,6 +41,7 @@ class Controller {
   // -- Monitoring
 
   selectionListHighlight(id) {
+    const feature = selectedGlaciers.findById(id)
     bridge.selectGlacier(feature)
   }
 
