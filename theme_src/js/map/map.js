@@ -237,6 +237,7 @@ class SelectionList {
 }
 
 var monitoringSelectedFeatureList = new SelectionList(selectedGlaciers);
+controller.bridge({monitoringSelectedFeatureList})
 
 // -----
 
@@ -289,8 +290,6 @@ function enableSearch( gletscher_features) {
       function onSelect(ev, ui) {
         const feature = ui.item.value;
         controller.searchSelected(feature)
-        selectGlacier(feature);
-        monitoringSelectedFeatureList.add( feature);
         // emptify search bar
         ev.preventDefault();   // otherwise ui.item.value shows up in input
         $(ev.target).val("");
@@ -514,8 +513,9 @@ function onMapClick(browserEvent) {
 
   //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
   //es wird nur das letzte feature beachtet
-  selectGlacier( features[features.length-1], false );
+  controller.mapMarkerHighlighted( features[features.length-1] )
 }
+controller.bridge({selectGlacier})
 
 map && map.on('click', onMapClick);
 

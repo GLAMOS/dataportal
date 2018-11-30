@@ -14,6 +14,10 @@ let bridge = {}   // store references to functions that should be moved herein
 // -----
 // helpers
 
+function feature2id(feature) {
+  return feature.getId()
+}
+
 
 // ----- Our Controller (Action -> Reaction)
 
@@ -22,20 +26,27 @@ class Controller {
   // -- Home
 
   mapMarkerHighlighted(feature) {
+    bridge.selectGlacier(feature)
+    // note: no map panning
+    bridge.monitoringSelectedFeatureList.add( feature)
   }
 
   searchSelected(feature) {
+    bridge.selectGlacier(feature)
+    bridge.monitoringSelectedFeatureList.add( feature)
   }
 
   // -- Monitoring
 
   selectionListHighlight(id) {
+    bridge.selectGlacier(feature)
   }
 
   selectionListRemove(id) {
   }
 
   selectionListReset(id) {
+    bridge.monitoringSelectedFeatureList.clear()
   }
 
   switchChartType(type) {
