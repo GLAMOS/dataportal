@@ -36,7 +36,7 @@ class SelectionList {
 
     this.get = () => [..._selectedFeatures]   // return a shallow copy
 
-    this.add = (feature) => _selectedFeatures.push(feature)
+    this.add = (feature) => _selectedFeatures.includes(feature) || _selectedFeatures.push(feature)
 
     this.remove = (callback) => { _selectedFeatures = _selectedFeatures.filter( callback) }
 
