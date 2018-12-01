@@ -26,15 +26,20 @@ function feature2id(feature) {
 
 class Controller {
 
-  //onPageLoad(page) {
-  onPageLoad() {
-    urlManager.decodeFullHash()
+  _bootstrapFromState() {
     const highlight = datastore.highlightedGlacier.get()
     highlight && bridge.selectGlacier(highlight)
   }
 
+  //onPageLoad(page) {
+  onPageLoad() {
+    urlManager.decodeFullHash()
+    this._bootstrapFromState()
+  }
+
   gotFeatures(features) {
     datastore.features.set(features)
+    this._bootstrapFromState()
   }
 
   // -- Home
@@ -62,6 +67,7 @@ class Controller {
 
   selectionListRemove(id) {
     datastore.selectedGlaciers.remove( feat => feature2id(feat) != id )
+    urlManager.majorUpdate()
   }
 
   selectionListReset(id) {
