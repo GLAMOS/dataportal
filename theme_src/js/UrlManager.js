@@ -44,6 +44,41 @@ class UrlManager {
       }
     }
 
+    // REDESIGNED
+
+    // private
+
+    // get from / set to hash
+    const _getFullHash = () => {
+    }
+
+    // public
+
+    /// just updates the URL hash shown in browser, without history entry
+    this.minorUpdate = () => {
+      const newHash = _getFullHash()
+      console.debug('UrlManager.minorUpdate', newHash)
+      if( window.history && window.history.replaceState) {
+        window.history.replaceState(null, null, newHash)
+      } else {
+        // src: https://stackoverflow.com/a/21782734
+        $(window).unbind( 'hashchange');
+        window.location.hash = hash;
+        $(window).bind( 'hashchange');
+      }
+    }
+
+    /// adds an entry to the history with the updated URL hash
+    this.majorUpdate = () => {
+      const newHash = _getFullHash()
+      console.debug('UrlManager.majorUpdate', newHash)
+      if( window.history && window.history.pushState) {
+        window.history.pushState(null, null, newHash)
+      } else {
+        window.location.hash = hash;
+      }
+    }
+
   }
 }
 
