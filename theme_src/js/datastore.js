@@ -34,6 +34,8 @@ class SelectionList {
   constructor() {
     let _selectedFeatures = []   // the store
 
+    this.set = (features) => { _selectedFeatures = features }
+
     this.get = () => [..._selectedFeatures]   // return a shallow copy
 
     this.add = (feature) => _selectedFeatures.includes(feature) || _selectedFeatures.push(feature)
