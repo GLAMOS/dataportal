@@ -48,8 +48,28 @@ class UrlManager {
 
     // private
 
+
+    // map layers: baselayers, div. featurelayers
+    const _getLayerHashPart = () => {
+    }
+
+    const _setLayersFromHashPart = (hashes) => {
+    }
+
+    // features (glaciers)
+    const _getFeatureHashPart = () => {
+    }
+
+    const _setFeaturesFromHashPart = (hashes) => {
+    }
+
     // get from / set to hash
     const _getFullHash = () => {
+      const fullHash = '#' + [
+          _getLayerHashPart().join('&'),
+          _getFeatureHashPart().join('&'),
+      ].join('/')
+      return fullHash
     }
 
     // public
@@ -83,6 +103,9 @@ class UrlManager {
       const hash = window.location.hash.replace(/^#/, '')
       // console.debug('UrlManager.decodeFullHash', hash)
       const [ layerPart, featurePart ] = hash.split('/')
+      layerPart && _setLayersFromHashPart( layerPart.split('&') )
+      featurePart && _setFeaturesFromHashPart( featurePart.split('&') )
+      // console.debug('UrlManager.decodeFullHash end', baseLayers, datastore.selectedGlaciers.get(), datastore.highlightedGlacier.get())
     }
 
   }
