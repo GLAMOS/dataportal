@@ -1,5 +1,6 @@
 'use strict';
 
+import { highlightedGlacier } from './datastore'
 import { selectedGlaciers } from './datastore'
 
 
@@ -24,6 +25,13 @@ function feature2id(feature) {
 // ----- Our Controller (Action -> Reaction)
 
 class Controller {
+
+  //onPageLoad(page) {
+  onPageLoad() {
+    const highlight = highlightedGlacier.get()
+    highlight && bridge.selectGlacier(highlight)
+  }
+
 
   // -- Home
 
