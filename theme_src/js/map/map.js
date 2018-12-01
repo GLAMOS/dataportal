@@ -339,24 +339,10 @@ var gletscher_source = new Vector({
       controller.gotFeatures(features)
       enableSearch(features);
 
-      const id_from_slug = highlightedGlacier.get().getId()
+      const highlighted  = highlightedGlacier.get()
+      const gletscher_id = highlighted ? highlighted.getId() : getRandomVIP()
 
-      /* DEBUG */
-      console.log("id_from_slug =", id_from_slug);
       dynamicLinks();
-
-      /* Falls es einen slug gibt und der Gletscher im Datenset gefunden wird */
-      if (id_from_slug
-          && gletscher_source.getFeatureById(id_from_slug)) {
-        // console.log(gletscher_source.getFeatureById(id_from_slug).getGeometry().getCoordinates()); //evt mit getCoordinate aber dann noch x und y seperieren
-        gletscher_id = id_from_slug;
-        console.log('Slug gletscher: ' + gletscher_id);
-      }
-      else {
-        //when the site loads the first time:
-        gletscher_id = getRandomVIP()
-        console.log('random gletscher: ' + gletscher_id);
-      };
 
       fillSchluesseldaten(gletscher_id, page);
       urlManager.setId(gletscher_id);
