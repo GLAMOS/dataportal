@@ -79,6 +79,12 @@ class UrlManager {
       }
     }
 
+    this.decodeFullHash = () => {
+      const hash = window.location.hash.replace(/^#/, '')
+      // console.debug('UrlManager.decodeFullHash', hash)
+      const [ layerPart, featurePart ] = hash.split('/')
+    }
+
   }
 }
 
