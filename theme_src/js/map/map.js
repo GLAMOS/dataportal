@@ -345,16 +345,8 @@ var gletscher_source = new Vector({
         // console.log(gletscher_source.getFeatureById(id_from_slug).getGeometry().getCoordinates()); //evt mit getCoordinate aber dann noch x und y seperieren
         gletscher_id = id_from_slug;
         console.log('Slug gletscher: ' + gletscher_id);
-        fillSchluesseldaten(gletscher_id, page);
-        urlManager.setId(gletscher_id);
-
-        //add Eventlistener auf alle Links
-
-        var coordX = gletscher_source.getFeatureById(gletscher_id).get('coordx');
-        var coordY = gletscher_source.getFeatureById(gletscher_id).get('coordy');
       }
       else {
-
         //when the site loads the first time:
         //es wird ein Gletscher gelesen aus einer liste von 12 definierten VIPs
         //todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
@@ -365,12 +357,13 @@ var gletscher_source = new Vector({
 
         gletscher_id = id_from_vips;
         console.log('random gletscher: ' + gletscher_id);
-        fillSchluesseldaten(gletscher_id, page);
-        urlManager.setId(gletscher_id);
-
-        var coordX = gletscher_source.getFeatureById(gletscher_id).get('coordx');
-        var coordY = gletscher_source.getFeatureById(gletscher_id).get('coordy');
       };
+
+      fillSchluesseldaten(gletscher_id, page);
+      urlManager.setId(gletscher_id);
+
+      var coordX = gletscher_source.getFeatureById(gletscher_id).get('coordx');
+      var coordY = gletscher_source.getFeatureById(gletscher_id).get('coordy');
 
       var extent_frompoint = [coordX, coordY, coordX, coordY];
       map.getView().fit(extent_frompoint, { size: map.getSize(), maxZoom: 11 });
