@@ -489,7 +489,6 @@ function selectGlacier(feature, pan=true) {
     //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
 
     //3. fuege neuen slug hinzu, triggert neuladen
-    urlManager.setId(gletscher_id);
 }
 
 // when the user clicks on a feature, select it
