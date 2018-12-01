@@ -33,6 +33,7 @@
   </div>
 {% endmacro %}
 
+{# NOTE: code has been copied to FrontEnd JS, since the entries are to be added dynamically #}
 {% macro comparisonEntry(nameParam, idParam, activeTrue) %}
   <div class="comparisonEntry {% if activeTrue %}active{% endif %}">
     <button type="button" name="highlight" class="glacierName" id="{{ idParam }}--list">{{ nameParam }}</button>
