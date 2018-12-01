@@ -1,5 +1,8 @@
 'use strict';
 
+import datastore from './datastore'
+
+
 // -----
 // constants
 
@@ -48,6 +51,9 @@ class UrlManager {
 
     // private
 
+    const id2hash = (id) => encodeURIComponent(id)
+    const hash2id = (hash) => decodeURIComponent(hash)
+    const feat2id = (feat) => feat.getId()
 
     // map layers: baselayers, div. featurelayers
     const _getLayerHashPart = () => {
@@ -58,9 +64,19 @@ class UrlManager {
 
     // features (glaciers)
     const _getFeatureHashPart = () => {
+      const highlighted = datastore.highlightedGlacier.get()
+      const selectedNonActive = datastore.selectedGlaciers.get().filter(
+          feature => highlighted != feature
+      )
+      return [ highlighted, ...selectedNonActive ].map(feat2id).map(id2hash)
     }
 
     const _setFeaturesFromHashPart = (hashes) => {
+      const ids = hashes.map(hash2id)
+      console.error('IMPLEMENTME: id2feature',ids)
+      //features = selectedGlaciers.findById(id)
+      //ids.length && datastore.highlightedGlacier.set( ids[0])
+      //datastore.selectedGlaciers.set( ids)
     }
 
     // get from / set to hash
