@@ -39,6 +39,7 @@ class Controller {
 
   gotFeatures(features) {
     datastore.features.set(features)
+    urlManager.decodeFullHash()
     this._bootstrapFromState()
   }
 

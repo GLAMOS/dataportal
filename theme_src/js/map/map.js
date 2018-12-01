@@ -345,7 +345,6 @@ var gletscher_source = new Vector({
       dynamicLinks();
 
       fillSchluesseldaten(gletscher_id, page);
-      urlManager.setId(gletscher_id);
 
       var coordX = gletscher_source.getFeatureById(gletscher_id).get('coordx');
       var coordY = gletscher_source.getFeatureById(gletscher_id).get('coordy');
