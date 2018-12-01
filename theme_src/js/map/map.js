@@ -468,7 +468,11 @@ function selectGlacier(feature, pan=true) {
 
     //2a. reset current selection
     if (highlightedGlacier.feature) {
+     try {
       selectedOverlay.getSource().removeFeature( highlightedGlacier.feature);
+     } catch (e) {
+      console.debug('seems highlightedGlacier was not found on selectedOverlay');
+     }
     }
 
     //2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu
