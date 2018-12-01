@@ -29,6 +29,7 @@ class Controller {
   _bootstrapFromState() {
     const highlight = datastore.highlightedGlacier.get()
     highlight && bridge.selectGlacier(highlight)
+    bridge.monitoringSelectedFeatureList.refresh()
   }
 
   //onPageLoad(page) {
