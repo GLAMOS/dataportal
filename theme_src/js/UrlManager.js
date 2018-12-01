@@ -51,9 +51,10 @@ class UrlManager {
 
     // private
 
-    const id2hash = (id) => encodeURIComponent(id)
-    const hash2id = (hash) => decodeURIComponent(hash)
-    const feat2id = (feat) => feat.getId()
+    const id2hash = encodeURIComponent
+    const hash2id = decodeURIComponent
+    const feat2id = feat => feat.getId()
+    const id2feat = datastore.features.findById
 
     // map layers: baselayers, div. featurelayers
     const _getLayerHashPart = () => {
