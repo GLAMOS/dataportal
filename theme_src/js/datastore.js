@@ -74,8 +74,11 @@ const selectedGlaciers = new SelectionList()
 // -----
 // exports
 
-module.exports = {
+const datastore = {
   features,
   highlightedGlacier,
   selectedGlaciers,
 }
+
+module.exports = datastore
+window.dbg_data = datastore   // for easier debugging
