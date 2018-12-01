@@ -318,7 +318,14 @@ var url = '/geo/glamos_inventory_dummy.geojson';
 var gletscher_id;// = 'B36\/26'; //default = Aletschgletscher
 var initialFeature;
 
-let id_from_slug;
+//es wird ein Gletscher gelesen aus einer liste von 12 definierten VIPs
+//todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
+function getRandomVIP() {
+  var min = 1;
+  var max = 12;
+  var randomNumber = Math.floor((Math.random() * (max - min)) + min);
+  return glacierVips[randomNumber].pk_sgi;
+}
 
 var gletscher_source = new Vector({
   strategy: bbox,
@@ -332,8 +339,7 @@ var gletscher_source = new Vector({
       controller.gotFeatures(features)
       enableSearch(features);
 
-      // var id_from_slug = gletscher_source.getFeatureById(slug);
-      id_from_slug = urlManager.getIdFromUrl();
+      const id_from_slug = highlightedGlacier.get().getId()
 
       /* DEBUG */
       console.log("id_from_slug =", id_from_slug);
@@ -348,14 +354,7 @@ var gletscher_source = new Vector({
       }
       else {
         //when the site loads the first time:
-        //es wird ein Gletscher gelesen aus einer liste von 12 definierten VIPs
-        //todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
-        var min = 1;
-        var max = 12;
-        var randomNumber = Math.floor((Math.random() * (max - min)) + min);
-        var id_from_vips = glacierVips[randomNumber].pk_sgi;
-
-        gletscher_id = id_from_vips;
+        gletscher_id = getRandomVIP()
         console.log('random gletscher: ' + gletscher_id);
       };
 
