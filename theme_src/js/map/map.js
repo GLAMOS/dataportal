@@ -249,19 +249,11 @@ controller.bridge({monitoringSelectedFeatureList})
 // -----
 
 function dynamicLinks() {
-  let dynamicElements = document.querySelectorAll(`#navbar-mapViewer, #navbar-factsheetListing,
-    #navbar-homepage, #oversight-mapViewer, #oversight-factsheet, #oversight-download,
-    #infobox-glaciername--link`);
-
-  for (var i = 0; i < dynamicElements.length; i++){
-
-   dynamicElements[i].addEventListener("click", function (e) {
+  $('a.keephash').on("click", function (e) {
      urlManager.navigateTo( this.href);
      e.preventDefault();
-   }, false);
-
- }
-};
+  })
+}
 /*
 //ist im moment statische datei - sollte vom glamosserver kommen
 var gletscher_alle = new VectorLayer({

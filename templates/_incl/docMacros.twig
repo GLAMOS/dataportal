@@ -29,7 +29,7 @@
   <div class="majorLink">
     <p>{{ valueParam }}</p>
     <small>{{ labelParam | t }}</small>
-    <a href="{{ buttonParam.url }}" class="btn" id="oversight-{{ idParam }}">{{ buttonParam.title }}</a>
+    <a href="{{ buttonParam.url }}" class="btn keephash" id="oversight-{{ idParam }}">{{ buttonParam.title }}</a>
   </div>
 {% endmacro %}
 
@@ -51,7 +51,7 @@
 {% endmacro %}
 
 {% macro Crosslink(linkParam, titleParam, idParam)%}
-  <a id="{{ idParam }}" href="/factsheet" class="titleCrosslink" title="{{ titleParam }}">
+  <a id="{{ idParam }}" href="/factsheet" class="titleCrosslink keephash" title="{{ titleParam }}">
     {{ svg('@webroot/theme/img/crosslink.svg') }}
   </a>
 {% endmacro %}
