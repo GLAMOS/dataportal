@@ -41,6 +41,7 @@ class Controller {
     datastore.features.set(features)
     urlManager.decodeFullHash()
     this._bootstrapFromState()
+    bridge.enableSearch(features);
   }
 
   // -- Home

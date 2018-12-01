@@ -306,6 +306,7 @@ function enableSearch( gletscher_features) {
           select: onSelect,
       });
 }
+controller.bridge({enableSearch})
 
 
 //liste mit VIP gletschern - noch unklar wo diese später herkommt
@@ -337,7 +338,6 @@ var gletscher_source = new Vector({
 
       // re-use features ary for search bar
       controller.gotFeatures(features)
-      enableSearch(features);
 
       const highlighted  = highlightedGlacier.get()
       const gletscher_id = highlighted ? highlighted.getId() : getRandomVIP()
