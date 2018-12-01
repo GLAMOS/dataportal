@@ -329,6 +329,7 @@ var gletscher_source = new Vector({
       gletscher_source.addFeatures(features);
 
       // re-use features ary for search bar
+      controller.gotFeatures(features)
       enableSearch(features);
 
       // var id_from_slug = gletscher_source.getFeatureById(slug);

@@ -34,6 +34,9 @@ class Controller {
     highlight && bridge.selectGlacier(highlight)
   }
 
+  gotFeatures(features) {
+    datastore.features.set(features)
+  }
 
   // -- Home
 
