@@ -58,6 +58,7 @@ class UrlManager {
 
     // map layers: baselayers, div. featurelayers
     const _getLayerHashPart = () => {
+      return []
     }
 
     const _setLayersFromHashPart = (hashes) => {
@@ -73,11 +74,10 @@ class UrlManager {
     }
 
     const _setFeaturesFromHashPart = (hashes) => {
-      const ids = hashes.map(hash2id)
-      console.error('IMPLEMENTME: id2feature',ids)
-      //features = selectedGlaciers.findById(id)
-      //ids.length && datastore.highlightedGlacier.set( ids[0])
-      //datastore.selectedGlaciers.set( ids)
+      const features = hashes.map(hash2id).map(id2feat)
+          .filter( f => f )   // skip undefined ones
+      features.length && datastore.highlightedGlacier.set( features[0])
+      datastore.selectedGlaciers.set( features)
     }
 
     // get from / set to hash
