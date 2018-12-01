@@ -452,8 +452,16 @@ function mouse2features(browserEvent) {
   return features;
 }
 
+// pan the map to the highlighted marker
+function mapPanTo(feature) {
+  const center = [ feature.get('coordx'), feature.get('coordy') ];
+  map.getView().setCenter(center);
+}
+controller.bridge({mapPanTo})
+
+
 // populate Schluesseldaten, highlight selected marker
-function selectGlacier(feature, pan=true) {
+function selectGlacier(feature) {
     //1. fill infobox from feature
     gletscher_id = feature.getId();
     fillSchluesseldaten(gletscher_id, page);
@@ -471,12 +479,6 @@ function selectGlacier(feature, pan=true) {
     //hoverOverlay.getSource().removeFeature(hover);
     selectedOverlay.getSource().addFeature(feature);
     highlightedGlacier.feature = feature;
-
-    // possibly pan the map to the highlighted marker
-    if(pan) {
-      const center = [ highlightedGlacier.feature.get('coordx'), highlightedGlacier.feature.get('coordy') ];
-      map.getView().setCenter(center);
-    }
 
     //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
 

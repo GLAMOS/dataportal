@@ -27,8 +27,11 @@ function feature2id(feature) {
 class Controller {
 
   _bootstrapFromState() {
-    const highlight = datastore.highlightedGlacier.get()
-    highlight && bridge.selectGlacier(highlight)
+    const feature = datastore.highlightedGlacier.get()
+    if(feature) {
+      bridge.selectGlacier(feature)
+      bridge.mapPanTo(feature)
+    }
     bridge.monitoringSelectedFeatureList.refresh()
   }
 
@@ -56,6 +59,7 @@ class Controller {
 
   searchSelected(feature) {
     bridge.selectGlacier(feature)
+    bridge.mapPanTo(feature)
     bridge.monitoringSelectedFeatureList.add( feature)
     urlManager.majorUpdate()
   }
@@ -65,6 +69,7 @@ class Controller {
   selectionListHighlight(id) {
     const feature = datastore.selectedGlaciers.findById(id)
     bridge.selectGlacier(feature)
+    bridge.mapPanTo(feature)
     urlManager.minorUpdate()
   }
 
