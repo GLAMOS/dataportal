@@ -177,23 +177,7 @@ import './map/map.js';
     // fetch(URI)
     // .then((response) => response.json())
     // .then((json) => {
-
-    /* TODO: Remove if we do not support UAs that do not have native XHR */
-    if (typeof XMLHttpRequest == 'undefined')
-    {
-      global.XMLHttpRequest = function () {
-        let xhr = null;
-
-        /* Legacy IE */
-        try
-        {
-          xhr = new ActiveXObject('Microsoft.XMLHTTP');
-        }
-        catch (e) {}
-
-        return xhr;
-      };
-    }
+    // }
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', URIS.length_change, true);
