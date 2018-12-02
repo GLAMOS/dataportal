@@ -175,4 +175,9 @@ import './map/map.js';
     };
     xhr.send(null);
   });
+
+
+  // -----
+  controller.onPageLoad()
+
 }(this, $));

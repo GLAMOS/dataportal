@@ -564,9 +564,6 @@ map && map.on('pointermove', function (e) {
 });
 
 
-// -----
-controller.onPageLoad()
-
 
 //Buttons clonen:
 //https://api.jquery.com/clone/
