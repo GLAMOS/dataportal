@@ -76,6 +76,8 @@ class Controller {
 
   selectionListRemove(id) {
     datastore.selectedGlaciers.remove(id)
+    // select last entry in selected glaciers list
+    // this.selectionListHighlight( datastore.selectedGlaciers.get().slice(-1)[0] )
     urlManager.majorUpdate()
   }
 
