@@ -132,15 +132,11 @@ import './map/map.js';
             x: 'year_to',
             value: ['variation_cumulative']
           },
-          xs: {
-            [LINE_LABEL]: X_AXIS_NAME
           },
-          axes: {
-            [LINE_LABEL]: 'variation_cumulative'
+          names: {
+            x: X_AXIS_NAME,
+            [KEY_VALUE]: [LINE_LABEL]
           }
-        },
-        legend: {
-          show: false
         },
         grid: {
           y: { show: true },
