@@ -102,6 +102,9 @@ import './map/map.js';
 
       loaded = true;
       const DATA = JSON.parse(xhr.responseText);
+      const KEY_NAME = 'glacier_full_name';
+      const KEY_YEAR = 'year_to';
+      const KEY_VALUE = 'variation_cumulative';
 
       if (!DATA || DATA.length === 0)
       {
@@ -110,7 +113,7 @@ import './map/map.js';
       }
 
       const X_AXIS_NAME = 'Datum';
-      const LINE_LABEL = DATA[0].glacier_full_name;
+      const LINE_LABEL = DATA[0][KEY_NAME];
       // const YEARS = [X_AXIS_NAME, getDate(DATA[0].date_from_length)]
       //   .concat(DATA.map((entry) => getDate(entry.date_to_length)));
       // const CUM_LENGTHS = [LINE_LABEL, 0]
@@ -129,9 +132,8 @@ import './map/map.js';
           json: DATA,
           // url: '/glacier-data.php',
           keys: {
-            x: 'year_to',
-            value: ['variation_cumulative']
-          },
+            x: KEY_YEAR,
+            value: [KEY_VALUE]
           },
           names: {
             x: X_AXIS_NAME,
