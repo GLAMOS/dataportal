@@ -21,6 +21,15 @@ import './map/map.js';
     return String(value).replace('-', '&minus;');
   }
 
+  function selectDownloadTab(TAB_ID) {
+    const CLASS_NAME = 'current';
+    $('ul.tabLinks a').removeClass(CLASS_NAME);
+    $('.tabPanel').removeClass(CLASS_NAME);
+
+    $(this).addClass(CLASS_NAME);
+    $('#' + TAB_ID).addClass(CLASS_NAME);
+  }
+
   $(document).ready(function () {
     //initialise Mobile Menu //
     $('#mainMobileNav').mmenu();
@@ -43,14 +52,9 @@ import './map/map.js';
     //initialize download Tabs
     $('ul.tabLinks a').on('click', function (ev) {
       ev.preventDefault()
-      const CLASS_NAME = 'current';
       const TAB_ID = $(this).attr('data-tab');
 
-      $('ul.tabLinks a').removeClass(CLASS_NAME);
-      $('.tabPanel').removeClass(CLASS_NAME);
-
-      $(this).addClass(CLASS_NAME);
-      $('#' + TAB_ID).addClass(CLASS_NAME);
+      selectDownloadTab(TAB_ID)
 
       controller.changeDownloadTab(TAB_ID)
     });
