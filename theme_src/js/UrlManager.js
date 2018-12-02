@@ -56,6 +56,9 @@ class UrlManager {
     const feat2id = feat => feat.getId()
     const id2feat = datastore.features.findById
 
+    const _getCurrentPage = () =>
+        window.location.pathname.split('/').slice(-1)[0]
+
     // map layers: baselayers, div. featurelayers
     const _getLayerHashPart = () => {
       return []
