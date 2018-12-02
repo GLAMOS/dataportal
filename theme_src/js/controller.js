@@ -39,6 +39,7 @@ class Controller {
   onPageLoad() {
     urlManager.decodeFullHash()
     this._bootstrapFromState()
+    bridge.dynamicLinks()
   }
 
   gotFeatures(features) {

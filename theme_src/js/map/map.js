@@ -254,6 +254,8 @@ function dynamicLinks() {
      e.preventDefault();
   })
 }
+controller.bridge({dynamicLinks})
+
 /*
 //ist im moment statische datei - sollte vom glamosserver kommen
 var gletscher_alle = new VectorLayer({
@@ -334,7 +336,6 @@ var gletscher_source = new Vector({
       const highlighted  = highlightedGlacier.get()
       const gletscher_id = highlighted ? highlighted.getId() : getRandomVIP()
 
-      dynamicLinks();
 
       fillSchluesseldaten(gletscher_id, page);
 
