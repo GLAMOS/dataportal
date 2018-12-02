@@ -1,7 +1,5 @@
 'use strict';
 
-import $ from 'jquery';
-
 
 // -----
 // constants
@@ -63,6 +61,11 @@ class SelectionList {
 }
 
 
+// ----- managing set of features
+
+let downloadTab = null
+
+
 // -----
 // singleton instances
 
@@ -78,6 +81,7 @@ const datastore = {
   features,
   highlightedGlacier,
   selectedGlaciers,
+  downloadTab,
 }
 
 module.exports = datastore

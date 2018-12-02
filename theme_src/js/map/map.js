@@ -253,6 +253,10 @@ function dynamicLinks() {
      urlManager.navigateTo( this.href);
      e.preventDefault();
   })
+  $('a[data-tab]').on("click", function (e) {
+    const tabId = this.getAttribute('data-tab')
+    controller.changeDownloadTab(tabId)
+  })
 }
 controller.bridge({dynamicLinks})
 

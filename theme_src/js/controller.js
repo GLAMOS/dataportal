@@ -94,7 +94,8 @@ class Controller {
   // -- Downloads
 
   changeDownloadTab(tabId) {
-    //TODO
+    datastore.downloadTab = tabId
+    urlManager.minorUpdate()
   }
 
   // TODO: More to come...
