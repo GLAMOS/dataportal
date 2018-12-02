@@ -41,7 +41,8 @@ import './map/map.js';
     });
 
     //initialize download Tabs
-    $('ul.tabLinks a').on('click', function () {
+    $('ul.tabLinks a').on('click', function (ev) {
+      ev.preventDefault()
       const CLASS_NAME = 'current';
       const TAB_ID = $(this).attr('data-tab');
 
