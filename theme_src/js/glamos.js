@@ -31,6 +31,114 @@ import './map/map.js';
     return String(value).replace('-', '&minus;');
   }
 
+  function fetchData (id)
+  {
+    const URIS = {
+      length_change: `/glacier-data.php?id=${id}`, // '/geo/griessgletscher_length_change.geojson',
+      mass_change: '/geo/griessgletscher_mass_change.geojson'
+    };
+
+    let loaded = false;
+    const onload = function () {
+      if (loaded) return;
+
+      loaded = true;
+      const DATA = JSON.parse(xhr.responseText);
+      const KEY_NAME = 'glacier_full_name';
+      const KEY_YEAR = 'year_to';
+      const KEY_VALUE = 'variation_cumulative';
+      // const DATA = [
+      //   {[KEY_NAME]: 'foo', [KEY_YEAR]: 2016, [KEY_VALUE]:   0},
+      //   {[KEY_NAME]: 'foo', [KEY_YEAR]: 2017, [KEY_VALUE]: -23},
+      //   {[KEY_NAME]: 'foo', [KEY_YEAR]: 2018, [KEY_VALUE]: -42}
+      // ];
+
+
+      if (!DATA || DATA.length === 0)
+      {
+        document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
+        return;
+      }
+
+      const X_AXIS_NAME = 'Datum';
+      const LINE_LABEL = DATA[0][KEY_NAME];
+      // const YEARS = [X_AXIS_NAME, getDate(DATA[0].date_from_length)]
+      //   .concat(DATA.map((entry) => getDate(entry.date_to_length)));
+      // const CUM_LENGTHS = [LINE_LABEL, 0]
+      //   .concat(DATA.map((entry) => entry.length_cum));
+
+      /* DEBUG */
+      console.log(DATA);
+      // console.log(YEARS);
+      // console.log(CUM_LENGTHS);
+
+      const CHART = c3.generate({
+        bindto: '#chart',
+        data: {
+          // columns: [YEARS, CUM_LENGTHS],
+          type: 'spline',
+          json: DATA,
+          // url: '/glacier-data.php',sight
+          keys: {
+            x: KEY_YEAR,
+            value: [KEY_VALUE]
+          },
+          names: {
+            x: X_AXIS_NAME,
+            [KEY_VALUE]: [LINE_LABEL]
+          }
+        },
+        grid: {
+          y: { show: true },
+          x: { show: true }
+        },
+        axis: {
+          x: {
+            tick: {
+              // format: '%Y', //-%m-%d'
+              outer: false,
+              rotate: 45
+            },
+            // type: 'timeseries',
+          },
+          y: {
+            label: {
+              position: 'outer',
+              text: 'Kumulative Längenänderung (m)',
+            },
+            tick: {
+              outer: false,
+            }
+          }
+        },
+        tooltip: {
+          format: {
+            value (value) { return `${formatNumber(value)}\xA0m`; }
+          }
+        }
+      });
+    };
+
+    /* TODO: Write a fetch API wrapper */
+    // fetch(URI)
+    // .then((response) => response.json())
+    // .then((json) => {
+    // }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', URIS.length_change, true);
+    xhr.onload = onload;
+    xhr.onreadystatechange = function () {
+      if (loaded) return;
+
+      if (xhr.readyState == 4 && xhr.status === 200)
+      {
+        onload();
+      }
+    };
+    xhr.send(null);
+  }
+
   function getAvailableDownloadTabs () {
     return $('.tabContainer a[data-tab]').map((_ix, el) => el.getAttribute('data-tab'));
   }
@@ -92,105 +200,8 @@ import './map/map.js';
     });
 
     const ID = window.location.hash.replace(/^#/, '');
-    const URIS = {
-      length_change: `/glacier-data.php?id=${ID}`, // '/geo/griessgletscher_length_change.geojson',
-      mass_change: '/geo/griessgletscher_mass_change.geojson'
-    };
-    let loaded = false;
-    const onload = function () {
-      if (loaded) return;
+    fetchData(ID);
 
-      loaded = true;
-      const DATA = JSON.parse(xhr.responseText);
-      const KEY_NAME = 'glacier_full_name';
-      const KEY_YEAR = 'year_to';
-      const KEY_VALUE = 'variation_cumulative';
-
-      if (!DATA || DATA.length === 0)
-      {
-        document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
-        return;
-      }
-
-      const X_AXIS_NAME = 'Datum';
-      const LINE_LABEL = DATA[0][KEY_NAME];
-      // const YEARS = [X_AXIS_NAME, getDate(DATA[0].date_from_length)]
-      //   .concat(DATA.map((entry) => getDate(entry.date_to_length)));
-      // const CUM_LENGTHS = [LINE_LABEL, 0]
-      //   .concat(DATA.map((entry) => entry.length_cum));
-
-      /* DEBUG */
-      console.log(DATA);
-      // console.log(YEARS);
-      // console.log(CUM_LENGTHS);
-
-      const CHART = c3.generate({
-        bindto: '#chart',
-        data: {
-          // columns: [YEARS, CUM_LENGTHS],
-          type: 'spline',
-          json: DATA,
-          // url: '/glacier-data.php',
-          keys: {
-            x: KEY_YEAR,
-            value: [KEY_VALUE]
-          },
-          names: {
-            x: X_AXIS_NAME,
-            [KEY_VALUE]: [LINE_LABEL]
-          }
-        },
-        grid: {
-          y: { show: true },
-          x: { show: true }
-        },
-        axis: {
-          x: {
-            tick: {
-              // format: '%Y', //-%m-%d'
-              outer: false,
-              rotate: 45
-            },
-            // type: 'timeseries',
-          },
-          y: {
-            label: {
-              position: 'outer',
-              text: 'Kumulative Längenänderung (m)',
-            },
-            tick: {
-              outer: false,
-            }
-          }
-        },
-        tooltip: {
-          format: {
-            value (value) { return `${formatNumber(value)}\xA0m`; }
-          }
-        }
-      });
-    };
-
-    /* TODO: Write a fetch API wrapper */
-    // fetch(URI)
-    // .then((response) => response.json())
-    // .then((json) => {
-    // }
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', URIS.length_change, true);
-    xhr.onload = onload;
-    xhr.onreadystatechange = function () {
-      if (loaded) return;
-
-      if (xhr.readyState == 4 && xhr.status === 200)
-      {
-        onload();
-      }
-    };
-    xhr.send(null);
+    controller.onPageLoad();
   });
-
-  /* ----- */
-  controller.onPageLoad();
 }(this, $));
