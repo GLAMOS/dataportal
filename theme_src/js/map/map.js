@@ -223,7 +223,7 @@ class SelectionList {
   //TODO: implement Reset via button
 
   refresh() {
-    const contents = this.store.get().map( this.renderEntry )
+    const contents = this.store.features.map( this.renderEntry )
     const container = $('#monitoring-glacier--list')
     $('#monitoring-glacier--list').html(contents)
     .find('[name="highlight"]').on('click', (ev) => this.select(ev.target.id) ).end()

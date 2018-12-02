@@ -58,6 +58,9 @@ class SelectionList {
 
     this.findById = (id) => _data.find( feat => feat.getId() == id )
   }
+
+  // by accessing .features, the ids will be transformed to feature objs
+  get features() { return this.get() }
 }
 
 

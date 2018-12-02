@@ -78,7 +78,7 @@ class UrlManager {
     // features (glaciers)
     const _getFeatureHashPart = () => {
       const highlighted = datastore.highlightedGlacier.feature
-      const selectedNonActive = datastore.selectedGlaciers.get().filter(
+      const selectedNonActive = datastore.selectedGlaciers.features.filter(
           feature => highlighted != feature
       )
       const highlightedAry = highlighted ? [highlighted] : []
