@@ -44,19 +44,19 @@ class SingleSelection {
 // ----- managing list of selected features
 class SelectionList {
   constructor() {
-    let _selectedFeatures = []   // the store
+    let _data = []   // the store
 
-    this.set = (features) => { _selectedFeatures = features }
+    this.set = (features) => { _data = features }
 
-    this.get = () => [..._selectedFeatures]   // return a shallow copy
+    this.get = () => [..._data]   // return a shallow copy
 
-    this.add = (feature) => _selectedFeatures.includes(feature) || _selectedFeatures.push(feature)
+    this.add = (feature) => _data.includes(feature) || _data.push(feature)
 
-    this.remove = (callback) => { _selectedFeatures = _selectedFeatures.filter( callback) }
+    this.remove = (callback) => { _data = _data.filter( callback) }
 
-    this.clear = () => { _selectedFeatures = [] }
+    this.clear = () => { _data = [] }
 
-    this.findById = (id) => _selectedFeatures.find( feat => feat.getId() == id )
+    this.findById = (id) => _data.find( feat => feat.getId() == id )
   }
 }
 
