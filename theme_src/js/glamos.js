@@ -26,7 +26,7 @@ import './map/map.js';
     $('ul.tabLinks a').removeClass(CLASS_NAME);
     $('.tabPanel').removeClass(CLASS_NAME);
 
-    $(this).addClass(CLASS_NAME);
+    $('a[data-tab="' + TAB_ID + '"]').addClass(CLASS_NAME);
     $('#' + TAB_ID).addClass(CLASS_NAME);
   }
   controller.bridge({selectDownloadTab})
