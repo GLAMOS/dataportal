@@ -108,6 +108,7 @@ class Controller {
 
   changeDownloadTab(tabId) {
     datastore.downloadTab = tabId
+    bridge.selectDownloadTab(tabId)
     urlManager.minorUpdate()
   }
 

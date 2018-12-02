@@ -29,6 +29,7 @@ import './map/map.js';
     $(this).addClass(CLASS_NAME);
     $('#' + TAB_ID).addClass(CLASS_NAME);
   }
+  controller.bridge({selectDownloadTab})
 
   $(document).ready(function () {
     //initialise Mobile Menu //
@@ -53,8 +54,6 @@ import './map/map.js';
     $('ul.tabLinks a').on('click', function (ev) {
       ev.preventDefault()
       const TAB_ID = $(this).attr('data-tab');
-
-      selectDownloadTab(TAB_ID)
 
       controller.changeDownloadTab(TAB_ID)
     });
