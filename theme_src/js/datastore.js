@@ -46,21 +46,25 @@ class SelectionList {
   constructor() {
     let _data = []   // the store
 
-    this.set = (features) => { _data = features }
+    // allows polyvalence
+    const _ensureId = (idORfeat) =>
+      Array.isArray(idORfeat) ? idORfeat : idORfeat.getId()
+
+    this.set = (args) => { _data = args.map(_ensureId) }
 
     this.get = () => [..._data]   // return a shallow copy
 
-    this.add = (feature) => _data.includes(feature) || _data.push(feature)
+    this.add = (arg) => _data.includes( _ensureId(arg) ) || _data.push( _ensureId(arg) )
 
-    this.remove = (callback) => { _data = _data.filter( callback) }
+    this.remove = (callback) => { _data = this.features.filter(callback).map( f => f.getId() ) }
 
     this.clear = () => { _data = [] }
 
-    this.findById = (id) => _data.find( feat => feat.getId() == id )
+    this.findById = (id) => _data.includes(id) && features.findById(id)
   }
 
   // by accessing .features, the ids will be transformed to feature objs
-  get features() { return this.get() }
+  get features() { return this.get().map( features.findById ) }
 }
 
 
