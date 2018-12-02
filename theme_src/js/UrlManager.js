@@ -61,10 +61,18 @@ class UrlManager {
 
     // map layers: baselayers, div. featurelayers
     const _getLayerHashPart = () => {
-      return []
+      const page = _getCurrentPage()
+      if( 'downloads' == page ) {
+        return [datastore.downloadTab]
+      }
+      return []   // fallback
     }
 
     const _setLayersFromHashPart = (hashes) => {
+      const page = _getCurrentPage()
+      if( 'downloads' == page ) {
+        datastore.downloadTab = hashes[0]
+      }
     }
 
     // features (glaciers)
