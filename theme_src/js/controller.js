@@ -35,6 +35,15 @@ class Controller {
     bridge.monitoringSelectedFeatureList.refresh()
   }
 
+  _chooseRandom() {
+    const feature = datastore.features.findById( bridge.getRandomVIP() )
+    bridge.selectGlacier(feature)
+    bridge.mapPanTo(feature)
+    bridge.monitoringSelectedFeatureList.add(feature)
+  }
+
+  // -- Init
+
   //onPageLoad(page) {
   onPageLoad() {
     urlManager.decodeFullHash()
@@ -83,7 +92,7 @@ class Controller {
 
   selectionListReset(id) {
     datastore.selectedGlaciers.clear()
-    // TODO: add random one?
+    this._chooseRandom()
     urlManager.majorUpdate()
   }
 

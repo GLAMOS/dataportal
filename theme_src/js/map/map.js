@@ -334,6 +334,7 @@ function getRandomVIP() {
   var randomNumber = Math.floor((Math.random() * (max - min)) + min);
   return glacierVips[randomNumber].pk_sgi;
 }
+controller.bridge({getRandomVIP})
 
 var gletscher_source = new Vector({
   strategy: bbox,
