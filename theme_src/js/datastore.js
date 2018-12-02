@@ -12,13 +12,13 @@
 // ----- managing set of features
 class FeatureSet {
   constructor() {
-    let data = []   // the store
+    let _data = []   // the store
 
-    this.set = (features) => { data = features }
+    this.set = (features) => { _data = features }
 
-    this.getAll = () => [...data]   // return a shallow copy
+    this.getAll = () => [..._data]   // return a shallow copy
 
-    this.findById = (id) => data.find( feat => feat.getId() == id )
+    this.findById = (id) => _data.find( feat => feat.getId() == id )
   }
 }
 
@@ -26,13 +26,13 @@ class FeatureSet {
 // ----- managing the single highlighted/selected feature
 class SingleSelection {
   constructor() {
-    let data = null   // the store
+    let _data = null   // the store
 
-    this.get = () => data
+    this.get = () => _data
 
-    this.set = (id) => { data = id }
+    this.set = (id) => { _data = id }
 
-    this.clear = () => { data = null }
+    this.clear = () => { _data = null }
  }
 
   // by accessing .feature, it will be transformed from/to id
