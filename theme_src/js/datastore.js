@@ -26,18 +26,18 @@ class FeatureSet {
 // ----- managing the single highlighted/selected feature
 class SingleSelection {
   constructor() {
-    let _selectedFeature = null   // the store
+    let data = null   // the store
 
-    this.get = () => _selectedFeature
+    this.get = () => data
 
-    this.set = (feature) => { _selectedFeature = feature }
+    this.set = (id) => { data = id }
 
-    this.clear = () => { _selectedFeature = null }
+    this.clear = () => { data = null }
  }
 
-  // by accessing .feature, we may avoid the need to set using parentheses: .set(foo)
-  get feature() { return this.get() }
-  set feature(feature) { return this.set(feature) }
+  // by accessing .feature, it will be transformed from/to id
+  get feature() { return features.findById( this.get() ) }
+  set feature(feature) { return this.set( feature.getId() ) }
 }
 
 
