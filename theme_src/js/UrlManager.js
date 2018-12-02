@@ -109,10 +109,9 @@ class UrlManager {
     }
 
     const _setFeaturesFromHashPart = (hashes) => {
-      const features = hashes.map(hash2id).map(id2feat)
-          .filter( f => f )   // skip undefined ones
-      if( features.length)  datastore.highlightedGlacier.feature = features[0]
-      datastore.selectedGlaciers.set( features)
+      const ids = hashes.map(hash2id)
+      if( ids.length)  datastore.highlightedGlacier.set( ids[0] )
+      datastore.selectedGlaciers.set( ids)
     }
 
     // get from / set to hash
