@@ -153,7 +153,7 @@ import './map/map.js';
           },
           y: {
             label: {
-              position: 'inner-middle',
+              position: 'outer',
               text: 'Kumulative Längenänderung (m)',
             },
             tick: {
