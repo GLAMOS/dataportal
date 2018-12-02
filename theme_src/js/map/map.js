@@ -337,8 +337,7 @@ var gletscher_source = new Vector({
       // re-use features ary for search bar
       controller.gotFeatures(features)
 
-      const highlighted  = highlightedGlacier.feature
-      const gletscher_id = highlighted ? highlighted.getId() : getRandomVIP()
+      const gletscher_id = highlightedGlacier.get() || getRandomVIP()
 
 
       fillSchluesseldaten(gletscher_id, page);
