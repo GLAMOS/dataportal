@@ -82,7 +82,9 @@ class Controller {
   }
 
   selectionListReset(id) {
-    bridge.monitoringSelectedFeatureList.clear()
+    datastore.selectedGlaciers.clear()
+    // TODO: add random one?
+    urlManager.majorUpdate()
   }
 
   switchChartType(type) {
