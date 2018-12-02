@@ -64,7 +64,7 @@ class SelectionList {
   }
 
   // by accessing .features, the ids will be transformed to feature objs
-  get features() { return this.get().map( features.findById ) }
+  get features() { return this.get().map( features.findById ).filter( f => !!f ) }
 }
 
 
