@@ -9,6 +9,17 @@
 // variables
 
 
+// -----
+// helpers
+
+function isFeature(feature) {
+  // feature instanceof Vector  does not work (import Vector from 'ol/source/Vector')
+  return typeof feature == "object"
+    && 'getId' in feature
+    && 'ol_uid' in feature
+    && 'values_' in feature
+}
+
 // ----- managing set of features
 class FeatureSet {
   constructor() {
@@ -48,7 +59,7 @@ class SelectionList {
 
     // allows polyvalence
     const _ensureId = (idORfeat) =>
-      Array.isArray(idORfeat) ? idORfeat : idORfeat.getId()
+      isFeature(idORfeat) ? idORfeat.getId() : idORfeat
 
     this.set = (args) => { _data = args.map(_ensureId) }
 
