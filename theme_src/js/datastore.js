@@ -56,7 +56,13 @@ class SelectionList {
 
     this.add = (arg) => _data.includes( _ensureId(arg) ) || _data.push( _ensureId(arg) )
 
-    this.remove = (callback) => { _data = this.features.filter(callback).map( f => f.getId() ) }
+    this.remove = (arg) => {
+      if(typeof arg == "function") {   // by callback on features
+        _data = this.features.filter(arg).map( f => f.getId() )
+      } else {   // by id
+        _data = _data.filter( (id) => id != arg )
+      }
+    }
 
     this.clear = () => { _data = [] }
 
