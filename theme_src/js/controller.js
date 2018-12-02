@@ -27,6 +27,9 @@ function feature2id(feature) {
 class Controller {
 
   _bootstrapFromState() {
+    if(datastore.downloadTab) {
+      bridge.selectDownloadTab( datastore.downloadTab)
+    }
     const feature = datastore.highlightedGlacier.feature
     if(feature) {
       bridge.selectGlacier(feature)

@@ -332,6 +332,7 @@ function getRandomVIP() {
 }
 controller.bridge({getRandomVIP})
 
+// depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, getRandomVIP, fillSchluesseldaten
 var gletscher_source = new Vector({
   strategy: bbox,
   loader: function (extent, resolution, projection) {
@@ -454,6 +455,7 @@ map && map.addLayer(selectedOverlay);
  ****************************************************************************************************************/
 
 // get all features under the mouse
+// depends: map
 function mouse2features(browserEvent) {
   const coordinate = browserEvent.coordinate;
   const pixel = map.getPixelFromCoordinate(coordinate);
@@ -462,7 +464,8 @@ function mouse2features(browserEvent) {
   return features;
 }
 
-// pan the map to the highlighted marker
+// pan the map to the given feature
+// depends: map
 function mapPanTo(feature) {
   const center = [ feature.get('coordx'), feature.get('coordy') ];
   map.getView().setCenter(center);
@@ -471,6 +474,7 @@ controller.bridge({mapPanTo})
 
 
 // populate Schluesseldaten, highlight selected marker
+// depends: page; highlightedGlacier, selectedOverlay
 function selectGlacier(feature) {
     //1. fill infobox from feature
     gletscher_id = feature.getId();
@@ -525,6 +529,7 @@ var hoverOverlay = new VectorLayer({
   }
 });
 
+// depends: map, hoverOverlay, hover
 var hover;
 var featureHover = function (pixel) {
   const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
