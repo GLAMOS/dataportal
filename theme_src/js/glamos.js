@@ -6,7 +6,7 @@ import c3 from 'c3';
 import ieDetector from '@kspr/gugus-ie-detector';
 ieDetector();
 
-import urlManager from './UrlManager'
+import controller from './controller'
 
 import './map/map.js';
 
@@ -51,7 +51,7 @@ import './map/map.js';
       $(this).addClass(CLASS_NAME);
       $('#' + TAB_ID).addClass(CLASS_NAME);
 
-      urlManager.switchTo( $(this).attr('href') );
+      controller.changeDownloadTab(TAB_ID)
     });
 
     //scroll to anchor
