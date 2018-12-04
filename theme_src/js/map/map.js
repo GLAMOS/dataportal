@@ -17,6 +17,9 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
+import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
+import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
+
 
 const DISPLAY_NAME = 'glacier_short_name';
 
@@ -190,39 +193,39 @@ function remove_first_occurrence(str, searchstr)       {
 
 // ----- Monitoring: Selection List
 class SelectionList {
-  constructor() {
-    this.selectedFeatures = []
-		this.svgClose = '<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>close</title><path d="M305.5,256,473.75,87.75a35,35,0,0,0-49.5-49.5L256,206.5,87.75,38.25a35,35,0,0,0-49.5,49.5L206.5,256,38.25,424.25a35,35,0,0,0,49.5,49.5L256,305.5,424.25,473.75a35,35,0,0,0,49.5-49.5Z"></path></svg>'
+  constructor(datastoreList) {
+    this.store = datastoreList
+    this.svgClose = '<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>close</title><path d="M305.5,256,473.75,87.75a35,35,0,0,0-49.5-49.5L256,206.5,87.75,38.25a35,35,0,0,0-49.5,49.5L206.5,256,38.25,424.25a35,35,0,0,0,49.5,49.5L256,305.5,424.25,473.75a35,35,0,0,0,49.5-49.5Z"></path></svg>'
 
     this.add = this.add.bind(this)
     this.renderEntry = this.renderEntry.bind(this)
   }
 
   add(feature) {
-    this.selectedFeatures.push(feature)
+    this.store.add(feature)
     this.refresh()
   }
 
   remove(id) {
     id = id.replace( '--close', '')
-    this.selectedFeatures = this.selectedFeatures.filter( feat => feat.getId() != id)
+    this.store.remove( feat => feat.getId() != id)
     this.refresh()
   }
 
   //TODO: implement Reset via button
 
   refresh() {
-    const contents = this.selectedFeatures.map( this.renderEntry )
+    const contents = this.store.get().map( this.renderEntry )
     const container = $('#monitoring-glacier--list')
     $('#monitoring-glacier--list').html(contents)
     .find('.btn.close').on('click', (ev) => this.remove(ev.target.id) )
   }
 
   renderEntry(feature) {
-		const auxClass = (feature == selected) ? 'active' : ''
-		const id = feature.getId()
-		const name = feature.get(DISPLAY_NAME)
-		return `<div class="comparisonEntry ${auxClass}">
+    const auxClass = (feature == highlightedGlacier.feature) ? 'active' : ''
+    const id = feature.getId()
+    const name = feature.get(DISPLAY_NAME)
+    return `<div class="comparisonEntry ${auxClass}">
         <button type="button" name="highlight" class="glacierName" id="${id}--list">${name}</button>
         <button type="button" name="remove" class="btn close" id="${id}--close">
           ${this.svgClose}
@@ -231,7 +234,7 @@ class SelectionList {
   }
 }
 
-var monitoringSelectedFeatureList = new SelectionList();
+var monitoringSelectedFeatureList = new SelectionList(selectedGlaciers);
 
 // -----
 
@@ -305,7 +308,6 @@ var format = new GeoJSON;
 var url = '/geo/glamos_inventory_dummy.geojson';
 var gletscher_id;// = 'B36\/26'; //default = Aletschgletscher
 var initialFeature;
-var selected;   // the one feature (glacier) which is selected
 
 let id_from_slug;
 
@@ -371,7 +373,7 @@ var gletscher_source = new Vector({
       });
       initialFeature.setId('initialGlacier');
       selectedOverlay.getSource().addFeature(initialFeature);
-      selected = initialFeature;
+      highlightedGlacier.feature = initialFeature;
     });
 
   }
@@ -480,18 +482,18 @@ function selectGlacier(feature, pan=true) {
     fillSchluesseldaten(gletscher_id, page);
 
     //2a. reset current selection
-    if (selected) {
-      selectedOverlay.getSource().removeFeature(selected);
+    if (highlightedGlacier.feature) {
+      selectedOverlay.getSource().removeFeature( highlightedGlacier.feature);
     }
 
     //2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu
     //hoverOverlay.getSource().removeFeature(hover);
     selectedOverlay.getSource().addFeature(feature);
-    selected = feature;
+    highlightedGlacier.feature = feature;
 
     // possibly pan the map to the highlighted marker
     if(pan) {
-      const center = [ selected.get('coordx'), selected.get('coordy') ];
+      const center = [ highlightedGlacier.feature.get('coordx'), highlightedGlacier.feature.get('coordy') ];
       map.getView().setCenter(center);
     }
 
@@ -548,7 +550,7 @@ var featureHover = function (pixel) {
     return false;
   });
 
-  if (feature !== hover && feature !== selected) {
+  if (feature !== hover && feature !== highlightedGlacier.feature) {
     if (hover) {
       hoverOverlay.getSource().removeFeature(hover);
     }
