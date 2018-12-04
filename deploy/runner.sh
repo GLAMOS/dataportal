@@ -31,7 +31,9 @@ SSH_OPT=""
 RSYNC_OPT=""
 if [ ! -z "$REMOTE_IDENTITY" ] ; then
   deploydir=$(realpath $(dirname $0))
-  SSH_OPT="-i ${deploydir}/${REMOTE_IDENTITY}"
+  identity="${deploydir}/${REMOTE_IDENTITY}"
+  chmod go-rwx "$identity"   # only executable bit can be tracked in git
+  SSH_OPT="-i ${identity}"
   RSYNC_OPT="-e ssh ${SSH_OPT}"
 fi
 
