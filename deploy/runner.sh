@@ -5,6 +5,7 @@ set -e
 # This script expects the following env vars:
 # REMOTE_USER
 # REMOTE_HOST
+# REMOTE_IDENTITY - optional SSH key identity
 # DB_HOST
 # DB_PASS
 # DB_NAME (is used for both login and database name)
@@ -23,6 +24,15 @@ if [[ "$REMOTE_HOST" =~ "glamos.ch" ]] ; then
 else
   # MT
   PATH_WWW_ROOT="www"   # not trailing slash
+fi
+
+# additional connection settings
+SSH_OPT=""
+RSYNC_OPT=""
+if [ ! -z "$REMOTE_IDENTITY" ] ; then
+  deploydir=$(realpath $(dirname $0))
+  SSH_OPT="-i ${deploydir}/${REMOTE_IDENTITY}"
+  RSYNC_OPT="-e ssh ${SSH_OPT}"
 fi
 
 ## allows to delete everything that is not in .gitignore
@@ -52,11 +62,12 @@ bash ./deploy/generate_dotenv.sh
 
 
 ## Upload
-rsync -v -a --delete "$RSYNC_EXCLUDE_FROM_GITIGNORE" ./ "${REMOTE}:${PATH_APP}"
+rsync -v -a "${RSYNC_OPT}" --delete "$RSYNC_EXCLUDE_FROM_GITIGNORE" ./ "${REMOTE}:${PATH_APP}"
 
 ## Hook up document root
 # note: The dir in the repo is www for sure; docroot on server is another thing
-ssh "$REMOTE" "if [ -e $PATH_WWW_ROOT -a ! -L $PATH_WWW_ROOT ] ; then
+ssh -v ${SSH_OPT} "$REMOTE" "
+  if [ -e $PATH_WWW_ROOT -a ! -L $PATH_WWW_ROOT ] ; then
     mv -n $PATH_WWW_ROOT ${PATH_WWW_ROOT}.legacy ;
   fi ;
   ln -sfn ${PATH_APP}/www ${PATH_WWW_ROOT}

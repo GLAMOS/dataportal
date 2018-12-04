@@ -41,6 +41,7 @@ eth_dev_deploy:
     TIER: "test"
     REMOTE_USER: "glpo-dev"
     REMOTE_HOST: "dev.glamos.ch"
+    REMOTE_IDENTITY: "server2servertransfer.rsa"
     CI_VAR_SUFFIX: "ETH"
   script: ./deploy/runner.sh
 
@@ -55,5 +56,6 @@ eth_test_deploy:
     TIER: "live"
     REMOTE_USER: "glpo-test"
     REMOTE_HOST: "test.glamos.ch"
+    REMOTE_IDENTITY: "server2servertransfer.rsa"
     CI_VAR_SUFFIX: "ETH"
   script: ./deploy/runner.sh
