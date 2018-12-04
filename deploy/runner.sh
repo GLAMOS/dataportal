@@ -17,7 +17,13 @@ REMOTE=${REMOTE_USER}@${REMOTE_HOST}
 # Paths on server
 PATH_APP="app"
 
-PATH_WWW_ROOT="www"   # not trailing slash
+if [[ "$REMOTE_HOST" =~ "glamos.ch" ]] ; then
+  # ETH
+  PATH_WWW_ROOT="public_html"   # not trailing slash
+else
+  # MT
+  PATH_WWW_ROOT="www"   # not trailing slash
+fi
 
 ## allows to delete everything that is not in .gitignore
 # src: http://unix.stackexchange.com/questions/168561/rsync-folder-while-exclude-froming-gitignore-files-at-different-depths
