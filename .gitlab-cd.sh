@@ -13,10 +13,18 @@ set -e
 # Shorthand variable for remote server.
 REMOTE=${REMOTE_USER}@${REMOTE_HOST}
 
-# Meteotest frontent asset paths to sync.
-PATH_WWW_ROOT="www"
-PATH_WWW_THEME="${PATH_WWW_ROOT}/theme"
-PATH_WWW_GEO="${PATH_WWW_ROOT}/geo"
+# Paths on server
+PATH_APP="app"
+
+PATH_WWW_ROOT="www"   # not trailing slash
+
+## allows to delete everything that is not in .gitignore
+# src: http://unix.stackexchange.com/questions/168561/rsync-folder-while-exclude-froming-gitignore-files-at-different-depths
+# src: http://stackoverflow.com/questions/13713101/rsync-exclude-according-to-gitignore-hgignore-svnignore-like-filter-c#15373763
+# note: does not work with (single) quotes around rule, cause of variable substitution (yields: ''' with quotes)
+#  if using double-quotes here, script line needs to be:  sh -c "... $variable ..."
+RSYNC_EXCLUDE_FROM_GITIGNORE="--filter=dir-merge,- /.gitignore"
+
 
 # Build assets
 if [ "$CI_COMMIT_REF_NAME" == "TEST" ]; then
@@ -44,13 +52,10 @@ fi
 # spec_config="craft/config/general.$CI_COMMIT_REF_NAME.php"
 # [ -f "$spec_config" ] && cp "$spec_config" "craft/config/general.php"
 
-rsync -vv -a --exclude='*/' --delete "${PATH_WWW_ROOT}" "${REMOTE}:${PATH_WWW_ROOT}"
-rsync -vv -a --delete "${PATH_WWW_THEME}" "${REMOTE}:${PATH_WWW_ROOT}"
-rsync -vv -a --delete "${PATH_WWW_GEO}" "${REMOTE}:${PATH_WWW_ROOT}"
-rsync -vv -a --delete 'config' 'templates' 'vendor' \
-  "${REMOTE}:"
 
-ssh -vv "${REMOTE}" 'mkdir -p storage'
+## Upload
+rsync -v -a --delete "$RSYNC_EXCLUDE_FROM_GITIGNORE" ./ "${REMOTE}:${PATH_APP}"
+
 
 # Flush Craft cache
 printf '%s' 'Flushing cache: '
