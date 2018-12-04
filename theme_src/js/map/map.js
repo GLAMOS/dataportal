@@ -188,6 +188,53 @@ function remove_first_occurrence(str, searchstr)       {
 
 */
 
+// ----- Monitoring: Selection List
+class SelectionList {
+  constructor() {
+    this.selectedFeatures = []
+		this.svgClose = '<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>close</title><path d="M305.5,256,473.75,87.75a35,35,0,0,0-49.5-49.5L256,206.5,87.75,38.25a35,35,0,0,0-49.5,49.5L206.5,256,38.25,424.25a35,35,0,0,0,49.5,49.5L256,305.5,424.25,473.75a35,35,0,0,0,49.5-49.5Z"></path></svg>'
+
+    this.add = this.add.bind(this)
+    this.renderEntry = this.renderEntry.bind(this)
+  }
+
+  add(feature) {
+    this.selectedFeatures.push(feature)
+    this.refresh()
+  }
+
+  remove(id) {
+    id = id.replace( '--close', '')
+    this.selectedFeatures = this.selectedFeatures.filter( feat => feat.getId() != id)
+    this.refresh()
+  }
+
+  //TODO: implement Reset via button
+
+  refresh() {
+    const contents = this.selectedFeatures.map( this.renderEntry )
+    const container = $('#monitoring-glacier--list')
+    $('#monitoring-glacier--list').html(contents)
+    .find('.btn.close').on('click', (ev) => this.remove(ev.target.id) )
+  }
+
+  renderEntry(feature) {
+		const auxClass = (feature == selected) ? 'active' : ''
+		const id = feature.getId()
+		const name = feature.get(DISPLAY_NAME)
+		return `<div class="comparisonEntry ${auxClass}">
+        <button type="button" name="highlight" class="glacierName" id="${id}--list">${name}</button>
+        <button type="button" name="remove" class="btn close" id="${id}--close">
+          ${this.svgClose}
+        </button>
+      </div>`
+  }
+}
+
+var monitoringSelectedFeatureList = new SelectionList();
+
+// -----
+
 function dynamicLinks() {
   let dynamicElements = document.querySelectorAll(`#navbar-mapViewer, #navbar-factsheetListing,
     #navbar-homepage, #oversight-mapViewer, #oversight-factsheet, #oversight-download,
@@ -235,8 +282,9 @@ function enableSearch( gletscher_features) {
       ));
 
       function onSelect(ev, ui) {
-        selectGlacier( ui.item.value);
-        //TODO: if monitoring, add to selection list
+        const feature = ui.item.value;
+        selectGlacier(feature);
+        monitoringSelectedFeatureList.add( feature);
         // emptify search bar
         ev.preventDefault();   // otherwise ui.item.value shows up in input
         $(ev.target).val("");
