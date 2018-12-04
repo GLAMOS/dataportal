@@ -56,6 +56,14 @@ fi
 ## Upload
 rsync -v -a --delete "$RSYNC_EXCLUDE_FROM_GITIGNORE" ./ "${REMOTE}:${PATH_APP}"
 
+## Hook up document root
+# note: The dir in the repo is www for sure; docroot on server is another thing
+ssh "$REMOTE" "if [ -e $PATH_WWW_ROOT -a ! -L $PATH_WWW_ROOT ] ; then
+    mv -n $PATH_WWW_ROOT ${PATH_WWW_ROOT}.legacy ;
+  fi ;
+  ln -sfn ${PATH_APP}/www ${PATH_WWW_ROOT}
+"
+
 
 # Flush Craft cache
 printf '%s' 'Flushing cache: '
