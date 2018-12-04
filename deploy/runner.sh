@@ -32,8 +32,10 @@ RSYNC_OPT=""
 if [ ! -z "$REMOTE_IDENTITY" ] ; then
   deploydir=$(realpath $(dirname $0))
   identity="${deploydir}/${REMOTE_IDENTITY}"
+  # generate known_hosts:  ssh-keyscan "$REMOTE_HOST" >> "$knownhosts"
+  knownhosts="$deploydir/known_hosts"
   chmod go-rwx "$identity"   # only executable bit can be tracked in git
-  SSH_OPT="-i ${identity}"
+  SSH_OPT="-i ${identity} -o CheckHostIP=no -o HashKnownHosts=no -o UserKnownHostsFile=${knownhosts}"
   RSYNC_OPT="-e ssh ${SSH_OPT}"
 fi
 
