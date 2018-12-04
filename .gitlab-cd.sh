@@ -10,6 +10,7 @@ set -e
 # DB_NAME (is used for both login and database name)
 # CI_COMMIT_REF_NAME
 
+
 # Shorthand variable for remote server.
 REMOTE=${REMOTE_USER}@${REMOTE_HOST}
 
@@ -33,6 +34,7 @@ else
   npm run build
 fi
 
+
 # Generate DB config
 # cat > craft/config/db.php <<EOF
 # <?php
@@ -47,6 +49,7 @@ fi
 #     'password' => '$DB_PASS'
 # );
 # EOF
+
 
 # Replace general config with config for this deployment
 # spec_config="craft/config/general.$CI_COMMIT_REF_NAME.php"
