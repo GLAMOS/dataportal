@@ -29,5 +29,4 @@ staging_deploy:
     DB_HOST: $DB_HOST_TEST
     DB_NAME: $DB_NAME_TEST
     DB_PASS: $DB_PASS_TEST
-
-  script: ./.gitlab-cd.sh
+  script: ./deploy/runner.sh
