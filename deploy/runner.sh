@@ -31,11 +31,18 @@ SSH_OPT=""
 RSYNC_OPT=""
 if [ ! -z "$REMOTE_IDENTITY" ] ; then
   deploydir=$(realpath $(dirname $0))
+
+  # generate SSH key pair:
+  #  ssh-keygen -b 4096 -f $identity -C 'comment with target usage and MA,date'
+  #  then manually append the .pub key to server's .ssh/authorized_keys
   identity="${deploydir}/${REMOTE_IDENTITY}"
+  chmod go-rwx "$identity"   # only executable bit can be tracked in git
+  SSH_OPT="$SSH_OPT -i ${identity}"
+
   # generate known_hosts:  ssh-keyscan "$REMOTE_HOST" >> "$knownhosts"
   knownhosts="$deploydir/known_hosts"
-  chmod go-rwx "$identity"   # only executable bit can be tracked in git
-  SSH_OPT="-i ${identity} -o CheckHostIP=no -o HashKnownHosts=no -o UserKnownHostsFile=${knownhosts}"
+  SSH_OPT="$SSH_OPT -o CheckHostIP=no -o HashKnownHosts=no -o UserKnownHostsFile=${knownhosts}"
+
   RSYNC_OPT="-e ssh ${SSH_OPT}"
 fi
 
