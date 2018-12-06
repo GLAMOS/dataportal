@@ -294,15 +294,26 @@ function enableSearch( gletscher_features) {
         { label: feat.get(DISPLAY_NAME), value: feat }
       ));
 
+      /*
+       * keeps search bar empty
+       * (otherwise ui.item.value shows up in <input> as "[object Object]")
+       */
+      function preventInputPopulation(ev) {
+        // from jQuery-UI docs:
+        //  cancelling (focus|select) event prevents input to be updated
+        ev.preventDefault();
+      }
+
       function onSelect(ev, ui) {
         const feature = ui.item.value;
         controller.searchSelected(feature)
-        // emptify search bar
-        ev.preventDefault();   // otherwise ui.item.value shows up in input
-        $(ev.target).val("");
+        preventInputPopulation(ev)
+        $(ev.target).val("");   // remove user-typed search string
       }
+
       searchInput.autocomplete({
           source: searchData,
+          focus: preventInputPopulation,
           select: onSelect,
       });
 }
