@@ -249,7 +249,7 @@ controller.bridge({monitoringSelectedFeatureList})
 // -----
 
 function dynamicLinks() {
-  $('a.keephash').on("click", function (e) {
+  $('a.js-keephash').on("click", function (e) {
      urlManager.navigateTo( this.href);
      e.preventDefault();
   })
