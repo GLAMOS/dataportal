@@ -150,13 +150,16 @@ class UrlManager {
       }
     }
 
-    this.decodeFullHash = () => {
+    /**
+     * Decodes the URL hash and populates the datastore
+     */
+    this.loadState = () => {
       const hash = window.location.hash.replace(/^#/, '')
-      // console.debug('UrlManager.decodeFullHash', hash)
+      // console.debug('UrlManager.loadState', hash)
       const [ layerPart, featurePart ] = hash.split('/')
       layerPart && _setLayersFromHashPart( layerPart.split('&') )
       featurePart && _setFeaturesFromHashPart( featurePart.split('&') )
-      // console.debug('UrlManager.decodeFullHash end', baseLayers, datastore.selectedGlaciers.get(), datastore.highlightedGlacier.get())
+      // console.debug('UrlManager.loadState end', datastore.downloadTab, datastore.selectedGlaciers.get(), datastore.highlightedGlacier.get())
     }
 
   }

@@ -49,14 +49,14 @@ class Controller {
 
   //onPageLoad(page) {
   onPageLoad() {
-    urlManager.decodeFullHash()
+    urlManager.loadState()
     this._bootstrapFromState()
     bridge.dynamicLinks()
   }
 
   gotFeatures(features) {
     datastore.features.set(features)
-    urlManager.decodeFullHash()
+    urlManager.loadState()
     this._bootstrapFromState()
     bridge.enableSearch(features);
   }
