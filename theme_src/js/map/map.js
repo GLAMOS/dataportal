@@ -226,8 +226,8 @@ class SelectionList {
     const contents = this.store.get().map( this.renderEntry )
     const container = $('#monitoring-glacier--list')
     $('#monitoring-glacier--list').html(contents)
-    .find('[name="highlight"]').on('click', (ev) => this.select(ev.target.id) ).end()
-    .find('[name="remove"]').on('click', (ev) => this.remove(ev.target.id) ).end()
+    .find('[name="highlight"]').on('click', (ev) => this.select(ev.currentTarget.id) ).end()
+    .find('[name="remove"]').on('click', (ev) => this.remove(ev.currentTarget.id) ).end()
   }
 
   renderEntry(feature) {
