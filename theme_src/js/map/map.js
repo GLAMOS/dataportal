@@ -312,6 +312,7 @@ function enableSearch( gletscher_features) {
       }
 
       searchInput.autocomplete({
+          minLength: 2,
           source: searchData,
           focus: preventInputPopulation,
           select: onSelect,
