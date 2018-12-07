@@ -49,9 +49,12 @@ fi
 ## allows to delete everything that is not in .gitignore
 # src: http://unix.stackexchange.com/questions/168561/rsync-folder-while-exclude-froming-gitignore-files-at-different-depths
 # src: http://stackoverflow.com/questions/13713101/rsync-exclude-according-to-gitignore-hgignore-svnignore-like-filter-c#15373763
+# Note: needs to be combined with --delete-after for the receiving side being able to see the exclude rules before deleting
+#  src: man rsync -> "PER-DIRECTORY RULES AND DELETE"
+# note: --include needs to come before --filter
 # note: does not work with (single) quotes around rule, cause of variable substitution (yields: ''' with quotes)
 #  if using double-quotes here, script line needs to be:  sh -c "... $variable ..."
-RSYNC_EXCLUDE_FROM_GITIGNORE="--filter=dir-merge,- /.gitignore"
+RSYNC_EXCLUDE_FROM_GITIGNORE="--include=.gitignore --filter=dir-merge,- .gitignore"
 
 
 # Build assets
@@ -73,7 +76,7 @@ bash ./deploy/generate_dotenv.sh
 
 
 ## Upload
-rsync -v -a "${RSYNC_OPT}" --delete "$RSYNC_EXCLUDE_FROM_GITIGNORE" ./ "${REMOTE}:${PATH_APP}"
+rsync -v -a "${RSYNC_OPT}" "$RSYNC_EXCLUDE_FROM_GITIGNORE" --delete-after ./ "${REMOTE}:${PATH_APP}"
 # upload built stuff (separately since it's in .gitignore) - using non-delete of full www/
 rsync -v -a "${RSYNC_OPT}" www/ "${REMOTE}:${PATH_APP}/www/"
 
