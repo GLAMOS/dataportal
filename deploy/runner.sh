@@ -27,8 +27,8 @@ else
 fi
 
 # additional connection settings
-SSH_OPT=""
-RSYNC_OPT=""
+SSH_OPT=()
+RSYNC_OPT=()
 if [ ! -z "$REMOTE_IDENTITY" ] ; then
   deploydir=$(realpath $(dirname $0))
 
@@ -37,13 +37,14 @@ if [ ! -z "$REMOTE_IDENTITY" ] ; then
   #  then manually append the .pub key to server's .ssh/authorized_keys
   identity="${deploydir}/${REMOTE_IDENTITY}"
   chmod go-rwx "$identity"   # only executable bit can be tracked in git
-  SSH_OPT="$SSH_OPT -i ${identity}"
+  SSH_OPT+=(-i "${identity}")
 
   # generate known_hosts:  ssh-keyscan "$REMOTE_HOST" >> "$knownhosts"
   knownhosts="$deploydir/known_hosts"
-  SSH_OPT="$SSH_OPT -o CheckHostIP=no -o HashKnownHosts=no -o UserKnownHostsFile=${knownhosts}"
+  SSH_OPT+=(-o "CheckHostIP=no" -o "HashKnownHosts=no" -o "UserKnownHostsFile=${knownhosts}")
 
-  RSYNC_OPT="-e ssh ${SSH_OPT}"
+  # "[*]" expands to a single word - required here since all is part of the value to "-e"
+  RSYNC_OPT+=(-e "ssh ${SSH_OPT[*]}")
 fi
 
 ## allows to delete everything that is not in .gitignore
@@ -54,7 +55,7 @@ fi
 # note: --include needs to come before --filter
 # note: does not work with (single) quotes around rule, cause of variable substitution (yields: ''' with quotes)
 #  if using double-quotes here, script line needs to be:  sh -c "... $variable ..."
-RSYNC_EXCLUDE_FROM_GITIGNORE="--include=.gitignore --filter=dir-merge,- .gitignore"
+RSYNC_EXCLUDE_FROM_GITIGNORE=(--include='.gitignore' --filter='dir-merge,- .gitignore')
 
 
 # Build assets
@@ -76,13 +77,13 @@ bash ./deploy/generate_dotenv.sh
 
 
 ## Upload
-rsync -v -a "${RSYNC_OPT}" "$RSYNC_EXCLUDE_FROM_GITIGNORE" --delete-after ./ "${REMOTE}:${PATH_APP}"
+rsync -v -a "${RSYNC_OPT[@]}" "${RSYNC_EXCLUDE_FROM_GITIGNORE[@]}" --delete-after ./ "${REMOTE}:${PATH_APP}"
 # upload built stuff (separately since it's in .gitignore) - using non-delete of full www/
-rsync -v -a "${RSYNC_OPT}" www/ "${REMOTE}:${PATH_APP}/www/"
+rsync -v -a "${RSYNC_OPT[@]}" www/ "${REMOTE}:${PATH_APP}/www/"
 
 ## Hook up document root
 # note: The dir in the repo is www for sure; docroot on server is another thing
-ssh -v ${SSH_OPT} "$REMOTE" "
+ssh -v "${SSH_OPT[@]}" "$REMOTE" "
   if [ -e $PATH_WWW_ROOT -a ! -L $PATH_WWW_ROOT ] ; then
     mv -n $PATH_WWW_ROOT ${PATH_WWW_ROOT}.legacy ;
   fi ;
