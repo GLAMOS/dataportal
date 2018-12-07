@@ -14,7 +14,7 @@ import { defaults as Control } from 'ol/control';
 import Point from 'ol/geom/Point';
 import Feature from 'ol/Feature';
 import glacier_vip from './layer/glacier_vip';
-import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
+import { swissimage_wmts, swissalti3d_wmts, eiszeit_wmts, dufour_wmts, siegfried_wmts, pixelkarte_farbe_wmts, pixelkarte_grau_wmts, pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
 import controller from '../controller'
@@ -420,7 +420,8 @@ if (document.getElementById('factsheet-map')) {
 
   map = new Map({
     target: 'monitoring-map',
-    layers: [pixel_500px, pixel_1000px, eiszeit, glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010],
+    // layers: [siegfried_wmts, pixelkarte_farbe_wmts, glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010],
+    layers: [swissimage_wmts, glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010],
     view: new View({
       extent: [650000, 4000000, 1200000, 6500000],
       center: [903280, 5913450],
