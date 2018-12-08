@@ -80,6 +80,7 @@ bash ./deploy/generate_dotenv.sh
 rsync -v -a "${RSYNC_OPT[@]}" "${RSYNC_EXCLUDE_FROM_GITIGNORE[@]}" --delete-after ./ "${REMOTE}:${PATH_APP}"
 # upload built stuff (separately since it's in .gitignore) - using non-delete of full www/
 rsync -v -a "${RSYNC_OPT[@]}" www/ "${REMOTE}:${PATH_APP}/www/"
+rsync -v -a "${RSYNC_OPT[@]}" .env "${REMOTE}:${PATH_APP}/"
 
 ## Hook up document root
 # note: The dir in the repo is www for sure; docroot on server is another thing
