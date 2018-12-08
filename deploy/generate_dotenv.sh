@@ -31,6 +31,7 @@ fi
 
 
 ### gather variables
+additions=('')
 
 # mapping MT tier definitions to Craft ENVIRONMENT (usualy one of: 'dev', 'staging', 'production', etc.)
 declare -A tier2env=([dev]=dev [int]=dev [test]=staging [live]=production)
@@ -65,4 +66,9 @@ cat > "$destination" <<-EOF
 	SITE_URL_FR="@web/fr"
 	SITE_URL_IT="@web/it"
 EOF
+
+# output additional env variables
+for addition in "${additions[@]}" ; do
+  echo "$addition" >> $destination
+done
 
