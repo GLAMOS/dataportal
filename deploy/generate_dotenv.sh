@@ -32,6 +32,10 @@ fi
 
 ### gather variables
 
+# mapping MT tier definitions to Craft ENVIRONMENT (usualy one of: 'dev', 'staging', 'production', etc.)
+declare -A tier2env=([dev]=dev [int]=dev [test]=staging [live]=production)
+ENVIRONMENT="${tier2env[$TIER]}"
+
 # some random chars
 SECURITY_KEY=$(openssl rand -base64 24)
 
@@ -53,13 +57,8 @@ cat > "$destination" <<-EOF
 	#DB_PORT="3306"
 	#DB_CERTIFICATE="/etc/ssl/certs/ca-certificates.crt"
 
-	# tier
-	#ENVIRONMENT="development"
-	#ENVIRONMENT="dev"
-	#ENVIRONMENT="staging"
-	ENVIRONMENT="productive"
-
 	# Craft
+	ENVIRONMENT="$ENVIRONMENT"
 	SECURITY_KEY="$SECURITY_KEY"
 	SITE_URL_DE="@web"
 	SITE_URL_EN="@web/en"
