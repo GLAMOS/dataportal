@@ -24,7 +24,7 @@ staging_deploy:
     name: staging
     url: https://glamos.meteotest.ch
   variables:
-    TIER: "int"
+    TIER: "test"
     REMOTE_USER: "glamos"
     REMOTE_HOST: "glamos.meteotest.ch"
     CI_VAR_SUFFIX: "TEST"
@@ -38,7 +38,8 @@ eth_dev_deploy:
     name: eth-dev
     url: https://dev.glamos.ch
   variables:
-    TIER: "test"
+    # strangely only ENVIRONMENT=production works on ETH server
+    TIER: "live"
     REMOTE_USER: "glpo-dev"
     REMOTE_HOST: "dev.glamos.ch"
     REMOTE_IDENTITY: "server2servertransfer.rsa"
