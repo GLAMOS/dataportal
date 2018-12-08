@@ -36,19 +36,7 @@ fi
 
 
 # Generate DB config
-# cat > craft/config/db.php <<EOF
-# <?php
-# ☠ WILL BE OVERWRITTEN ON DEPLOY! ☠
-# Edit the contents of this file in $0
-# return array(
-#     'tablePrefix' => 'craft',
-#     'attributes' => array( PDO::MYSQL_ATTR_SSL_CA => '/etc/ssl/certs/ca-certificates.crt', ),
-#     'server' => 'mariadb2',
-#     'database' => '$DB_NAME',
-#     'user'     => '$DB_NAME',
-#     'password' => '$DB_PASS'
-# );
-# EOF
+bash ./deploy/generate_dotenv.sh
 
 
 # Replace general config with config for this deployment

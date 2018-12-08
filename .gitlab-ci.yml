@@ -26,7 +26,5 @@ staging_deploy:
   variables:
     REMOTE_USER: "glamos"
     REMOTE_HOST: "glamos.meteotest.ch"
-    DB_HOST: $DB_HOST_TEST
-    DB_NAME: $DB_NAME_TEST
-    DB_PASS: $DB_PASS_TEST
+    CI_VAR_SUFFIX: "TEST"
   script: ./deploy/runner.sh
