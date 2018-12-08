@@ -40,6 +40,25 @@ ENVIRONMENT="${tier2env[$TIER]}"
 # some random chars
 SECURITY_KEY=$(openssl rand -base64 24)
 
+if [[ "$REMOTE_HOST" =~ "glamos.ch" ]] ; then
+  ## We're behind a kind of reverse proxy...
+  # https://github.com/omeka/Omeka/issues/685
+  # https://github.com/fisharebest/webtrees/issues/328
+  # https://issues.apache.org/jira/browse/KNOX-924
+  ## trials to force HTTPS
+  # HTTP_SCHEME="https"
+  # REQUEST_SCHEME="https"
+  # SERVER_PORT=443
+  # HTTP_UPGRADE_INSECURE_REQUESTS="1"
+  # HTTP_X_FORWARDED_PROTO="https"
+  # HTTP_X_FORWARDED_PORT=443
+  # CRAFT_SITE_URL="https://{host}/"
+  # SITE_URL="https://{host}/"
+  # SITE_URL_DE="https://@web"
+  ## the one and only that works
+  additions+=('# ETH is behind a reverse proxy, so server just sees port 80' 'HTTPS="on"')
+fi
+
 
 ### generate
 # main blocks
