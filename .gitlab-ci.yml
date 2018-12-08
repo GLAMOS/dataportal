@@ -24,6 +24,7 @@ staging_deploy:
     name: staging
     url: https://glamos.meteotest.ch
   variables:
+    TIER: "int"
     REMOTE_USER: "glamos"
     REMOTE_HOST: "glamos.meteotest.ch"
     CI_VAR_SUFFIX: "TEST"
