@@ -10,9 +10,20 @@
 destination=".env"
 
 
+### helper for accessing CI secret variables
+# @param variable name, which is also main part of env var
+# @uses $CI_VAR_SUFFIX
+function from_env {
+  name=$1 ; shift
+  varname="${name}_${CI_VAR_SUFFIX}"
+  # indirection / variable variable
+  echo "${!varname}"
+}
+
+
 ### checks
 if [ -z "$CI_VAR_SUFFIX" \
-  -o -z "${DB_PASSWORD_$CI_VAR_SUFFIX}" \
+  -o -z "$(from_env DB_PASSWORD)" \
   ] ; then
     echo "$0: some variables are not defined or empty" >&2
     exit -2
@@ -33,10 +44,10 @@ cat > "$destination" <<-EOF
 
 	# database
 	DB_DRIVER="mysql"
-	DB_USER="${DB_USER_$CI_VAR_SUFFIX}"
-	DB_PASSWORD="${DB_PASSWORD_$CI_VAR_SUFFIX}"
-	DB_SERVER="${DB_SERVER_$CI_VAR_SUFFIX}"
-	DB_DATABASE="${DB_DATABASE_$CI_VAR_SUFFIX}"
+	DB_USER="$(from_env DB_USER)"
+	DB_PASSWORD="$(from_env DB_PASSWORD)"
+	DB_SERVER="$(from_env DB_SERVER)"
+	DB_DATABASE="$(from_env DB_DATABASE)"
 	DB_SCHEMA="public"
 	DB_TABLE_PREFIX="craft_"
 	#DB_PORT="3306"
