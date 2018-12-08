@@ -28,7 +28,8 @@ RSYNC_EXCLUDE_FROM_GITIGNORE="--filter=dir-merge,- /.gitignore"
 
 
 # Build assets
-if [ "$CI_COMMIT_REF_NAME" == "TEST" ]; then
+# note: needs to be in-sync with ENVIRONMENT for Craft (see .env), since asset filenames are different
+if [ "$TIER" == "dev" -o "$TIER" == "int" ]; then
   npm run build:dev
 else
   npm run build
