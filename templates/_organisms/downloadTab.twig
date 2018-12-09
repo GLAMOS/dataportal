@@ -1,21 +1,20 @@
 
 {% macro tabContent(category) %}
   {% import '_incl/docMacros' as docMacros %}
-  {% for item in craft.entries.section('downloads').with(['downloadDoc']).all() %}
-   {% if item.type == category %}
-    <div class="downloadEntry">
-      <h4 class="scientificTitle">
-        {{ item.title }}<br>
-      </h4>
-      <p>
-        <span class="normal">
-          {{ docMacros.textField(item.downloadBeschrieb)}},
-          {{ docMacros.pubDate(item.releaseDate) }}:
-        </span>
-        {% include '_atoms/downloadDoc' %}
-      </p>
-    </div>
-   {% endif %}
+
+  {% for item in craft.entries.section('downloads').relatedTo(category) %}
+    {% if item.type != 'leadtextDownload' %}{# OR == 'downloadEntry' #}
+      <div class="downloadEntry" name="downloads-{{ item.slug }}">
+        <h4 class="scientificTitle">{{ item.title }}</h4>
+        <p>
+          <span class="normal">
+            {{ docMacros.textField(item.downloadBeschrieb)}},
+            {{ docMacros.pubDate(item.releaseDate) }}:
+          </span>
+          {% include '_atoms/downloadDoc' %}
+        </p>
+      </div>
+    {% endif %}
   {% endfor %}
 {% endmacro %}
 
