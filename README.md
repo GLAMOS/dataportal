@@ -10,6 +10,9 @@
 * All templates inherit `_layout.twig` so if you need global variables, put them there.
 * There is a file called `_incl/docMacros.twig` which contain a few twig snippets. (eg. every wysiwyg field is sanitised trough a macro).
 * SEO Code: All twig SEO is written in `_organisms/seoPage`. It grabs all the seo fields of each page and puts it into the head. If there are empty seo fields on a page it will grab the fallback text from `Globale Inhalte`
+* Some Craft Entry IDs are hard-wired in the templates:
+	- Main menu entries: in [_layout.twig](templates/_layout.twig)
+	- Special direct buttons on Home page: in [indexOversight.twig](templates/_organisms/indexOversight.twig)
 
 # Styles (SCSS)
 
