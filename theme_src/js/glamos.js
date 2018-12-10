@@ -35,103 +35,108 @@ global.my = {};
 
   let chart;
 
-  function fetchData (id)
-  {
-    const URIS = {
-      length_change: `/glacier-data.php?id=${id}`, // '/geo/griessgletscher_length_change.geojson',
-      mass_change: '/geo/griessgletscher_mass_change.geojson'
-    };
+  controller.bridge({
+    loadGlacierData (id) {
+      const URIS = {
+        length_change: `/glacier-data.php?id=${id}`, // '/geo/griessgletscher_length_change.geojson',
+        mass_change: '/geo/griessgletscher_mass_change.geojson'
+      };
 
-    let loaded = false;
-    const onload = function () {
-      if (loaded) return;
-      loaded = true;
+      let loaded = false;
+      const onload = function () {
+        if (loaded) return;
+        loaded = true;
 
-      const JSON_DATA = JSON.parse(xhr.responseText);
-      const KEY_NAME = 'glacier_full_name';
-      const KEY_YEAR = 'year_to';
+        const JSON_DATA = JSON.parse(xhr.responseText);
 
-      if (!JSON_DATA || JSON_DATA.length === 0)
-      {
-        document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
-        return;
-      }
+        if (!JSON_DATA || JSON_DATA.length === 0)
+        {
+          document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
+          return;
+        }
 
-      const LINE_LABEL = JSON_DATA[0][KEY_NAME];
-      const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year_to));
-      const VALUES = [LINE_LABEL].concat(JSON_DATA.map((entry) => entry.variation_cumulative));
-      const CHART_DATA = [YEARS, VALUES];
+        const KEY_YEAR = 'year_to';
+        const KEY_NAME = 'glacier_full_name';
 
-      /* DEBUG */
-      console.log(JSON_DATA);
-      console.log(CHART_DATA);
+        const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year_to));
+        const VALUES = [id].concat(JSON_DATA.map((entry) => entry.variation_cumulative));
+        const LINE_LABEL = JSON_DATA[0][KEY_NAME];
+        const CHART_DATA = {
+          x: KEY_YEAR,
+          columns: [YEARS, VALUES],
+          names: {
+            [id]: LINE_LABEL
+          }
+        };
 
-      if (!chart)
-      {
-        chart = c3.generate({
-          bindto: '#chart',
-          data: {
-            x: KEY_YEAR,
-            columns: CHART_DATA,
-          },
-          axis: {
-            x: {
-              tick: {
-                format: '%Y', //-%m-%d'
-                outer: false,
-                rotate: 45
+        /* DEBUG */
+        console.log(JSON_DATA);
+        console.log(CHART_DATA);
+
+        if (!chart)
+        {
+          chart = c3.generate({
+            bindto: '#chart',
+            data: CHART_DATA,
+            axis: {
+              x: {
+                tick: {
+                  // format: '%Y', //-%m-%d'
+                  outer: false,
+                  rotate: 45
+                },
+                // type: 'timeseries',
               },
-              // type: 'timeseries',
+              y: {
+                label: {
+                  position: 'outer',
+                  text: 'Kumulative Längenänderung (m)',
+                },
+                tick: {
+                  outer: false,
+                }
+              }
             },
-            y: {
-              label: {
-                position: 'outer',
-                text: 'Kumulative Längenänderung (m)',
-              },
-              tick: {
-                outer: false,
+            grid: {
+              y: { show: true },
+              x: { show: true }
+            },
+            tooltip: {
+              format: {
+                value (value) { return `${formatNumber(value)}\xA0m`; }
               }
             }
-          },
-          grid: {
-            y: { show: true },
-            x: { show: true }
-          },
-          tooltip: {
-            format: {
-              value (value) { return `${formatNumber(value)}\xA0m`; }
-            }
-          }
-        });
-      }
-      else
-      {
-        chart.load({
-          columns: CHART_DATA
-        });
-      }
-    };
+          });
+        }
+        else
+        {
+          chart.load(CHART_DATA);
+        }
+      };
 
-    /* TODO: Write a fetch API wrapper */
-    // fetch(URI)
-    // .then((response) => response.json())
-    // .then((json) => {
-    // }
+      /* TODO: Write a fetch API wrapper */
+      // fetch(URI)
+      // .then((response) => response.json())
+      // .then((json) => {
+      // }
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', URIS.length_change, true);
-    xhr.onload = onload;
-    xhr.onreadystatechange = function () {
-      if (loaded) return;
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', URIS.length_change, true);
+      xhr.onload = onload;
+      xhr.onreadystatechange = function () {
+        if (loaded) return;
 
-      if (xhr.readyState == 4 && xhr.status === 200)
-      {
-        onload();
-      }
-    };
-    xhr.send(null);
-  }
-  controller.bridge({fetchData});
+        if (xhr.readyState == 4 && xhr.status === 200)
+        {
+          onload();
+        }
+      };
+      xhr.send(null);
+    },
+    unloadGlacierData (id) {
+      chart.unload({ids: [id]});
+    }
+  });
 
   function getAvailableDownloadTabs () {
     return $('.tabContainer a[data-tab]').map((_ix, el) => el.getAttribute('data-tab'));
@@ -192,9 +197,6 @@ global.my = {};
         $('.stickyNav').removeClass('sticky');
       }
     });
-
-    // const ID = window.location.hash.replace(/^#/, '');
-    // fetchData(ID);
 
     controller.onPageLoad();
   });
