@@ -40,9 +40,11 @@ class Controller {
 
   _chooseRandom() {
     const feature = datastore.features.findById( bridge.getRandomVIP() )
-    bridge.selectGlacier(feature)
-    bridge.mapPanTo(feature)
-    bridge.monitoringSelectedFeatureList.add(feature)
+    if(feature) {
+      bridge.selectGlacier(feature)
+      bridge.mapPanTo(feature)
+      bridge.monitoringSelectedFeatureList.add(feature)
+    }
   }
 
   /**
