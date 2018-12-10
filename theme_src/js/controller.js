@@ -64,7 +64,10 @@ class Controller {
       needsUpdate = true
     }
 
-    if(needsUpdate) urlManager.minorUpdate()
+    if(needsUpdate) {
+      urlManager.minorUpdate()
+      bridge.dynamicLinks()
+    }
   }
 
   // -- Init
