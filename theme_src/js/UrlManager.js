@@ -84,16 +84,14 @@ class UrlManager {
 
     // map layers: baselayers, div. featurelayers
     const _getLayerHashPart = () => {
-      const page = _getCurrentPage()
-      if( 'downloads' == page ) {
+      if( 'downloads' == datastore.currentPage ) {
         return [datastore.downloadTab]
       }
       return []   // fallback
     }
 
     const _setLayersFromHashPart = (hashes) => {
-      const page = _getCurrentPage()
-      if( 'downloads' == page ) {
+      if( 'downloads' == datastore.currentPage ) {
         datastore.downloadTab = hashes[0]
       }
     }
@@ -154,6 +152,7 @@ class UrlManager {
      * Decodes the URL hash and populates the datastore
      */
     this.loadState = () => {
+      datastore.currentPage = _getCurrentPage()
       const hash = window.location.hash.replace(/^#/, '')
       // console.debug('UrlManager.loadState', hash)
       const [ layerPart, featurePart ] = hash.split('/')
