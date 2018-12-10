@@ -591,6 +591,8 @@ map && map.on('pointermove', function (e) {
 });
 
 
+// -----
+controller.onPageLoad()
 
 
 //Buttons clonen:

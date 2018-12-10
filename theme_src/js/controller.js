@@ -1,5 +1,7 @@
 'use strict';
 
+import urlManager from './UrlManager'
+import { highlightedGlacier } from './datastore'
 import { selectedGlaciers } from './datastore'
 
 
@@ -25,17 +27,27 @@ function feature2id(feature) {
 
 class Controller {
 
+  //onPageLoad(page) {
+  onPageLoad() {
+    urlManager.decodeFullHash()
+    const highlight = highlightedGlacier.get()
+    highlight && bridge.selectGlacier(highlight)
+  }
+
+
   // -- Home
 
   mapMarkerHighlighted(feature) {
     bridge.selectGlacier(feature)
     // note: no map panning
     bridge.monitoringSelectedFeatureList.add( feature)
+    urlManager.majorUpdate()
   }
 
   searchSelected(feature) {
     bridge.selectGlacier(feature)
     bridge.monitoringSelectedFeatureList.add( feature)
+    urlManager.majorUpdate()
   }
 
   // -- Monitoring
@@ -43,6 +55,7 @@ class Controller {
   selectionListHighlight(id) {
     const feature = selectedGlaciers.findById(id)
     bridge.selectGlacier(feature)
+    urlManager.minorUpdate()
   }
 
   selectionListRemove(id) {
