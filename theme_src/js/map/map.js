@@ -258,6 +258,7 @@ controller.bridge({monitoringSelectedFeatureList})
 // -----
 
 function dynamicLinks() {
+  // TODO: don't hook up multiple times
   $('a.keephash').on("click", function (e) {
      urlManager.navigateTo( this.href);
      e.preventDefault();
@@ -448,6 +449,7 @@ function mouse2features(browserEvent) {
 // pan the map to the given feature
 // depends: map
 function mapPanTo(feature) {
+    if(!feature) return;
   const center = [ feature.get('coordx'), feature.get('coordy') ];
   map.getView().setCenter(center);
 }
@@ -457,6 +459,8 @@ controller.bridge({mapPanTo})
 // populate Schluesseldaten, highlight selected marker
 // depends: page; highlightedGlacier, selectedOverlay
 function selectGlacier(feature) {
+    if(!feature) return;
+
     //1. fill infobox from feature
     gletscher_id = feature.getId();
     fillSchluesseldaten(gletscher_id, page);
@@ -476,8 +480,6 @@ function selectGlacier(feature) {
     highlightedGlacier.feature = feature;
 
     //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
-
-    //3. fuege neuen slug hinzu, triggert neuladen
 }
 
 // when the user clicks on a feature, select it
