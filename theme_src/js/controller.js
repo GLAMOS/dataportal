@@ -45,11 +45,18 @@ class Controller {
     bridge.monitoringSelectedFeatureList.add(feature)
   }
 
+  /**
+   * sets some state bits to defaults if they're empty
+   */
+  _setFallbackState() {
+  }
+
   // -- Init
 
   //onPageLoad(page) {
   onPageLoad() {
     urlManager.loadState()
+    this._setFallbackState()
     this._bootstrapFromState()
     bridge.dynamicLinks()
   }
