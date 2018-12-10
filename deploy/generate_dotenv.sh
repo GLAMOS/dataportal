@@ -40,6 +40,10 @@ ENVIRONMENT="${tier2env[$TIER]}"
 # some random chars
 SECURITY_KEY=$(openssl rand -base64 24)
 
+if [[ "$REMOTE_HOST" =~ ".meteotest." ]] ; then
+  additions+=('# Meteotest uses encrypted DB connection' 'DB_CERTIFICATE="/etc/ssl/certs/ca-certificates.crt"')
+fi
+
 if [[ "$REMOTE_HOST" =~ "glamos.ch" ]] ; then
   ## We're behind a kind of reverse proxy...
   # https://github.com/omeka/Omeka/issues/685
@@ -75,7 +79,6 @@ cat > "$destination" <<-EOF
 	DB_SCHEMA="public"
 	DB_TABLE_PREFIX="craft_"
 	#DB_PORT="3306"
-	#DB_CERTIFICATE="/etc/ssl/certs/ca-certificates.crt"
 
 	# Craft
 	ENVIRONMENT="$ENVIRONMENT"

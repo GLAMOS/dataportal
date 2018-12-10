@@ -60,10 +60,10 @@ RSYNC_EXCLUDE_FROM_GITIGNORE=(--include='.gitignore' --filter='dir-merge,- .giti
 
 # Build assets
 # note: needs to be in-sync with ENVIRONMENT for Craft (see .env), since asset filenames are different
-if [ "$TIER" == "dev" -o "$TIER" == "int" ]; then
-  npm run build:dev
-else
+if [ "$TIER" == "live" ]; then
   npm run build
+else
+  npm run build:dev
 fi
 
 
