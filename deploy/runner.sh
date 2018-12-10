@@ -5,6 +5,7 @@ set -e
 # This script expects the following env vars:
 # REMOTE_USER
 # REMOTE_HOST
+# REMOTE_IDENTITY - optional SSH key identity
 # DB_HOST
 # DB_PASS
 # DB_NAME (is used for both login and database name)
@@ -17,14 +18,44 @@ REMOTE=${REMOTE_USER}@${REMOTE_HOST}
 # Paths on server
 PATH_APP="app"
 
-PATH_WWW_ROOT="www"   # not trailing slash
+if [[ "$REMOTE_HOST" =~ "glamos.ch" ]] ; then
+  # ETH
+  PATH_WWW_ROOT="public_html"   # not trailing slash
+else
+  # MT
+  PATH_WWW_ROOT="www"   # not trailing slash
+fi
+
+# additional connection settings
+SSH_OPT=()
+RSYNC_OPT=()
+if [ ! -z "$REMOTE_IDENTITY" ] ; then
+  deploydir=$(realpath $(dirname $0))
+
+  # generate SSH key pair:
+  #  ssh-keygen -b 4096 -f $identity -C 'comment with target usage and MA,date'
+  #  then manually append the .pub key to server's .ssh/authorized_keys
+  identity="${deploydir}/${REMOTE_IDENTITY}"
+  chmod go-rwx "$identity"   # only executable bit can be tracked in git
+  SSH_OPT+=(-i "${identity}")
+
+  # generate known_hosts:  ssh-keyscan "$REMOTE_HOST" >> "$knownhosts"
+  knownhosts="$deploydir/known_hosts"
+  SSH_OPT+=(-o "CheckHostIP=no" -o "HashKnownHosts=no" -o "UserKnownHostsFile=${knownhosts}")
+
+  # "[*]" expands to a single word - required here since all is part of the value to "-e"
+  RSYNC_OPT+=(-e "ssh ${SSH_OPT[*]}")
+fi
 
 ## allows to delete everything that is not in .gitignore
 # src: http://unix.stackexchange.com/questions/168561/rsync-folder-while-exclude-froming-gitignore-files-at-different-depths
 # src: http://stackoverflow.com/questions/13713101/rsync-exclude-according-to-gitignore-hgignore-svnignore-like-filter-c#15373763
+# Note: needs to be combined with --delete-after for the receiving side being able to see the exclude rules before deleting
+#  src: man rsync -> "PER-DIRECTORY RULES AND DELETE"
+# note: --include needs to come before --filter
 # note: does not work with (single) quotes around rule, cause of variable substitution (yields: ''' with quotes)
 #  if using double-quotes here, script line needs to be:  sh -c "... $variable ..."
-RSYNC_EXCLUDE_FROM_GITIGNORE="--filter=dir-merge,- /.gitignore"
+RSYNC_EXCLUDE_FROM_GITIGNORE=(--include='.gitignore' --filter='dir-merge,- .gitignore')
 
 
 # Build assets
@@ -46,11 +77,15 @@ bash ./deploy/generate_dotenv.sh
 
 
 ## Upload
-rsync -v -a --delete "$RSYNC_EXCLUDE_FROM_GITIGNORE" ./ "${REMOTE}:${PATH_APP}"
+rsync -i -a "${RSYNC_OPT[@]}" "${RSYNC_EXCLUDE_FROM_GITIGNORE[@]}" --delete-after ./ "${REMOTE}:${PATH_APP}"
+# upload built stuff (separately since it's in .gitignore) - using non-delete of full www/
+rsync -i -a "${RSYNC_OPT[@]}" www/ "${REMOTE}:${PATH_APP}/www/"
+rsync -i -a "${RSYNC_OPT[@]}" .env "${REMOTE}:${PATH_APP}/"
 
 ## Hook up document root
 # note: The dir in the repo is www for sure; docroot on server is another thing
-ssh "$REMOTE" "if [ -e $PATH_WWW_ROOT -a ! -L $PATH_WWW_ROOT ] ; then
+ssh -v "${SSH_OPT[@]}" "$REMOTE" "
+  if [ -e $PATH_WWW_ROOT -a ! -L $PATH_WWW_ROOT ] ; then
     mv -n $PATH_WWW_ROOT ${PATH_WWW_ROOT}.legacy ;
   fi ;
   ln -sfn ${PATH_APP}/www ${PATH_WWW_ROOT}
