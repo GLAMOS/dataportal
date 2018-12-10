@@ -11,6 +11,8 @@
     background-color: transparent;
     border: none;
     display: inline;
+    width: 100%;
+    text-align: left;
     @extend %fontM;
   }
   .close {

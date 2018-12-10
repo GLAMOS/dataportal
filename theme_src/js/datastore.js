@@ -34,11 +34,17 @@ class SelectionList {
   constructor() {
     let _selectedFeatures = []   // the store
 
+    this.set = (features) => { _selectedFeatures = features }
+
     this.get = () => [..._selectedFeatures]   // return a shallow copy
 
-    this.add = (feature) => _selectedFeatures.push(feature)
+    this.add = (feature) => _selectedFeatures.includes(feature) || _selectedFeatures.push(feature)
 
     this.remove = (callback) => { _selectedFeatures = _selectedFeatures.filter( callback) }
+
+    this.clear = () => { _selectedFeatures = [] }
+
+    this.findById = (id) => _selectedFeatures.find( feat => feat.getId() == id )
   }
 }
 

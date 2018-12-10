@@ -6,6 +6,8 @@ import c3 from 'c3';
 import ieDetector from '@kspr/gugus-ie-detector';
 ieDetector();
 
+import urlManager from './UrlManager'
+
 import './map/map.js';
 
 (function (global, $) {
@@ -42,7 +44,6 @@ import './map/map.js';
     $('ul.tabLinks a').on('click', function () {
       const CLASS_NAME = 'current';
       const TAB_ID = $(this).attr('data-tab');
-      const HREF_VALUE = $(this).attr('href');
 
       $('ul.tabLinks a').removeClass(CLASS_NAME);
       $('.tabPanel').removeClass(CLASS_NAME);
@@ -50,13 +51,7 @@ import './map/map.js';
       $(this).addClass(CLASS_NAME);
       $('#' + TAB_ID).addClass(CLASS_NAME);
 
-      //add hash to url
-      if (history.pushState) {
-        history.pushState(null, null, HREF_VALUE);
-      }
-      else {
-        location.hash = HREF_VALUE;
-      }
+      urlManager.switchTo( $(this).attr('href') );
     });
 
     //scroll to anchor

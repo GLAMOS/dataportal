@@ -17,6 +17,8 @@ import glacier_vip from './layer/glacier_vip';
 import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
 
+import controller from '../controller'
+import urlManager from '../UrlManager'
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 
@@ -206,9 +208,15 @@ class SelectionList {
     this.refresh()
   }
 
+  select(id) {
+    id = id.replace( '--list', '')
+    controller.selectionListHighlight(id)
+    this.refresh()
+  }
+
   remove(id) {
     id = id.replace( '--close', '')
-    this.store.remove( feat => feat.getId() != id)
+    controller.selectionListRemove(id)
     this.refresh()
   }
 
@@ -218,7 +226,8 @@ class SelectionList {
     const contents = this.store.get().map( this.renderEntry )
     const container = $('#monitoring-glacier--list')
     $('#monitoring-glacier--list').html(contents)
-    .find('.btn.close').on('click', (ev) => this.remove(ev.target.id) )
+    .find('[name="highlight"]').on('click', (ev) => this.select(ev.currentTarget.id) ).end()
+    .find('[name="remove"]').on('click', (ev) => this.remove(ev.currentTarget.id) ).end()
   }
 
   renderEntry(feature) {
@@ -235,6 +244,7 @@ class SelectionList {
 }
 
 var monitoringSelectedFeatureList = new SelectionList(selectedGlaciers);
+controller.bridge({monitoringSelectedFeatureList})
 
 // -----
 
@@ -246,7 +256,7 @@ function dynamicLinks() {
   for (var i = 0; i < dynamicElements.length; i++){
 
    dynamicElements[i].addEventListener("click", function (e) {
-    window.location.href = this.href + window.location.hash;
+     urlManager.navigateTo( this.href);
      e.preventDefault();
    }, false);
 
@@ -284,16 +294,27 @@ function enableSearch( gletscher_features) {
         { label: feat.get(DISPLAY_NAME), value: feat }
       ));
 
+      /*
+       * keeps search bar empty
+       * (otherwise ui.item.value shows up in <input> as "[object Object]")
+       */
+      function preventInputPopulation(ev) {
+        // from jQuery-UI docs:
+        //  cancelling (focus|select) event prevents input to be updated
+        ev.preventDefault();
+      }
+
       function onSelect(ev, ui) {
         const feature = ui.item.value;
-        selectGlacier(feature);
-        monitoringSelectedFeatureList.add( feature);
-        // emptify search bar
-        ev.preventDefault();   // otherwise ui.item.value shows up in input
-        $(ev.target).val("");
+        controller.searchSelected(feature)
+        preventInputPopulation(ev)
+        $(ev.target).val("");   // remove user-typed search string
       }
+
       searchInput.autocomplete({
+          minLength: 2,
           source: searchData,
+          focus: preventInputPopulation,
           select: onSelect,
       });
 }
@@ -323,8 +344,7 @@ var gletscher_source = new Vector({
       enableSearch(features);
 
       // var id_from_slug = gletscher_source.getFeatureById(slug);
-      //console.log("window.location.hash = '" + window.location.hash + "'");
-      id_from_slug = decodeURIComponent((window.location.hash.match(/^#?(.+)/) || [, ""])[1]);
+      id_from_slug = urlManager.getIdFromUrl();
 
       /* DEBUG */
       console.log("id_from_slug =", id_from_slug);
@@ -337,7 +357,7 @@ var gletscher_source = new Vector({
         gletscher_id = id_from_slug;
         console.log('Slug gletscher: ' + id_from_slug);
         fillSchluesseldaten(id_from_slug, page);
-        window.location.hash = id_from_slug;
+        urlManager.setId(id_from_slug);
 
         //add Eventlistener auf alle Links
 
@@ -357,8 +377,7 @@ var gletscher_source = new Vector({
         gletscher_id = id_from_vips;
         console.log('random gletscher: ' + id_from_vips);
         fillSchluesseldaten(id_from_vips, page);
-        window.location.hash = id_from_vips;
-
+        urlManager.setId(id_from_vips);
 
         var coordX = gletscher_source.getFeatureById(id_from_vips).get('coordx');
         var coordY = gletscher_source.getFeatureById(id_from_vips).get('coordy');
@@ -500,11 +519,7 @@ function selectGlacier(feature, pan=true) {
     //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
 
     //3. fuege neuen slug hinzu, triggert neuladen
-    window.location.hash =
-    //  encodeURIComponent(
-        gletscher_id
-    //  )
-    ;
+    urlManager.setId(gletscher_id);
 }
 
 // when the user clicks on a feature, select it
@@ -517,8 +532,9 @@ function onMapClick(browserEvent) {
 
   //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
   //es wird nur das letzte feature beachtet
-  selectGlacier( features[features.length-1], false );
+  controller.mapMarkerHighlighted( features[features.length-1] )
 }
+controller.bridge({selectGlacier})
 
 map && map.on('click', onMapClick);
 
