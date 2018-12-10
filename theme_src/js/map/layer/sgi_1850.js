@@ -4,7 +4,7 @@ import TileWMS from 'ol/source/TileWMS';
   var glamos_sgi_1850 = new TileLayer({
     source: new TileWMS({
       attribution: '(C) glamos.ch',
-      url: 'http://www.glamos.ch/qgis/sgi',
+      url: 'https://ogc.glamos.ch/sgi',
       params: {
         'LAYERS': 'SGI_1850',
         'TRANSPARENT': true,
