@@ -223,7 +223,7 @@ class SelectionList {
   //TODO: implement Reset via button
 
   refresh() {
-    const contents = this.store.get().map( this.renderEntry )
+    const contents = this.store.features.map( this.renderEntry )
     const container = $('#monitoring-glacier--list')
     $('#monitoring-glacier--list').html(contents)
     .find('[name="highlight"]').on('click', (ev) => this.select(ev.currentTarget.id) ).end()
@@ -349,8 +349,7 @@ var gletscher_source = new Vector({
       // re-use features ary for search bar
       controller.gotFeatures(features)
 
-      const highlighted  = highlightedGlacier.get()
-      const gletscher_id = highlighted ? highlighted.getId() : getRandomVIP()
+      const gletscher_id = highlightedGlacier.get() || getRandomVIP()
 
 
       fillSchluesseldaten(gletscher_id, page);

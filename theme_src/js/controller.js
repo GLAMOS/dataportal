@@ -27,7 +27,7 @@ function feature2id(feature) {
 class Controller {
 
   _bootstrapFromState() {
-    const feature = datastore.highlightedGlacier.get()
+    const feature = datastore.highlightedGlacier.feature
     if(feature) {
       bridge.selectGlacier(feature)
       bridge.mapPanTo(feature)
@@ -75,7 +75,7 @@ class Controller {
   }
 
   selectionListRemove(id) {
-    datastore.selectedGlaciers.remove( feat => feature2id(feat) != id )
+    datastore.selectedGlaciers.remove(id)
     urlManager.majorUpdate()
   }
 

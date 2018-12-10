@@ -12,13 +12,13 @@
 // ----- managing set of features
 class FeatureSet {
   constructor() {
-    let data = []   // the store
+    let _data = []   // the store
 
-    this.set = (features) => { data = features }
+    this.set = (features) => { _data = features }
 
-    this.getAll = () => [...data]   // return a shallow copy
+    this.getAll = () => [..._data]   // return a shallow copy
 
-    this.findById = (id) => data.find( feat => feat.getId() == id )
+    this.findById = (id) => _data.find( feat => feat.getId() == id )
   }
 }
 
@@ -26,38 +26,51 @@ class FeatureSet {
 // ----- managing the single highlighted/selected feature
 class SingleSelection {
   constructor() {
-    let _selectedFeature = null   // the store
+    let _data = null   // the store
 
-    this.get = () => _selectedFeature
+    this.get = () => _data
 
-    this.set = (feature) => { _selectedFeature = feature }
+    this.set = (id) => { _data = id }
 
-    this.clear = () => { _selectedFeature = null }
+    this.clear = () => { _data = null }
  }
 
-  // by accessing .feature, we may avoid the need to set using parentheses: .set(foo)
-  get feature() { return this.get() }
-  set feature(feature) { return this.set(feature) }
+  // by accessing .feature, it will be transformed from/to id
+  get feature() { return features.findById( this.get() ) }
+  set feature(feature) { return this.set( feature.getId() ) }
 }
 
 
 // ----- managing list of selected features
 class SelectionList {
   constructor() {
-    let _selectedFeatures = []   // the store
+    let _data = []   // the store
 
-    this.set = (features) => { _selectedFeatures = features }
+    // allows polyvalence
+    const _ensureId = (idORfeat) =>
+      Array.isArray(idORfeat) ? idORfeat : idORfeat.getId()
 
-    this.get = () => [..._selectedFeatures]   // return a shallow copy
+    this.set = (args) => { _data = args.map(_ensureId) }
 
-    this.add = (feature) => _selectedFeatures.includes(feature) || _selectedFeatures.push(feature)
+    this.get = () => [..._data]   // return a shallow copy
 
-    this.remove = (callback) => { _selectedFeatures = _selectedFeatures.filter( callback) }
+    this.add = (arg) => _data.includes( _ensureId(arg) ) || _data.push( _ensureId(arg) )
 
-    this.clear = () => { _selectedFeatures = [] }
+    this.remove = (arg) => {
+      if(typeof arg == "function") {   // by callback on features
+        _data = this.features.filter(arg).map( f => f.getId() )
+      } else {   // by id
+        _data = _data.filter( (id) => id != arg )
+      }
+    }
 
-    this.findById = (id) => _selectedFeatures.find( feat => feat.getId() == id )
+    this.clear = () => { _data = [] }
+
+    this.findById = (id) => _data.includes(id) && features.findById(id)
   }
+
+  // by accessing .features, the ids will be transformed to feature objs
+  get features() { return this.get().map( features.findById ).filter( f => !!f ) }
 }
 
 
