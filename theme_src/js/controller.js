@@ -80,6 +80,7 @@ class Controller {
   gotFeatures(features) {
     datastore.features.set(features)
     urlManager.loadState()
+    this._setFallbackState()
     this._bootstrapFromState()
     bridge.enableSearch(features);
   }

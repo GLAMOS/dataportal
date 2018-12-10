@@ -341,27 +341,8 @@ var gletscher_source = new Vector({
         { featureProjection: 'EPSG:3857' });
       gletscher_source.addFeatures(features);
 
-      // re-use features ary for search bar
+      // store features in datastorage and do stuff now we know about them
       controller.gotFeatures(features)
-
-      const gletscher_id = highlightedGlacier.get() || getRandomVIP()
-
-
-      fillSchluesseldaten(gletscher_id, page);
-
-      var coordX = gletscher_source.getFeatureById(gletscher_id).get('coordx');
-      var coordY = gletscher_source.getFeatureById(gletscher_id).get('coordy');
-
-      var extent_frompoint = [coordX, coordY, coordX, coordY];
-      map.getView().fit(extent_frompoint, { size: map.getSize(), maxZoom: 11 });
-
-     initialFeature = new Feature({
-        geometry: new Point([coordX, coordY]),
-        style: activeStyle
-      });
-      initialFeature.setId('initialGlacier');
-      selectedOverlay.getSource().addFeature(initialFeature);
-      highlightedGlacier.feature = initialFeature;
     });
 
   }
