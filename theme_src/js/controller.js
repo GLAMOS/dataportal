@@ -33,7 +33,8 @@ class Controller {
     const feature = datastore.highlightedGlacier.feature
     if(feature) {
       bridge.selectGlacier(feature)
-      bridge.mapPanTo(feature)
+      bridge.mapPanTo(feature);
+      bridge.fetchData(feature.getId(), datastore.selectedGlaciers);
     }
     bridge.monitoringSelectedFeatureList.refresh()
   }
@@ -99,7 +100,8 @@ class Controller {
   // -- Home
 
   mapMarkerHighlighted(feature) {
-    bridge.selectGlacier(feature)
+    bridge.selectGlacier(feature);
+    bridge.fetchData(feature.getId(), datastore.selectedGlaciers);
     // note: no map panning
     bridge.monitoringSelectedFeatureList.add( feature)
     urlManager.majorUpdate()
@@ -184,4 +186,3 @@ export default controller
 
 //module.exports = {
 //}
-

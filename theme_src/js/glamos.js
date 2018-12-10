@@ -10,6 +10,8 @@ import controller from './controller';
 
 import './map/map.js';
 
+global.my = {};
+
 (function (global, $) {
   /* TODO: Done in PHP now; keep for library until clean-up */
   // function clone (orig, props)
@@ -31,6 +33,8 @@ import './map/map.js';
     return String(value).replace('-', '&minus;');
   }
 
+  let chart;
+
   function fetchData (id)
   {
     const URIS = {
@@ -41,82 +45,71 @@ import './map/map.js';
     let loaded = false;
     const onload = function () {
       if (loaded) return;
-
       loaded = true;
-      const DATA = JSON.parse(xhr.responseText);
+
+      const JSON_DATA = JSON.parse(xhr.responseText);
       const KEY_NAME = 'glacier_full_name';
       const KEY_YEAR = 'year_to';
-      const KEY_VALUE = 'variation_cumulative';
-      // const DATA = [
-      //   {[KEY_NAME]: 'foo', [KEY_YEAR]: 2016, [KEY_VALUE]:   0},
-      //   {[KEY_NAME]: 'foo', [KEY_YEAR]: 2017, [KEY_VALUE]: -23},
-      //   {[KEY_NAME]: 'foo', [KEY_YEAR]: 2018, [KEY_VALUE]: -42}
-      // ];
 
-
-      if (!DATA || DATA.length === 0)
+      if (!JSON_DATA || JSON_DATA.length === 0)
       {
         document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
         return;
       }
 
-      const X_AXIS_NAME = 'Datum';
-      const LINE_LABEL = DATA[0][KEY_NAME];
-      // const YEARS = [X_AXIS_NAME, getDate(DATA[0].date_from_length)]
-      //   .concat(DATA.map((entry) => getDate(entry.date_to_length)));
-      // const CUM_LENGTHS = [LINE_LABEL, 0]
-      //   .concat(DATA.map((entry) => entry.length_cum));
+      const LINE_LABEL = JSON_DATA[0][KEY_NAME];
+      const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year_to));
+      const VALUES = [LINE_LABEL].concat(JSON_DATA.map((entry) => entry.variation_cumulative));
+      const CHART_DATA = [YEARS, VALUES];
 
       /* DEBUG */
-      console.log(DATA);
-      // console.log(YEARS);
-      // console.log(CUM_LENGTHS);
+      console.log(JSON_DATA);
+      console.log(CHART_DATA);
 
-      const CHART = c3.generate({
-        bindto: '#chart',
-        data: {
-          // columns: [YEARS, CUM_LENGTHS],
-          type: 'spline',
-          json: DATA,
-          // url: '/glacier-data.php',sight
-          keys: {
+      if (!chart)
+      {
+        chart = c3.generate({
+          bindto: '#chart',
+          data: {
             x: KEY_YEAR,
-            value: [KEY_VALUE]
+            columns: CHART_DATA,
           },
-          names: {
-            x: X_AXIS_NAME,
-            [KEY_VALUE]: [LINE_LABEL]
-          }
-        },
-        grid: {
-          y: { show: true },
-          x: { show: true }
-        },
-        axis: {
-          x: {
-            tick: {
-              // format: '%Y', //-%m-%d'
-              outer: false,
-              rotate: 45
+          axis: {
+            x: {
+              tick: {
+                format: '%Y', //-%m-%d'
+                outer: false,
+                rotate: 45
+              },
+              // type: 'timeseries',
             },
-            // type: 'timeseries',
+            y: {
+              label: {
+                position: 'outer',
+                text: 'Kumulative Längenänderung (m)',
+              },
+              tick: {
+                outer: false,
+              }
+            }
           },
-          y: {
-            label: {
-              position: 'outer',
-              text: 'Kumulative Längenänderung (m)',
-            },
-            tick: {
-              outer: false,
+          grid: {
+            y: { show: true },
+            x: { show: true }
+          },
+          tooltip: {
+            format: {
+              value (value) { return `${formatNumber(value)}\xA0m`; }
             }
           }
-        },
-        tooltip: {
-          format: {
-            value (value) { return `${formatNumber(value)}\xA0m`; }
-          }
-        }
-      });
+        });
+      }
+      else
+      {
+        chart.load({
+          columns: CHART_DATA
+        });
+      }
     };
 
     /* TODO: Write a fetch API wrapper */
@@ -138,6 +131,7 @@ import './map/map.js';
     };
     xhr.send(null);
   }
+  controller.bridge({fetchData});
 
   function getAvailableDownloadTabs () {
     return $('.tabContainer a[data-tab]').map((_ix, el) => el.getAttribute('data-tab'));
@@ -199,9 +193,9 @@ import './map/map.js';
       }
     });
 
-    const ID = window.location.hash.replace(/^#/, '');
-    fetchData(ID);
+    // const ID = window.location.hash.replace(/^#/, '');
+    // fetchData(ID);
 
     controller.onPageLoad();
   });
-}(this, $));
+}(global, $));
