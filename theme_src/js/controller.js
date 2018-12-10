@@ -35,6 +35,15 @@ class Controller {
     bridge.monitoringSelectedFeatureList.refresh()
   }
 
+  _chooseRandom() {
+    const feature = datastore.features.findById( bridge.getRandomVIP() )
+    bridge.selectGlacier(feature)
+    bridge.mapPanTo(feature)
+    bridge.monitoringSelectedFeatureList.add(feature)
+  }
+
+  // -- Init
+
   //onPageLoad(page) {
   onPageLoad() {
     urlManager.decodeFullHash()
@@ -76,11 +85,15 @@ class Controller {
 
   selectionListRemove(id) {
     datastore.selectedGlaciers.remove(id)
+    // select last entry in selected glaciers list
+    // this.selectionListHighlight( datastore.selectedGlaciers.get().slice(-1)[0] )
     urlManager.majorUpdate()
   }
 
   selectionListReset(id) {
-    bridge.monitoringSelectedFeatureList.clear()
+    datastore.selectedGlaciers.clear()
+    this._chooseRandom()
+    urlManager.majorUpdate()
   }
 
   switchChartType(type) {

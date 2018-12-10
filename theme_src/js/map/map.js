@@ -200,7 +200,11 @@ class SelectionList {
     this.svgClose = '<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>close</title><path d="M305.5,256,473.75,87.75a35,35,0,0,0-49.5-49.5L256,206.5,87.75,38.25a35,35,0,0,0-49.5,49.5L206.5,256,38.25,424.25a35,35,0,0,0,49.5,49.5L256,305.5,424.25,473.75a35,35,0,0,0,49.5-49.5Z"></path></svg>'
 
     this.add = this.add.bind(this)
+    this.reset = this.reset.bind(this)
     this.renderEntry = this.renderEntry.bind(this)
+
+    // note: hook up reset callback only once (thus done in contructor)
+    $('#monitoring-glacier--list + button[name="reset"]').on('click', this.reset)
   }
 
   add(feature) {
@@ -217,6 +221,11 @@ class SelectionList {
   remove(id) {
     id = id.replace( '--close', '')
     controller.selectionListRemove(id)
+    this.refresh()
+  }
+
+  reset() {
+    controller.selectionListReset()
     this.refresh()
   }
 
@@ -337,6 +346,7 @@ function getRandomVIP() {
   var randomNumber = Math.floor((Math.random() * (max - min)) + min);
   return glacierVips[randomNumber].pk_sgi;
 }
+controller.bridge({getRandomVIP})
 
 var gletscher_source = new Vector({
   strategy: bbox,

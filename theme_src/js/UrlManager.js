@@ -1,5 +1,7 @@
 'use strict';
 
+//import $ from 'jquery';
+
 import datastore from './datastore'
 
 
@@ -13,6 +15,27 @@ import datastore from './datastore'
 
 // ----- URL/Navigation/History Manager
 
+/* URI scheme sketches:
+ *  - '/' for nesting of references
+ *  - '&' for lists/same-level
+ *  - highlighted feature is implicitely part of selected feature list
+ *    aka: highlighted shall be the first of the full selected feature list
+ * Examples:
+ *  https://glamos.meteotest.ch/factsheet#historic&1990&2000/B43%2F03&A41%2F54&A44%2F49
+ *  ^^^ base URL                ^page     ^active layers     ^highlight ^selected features
+ *  https://glamos.meteotest.ch/download#tab1&GR/B43%2F03&A41%2F54&A44%2F49
+ *  ^^^ base URL                ^page   tab^  ^anchor ^highlight ^selected features
+ */
+
+/* Navigation UX:
+ * - highlighting a different layer:
+ *  - if on Monitoring, just update URI (for direct link), but not history
+ *  - otherwise update history
+ * - adding/removing a layer to the selection (highlights at the same time): update histo
+ * - changing chart type: just update URI
+ * - toggling map layer: just update URI
+ * - change download tab: update history
+ */
 
 class UrlManager {
   constructor() {
@@ -86,10 +109,9 @@ class UrlManager {
     }
 
     const _setFeaturesFromHashPart = (hashes) => {
-      const features = hashes.map(hash2id).map(id2feat)
-          .filter( f => f )   // skip undefined ones
-      if( features.length)  datastore.highlightedGlacier.feature = features[0]
-      datastore.selectedGlaciers.set( features)
+      const ids = hashes.map(hash2id)
+      if( ids.length)  datastore.highlightedGlacier.set( ids[0] )
+      datastore.selectedGlaciers.set( ids)
     }
 
     // get from / set to hash
