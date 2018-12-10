@@ -49,11 +49,22 @@ class Controller {
    * sets some state bits to defaults if they're empty
    */
   _setFallbackState() {
+    let needsUpdate = false
+
+    // default to random glacier
+    if(!datastore.highlightedGlacier.get()) {
+      this._chooseRandom()
+      needsUpdate = true
+    }
+
     // default to first Download-Tab
     if(!datastore.downloadTab && 'downloads' == datastore.currentPage) {
       const allTabs = bridge.getAvailableDownloadTabs()
       this.changeDownloadTab( allTabs[0] )
+      needsUpdate = true
     }
+
+    if(needsUpdate) urlManager.minorUpdate()
   }
 
   // -- Init
