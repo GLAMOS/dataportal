@@ -1,8 +1,7 @@
 'use strict';
 
 import urlManager from './UrlManager'
-import { highlightedGlacier } from './datastore'
-import { selectedGlaciers } from './datastore'
+import datastore from './datastore'
 
 
 // -----
@@ -27,13 +26,22 @@ function feature2id(feature) {
 
 class Controller {
 
-  //onPageLoad(page) {
-  onPageLoad() {
-    urlManager.decodeFullHash()
-    const highlight = highlightedGlacier.get()
+  _bootstrapFromState() {
+    const highlight = datastore.highlightedGlacier.get()
     highlight && bridge.selectGlacier(highlight)
   }
 
+  //onPageLoad(page) {
+  onPageLoad() {
+    urlManager.decodeFullHash()
+    this._bootstrapFromState()
+  }
+
+  gotFeatures(features) {
+    datastore.features.set(features)
+    urlManager.decodeFullHash()
+    this._bootstrapFromState()
+  }
 
   // -- Home
 
@@ -53,13 +61,14 @@ class Controller {
   // -- Monitoring
 
   selectionListHighlight(id) {
-    const feature = selectedGlaciers.findById(id)
+    const feature = datastore.selectedGlaciers.findById(id)
     bridge.selectGlacier(feature)
     urlManager.minorUpdate()
   }
 
   selectionListRemove(id) {
-    selectedGlaciers.remove( feat => feature2id(feat) != id )
+    datastore.selectedGlaciers.remove( feat => feature2id(feat) != id )
+    urlManager.majorUpdate()
   }
 
   selectionListReset(id) {

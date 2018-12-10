@@ -330,7 +330,14 @@ var url = '/geo/glamos_inventory_dummy.geojson';
 var gletscher_id;// = 'B36\/26'; //default = Aletschgletscher
 var initialFeature;
 
-let id_from_slug;
+//es wird ein Gletscher gelesen aus einer liste von 12 definierten VIPs
+//todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
+function getRandomVIP() {
+  var min = 1;
+  var max = 12;
+  var randomNumber = Math.floor((Math.random() * (max - min)) + min);
+  return glacierVips[randomNumber].pk_sgi;
+}
 
 var gletscher_source = new Vector({
   strategy: bbox,
@@ -341,47 +348,18 @@ var gletscher_source = new Vector({
       gletscher_source.addFeatures(features);
 
       // re-use features ary for search bar
+      controller.gotFeatures(features)
       enableSearch(features);
 
-      // var id_from_slug = gletscher_source.getFeatureById(slug);
-      id_from_slug = urlManager.getIdFromUrl();
+      const highlighted  = highlightedGlacier.get()
+      const gletscher_id = highlighted ? highlighted.getId() : getRandomVIP()
 
-      /* DEBUG */
-      console.log("id_from_slug =", id_from_slug);
       dynamicLinks();
 
-      /* Falls es einen slug gibt und der Gletscher im Datenset gefunden wird */
-      if (id_from_slug
-          && gletscher_source.getFeatureById(id_from_slug)) {
-        // console.log(gletscher_source.getFeatureById(id_from_slug).getGeometry().getCoordinates()); //evt mit getCoordinate aber dann noch x und y seperieren
-        gletscher_id = id_from_slug;
-        console.log('Slug gletscher: ' + id_from_slug);
-        fillSchluesseldaten(id_from_slug, page);
-        urlManager.setId(id_from_slug);
+      fillSchluesseldaten(gletscher_id, page);
 
-        //add Eventlistener auf alle Links
-
-        var coordX = gletscher_source.getFeatureById(id_from_slug).get('coordx');
-        var coordY = gletscher_source.getFeatureById(id_from_slug).get('coordy');
-      }
-      else {
-
-        //when the site loads the first time:
-        //es wird ein Gletscher gelesen aus einer liste von 12 definierten VIPs
-        //todo: aus geoJSON ermitteln wieviele Gletscher die Liste enthaelt
-        var min = 1;
-        var max = 12;
-        var randomNumber = Math.floor((Math.random() * (max - min)) + min);
-        var id_from_vips = glacierVips[randomNumber].pk_sgi;
-
-        gletscher_id = id_from_vips;
-        console.log('random gletscher: ' + id_from_vips);
-        fillSchluesseldaten(id_from_vips, page);
-        urlManager.setId(id_from_vips);
-
-        var coordX = gletscher_source.getFeatureById(id_from_vips).get('coordx');
-        var coordY = gletscher_source.getFeatureById(id_from_vips).get('coordy');
-      };
+      var coordX = gletscher_source.getFeatureById(gletscher_id).get('coordx');
+      var coordY = gletscher_source.getFeatureById(gletscher_id).get('coordy');
 
       var extent_frompoint = [coordX, coordY, coordX, coordY];
       map.getView().fit(extent_frompoint, { size: map.getSize(), maxZoom: 11 });

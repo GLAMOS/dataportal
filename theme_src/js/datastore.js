@@ -11,6 +11,20 @@ import $ from 'jquery';
 // variables
 
 
+// ----- managing set of features
+class FeatureSet {
+  constructor() {
+    let data = []   // the store
+
+    this.set = (features) => { data = features }
+
+    this.getAll = () => [...data]   // return a shallow copy
+
+    this.findById = (id) => data.find( feat => feat.getId() == id )
+  }
+}
+
+
 // ----- managing the single highlighted/selected feature
 class SingleSelection {
   constructor() {
@@ -52,6 +66,7 @@ class SelectionList {
 // -----
 // singleton instances
 
+const features = new FeatureSet()
 const highlightedGlacier = new SingleSelection()
 const selectedGlaciers = new SelectionList()
 
@@ -59,7 +74,11 @@ const selectedGlaciers = new SelectionList()
 // -----
 // exports
 
-module.exports = {
+const datastore = {
+  features,
   highlightedGlacier,
   selectedGlaciers,
 }
+
+module.exports = datastore
+window.dbg_data = datastore   // for easier debugging
