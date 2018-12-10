@@ -24,6 +24,9 @@ function isFeature(feature) {
 
 // ----- keeping track of current site navigation state
 
+// active page (from CMS navigation)
+let currentPage = null
+
 // active Download Tab
 let downloadTab = null
 
