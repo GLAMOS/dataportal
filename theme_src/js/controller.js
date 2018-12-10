@@ -49,6 +49,11 @@ class Controller {
    * sets some state bits to defaults if they're empty
    */
   _setFallbackState() {
+    // default to first Download-Tab
+    if(!datastore.downloadTab && 'downloads' == datastore.currentPage) {
+      const allTabs = bridge.getAvailableDownloadTabs()
+      this.changeDownloadTab( allTabs[0] )
+    }
   }
 
   // -- Init
