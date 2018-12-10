@@ -29,10 +29,11 @@
   <div class="majorLink">
     <p>{{ valueParam }}</p>
     <small>{{ labelParam | t }}</small>
-    <a href="{{ buttonParam.url }}" class="btn" id="oversight-{{ idParam }}">{{ buttonParam.title }}</a>
+    <a href="{{ buttonParam.url }}" class="btn js-keephash" id="oversight-{{ idParam }}">{{ buttonParam.title }}</a>
   </div>
 {% endmacro %}
 
+{# NOTE: code has been copied to FrontEnd JS, since the entries are to be added dynamically #}
 {% macro comparisonEntry(nameParam, idParam, activeTrue) %}
   <div class="comparisonEntry {% if activeTrue %}active{% endif %}">
     <button type="button" name="highlight" class="glacierName" id="{{ idParam }}--list">{{ nameParam }}</button>
@@ -49,8 +50,8 @@
   </div>
 {% endmacro %}
 
-{% macro Crosslink(linkParam, titleParam, idParam)%}
-  <a id="{{ idParam }}" href="/factsheet" class="titleCrosslink" title="{{ titleParam }}">
+{% macro crossLink(linkParam, titleParam, idParam) %}
+  <a id="{{ idParam }}" href="/factsheet" class="titleCrosslink js-keephash" title="{{ titleParam }}">
     {{ svg('@webroot/theme/img/crosslink.svg') }}
   </a>
 {% endmacro %}

@@ -56,12 +56,23 @@ class UrlManager {
     const feat2id = feat => feat.getId()
     const id2feat = function (...args) { return datastore.features.findById(...args); }
 
+    const _getCurrentPage = () =>
+        window.location.pathname.split('/').slice(-1)[0]
+
     // map layers: baselayers, div. featurelayers
     const _getLayerHashPart = () => {
-      return []
+      const page = _getCurrentPage()
+      if( 'downloads' == page ) {
+        return [datastore.downloadTab]
+      }
+      return []   // fallback
     }
 
     const _setLayersFromHashPart = (hashes) => {
+      const page = _getCurrentPage()
+      if( 'downloads' == page ) {
+        datastore.downloadTab = hashes[0]
+      }
     }
 
     // features (glaciers)
@@ -70,7 +81,8 @@ class UrlManager {
       const selectedNonActive = datastore.selectedGlaciers.get().filter(
           feature => highlighted != feature
       )
-      return [ highlighted, ...selectedNonActive ].map(feat2id).map(id2hash)
+      const highlightedAry = highlighted ? [highlighted] : []
+      return [ ...highlightedAry, ...selectedNonActive ].map(feat2id).map(id2hash)
     }
 
     const _setFeaturesFromHashPart = (hashes) => {

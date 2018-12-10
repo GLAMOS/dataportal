@@ -7,7 +7,7 @@
     {% for nav in navDropdown %}
       {% if loop.first %}{% endif %}
       <li class="{% if currentID == nav.id %}active{% endif %}">
-        <a href="{{ nav.url }}">{{ nav.title }}</a>
+        <a href="{{ nav.url }}" class="js-keephash">{{ nav.title }}</a>
       </li>
     {% endfor %}
   </ul>

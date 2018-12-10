@@ -249,19 +249,17 @@ controller.bridge({monitoringSelectedFeatureList})
 // -----
 
 function dynamicLinks() {
-  let dynamicElements = document.querySelectorAll(`#navbar-mapViewer, #navbar-factsheetListing,
-    #navbar-homepage, #oversight-mapViewer, #oversight-factsheet, #oversight-download,
-    #infobox-glaciername--link`);
-
-  for (var i = 0; i < dynamicElements.length; i++){
-
-   dynamicElements[i].addEventListener("click", function (e) {
+  $('a.js-keephash').on("click", function (e) {
      urlManager.navigateTo( this.href);
      e.preventDefault();
-   }, false);
+  })
+  $('a[data-tab]').on("click", function (e) {
+    const tabId = this.getAttribute('data-tab')
+    controller.changeDownloadTab(tabId)
+  })
+}
+controller.bridge({dynamicLinks})
 
- }
-};
 /*
 //ist im moment statische datei - sollte vom glamosserver kommen
 var gletscher_alle = new VectorLayer({
@@ -318,6 +316,7 @@ function enableSearch( gletscher_features) {
           select: onSelect,
       });
 }
+controller.bridge({enableSearch})
 
 
 //liste mit VIP gletschern - noch unklar wo diese später herkommt
@@ -349,12 +348,10 @@ var gletscher_source = new Vector({
 
       // re-use features ary for search bar
       controller.gotFeatures(features)
-      enableSearch(features);
 
       const highlighted  = highlightedGlacier.get()
       const gletscher_id = highlighted ? highlighted.getId() : getRandomVIP()
 
-      dynamicLinks();
 
       fillSchluesseldaten(gletscher_id, page);
 
@@ -472,15 +469,27 @@ function mouse2features(browserEvent) {
   return features;
 }
 
+// pan the map to the highlighted marker
+function mapPanTo(feature) {
+  const center = [ feature.get('coordx'), feature.get('coordy') ];
+  map.getView().setCenter(center);
+}
+controller.bridge({mapPanTo})
+
+
 // populate Schluesseldaten, highlight selected marker
-function selectGlacier(feature, pan=true) {
+function selectGlacier(feature) {
     //1. fill infobox from feature
     gletscher_id = feature.getId();
     fillSchluesseldaten(gletscher_id, page);
 
     //2a. reset current selection
     if (highlightedGlacier.feature) {
+     try {
       selectedOverlay.getSource().removeFeature( highlightedGlacier.feature);
+     } catch (e) {
+      console.debug('seems highlightedGlacier was not found on selectedOverlay');
+     }
     }
 
     //2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu
@@ -488,16 +497,9 @@ function selectGlacier(feature, pan=true) {
     selectedOverlay.getSource().addFeature(feature);
     highlightedGlacier.feature = feature;
 
-    // possibly pan the map to the highlighted marker
-    if(pan) {
-      const center = [ highlightedGlacier.feature.get('coordx'), highlightedGlacier.feature.get('coordy') ];
-      map.getView().setCenter(center);
-    }
-
     //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
 
     //3. fuege neuen slug hinzu, triggert neuladen
-    urlManager.setId(gletscher_id);
 }
 
 // when the user clicks on a feature, select it
