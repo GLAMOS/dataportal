@@ -24,10 +24,8 @@ staging_deploy:
     name: staging
     url: https://glamos.meteotest.ch
   variables:
+    TIER: "int"
     REMOTE_USER: "glamos"
     REMOTE_HOST: "glamos.meteotest.ch"
-    DB_HOST: $DB_HOST_TEST
-    DB_NAME: $DB_NAME_TEST
-    DB_PASS: $DB_PASS_TEST
-
-  script: ./.gitlab-cd.sh
+    CI_VAR_SUFFIX: "TEST"
+  script: ./deploy/runner.sh
