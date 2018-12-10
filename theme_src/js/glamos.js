@@ -6,7 +6,7 @@ import c3 from 'c3';
 import ieDetector from '@kspr/gugus-ie-detector';
 ieDetector();
 
-import urlManager from './UrlManager'
+import controller from './controller'
 
 import './map/map.js';
 
@@ -20,6 +20,16 @@ import './map/map.js';
   {
     return String(value).replace('-', '&minus;');
   }
+
+  function selectDownloadTab(TAB_ID) {
+    const CLASS_NAME = 'current';
+    $('ul.tabLinks a').removeClass(CLASS_NAME);
+    $('.tabPanel').removeClass(CLASS_NAME);
+
+    $('a[data-tab="' + TAB_ID + '"]').addClass(CLASS_NAME);
+    $('#' + TAB_ID).addClass(CLASS_NAME);
+  }
+  controller.bridge({selectDownloadTab})
 
   $(document).ready(function () {
     //initialise Mobile Menu //
@@ -41,17 +51,11 @@ import './map/map.js';
     });
 
     //initialize download Tabs
-    $('ul.tabLinks a').on('click', function () {
-      const CLASS_NAME = 'current';
+    $('ul.tabLinks a').on('click', function (ev) {
+      ev.preventDefault()
       const TAB_ID = $(this).attr('data-tab');
 
-      $('ul.tabLinks a').removeClass(CLASS_NAME);
-      $('.tabPanel').removeClass(CLASS_NAME);
-
-      $(this).addClass(CLASS_NAME);
-      $('#' + TAB_ID).addClass(CLASS_NAME);
-
-      urlManager.switchTo( $(this).attr('href') );
+      controller.changeDownloadTab(TAB_ID)
     });
 
     //scroll to anchor
@@ -171,4 +175,9 @@ import './map/map.js';
     };
     xhr.send(null);
   });
+
+
+  // -----
+  controller.onPageLoad()
+
 }(this, $));
