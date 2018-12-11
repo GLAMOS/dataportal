@@ -18,8 +18,7 @@ function feature2id (feature) {
 }
 
 
-// ----- Our Controller (Action -> Reaction)
-
+/** Our Controller (Action → Reaction) */
 class Controller {
   _bootstrapFromState () {
     if (datastore.downloadTab) {
@@ -29,7 +28,7 @@ class Controller {
     if (feature) {
       bridge.selectGlacier(feature);
       bridge.mapPanTo(feature);
-      bridge.loadGlacierData(feature.getId(), datastore.selectedGlaciers);
+      bridge.loadGlacierData(datastore.selectedGlaciers.get());
     }
     bridge.monitoringSelectedFeatureList.refresh();
   }
@@ -96,7 +95,7 @@ class Controller {
 
   mapMarkerHighlighted (feature) {
     bridge.selectGlacier(feature);
-    bridge.loadGlacierData(feature.getId(), datastore.selectedGlaciers);
+    bridge.loadGlacierData([feature2id(feature)]);
     // note: no map panning
     bridge.monitoringSelectedFeatureList.add(feature);
     urlManager.majorUpdate();
@@ -104,6 +103,7 @@ class Controller {
 
   searchSelected (feature) {
     bridge.selectGlacier(feature);
+    bridge.loadGlacierData([feature2id(feature)]);
     bridge.mapPanTo(feature);
     bridge.monitoringSelectedFeatureList.add(feature);
     urlManager.majorUpdate();
@@ -120,6 +120,7 @@ class Controller {
 
   selectionListRemove (id) {
     datastore.selectedGlaciers.remove(id);
+    bridge.unloadGlacierData(id);
 
     /* Select last entry in selected glaciers list */
     // this.selectionListHighlight( datastore.selectedGlaciers.get().slice(-1)[0] )
@@ -152,18 +153,29 @@ class Controller {
 }
 
 
-// -----
+/* end Controller */
 
-// -- singleton instance
+/* Singleton instance */
 let controller = new Controller();
 
-// -- inject foreign implemented function into controller (they should be moved here though)
+if (!(Object.assign instanceof Function))
+{
+  Object.assign = (
+    (target, ...sources) => sources.forEach(
+      (source) => Object.keys(source).forEach(
+        (key) => { target[key] = source[key]; }
+      )
+    )
+  );
+}
+
+/* Inject foreign implemented function into controller (they should be moved here though) */
 controller.bridge = function (options) {
   Object.assign(bridge, options);
 };
 
 
-// -- debugging usage
+/* DEBUG */
 controller = new Proxy(
   controller,
   { get (controller, fn, proxy) {
@@ -178,5 +190,5 @@ controller = new Proxy(
 
 export default controller;
 
-//module.exports = {
-//}
+// module.exports = {
+// }

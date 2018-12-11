@@ -11,7 +11,7 @@ rules:
     - warn
     - 2
   linebreak-style:
-    - error
+    - warn
     - unix
   quotes:
     - warn
@@ -47,8 +47,6 @@ rules:
   no-useless-escape: warn
   ## 7.2
   wrap-iife: error
-  ## 7.3
-  no-loop-func: warn
   ## 7.6
   prefer-rest-params: warn
   ## 7.10
@@ -156,6 +154,9 @@ rules:
   new-cap: error
 
   ## Best practice overrides
+
+  ## 7.3 (default: warn)
+  no-loop-func: off
 
   ## 19.6 (Default: warn)
   newline-per-chained-call:
