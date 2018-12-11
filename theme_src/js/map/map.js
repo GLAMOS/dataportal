@@ -413,7 +413,7 @@ if (document.getElementById('factsheet-map')) {
     controls: [],//remove zoom for factsheetwindow
     view: new View({
       center: [903280, 5913450],
-      zoom: 10,
+      zoom: 12,
       minZoom: 8,
       maxZoom: 14
     })
@@ -432,7 +432,7 @@ if (document.getElementById('factsheet-map')) {
     view: new View({
       extent: [650000, 4000000, 1200000, 6500000],
       center: [903280, 5913450],
-      zoom: 10,
+      zoom: 12,
       minZoom: 8,
       maxZoom: 14
     })
@@ -451,7 +451,7 @@ if (document.getElementById('factsheet-map')) {
     view: new View({
       extent: [650000, 4000000, 1200000, 6500000],
       center: [903280, 5913450],
-      zoom: 10,
+      zoom: 12,
       minZoom: 8,
       maxZoom: 14
     })
