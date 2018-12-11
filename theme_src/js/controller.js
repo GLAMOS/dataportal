@@ -67,6 +67,7 @@ class Controller {
     }
 
     if(needsUpdate) {
+      // TODO: move to helper since linked
       urlManager.minorUpdate()
       bridge.dynamicLinks()
     }
@@ -80,6 +81,11 @@ class Controller {
     this._setFallbackState()
     this._bootstrapFromState()
     bridge.dynamicLinks()
+    urlManager.observeHistory()
+  }
+
+  onNavigate() {
+    this.onPageLoad()   // just alias
   }
 
   gotFeatures(features) {

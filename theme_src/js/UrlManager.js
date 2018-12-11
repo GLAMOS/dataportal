@@ -3,6 +3,7 @@
 //import $ from 'jquery';
 
 import datastore from './datastore'
+import controller from './controller'
 
 
 // -----
@@ -74,6 +75,7 @@ class UrlManager {
 
     // private
 
+    // helpers
     const id2hash = encodeURIComponent
     const hash2id = decodeURIComponent
     const feat2id = feat => feat.getId()
@@ -159,6 +161,13 @@ class UrlManager {
       layerPart && _setLayersFromHashPart( layerPart.split('&') )
       featurePart && _setFeaturesFromHashPart( featurePart.split('&') )
       // console.debug('UrlManager.loadState end', datastore.downloadTab, datastore.selectedGlaciers.get(), datastore.highlightedGlacier.get())
+    }
+
+    /**
+     * Hooks up history navigation callback (managed by controller)
+     */
+    this.observeHistory = () => {
+      window.onhashchange = () => controller.onNavigate()
     }
 
   }
