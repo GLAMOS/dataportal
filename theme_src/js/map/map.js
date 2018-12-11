@@ -213,6 +213,9 @@ class SelectionList {
   }
 
   add(feature) {
+    if( this.maxEntriesReached() ) {
+      return this.denyAddition(feature)
+    }
     this.store.add(feature)
     this.refresh()
   }
@@ -255,6 +258,11 @@ class SelectionList {
           ${this.svgClose}
         </button>
       </div>`
+  }
+
+  denyAddition() {
+    const el = $("#selectionlist-max-warn").addClass("toast")
+    setTimeout( () => el.removeClass("toast"), 1000)
   }
 }
 
