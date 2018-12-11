@@ -380,18 +380,25 @@ function loadFeatures(extent, resolution, projection) {
 var gletscher_source = new Vector({
   strategy: bbox,
   loader: loadFeatures,
+  id: 'pk_sgi'
+});
+
+var gletscher_source_haslength = new Vector({
+  strategy: bbox,
+});
+
+var gletscher_source_hasmass = new Vector({
+  strategy: bbox,
 });
 
 
 var gletscher_alle = new VectorLayer({
   name: 'Gletscher Inventar',
+  title: 'Gletscher mit Messwert Länge',   // used as display name for layerswitcher
   source: gletscher_source,
   map: map,
   style: switchStyle //style different depending on data availibility
 });
-gletscher_alle.set('name', 'gletscher_alle');
-gletscher_alle.set('title', 'Gletscher Marker'); //used as display name for layerswitcher
-gletscher_source.set('id','pk_sgi');
 
 
 var selectedOverlay = new VectorLayer({
