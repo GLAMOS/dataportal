@@ -8,6 +8,6 @@
           {% set url = entryForOtherSite.getUrl() %}
         {% endif %}
       {% endif %}
-      <a href="{{ url }}">{{ site.name }}</a>
+      <a href="{{ url }}" class="js-keephash">{{ site.name }}</a>
     </li>
   {% endfor %}
