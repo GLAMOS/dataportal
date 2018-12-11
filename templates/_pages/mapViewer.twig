@@ -3,7 +3,11 @@
 {% block content %}
   <div class="gridMapViewer">
 
-<!--    <a href="#navMapViewer" class="navMapViewerToggle"></a> -->
+    <div id="sidebarSwitcher">
+      <a href="#navMapViewer" class="navMapViewerToggle"></a>
+      <a href="#TODO2" class="navMapViewerToggle"></a>
+    </div>
+
     {% include '_organisms/mapContainer' %}
     {% include '_organisms/mapOutput' %}
     {% include '_organisms/mapInput' %}
