@@ -21,7 +21,7 @@ import './map/map.js';
     return String(value).replace('-', '&minus;');
   }
 
-  function getAvailableDownloadTabs(TAB_ID) {
+  function getAvailableDownloadTabs() {
     return $('.tabContainer a[data-tab]').map( (ix,el) => el.getAttribute('data-tab') );
   }
   controller.bridge({getAvailableDownloadTabs});
