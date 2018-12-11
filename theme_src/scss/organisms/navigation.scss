@@ -88,3 +88,17 @@
     }
   }
 }
+
+/* Handles to switch sidebar content (and open for mobile) */
+#sidebarSwitcher {
+  z-index: 10;
+  display: grid;   // create nested grid
+  grid-template-rows: min-content min-content min-content min-content min-content;
+  justify-content: end;
+  grid-row: 1/1;
+  grid-column: 1/-1;
+  @include smUp {
+    grid-column: 1/-3;   // skip sidebar
+  }
+}
+

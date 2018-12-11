@@ -43,3 +43,19 @@ $gapSize: 3px;
     top: 60px;
   }
 }
+
+.navSidebarToggle {
+  margin: 3px 0 3px 3px;
+  border-radius: 50% 0 0 50%;
+  background-color: $glamosColor;
+  background-image: url('/theme/img/magnifier.svg');
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: 50% 50%;
+  width: 44px;
+  height: 44px;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
