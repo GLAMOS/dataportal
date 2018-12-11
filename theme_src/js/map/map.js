@@ -363,9 +363,7 @@ function getRandomVIP() {
 controller.bridge({getRandomVIP})
 
 // depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, getRandomVIP, fillSchluesseldaten
-var gletscher_source = new Vector({
-  strategy: bbox,
-  loader: function (extent, resolution, projection) {
+function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
       var features = format.readFeatures(response,
         { featureProjection: 'EPSG:3857' });
@@ -374,8 +372,11 @@ var gletscher_source = new Vector({
       // store features in datastorage and do stuff now we know about them
       controller.gotFeatures(features)
     });
+}
 
-  }
+var gletscher_source = new Vector({
+  strategy: bbox,
+  loader: loadFeatures,
 });
 
 
