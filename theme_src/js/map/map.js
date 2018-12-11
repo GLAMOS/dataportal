@@ -20,6 +20,7 @@ import Group from 'ol/layer/Group';
 
 import controller from '../controller'
 import urlManager from '../UrlManager'
+import datastore from '../datastore';
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 
@@ -170,11 +171,13 @@ console.log('fillSchlüsseldaten: ' + page);
     }
   }
 
+  const feature = datastore.features.findById(featureId);
+
   console.log(infoboxGlacierName);
-    if (gletscher_source.getFeatureById(featureId).get('has_mass_value') == 't') {
-      updateValue(infoboxMassTimespan, gletscher_source.getFeatureById(featureId).get('date_from_mass').toFixed(0) + ' &ndash; ' + gletscher_source.getFeatureById(featureId).get('date_to_mass').toFixed(0) );
-      updateValue(infoboxMassDuration, gletscher_source.getFeatureById(featureId).get('mass_anzahl_jahre').toFixed(0) + ' Jahre' );
-      updateValue(infoboxMassCumulative, unit(gletscher_source.getFeatureById(featureId).get('last_mass_change_cumulative')) + '&sup3;' );
+    if (feature.get('has_mass_value') == 't') {
+      updateValue(infoboxMassTimespan, feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0) );
+      updateValue(infoboxMassDuration, feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre' );
+      updateValue(infoboxMassCumulative, unit(feature.get('last_mass_change_cumulative')) + '&sup3;' );
     }
     else {
       updateValue(infoboxMassTimespan, '--');
@@ -182,20 +185,20 @@ console.log('fillSchlüsseldaten: ' + page);
       updateValue(infoboxMassCumulative, '--');
     }
 
-    if (gletscher_source.getFeatureById(featureId).get('has_length_value') == 't') {
-      updateValue(infoboxLengthTimespan, gletscher_source.getFeatureById(featureId).get('date_from_length').toFixed(0) + ' &ndash; ' + gletscher_source.getFeatureById(featureId).get('date_to_length').toFixed(0) );
-      updateValue(infoboxLengthDuration, gletscher_source.getFeatureById(featureId).get('length_anzahl_jahre').toFixed(0) + ' Jahre' );
-      updateValue(infoboxLengthCumulative, unit(gletscher_source.getFeatureById(featureId).get('last_length_change_cumulative')) );
+    if (feature.get('has_length_value') == 't') {
+      updateValue(infoboxLengthTimespan, feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0) );
+      updateValue(infoboxLengthDuration, feature.get('length_anzahl_jahre').toFixed(0) + ' Jahre' );
+      updateValue(infoboxLengthCumulative, unit(feature.get('last_length_change_cumulative')) );
     }
     else {
       updateValue(infoboxLengthTimespan, '--');
       updateValue(infoboxLengthDuration, '--');
       updateValue(infoboxLengthCumulative, '--');
     }
-    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get(DISPLAY_NAME) );
+    updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
 
   if (page == 'factsheet') {
-    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get(DISPLAY_NAME) );
+    updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
   }
 
 };
