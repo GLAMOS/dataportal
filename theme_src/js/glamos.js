@@ -21,6 +21,11 @@ import './map/map.js';
     return String(value).replace('-', '&minus;');
   }
 
+  function getAvailableDownloadTabs() {
+    return $('.tabContainer a[data-tab]').map( (ix,el) => el.getAttribute('data-tab') );
+  }
+  controller.bridge({getAvailableDownloadTabs});
+
   function selectDownloadTab(TAB_ID) {
     const CLASS_NAME = 'current';
     $('ul.tabLinks a').removeClass(CLASS_NAME);

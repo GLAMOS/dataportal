@@ -353,27 +353,8 @@ var gletscher_source = new Vector({
         { featureProjection: 'EPSG:3857' });
       gletscher_source.addFeatures(features);
 
-      // re-use features ary for search bar
+      // store features in datastorage and do stuff now we know about them
       controller.gotFeatures(features)
-
-      const gletscher_id = highlightedGlacier.get() || getRandomVIP()
-
-
-      fillSchluesseldaten(gletscher_id, page);
-
-      var coordX = gletscher_source.getFeatureById(gletscher_id).get('coordx');
-      var coordY = gletscher_source.getFeatureById(gletscher_id).get('coordy');
-
-      var extent_frompoint = [coordX, coordY, coordX, coordY];
-      map.getView().fit(extent_frompoint, { size: map.getSize(), maxZoom: 11 });
-
-     initialFeature = new Feature({
-        geometry: new Point([coordX, coordY]),
-        style: activeStyle
-      });
-      initialFeature.setId('initialGlacier');
-      selectedOverlay.getSource().addFeature(initialFeature);
-      highlightedGlacier.feature = initialFeature;
     });
 
   }
@@ -479,6 +460,7 @@ function mouse2features(browserEvent) {
 // pan the map to the given feature
 // depends: map
 function mapPanTo(feature) {
+    if(!feature) return;
   const center = [ feature.get('coordx'), feature.get('coordy') ];
   map.getView().setCenter(center);
 }
@@ -488,6 +470,8 @@ controller.bridge({mapPanTo})
 // populate Schluesseldaten, highlight selected marker
 // depends: page; highlightedGlacier, selectedOverlay
 function selectGlacier(feature) {
+    if(!feature) return;
+
     //1. fill infobox from feature
     gletscher_id = feature.getId();
     fillSchluesseldaten(gletscher_id, page);
@@ -507,8 +491,6 @@ function selectGlacier(feature) {
     highlightedGlacier.feature = feature;
 
     //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
-
-    //3. fuege neuen slug hinzu, triggert neuladen
 }
 
 // when the user clicks on a feature, select it

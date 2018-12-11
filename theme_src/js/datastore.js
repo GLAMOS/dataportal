@@ -20,6 +20,17 @@ function isFeature(feature) {
     && 'values_' in feature
 }
 
+
+
+// ----- keeping track of current site navigation state
+
+// active page (from CMS navigation)
+let currentPage = null
+
+// active Download Tab
+let downloadTab = null
+
+
 // ----- managing set of features
 class FeatureSet {
   constructor() {
@@ -83,11 +94,6 @@ class SelectionList {
   // by accessing .features, the ids will be transformed to feature objs
   get features() { return this.get().map( features.findById ).filter( f => !!f ) }
 }
-
-
-// ----- managing set of features
-
-let downloadTab = null
 
 
 // -----

@@ -40,23 +40,58 @@ class Controller {
 
   _chooseRandom() {
     const feature = datastore.features.findById( bridge.getRandomVIP() )
-    bridge.selectGlacier(feature)
-    bridge.mapPanTo(feature)
-    bridge.monitoringSelectedFeatureList.add(feature)
+    if(feature) {
+      bridge.selectGlacier(feature)
+      bridge.mapPanTo(feature)
+      bridge.monitoringSelectedFeatureList.add(feature)
+    }
+  }
+
+  /**
+   * sets some state bits to defaults if they're empty
+   */
+  _setFallbackState() {
+    let needsUpdate = false
+
+    // default to random glacier
+    if(!datastore.highlightedGlacier.get()) {
+      this._chooseRandom()
+      needsUpdate = true
+    }
+
+    // default to first Download-Tab
+    if(!datastore.downloadTab && 'downloads' == datastore.currentPage) {
+      const allTabs = bridge.getAvailableDownloadTabs()
+      this.changeDownloadTab( allTabs[0] )
+      needsUpdate = true
+    }
+
+    if(needsUpdate) {
+      // TODO: move to helper since linked
+      urlManager.minorUpdate()
+      bridge.dynamicLinks()
+    }
   }
 
   // -- Init
 
   //onPageLoad(page) {
   onPageLoad() {
-    urlManager.decodeFullHash()
+    urlManager.loadState()
+    this._setFallbackState()
     this._bootstrapFromState()
     bridge.dynamicLinks()
+    urlManager.observeHistory()
+  }
+
+  onNavigate() {
+    this.onPageLoad()   // just alias
   }
 
   gotFeatures(features) {
     datastore.features.set(features)
-    urlManager.decodeFullHash()
+    urlManager.loadState()
+    this._setFallbackState()
     this._bootstrapFromState()
     bridge.enableSearch(features);
   }

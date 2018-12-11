@@ -3,6 +3,7 @@
 //import $ from 'jquery';
 
 import datastore from './datastore'
+import controller from './controller'
 
 
 // -----
@@ -74,6 +75,7 @@ class UrlManager {
 
     // private
 
+    // helpers
     const id2hash = encodeURIComponent
     const hash2id = decodeURIComponent
     const feat2id = feat => feat.getId()
@@ -84,16 +86,14 @@ class UrlManager {
 
     // map layers: baselayers, div. featurelayers
     const _getLayerHashPart = () => {
-      const page = _getCurrentPage()
-      if( 'downloads' == page ) {
+      if( 'downloads' == datastore.currentPage ) {
         return [datastore.downloadTab]
       }
       return []   // fallback
     }
 
     const _setLayersFromHashPart = (hashes) => {
-      const page = _getCurrentPage()
-      if( 'downloads' == page ) {
+      if( 'downloads' == datastore.currentPage ) {
         datastore.downloadTab = hashes[0]
       }
     }
@@ -150,13 +150,24 @@ class UrlManager {
       }
     }
 
-    this.decodeFullHash = () => {
+    /**
+     * Decodes the URL hash and populates the datastore
+     */
+    this.loadState = () => {
+      datastore.currentPage = _getCurrentPage()
       const hash = window.location.hash.replace(/^#/, '')
-      // console.debug('UrlManager.decodeFullHash', hash)
+      // console.debug('UrlManager.loadState', hash)
       const [ layerPart, featurePart ] = hash.split('/')
       layerPart && _setLayersFromHashPart( layerPart.split('&') )
       featurePart && _setFeaturesFromHashPart( featurePart.split('&') )
-      // console.debug('UrlManager.decodeFullHash end', baseLayers, datastore.selectedGlaciers.get(), datastore.highlightedGlacier.get())
+      // console.debug('UrlManager.loadState end', datastore.downloadTab, datastore.selectedGlaciers.get(), datastore.highlightedGlacier.get())
+    }
+
+    /**
+     * Hooks up history navigation callback (managed by controller)
+     */
+    this.observeHistory = () => {
+      window.onhashchange = () => controller.onNavigate()
     }
 
   }
