@@ -79,7 +79,7 @@ class UrlManager {
     const id2hash = encodeURIComponent
     const hash2id = decodeURIComponent
     const feat2id = feat => feat.getId()
-    const id2feat = datastore.features.findById
+    const id2feat = function (...args) { return datastore.features.findById(...args); }
 
     const _getCurrentPage = () =>
         window.location.pathname.split('/').slice(-1)[0]

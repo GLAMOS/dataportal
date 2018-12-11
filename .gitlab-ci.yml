@@ -24,10 +24,39 @@ staging_deploy:
     name: staging
     url: https://glamos.meteotest.ch
   variables:
+    TIER: "test"
     REMOTE_USER: "glamos"
     REMOTE_HOST: "glamos.meteotest.ch"
-    DB_HOST: $DB_HOST_TEST
-    DB_NAME: $DB_NAME_TEST
-    DB_PASS: $DB_PASS_TEST
+    CI_VAR_SUFFIX: "TEST"
+  script: ./deploy/runner.sh
 
-  script: ./.gitlab-cd.sh
+eth_dev_deploy:
+  stage: deploy
+  only:
+  - ETH-DEV
+  environment:
+    name: eth-dev
+    url: https://dev.glamos.ch
+  variables:
+    # strangely only ENVIRONMENT=production works on ETH server
+    TIER: "live"
+    REMOTE_USER: "glpo-dev"
+    REMOTE_HOST: "dev.glamos.ch"
+    REMOTE_IDENTITY: "server2servertransfer.rsa"
+    CI_VAR_SUFFIX: "ETH"
+  script: ./deploy/runner.sh
+
+eth_test_deploy:
+  stage: deploy
+  only:
+  - ETH-TEST
+  environment:
+    name: eth-test
+    url: https://test.glamos.ch
+  variables:
+    TIER: "live"
+    REMOTE_USER: "glpo-test"
+    REMOTE_HOST: "test.glamos.ch"
+    REMOTE_IDENTITY: "server2servertransfer.rsa"
+    CI_VAR_SUFFIX: "ETH"
+  script: ./deploy/runner.sh

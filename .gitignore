@@ -24,7 +24,6 @@ package-lock.json
 # Common
 
 /log/
-/storage/
 /.env
 /www/theme/js/glamos.dev.js.map
 /www/theme/js/glamos.dev.js
