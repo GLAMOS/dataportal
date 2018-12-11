@@ -7,6 +7,8 @@ var swissalti3d_wmts = new TileLayer({
       url: 'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissalti3d-reliefschattierung/default/current/3857/{z}/{x}/{y}.png',
       attributions: '© <a target="new" href="https://www.swisstopo.admin.ch/internet/swisstopo/en/home.html">swisstopo</a>'
     }),
+    baseLayer: true,
+    title: "Relief",
     minZoom: 8,
     maxZoom: 14
   });

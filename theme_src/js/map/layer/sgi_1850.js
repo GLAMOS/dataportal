@@ -2,6 +2,7 @@ import TileLayer from 'ol/layer/Tile';
 import TileWMS from 'ol/source/TileWMS';
 
   var glamos_sgi_1850 = new TileLayer({
+    title: "1850",
     source: new TileWMS({
       attribution: '(C) glamos.ch',
       url: 'https://ogc.glamos.ch/sgi',
@@ -9,7 +10,8 @@ import TileWMS from 'ol/source/TileWMS';
         'LAYERS': 'SGI_1850',
         'TRANSPARENT': true,
       },
-      serverType: 'qgis'                                         
+      serverType: 'qgis',
+      displayInLayerSwitcher: true
     })
   });
 
