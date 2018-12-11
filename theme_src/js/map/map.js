@@ -10,20 +10,37 @@ import bbox from 'ol/loadingstrategy';
 import Circle from 'ol/style/Circle';
 import { Icon, Style, Stroke, Fill } from 'ol/style';
 import { defaults as Interactions } from 'ol/interaction';
-import { defaults as Control } from 'ol/control';
+import LayerSwitcher from 'ol-ext/control/LayerSwitcher';
 import Point from 'ol/geom/Point';
 import Feature from 'ol/Feature';
 import glacier_vip from './layer/glacier_vip';
-import { swissimage_wmts, swissalti3d_wmts, eiszeit_wmts, dufour_wmts, siegfried_wmts, pixelkarte_farbe_wmts, pixelkarte_grau_wmts, pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
-import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
+import { swissimage_wmts, swissalti3d_wmts, eiszeit_wmts, dufour_wmts, siegfried_wmts, pixelkarte_farbe_wmts, pixelkarte_grau_wmts } from './layer/swisstopo_layer';
+import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010, glacier_outlines } from './layer/glamos_layer';
+import Group from 'ol/layer/Group';
 
 import controller from '../controller'
 import urlManager from '../UrlManager'
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 
-
 const DISPLAY_NAME = 'glacier_short_name';
+
+	// A group layer for base layers
+var baseLayers = new Group(
+  {
+    title: 'Hintergrundkarten',
+    openInLayerSwitcher: true,
+    layers: [ dufour_wmts,
+              siegfried_wmts,
+              eiszeit_wmts, swissimage_wmts, swissalti3d_wmts,  pixelkarte_grau_wmts, pixelkarte_farbe_wmts]
+  });
+
+var glamosSgi = new Group(
+  {
+    title: 'Gletscherausdehnung',
+    openInLayerSwitcher: false,
+    layers: [glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010]
+  });
 
 var hidePoints = new Style({
   image: new Circle(({
@@ -279,19 +296,6 @@ function dynamicLinks() {
 }
 controller.bridge({dynamicLinks})
 
-/*
-//ist im moment statische datei - sollte vom glamosserver kommen
-var gletscher_alle = new VectorLayer({
-  source: new Vector({
-    format: new GeoJSON(),
-    url: '/geo/glamos_inventory_dummy.geojson'
-  }),
-  map: map,
-  style: switchStyle //style different depending on data availibility
-});
-
-*/
-
 
 /*  Search Bar
  *
@@ -382,13 +386,15 @@ var gletscher_alle = new VectorLayer({
   style: switchStyle //style different depending on data availibility
 });
 gletscher_alle.set('name', 'gletscher_alle');
+gletscher_alle.set('title', 'Gletscher Marker'); //used as display name for layerswitcher
 gletscher_source.set('id','pk_sgi');
 
 
 var selectedOverlay = new VectorLayer({
   source: new Vector(),
   map: map,
-  style: activeStyle
+  style: activeStyle,
+  displayInLayerSwitcher: false
 });
 
 
@@ -401,7 +407,7 @@ if (document.getElementById('factsheet-map')) {
   map = new Map({
     target: 'factsheet-map',
     extent: [650000, 4000000, 1200000, 6500000],
-    layers: [eiszeit],
+    layers: [pixelkarte_farbe_wmts],
     interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
     controls: [],//remove zoom for factsheetwindow
     view: new View({
@@ -421,7 +427,7 @@ if (document.getElementById('factsheet-map')) {
   map = new Map({
     target: 'monitoring-map',
     // layers: [siegfried_wmts, pixelkarte_farbe_wmts, glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010],
-    layers: [swissimage_wmts, glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010],
+    layers: [baseLayers, glamosSgi],
     view: new View({
       extent: [650000, 4000000, 1200000, 6500000],
       center: [903280, 5913450],
@@ -433,11 +439,12 @@ if (document.getElementById('factsheet-map')) {
 
   page = 'monitoring';
   map.addLayer(gletscher_alle);
+
 } else if (document.getElementById('home-map')) {
   //only one map-layer - no layerswitcher
   map = new Map({
     target: 'home-map',
-    layers: [pixel_500px, pixel_1000px, eiszeit],
+    layers: [pixelkarte_farbe_wmts],
     //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
     //controls: [],//remove zoom for factsheetwindow
     view: new View({
@@ -456,6 +463,25 @@ if (document.getElementById('factsheet-map')) {
 }
 
 map && map.addLayer(selectedOverlay);
+
+/****************************************************************************************************************
+ * ** LayerSwitcher
+ ****************************************************************************************************************/
+
+var layer = baseLayers.getLayers().getArray();
+for (var i = 0; i < layer.length; i++) {
+  layer[i].setVisible(false);
+}
+
+pixelkarte_farbe_wmts.set('visible', true);
+
+var switcher = new LayerSwitcher(
+  {	target:$(".layerSwitcher").get(0), 
+    reordering: false
+    //oninfo: function (l) { alert(l.get("title")); }
+  });
+
+  map.addControl(switcher);
 
 
 /****************************************************************************************************************
