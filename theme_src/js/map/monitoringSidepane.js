@@ -28,7 +28,17 @@ const SIDE_MEASURE = 'latestMeasurements'   // separated only for mobile
 function setup() {
   $(TOGGLES).on('click', (ev) => {
     ev.preventDefault()
+    goToSidebarTab( ev.currentTarget.getAttribute('data-tab') )
   })
+}
+
+
+// -----
+// Tab switching
+
+function goToSidebarTab( tabName=SIDE_GLACIERS) {
+  // TODO: if mobile, leave sidepane closed (=null(?))
+  datastore.sidepane = tabName
 }
 
 
