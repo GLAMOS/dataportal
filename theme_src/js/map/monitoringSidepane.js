@@ -9,8 +9,9 @@ import datastore from '../datastore'   // the one feature (glacier) which is sel
 const TOGGLES = '.navSidebarToggle'
 
 // are directly the CSS classes of the corresponding box nodes
+// (references: templates/_pages/mapViewer.twig theme_src/scss/atoms/navToggleButton.scss
 const SIDE_GLACIERS = 'sidebarControls'
-const SIDE_LAYERS = 'layerswitcher'
+const SIDE_LAYERS = 'layerSwitcher'
 const SIDE_MEASURE = 'latestMeasurements'   // separated only for mobile
 
 
