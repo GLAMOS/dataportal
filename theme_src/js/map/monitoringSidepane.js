@@ -40,13 +40,7 @@ function goToSidebarTab( tabName=SIDE_GLACIERS) {
   // TODO: if mobile, leave sidepane closed (=null(?))
   datastore.sidepane = tabName
 }
-
-
-function goToDefaultTab() {
-  // TODO: if mobile, leave sidepane closed (=null(?))
-  datastore.sidepane = SIDE_GLACIERS
-}
-controller.bridge({goToDefaultTab})
+controller.bridge({goToSidebarTab})
 
 
 // -----

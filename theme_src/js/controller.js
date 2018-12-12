@@ -55,7 +55,7 @@ class Controller {
 
     // default sidepane to search+selectedGlaciers
     if(!datastore.sidepane) {
-      bridge.goToDefaultTab()
+      bridge.goToSidebarTab(undefined)   // undefined means default
     }
 
     // default to random glacier
