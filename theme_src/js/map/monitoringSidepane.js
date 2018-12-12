@@ -22,6 +22,12 @@ const SIDE_MEASURE = 'latestMeasurements'   // separated only for mobile
 
 // -----
 
+function goToDefaultTab() {
+  // TODO: if mobile, leave sidepane closed (=null(?))
+  datastore.sidepane = SIDE_GLACIERS
+}
+controller.bridge({goToDefaultTab})
+
 
 // -----
 // exports

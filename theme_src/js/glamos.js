@@ -9,6 +9,8 @@ ieDetector();
 import controller from './controller'
 
 import './map/map.js';
+import _ from './map/monitoringSidepane';
+
 
 (function (global, $) {
   function getDate (dateString)

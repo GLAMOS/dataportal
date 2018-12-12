@@ -27,6 +27,9 @@ function isFeature(feature) {
 // active page (from CMS navigation)
 let currentPage = null
 
+// active monitoring sidepane content
+let sidepane = null
+
 // active Download Tab
 let downloadTab = null
 
