@@ -48,7 +48,6 @@ $gapSize: 3px;
   margin: 3px 0 3px 3px;
   border-radius: 50% 0 0 50%;
   background-color: $glamosColor;
-  background-image: url('/theme/img/magnifier.svg');
   background-repeat: no-repeat;
   background-size: 50%;
   background-position: 50% 50%;
@@ -63,3 +62,12 @@ $gapSize: 3px;
   background-color: #a52a2a;
 }
 
+.navSidebarToggle[data-tab="sidebarControls"] {
+  // TODO @KA: probably replace by more meaningful for "list of selected glaciers"
+  background-image: url('/theme/img/magnifier.svg');
+}
+
+.navSidebarToggle[data-tab="layerswitcher"] {
+  // TODO @KA: replace by kind of layers (see e.g. osm)
+  background-image: url('/theme/img/crosslink.svg');
+}
