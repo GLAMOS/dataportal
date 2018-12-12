@@ -1,0 +1,39 @@
+
+/* adapt style of ol-ext (OpenLayers Extensions)' LayerSwitcher */
+
+.ol-layerswitcher.ol-control {
+  display: none;
+}
+
+.ol-layerswitcher [type="radio"] + label:before,
+.ol-layerswitcher [type="checkbox"] + label:before,
+.ol-layerswitcher [type="radio"]:checked + label:after,
+.ol-layerswitcher [type="checkbox"]:checked + label:after
+{
+  width: 0.8em; height: 0.8em;
+  /*border: 1.5px solid #45CADD;*/
+}
+
+.ol-layerswitcher [type="checkbox"]:checked + label::after {
+  border-color: #45CADD;
+  height: 0.7em;
+  width: 0.5em;
+}
+
+.ol-layerswitcher [type="radio"]:checked + label::after {
+  background: #45CADD none repeat scroll 0 0;
+  width: 0.5em;
+  height: 0.5em;
+  margin: 0.15em;   /* half of difference to corresponding :before */
+}
+
+/* .hideOpacity ... */
+
+.ol-layerswitcher .layerswitcher-opacity {
+  display:none;
+}
+
+.ol-layerswitcher .layerup {
+  height: 1.5em;
+}
+
