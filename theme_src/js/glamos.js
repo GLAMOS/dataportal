@@ -9,7 +9,7 @@ ieDetector();
 import controller from './controller'
 
 import './map/map.js';
-import _ from './map/monitoringSidepane';
+import sidepane from './map/monitoringSidepane';
 
 
 (function (global, $) {
@@ -185,6 +185,8 @@ import _ from './map/monitoringSidepane';
 
 
   // -----
-  controller.onPageLoad()
+  // initializing
+  controller.onPageLoad();
+  sidepane.setup()
 
 }(this, $));

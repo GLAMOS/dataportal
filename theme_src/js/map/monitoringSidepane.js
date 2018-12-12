@@ -6,6 +6,8 @@ import datastore from '../datastore'   // the one feature (glacier) which is sel
 // -----
 // constants
 
+const TOGGLES = '.navSidebarToggle'
+
 // are directly the CSS classes of the corresponding box nodes
 const SIDE_GLACIERS = 'sidebarControls'
 const SIDE_LAYERS = 'layerswitcher'
@@ -21,6 +23,14 @@ const SIDE_MEASURE = 'latestMeasurements'   // separated only for mobile
 
 
 // -----
+// toggling button actions
+
+function setup() {
+  $(TOGGLES).on('click', (ev) => {
+    ev.preventDefault()
+  })
+}
+
 
 function goToDefaultTab() {
   // TODO: if mobile, leave sidepane closed (=null(?))
@@ -32,3 +42,6 @@ controller.bridge({goToDefaultTab})
 // -----
 // exports
 
+module.exports = {
+  setup,
+}
