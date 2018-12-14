@@ -32,3 +32,24 @@
     grid-column: -3/-1;
   }
 }
+
+
+.gridMapViewer {
+  /* on mobile, sidebar shall cover up full width */
+  .sidebarContainer {
+    @include mdDown {
+      display: none;
+      &.active {
+        display: flex !important; //TODO: replace .sidebarContainer by something not in gugus
+      }
+    }
+  }
+
+  /* toggle visibility of different sidebar content blocks */
+  .sidebarContainer > * {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+}
