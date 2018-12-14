@@ -40,16 +40,19 @@ function setup() {
 function render() {
   const tabName = datastore.sidepane
   const pane = $('.sidebarContainer')
+  const topContentContainer = $('.gridMapViewer')
   const CLS_ACTIVE = 'active'
   const CLS_HIDE = 'hidden'
 
   // reset to unhighlight toggle and hide all content
   $(TOGGLES).removeClass(CLS_ACTIVE)
   $('> *', pane).removeClass(CLS_ACTIVE)
+  .parentsUntil(topContentContainer).removeClass(CLS_ACTIVE)
 
   // show/highlight what needs to be
   $(`${TOGGLES}[data-tab="${tabName}"]`).addClass(CLS_ACTIVE)
   $(`.${tabName}`, pane).addClass(CLS_ACTIVE)
+  .parentsUntil(topContentContainer).addClass(CLS_ACTIVE)
 }
 
 
