@@ -7,9 +7,7 @@ var siegfried_wmts = new TileLayer({
       attributions: '© <a target="new" href="https://www.swisstopo.admin.ch/internet/swisstopo/en/home.html">swisstopo</a>'
     }),
     baseLayer: true,
-    title: "Siegfried Karte (1926)",
-    minZoom: 8,
-    maxZoom: 14
+    title: "Siegfried-Karte 1926",
   });
 
   export default siegfried_wmts;

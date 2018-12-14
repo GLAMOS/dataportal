@@ -8,9 +8,7 @@ var eiszeit_wmts = new TileLayer({
       attributions: '© <a target="new" href="https://www.swisstopo.admin.ch/internet/swisstopo/en/home.html">swisstopo</a>'
     }),
     baseLayer: true,
-    title: "Eiszeit max. Ausdehnung",
-    minZoom: 8,
-    maxZoom: 14
+    title: "Eiszeit max. Ausdehnung"
   });
 
   export default eiszeit_wmts;

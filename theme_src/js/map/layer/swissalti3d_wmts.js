@@ -9,8 +9,7 @@ var swissalti3d_wmts = new TileLayer({
     }),
     baseLayer: true,
     title: "Relief",
-    minZoom: 8,
-    maxZoom: 14
+    opacity: 0.8
   });
 
   export default swissalti3d_wmts;

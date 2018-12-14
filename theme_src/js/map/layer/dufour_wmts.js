@@ -8,9 +8,8 @@ var dufour_wmts = new TileLayer({
       attributions: '© <a target="new" href="https://www.swisstopo.admin.ch/internet/swisstopo/en/home.html">swisstopo</a>'
     }),
     baseLayer: true,
-    title: "Dufour Karte (1865)",
-    minZoom: 8,
-    maxZoom: 14
+    title: "Dufour-Karte 1865",
+    opacity: 0.8
   });
 
   export default dufour_wmts;

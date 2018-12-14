@@ -7,7 +7,7 @@ var pixelkarte_grau_wmts = new TileLayer({
       attributions: '© <a target="new" href="https://www.swisstopo.admin.ch/internet/swisstopo/en/home.html">swisstopo</a>'
     }),
     baseLayer: true,
-    title: "Landeskarte (grau)",
+    title: "Landeskarte grau"
   });
 
   export default pixelkarte_grau_wmts;
