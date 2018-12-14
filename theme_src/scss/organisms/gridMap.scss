@@ -17,17 +17,17 @@
 }
 .outputContainer {
   grid-column: 1/-1;
+  grid-row: -2/-1;
   //background-color: yellow;
   z-index: 100;
   @include smUp {
     grid-column: 2/-3;
-    grid-row: -2/-1;
   }
 }
 .sidebarContainer {
   grid-column: 1/-1;
+  grid-row: 1/-1;
   @include smUp {
     grid-column: -3/-1;
-    grid-row: 1/-1;
   }
 }
