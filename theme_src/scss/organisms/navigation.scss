@@ -106,3 +106,33 @@
   z-index: 10;
 }
 
+
+#sidebarSwitcher {
+  /* .exclusiveToggle needs to be the first of its siblings.
+   * Either is is shown alone (think exclusively) or all others are shown
+   */
+
+  // default for desktop
+  .exclusiveToggle {
+    display: none;
+  }
+
+  @include mdDown {
+    // all non-.exclusiveToggle's
+    .navSidebarToggle {
+      display: none;
+    }
+    .exclusiveToggle.active ~ .navSidebarToggle {
+      display: inherit;
+    }
+
+    // .exclusiveToggle itself
+    .exclusiveToggle {
+      display: inherit;
+    }
+    .exclusiveToggle.active {
+      display: none;
+    }
+  }
+}
+
