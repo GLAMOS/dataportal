@@ -44,15 +44,32 @@ $gapSize: 3px;
   }
 }
 
+
 .navSidebarToggle {
-  margin: 3px 0 3px 3px;
-  border-radius: 50% 0 0 50%;
+  margin: 3px;
+  border-radius: 50%;
   background-color: $glamosColor;
   background-repeat: no-repeat;
   background-size: 50%;
   background-position: 50% 50%;
   width: 44px;
   height: 44px;
+
+  /* left/right type: just style, no layout */
+
+  &.attached-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: 0;
+    justify-self: left;
+  }
+
+  &.attached-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: 0;
+    justify-self: right;
+  }
 
   /* states */
 
@@ -65,7 +82,6 @@ $gapSize: 3px;
   }
 
   /* per individual toggle specificities */
-
 
   &[data-tab="sidebarControls"] {
     // TODO @KA: probably replace by more meaningful for "list of selected glaciers"

@@ -93,7 +93,7 @@
 #sidebarSwitcher {
   display: grid;   // create nested grid
   grid-template-rows: min-content min-content min-content min-content min-content;
-  justify-content: end;
+  /* justify-content is replaced by justify-self on .attached-left|right */
   grid-row: 1/1;
   grid-column: 1/-1;
   @include smUp {
