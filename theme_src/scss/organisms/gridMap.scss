@@ -51,5 +51,10 @@
     &.active {
       display: block;
     }
+
+    // show schluesseldaten anyway
+    &.latestMeasurements {
+      display: inherit;
+    }
   }
 }
