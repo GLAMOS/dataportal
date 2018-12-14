@@ -54,9 +54,6 @@ class Controller {
     let needsUpdate = false
 
     // default sidepane to search+selectedGlaciers
-    if(!datastore.sidepane) {
-      bridge.goToSidebarTab(undefined)   // undefined means default
-    }
 
     // default to random glacier
     if(!datastore.highlightedGlacier.get()) {
