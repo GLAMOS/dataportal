@@ -492,6 +492,13 @@ var selectedOverlay = new VectorLayer({
 // define 3 Map instances each for one tab:
 let page = null;
 let map = null;
+
+const mapDefaults = {
+  resolutions: [500,229.31, 100, 57.327, 28.663, 14.331, 7.165, 3.582, 1.791, 0.8955],
+  extent: [650000, 4000000, 1200000, 6500000],
+  center: [903280, 5913450]
+}
+
 if (document.getElementById('factsheet-map')) {
 
   //only one map-layer, static map with glacier in center (dynamically set)
@@ -502,10 +509,10 @@ if (document.getElementById('factsheet-map')) {
     interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
     controls: [],//remove zoom for factsheetwindow
     view: new View({
-      center: [903280, 5913450],
-      zoom: 12,
-      minZoom: 8,
-      maxZoom: 14
+      extent: mapDefaults.extent,
+      center: mapDefaults.center,
+      resolutions: mapDefaults.resolutions,
+      resolution: 28.663,
     })
   });
 
@@ -519,11 +526,10 @@ if (document.getElementById('factsheet-map')) {
     target: 'monitoring-map',
     layers: [baseLayers, glamosSgi, GletscherLayers ],
     view: new View({
-      extent: [650000, 4000000, 1200000, 6500000],
-      center: [903280, 5913450],
-      zoom: 12,
-      minZoom: 8,
-      maxZoom: 14
+      extent: mapDefaults.extent,
+      center: mapDefaults.center,
+      resolutions: mapDefaults.resolutions,
+      resolution: 57.327,
     })
   });
 
@@ -537,11 +543,10 @@ if (document.getElementById('factsheet-map')) {
     target: 'home-map',
     layers: [eiszeit_wmts,  GletscherLayers],
     view: new View({
-      extent: [650000, 4000000, 1200000, 6500000],
-      center: [903280, 5913450],
-      zoom: 12,
-      minZoom: 8,
-      maxZoom: 14
+      extent: mapDefaults.extent,
+      center: mapDefaults.center,
+      resolutions: mapDefaults.resolutions,
+      resolution: 100,
     })
   });
 
