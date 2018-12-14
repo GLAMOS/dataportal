@@ -3,3 +3,50 @@
   right: auto;
   left: 0.5em;
 }
+
+.ol-layerswitcher .panel li label {
+  font-size: small;
+  font-family: "Barlow Semi Condensed", serif;
+}
+
+.ol-layerswitcher .layerswitcher-opacity {
+  display: none;
+}
+
+.ol-layerswitcher .panel li > div {
+  display: inline-block;
+  position: relative;
+  float: none;
+  min-width: 1.3em;
+}
+
+.ol-layerswitcher .expend-layers::after {
+  background: #45CADD;
+}
+
+.ol-layerswitcher .expend-layers::before, 
+.ol-layerswitcher .collapse-layers::before {
+  background: #45CADD !important;
+}
+
+.ol-layerswitcher [type="checkbox"]:checked + label::after {
+  border-color: #45CADD;
+  background: transparent;
+  box-shadow: 1px 0 1px 1px transparent;
+}
+
+.ol-layerswitcher [type="checkbox"] + label::before {
+  border-color: #45CADD;
+  background: transparent;
+}
+
+.ol-layerswitcher [type="radio"]:checked + label::after {
+
+  background: #45CADD;
+  border: 2px solid #45CADD;
+
+}
+
+.ol-layerswitcher [type="radio"] + label::before {
+  background: #45CADD;
+}
