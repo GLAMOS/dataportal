@@ -45,11 +45,11 @@ function render() {
 
   // reset to unhighlight toggle and hide all content
   $(TOGGLES).removeClass(CLS_ACTIVE)
-  $('> *', pane).addClass(CLS_HIDE)
+  $('> *', pane).removeClass(CLS_ACTIVE)
 
   // show/highlight what needs to be
   $(`${TOGGLES}[data-tab="${tabName}"]`).addClass(CLS_ACTIVE)
-  $(`.${tabName}`, pane).removeClass(CLS_HIDE)
+  $(`.${tabName}`, pane).addClass(CLS_ACTIVE)
 }
 
 
