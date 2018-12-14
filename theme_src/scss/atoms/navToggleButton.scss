@@ -78,7 +78,14 @@ $gapSize: 3px;
   }
 
   &.active {
+    /*
+     * don't highlight on mobile, since button active is hidden anyway except at initial
+     * loading, two of them are .active whereas the sidebar related one is shown
+     * (in mobile: we want to show the map; on desktop (map+)sidepane)
+     */
+    @include mdUp {
       background-color: $markerColor;
+    }
   }
 
   /* per individual toggle specificities */
