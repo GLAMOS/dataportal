@@ -64,14 +64,16 @@ $gapSize: 3px;
       background-color: $markerColor;
   }
 
-}
+  /* per individual toggle specificities */
 
-.navSidebarToggle[data-tab="sidebarControls"] {
-  // TODO @KA: probably replace by more meaningful for "list of selected glaciers"
-  background-image: url('/theme/img/magnifier.svg');
-}
 
-.navSidebarToggle[data-tab="layerSwitcher"] {
-  // TODO @KA: replace by kind of layers (see e.g. osm)
-  background-image: url('/theme/img/crosslink.svg');
+  &[data-tab="sidebarControls"] {
+    // TODO @KA: probably replace by more meaningful for "list of selected glaciers"
+    background-image: url('/theme/img/magnifier.svg');
+  }
+
+  &[data-tab="layerSwitcher"] {
+    // TODO @KA: replace by kind of layers (see e.g. osm)
+    background-image: url('/theme/img/crosslink.svg');
+  }
 }
