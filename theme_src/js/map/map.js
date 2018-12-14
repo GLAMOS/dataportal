@@ -468,7 +468,7 @@ var gletscher_masse = new VectorLayer({
 
 var gletscher_length = new VectorLayer({
   allwaysOnTop: true,
-  title: 'Länge-Messungen',   // used as display name for layerswitcher
+  title: 'Länge-Messungen' ,   // used as display name for layerswitcher
   source: gletscher_source_haslength,
   map: map,
   style: checkResolution_laenge //style different depending on data availibility
@@ -680,7 +680,3 @@ map && map.on('pointermove', function (e) {
 });
 
 
-
-//Buttons clonen:
-//https://api.jquery.com/clone/
-//https://api.jquery.com/category/miscellaneous/dom-element-methods/
