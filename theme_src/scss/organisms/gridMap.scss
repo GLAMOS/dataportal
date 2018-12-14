@@ -19,12 +19,13 @@
   grid-column: 1/-1;
   grid-row: -2/-1;
   //background-color: yellow;
-  z-index: 100;
   @include smUp {
     grid-column: 2/-3;
   }
 }
 .sidebarContainer {
+  /* sidepane is layered above map (+chart), coverint it on mobile */
+  z-index: 5;
   grid-column: 1/-1;
   grid-row: 1/-1;
   @include smUp {
