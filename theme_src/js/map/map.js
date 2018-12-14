@@ -360,8 +360,7 @@ controller.bridge({enableSearch});
 /**
  * List of VIP glaciers
  *
- * @param  {Object} el [description]
- * @return {Object}
+ * @type {Object}
  * @todo data source still unclear
  */
 const glacierVips = glacier_vip.features.map(function (el) {
@@ -540,11 +539,11 @@ controller.bridge({mapPanTo});
 function selectGlacier (feature) {
   if (!feature) return;
 
-  //1. fill infobox from feature
+  /* 1. Fill infobox from feature */
   gletscher_id = feature.getId();
   fillSchluesseldaten(gletscher_id, page);
 
-  //2a. reset current selection
+  /* 2a. Reset current selection */
   if (highlightedGlacier.feature) {
     try {
       selectedOverlay.getSource().removeFeature(highlightedGlacier.feature);
@@ -553,32 +552,38 @@ function selectGlacier (feature) {
     }
   }
 
-  //2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu
-  //hoverOverlay.getSource().removeFeature(hover);
+  /* 2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu */
+  // hoverOverlay.getSource().removeFeature(hover);
   selectedOverlay.getSource().addFeature(feature);
   selected = feature;
 
-  //TODO: if monitoring, change/update also chart (add glacier and/or highlighted this one)
+  /* TODO: If monitoring, change/update also chart (add glacier and/or highlighted this one) */
 }
 
-// when the user clicks on a feature, select it
-// (last one in DOM if cursor hit multiple features)
+/*
+ * Select feature when the user clicks it
+ *
+ * (last one in DOM if pointer is above multiple features)
+ */
 function onMapClick (browserEvent) {
   let features = mouse2features(browserEvent);
-  // consider only glaciers with data
+
+  /* consider only glaciers with data */
   features = features.filter(filterFeature);
   if (!features.length) return;
 
-  //manche Gletscherpunkte sind so dicht zusammen dass mehr als einer gelesen wird
-  //es wird nur das letzte feature beachtet
+  /*
+   * Manche Gletscherpunkte sind so dicht zusammen, dass mehr als einer gelesen wird;
+   * es wird nur das letzte Feature beachtet
+   */
   controller.mapMarkerHighlighted(features[features.length - 1]);
 }
 controller.bridge({selectGlacier});
 
-map && map.on('click', onMapClick);
+if (map) map.on('click', onMapClick);
 
 
-/* add hoverstyle */
+/* Add hover style */
 const hoverOverlay = new VectorLayer({
   source: new Vector(),
   map,

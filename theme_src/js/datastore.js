@@ -1,118 +1,124 @@
 'use strict';
 
+/* Constants */
 
-// -----
-// constants
+/* Variables */
 
+/* Helpers */
 
-// -----
-// variables
-
-
-// -----
-// helpers
-
-function isFeature(feature) {
-  // feature instanceof Vector  does not work (import Vector from 'ol/source/Vector')
-  return typeof feature == "object"
+function isFeature (feature) {
+  /* NOTE: feature instanceof Vector does not work (import Vector from 'ol/source/Vector') */
+  return typeof feature == 'object'
     && 'getId' in feature
     && 'ol_uid' in feature
-    && 'values_' in feature
+    && 'values_' in feature;
 }
 
 
+/* Keeping track of current site navigation state */
 
-// ----- keeping track of current site navigation state
+/* Active page (from CMS navigation) */
+const currentPage = null;
 
-// active page (from CMS navigation)
-let currentPage = null
-
-// active Download Tab
-let downloadTab = null
+/* Active Download tab */
+const downloadTab = null;
 
 
-// ----- managing set of features
+/**
+ * Manages the set of features
+ */
 class FeatureSet {
-  constructor() {
-    let _data = []   // the store
+  constructor () {
+    let _data = [];   // the store
 
-    this.set = (features) => { _data = features }
+    this.set = (features) => { _data = features; };
 
-    this.getAll = () => [..._data]   // return a shallow copy
+    this.getAll = () => [..._data];   /* return a shallow copy */
 
-    this.findById = (id) => _data.find( feat => feat.getId() == id )
+    this.findById = (id) => _data.find((feat) => feat.getId() == id);
   }
 }
 
-
-// ----- managing the single highlighted/selected feature
+/**
+ * Manages the single highlighted/selected feature
+ */
 class SingleSelection {
-  constructor() {
-    let _data = null   // the store
+  constructor () {
+    /**
+     * Data storage
+     */
+    let _data = null;
 
-    this.get = () => _data
+    this.get = () => _data;
 
-    this.set = (id) => { _data = id }
+    this.set = (id) => { _data = id; };
 
-    this.clear = () => { _data = null }
- }
+    this.clear = () => { _data = null; };
+  }
 
-  // by accessing .feature, it will be transformed from/to id
-  get feature() { return features.findById( this.get() ) }
-  set feature(feature) { return this.set( feature.getId() ) }
+  /* by accessing .feature, it will be transformed from/to id */
+  get feature () { return features.findById(this.get()); }
+  set feature (feature) { return this.set(feature.getId()); }
 }
 
 
-// ----- managing list of selected features
+/**
+ * Manages the list of selected features
+ */
 class SelectionList {
-  constructor() {
-    let _data = []   // the store
+  constructor () {
+    /**
+     * Data storage
+     * @type {Array}
+     */
+    let _data = [];
 
-    // allows polyvalence
-    const _ensureId = (idORfeat) =>
-      isFeature(idORfeat) ? idORfeat.getId() : idORfeat
+    /* allows polyvalence */
+    const _ensureId = ((idORfeat) => (isFeature(idORfeat) ? idORfeat.getId() : idORfeat));
 
-    this.set = (args) => { _data = args.map(_ensureId) }
+    this.set = (args) => { _data = args.map(_ensureId); };
 
-    this.get = () => [..._data]   // return a shallow copy
+    this.get = () => [..._data];   // return a shallow copy
 
-    this.add = (arg) => _data.includes( _ensureId(arg) ) || _data.push( _ensureId(arg) )
+    this.add = (arg) => _data.includes(_ensureId(arg)) || _data.push(_ensureId(arg));
 
     this.remove = (arg) => {
-      if(typeof arg == "function") {   // by callback on features
-        _data = this.features.filter(arg).map( f => f.getId() )
+      if (typeof arg == 'function') {   // by callback on features
+        _data = this.features.filter(arg).map((feature) => feature.getId());
       } else {   // by id
-        _data = _data.filter( (id) => id != arg )
+        _data = _data.filter((id) => id != arg);
       }
-    }
+    };
 
-    this.clear = () => { _data = [] }
+    this.clear = () => { _data = []; };
 
-    this.findById = (id) => _data.includes(id) && features.findById(id)
+    this.findById = (id) => _data.includes(id) && features.findById(id);
   }
 
-  // by accessing .features, the ids will be transformed to feature objs
-  get features() { return this.get().map( features.findById ).filter( f => !!f ) }
+  /**
+   * Return the features with the stored IDs
+   *
+   * @return {Array[Feature]}
+   */
+  get features () { return this.get().map(features.findById).filter((feature) => !!feature); }
 }
 
 
-// -----
-// singleton instances
+/* Singleton instances */
 
-const features = new FeatureSet()
-const highlightedGlacier = new SingleSelection()
-const selectedGlaciers = new SelectionList()
+const features = new FeatureSet();
+const highlightedGlacier = new SingleSelection();
+const selectedGlaciers = new SelectionList();
 
 
-// -----
-// exports
+/* Exports */
 
 const datastore = {
   features,
   highlightedGlacier,
   selectedGlaciers,
   downloadTab,
-}
+};
 
-module.exports = datastore
-window.dbg_data = datastore   // for easier debugging
+module.exports = datastore;
+window.dbg_data = datastore;   // for easier debugging
