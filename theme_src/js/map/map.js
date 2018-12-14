@@ -72,6 +72,17 @@ var selectableStyleSmall = new Style({
   }))
 });
 
+var selectableStyleSmall_hasmass = new Style({
+  image: new Circle(({
+    radius: 5,
+    fill: new Fill({
+      color: '#2b7bb9',
+      stroke: '#2b7bb9',
+      zIndex: 0
+    })
+  }))
+});
+
 var hoverStyleSmall = new Style({
   image: new Circle(({
     radius: 5,
@@ -107,6 +118,13 @@ var selectableStyle = new Style({
   }))
 });
 
+var selectableStyle_hassmass = new Style({
+  image: new Icon(({
+    src: '/theme/img/pin-masse.svg',
+    scale: 0.7
+  }))
+});
+
 var activeStyle = new Style({
   image: new Icon(({
     src: '/theme/img/pin-active.svg',
@@ -121,33 +139,37 @@ style[1] = defaultGlacierStyle;
 style[2] = selectableStyle;
 style[3] = selectableStyleSmall;
 style[4] = hidePoints;
-
+style[5] = selectableStyleSmall_hasmass;
+style[6] = selectableStyle_hassmass;
 
 function filterFeature(feature) {
   //keine Werte
   var has_mass_value = feature.get('has_mass_value');
   var has_length_value = feature.get('has_length_value');
+
   if (has_mass_value == 't' || has_length_value == 't') {
     return true;
   }
   else return false;
 }
 
-function switchStyle(feature, resolution) { //console.log(resolution);
-
-  if (filterFeature(feature)) {
-    if (resolution > 100) {
-      return [style[3]];
-    }
-    else {
-      return [style[2]];
-    }
+function checkResolution_masse(feature, resolution) {
+  if (resolution > 100) {  
+      return [style[5]];
   }
   else {
-    return [style[0]]; //keine Werte - noDataGlacierStyle:
-  }
+      return [style[6]];
+  }    
 };
 
+function checkResolution_laenge(feature, resolution) {
+  if (resolution > 100) {  
+    return [style[3]];
+}
+else {
+    return [style[2]];
+}  
+};
 var unit = function (x) {
   if (x >= -999 && x <= 999)
     return x + ' m';
@@ -368,38 +390,83 @@ controller.bridge({getRandomVIP})
 // depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, getRandomVIP, fillSchluesseldaten
 function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
+
       var features = format.readFeatures(response,
         { featureProjection: 'EPSG:3857' });
-      gletscher_source.addFeatures(features);
+        var j = 0;
+ 
+        // store features in 3 different vectorsources to filter in layerswitcher
+        for(var i = 0; i < features.length; i++){ 
 
+          if (features[i].get("has_mass_value") == "t"){
+            gletscher_source_hasmass.addFeature(features[i]);
+
+            if (features[i].get("has_length_value") == "t"){
+              gletscher_source_haslength.addFeature(features[i]);
+            };
+          }
+          else if (features[i].get("has_length_value") == "t"){
+            gletscher_source_haslength.addFeature(features[i]);
+          }
+          else {
+            j++;
+            gletscher_source_nodata.addFeature(features[i]);
+          }
+
+        };
+        
       // store features in datastorage and do stuff now we know about them
       controller.gotFeatures(features)
     });
 }
 
-var gletscher_source = new Vector({
+var gletscher_source_nodata = new Vector({
   strategy: bbox,
-  loader: loadFeatures,
+  loader: loadFeatures,   //gletscher inventar datei wird hier aufgerufen und in den datastore geladen
   id: 'pk_sgi'
 });
 
+// gletscher_source_haslength und gletscher_source_hasmass: wird asynchron im loadFeatures() gefiltert und gefuellt
 var gletscher_source_haslength = new Vector({
   strategy: bbox,
+  id: 'pk_sgi'
 });
 
 var gletscher_source_hasmass = new Vector({
   strategy: bbox,
+  id: 'pk_sgi'
 });
 
 
-var gletscher_alle = new VectorLayer({
-  name: 'Gletscher Inventar',
-  title: 'Gletscher mit Messwert Länge',   // used as display name for layerswitcher
-  source: gletscher_source,
+var gletscher_nodata = new VectorLayer({
+  allwaysOnTop: true,
+  title: 'ohne Messwerte',   // used as display name for layerswitcher
+  source: gletscher_source_nodata,
   map: map,
-  style: switchStyle //style different depending on data availibility
+  style: style[0] //style different depending on data availibility
 });
 
+var gletscher_masse = new VectorLayer({
+  title: 'Masse-Messungen',   // used as display name for layerswitcher
+  source: gletscher_source_hasmass,
+  map: map,
+  style: checkResolution_masse //style different depending on data availibility
+});
+
+var gletscher_length = new VectorLayer({
+  allwaysOnTop: true,
+  title: 'Länge-Messungen',   // used as display name for layerswitcher
+  source: gletscher_source_haslength,
+  map: map,
+  style: checkResolution_laenge //style different depending on data availibility
+});
+
+var GletscherLayers = new Group(
+  {
+    title: 'Gletscher',
+    openInLayerSwitcher: true,
+    layers: [ gletscher_nodata, gletscher_length, gletscher_masse ]
+  });
 
 var selectedOverlay = new VectorLayer({
   source: new Vector(),
