@@ -83,6 +83,11 @@ $gapSize: 3px;
 
   /* per individual toggle specificities */
 
+  &[data-tab="mapContainer"] {
+    // TODO @KA: probably replace by more meaningful for "map"
+    background-image: url('/theme/img/close.svg');
+  }
+
   &[data-tab="sidebarControls"] {
     // TODO @KA: probably replace by more meaningful for "list of selected glaciers"
     background-image: url('/theme/img/magnifier.svg');
