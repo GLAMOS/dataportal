@@ -36,6 +36,11 @@ var baseLayers = new Group(
               eiszeit_wmts, swissimage_wmts, swissalti3d_wmts,  pixelkarte_grau_wmts, pixelkarte_farbe_wmts]
   });
 
+  var layer = baseLayers.getLayers().getArray();
+for (var i = 0; i < layer.length; i++) {
+  layer[i].setVisible(false);
+}
+
 var glamosSgi = new Group(
   {
     title: 'Gletscherausdehnung',
@@ -170,6 +175,14 @@ else {
     return [style[2]];
 }  
 };
+
+var switcher = new LayerSwitcher(
+  {	target:$(".layerSwitcher").get(0), 
+    reordering: false
+    //oninfo: function (l) { alert(l.get("title")); }
+  });
+
+
 var unit = function (x) {
   if (x >= -999 && x <= 999)
     return x + ' m';
@@ -485,7 +498,7 @@ if (document.getElementById('factsheet-map')) {
   map = new Map({
     target: 'factsheet-map',
     extent: [650000, 4000000, 1200000, 6500000],
-    layers: [pixelkarte_farbe_wmts],
+    layers: [pixelkarte_grau_wmts],
     interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
     controls: [],//remove zoom for factsheetwindow
     view: new View({
@@ -497,15 +510,14 @@ if (document.getElementById('factsheet-map')) {
   });
 
   page = 'factsheet';
-  map.addLayer(gletscher_alle);
-  gletscher_alle.setStyle(hidePoints);
+  pixelkarte_grau_wmts.set('visible', true);
+  //gletscher_nodata.setStyle(hidePoints);
 
 } else if (document.getElementById('monitoring-map')) {
 
   map = new Map({
     target: 'monitoring-map',
-    // layers: [siegfried_wmts, pixelkarte_farbe_wmts, glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010],
-    layers: [baseLayers, glamosSgi],
+    layers: [baseLayers, glamosSgi, GletscherLayers ],
     view: new View({
       extent: [650000, 4000000, 1200000, 6500000],
       center: [903280, 5913450],
@@ -516,15 +528,14 @@ if (document.getElementById('factsheet-map')) {
   });
 
   page = 'monitoring';
-  map.addLayer(gletscher_alle);
+  pixelkarte_farbe_wmts.set('visible', true);
+  map.addControl(switcher);
 
 } else if (document.getElementById('home-map')) {
   //only one map-layer - no layerswitcher
   map = new Map({
     target: 'home-map',
-    layers: [pixelkarte_farbe_wmts],
-    //interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
-    //controls: [],//remove zoom for factsheetwindow
+    layers: [eiszeit_wmts,  GletscherLayers],
     view: new View({
       extent: [650000, 4000000, 1200000, 6500000],
       center: [903280, 5913450],
@@ -535,31 +546,13 @@ if (document.getElementById('factsheet-map')) {
   });
 
   page = 'home';
-  map.addLayer(gletscher_alle);
+  eiszeit_wmts.set('visible', true);
+  //map.addLayer(gletscher_nodata);
 } else {
   page = 'other';
 }
 
 map && map.addLayer(selectedOverlay);
-
-/****************************************************************************************************************
- * ** LayerSwitcher
- ****************************************************************************************************************/
-
-var layer = baseLayers.getLayers().getArray();
-for (var i = 0; i < layer.length; i++) {
-  layer[i].setVisible(false);
-}
-
-pixelkarte_farbe_wmts.set('visible', true);
-
-var switcher = new LayerSwitcher(
-  {	target:$(".layerSwitcher").get(0), 
-    reordering: false
-    //oninfo: function (l) { alert(l.get("title")); }
-  });
-
-  map.addControl(switcher);
 
 
 /****************************************************************************************************************
