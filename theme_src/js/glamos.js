@@ -37,9 +37,13 @@ global.my = {};
 
   controller.bridge({
     loadGlacierData (ids) {
-      const URIS = {
-        length_change: '/glacier-data.php?id=', // '/geo/griessgletscher_length_change.geojson',
-        mass_change: '/geo/griessgletscher_mass_change.geojson'
+      const DATA_SOURCE = {
+        length_change: {
+          URI: '/glacier-data.php?type=length_change&id='  // '/geo/griessgletscher_length_change.geojson',
+        },
+        mass_balance: {
+          URI: '/glacier-data.php?type=mass_balance&id='   // '/geo/griessgletscher_mass_change.geojson'
+        }
       };
 
       /* TODO: Write a fetch API wrapper */
@@ -51,7 +55,7 @@ global.my = {};
       /* DEBUG */
       // console.log(`IDs: ${ids}`);
 
-      const KEY_YEAR = 'year_to';
+      const KEY_YEAR = 'year';
       const KEY_NAME = 'glacier_full_name';
       const CHART_CONFIG = {
         bindto: '#chart',
@@ -85,11 +89,15 @@ global.my = {};
         }
       };
 
+      const SELECT_TYPE = document.getElementById('chart_param');
+      const DATA_TYPE = SELECT_TYPE.options[SELECT_TYPE.selectedIndex].value;
+
       for (let i = 0, len = ids.length; i < len; ++i)
       {
         const xhr = new XMLHttpRequest();
         const id = ids[i];
-        xhr.open('GET', URIS.length_change + id, true);
+
+        xhr.open('GET', DATA_SOURCE[DATA_TYPE].URI + id, true);
 
         let loaded = false;
         const onload = function (ev) {
@@ -98,37 +106,40 @@ global.my = {};
 
           const JSON_DATA = JSON.parse(ev.target.responseText);
 
-          if (!JSON_DATA || JSON_DATA.length === 0)
+          if (JSON_DATA && JSON_DATA.length > 0)
           {
-            document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
-            return;
-          }
+            const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year));
+            const VALUES = [id].concat(JSON_DATA.map((entry) => entry.value));
+            const LINE_LABEL = JSON_DATA[0][KEY_NAME];
+            const CHART_DATA = {
+              x: KEY_YEAR,
+              columns: [YEARS, VALUES],
+              names: {
+                [id]: LINE_LABEL
+              }
+            };
 
-          const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year_to));
-          const VALUES = [id].concat(JSON_DATA.map((entry) => entry.variation_cumulative));
-          const LINE_LABEL = JSON_DATA[0][KEY_NAME];
-          const CHART_DATA = {
-            x: KEY_YEAR,
-            columns: [YEARS, VALUES],
-            names: {
-              [id]: LINE_LABEL
+            /* DEBUG */
+            console.log(JSON_DATA);
+            console.log(CHART_DATA);
+
+            if (!chart)
+            {
+              CHART_CONFIG.data = CHART_DATA;
+              chart = c3.generate(CHART_CONFIG);
             }
-          };
-
-          /* DEBUG */
-          console.log(JSON_DATA);
-          console.log(CHART_DATA);
-
-          if (!chart)
-          {
-            CHART_CONFIG.data = CHART_DATA;
-            chart = c3.generate(CHART_CONFIG);
+            else
+            {
+              chart.load(CHART_DATA);
+            }
           }
           else
           {
-            chart.load(CHART_DATA);
+            /* TODO: Display message only if there are no data at all, without breaking the chart */
+            // document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
           }
         };
+
         xhr.onload = onload;
         xhr.onreadystatechange = function () {
           if (loaded) return;

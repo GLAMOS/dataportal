@@ -52,24 +52,46 @@ catch (\PDOException $e)
 
 $glacier_id = @$_GET['id'] ?: 'B90/04';
 
-$res = $conn->prepare(<<<postgreSQL
-    SELECT glacier_full_name, year_from, year_to, variation_cumulative
-    FROM length_change.web_length_change
-    WHERE pk_sgi=$1
-    ORDER BY year_to
+$queries = [
+    'length_change' => <<<postgreSQL
+        SELECT
+            glacier_full_name,
+            year_from,
+            year_to AS year,
+            variation_cumulative AS value
+        FROM length_change.web_length_change
+        WHERE pk_sgi=$1
+        ORDER BY year_to
 postgreSQL
-);
+,
+    'mass_balance' => <<<postgreSQL
+        SELECT
+            glacier_full_name,
+            year_from,
+            year_to AS year,
+            annual_mass_balance AS value
+        FROM mass_balance.web_mass_balance
+        WHERE pk_sgi=$1
+        ORDER BY year_to
+postgreSQL
+];
+
+$type = $_GET['type'];
+$res = $conn->prepare($queries[$type]);
 
 $res->execute([$glacier_id]);
 
 $data = $res->fetchAll(\PDO::FETCH_ASSOC);
 
-/* Copy inner array, and modify */
-$first = $data[0];
-$first['year_to'] = $first['year_from'];
-$first['variation_cumulative'] = 0;
+/* If cumulative, copy inner array, and modify */
+if ($type === 'length_change')
+{
+    $first = $data[0];
+    $first['year'] = $first['year_from'];
+    $first['value'] = 0;
 
-/* Prepend modified copy */
-\array_unshift($data, $first);
+    /* Prepend modified copy */
+    \array_unshift($data, $first);
+}
 
 echo json_encode($data) . "\n";
