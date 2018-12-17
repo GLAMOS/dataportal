@@ -53,8 +53,6 @@ class Controller {
   _setFallbackState() {
     let needsUpdate = false
 
-    // default sidepane to search+selectedGlaciers
-
     // default to random glacier
     if(!datastore.highlightedGlacier.get()) {
       this._chooseRandom()
