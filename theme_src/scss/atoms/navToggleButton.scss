@@ -91,17 +91,17 @@ $gapSize: 3px;
   /* per individual toggle specificities */
 
   &[data-tab="mapContainer"] {
-    // TODO @KA: probably replace by more meaningful for "map"
     background-image: url('/theme/img/close.svg');
   }
 
   &[data-tab="comparisonContainer"] {
-    // TODO @KA: probably replace by more meaningful for "list of selected glaciers"
     background-image: url('/theme/img/magnifier.svg');
   }
 
   &[data-tab="layerSwitcher"] {
-    // TODO @KA: replace by kind of layers (see e.g. osm)
     background-image: url('/theme/img/layer-switch.svg');
+    &.active {
+      background-image: url('/theme/img/layer-switch-inverted.svg');
+    }
   }
 }
