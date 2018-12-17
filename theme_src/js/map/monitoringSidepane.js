@@ -6,15 +6,18 @@ import datastore from '../datastore'   // the one feature (glacier) which is sel
 // -----
 // constants
 
+// CSS selectors
 const GRID_WRAPPER = '.gridMapViewer'
 const TOGGLES = '.navSidebarToggle'
 const SIDEBAR_CONTENT_CONTAINER = '.sidebarContainer'
 
-// are directly the CSS classes of the corresponding box nodes
-// (references: templates/_pages/mapViewer.twig theme_src/scss/atoms/navToggleButton.scss
-const SIDE_GLACIERS = 'comparisonContainer'
-const SIDE_LAYERS = 'layerSwitcher'
-const SIDE_MEASURE = 'latestMeasurements'   // separated only for mobile
+/*
+ * The values of the toggles' data-tab attribute are directly the CSS classes
+ * of the corresponding content box nodes.
+ * (references: templates/_pages/mapViewer.twig theme_src/scss/atoms/navToggleButton.scss
+ * DEFAULT_PANE is one of those.
+ */
+const DEFAULT_PANE = 'comparisonContainer'
 
 
 // -----
@@ -67,7 +70,7 @@ function render() {
 // -----
 // Tab switching
 
-function goToSidebarTab( tabName=SIDE_GLACIERS) {
+function goToSidebarTab( tabName=DEFAULT_PANE) {
   // TODO: if mobile, leave sidepane closed (=null(?))
   datastore.sidepane = tabName
   render()
