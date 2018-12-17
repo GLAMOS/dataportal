@@ -6,7 +6,9 @@ import datastore from '../datastore'   // the one feature (glacier) which is sel
 // -----
 // constants
 
+const GRID_WRAPPER = '.gridMapViewer'
 const TOGGLES = '.navSidebarToggle'
+const SIDEBAR_CONTENT_CONTAINER = '.sidebarContainer'
 
 // are directly the CSS classes of the corresponding box nodes
 // (references: templates/_pages/mapViewer.twig theme_src/scss/atoms/navToggleButton.scss
@@ -39,8 +41,8 @@ function setup() {
 
 function render() {
   const tabName = datastore.sidepane
-  const pane = $('.sidebarContainer')
-  const topContentContainer = $('.gridMapViewer')
+  const pane = $(SIDEBAR_CONTENT_CONTAINER)
+  const topContentContainer = $(GRID_WRAPPER)
   const CLS_ACTIVE = 'active'
   const CLS_HIDE = 'hidden'
 
