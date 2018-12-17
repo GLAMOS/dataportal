@@ -41,20 +41,26 @@ function setup() {
 
 function render() {
   const tabName = datastore.sidepane
-  const pane = $(SIDEBAR_CONTENT_CONTAINER)
-  const topContentContainer = $(GRID_WRAPPER)
+
+  // jQuery elements
+  const toggles = $(TOGGLES)
+  const sidePaneContents = $(SIDEBAR_CONTENT_CONTAINER).children()
+  const parents = ($el) => $el.parentsUntil(GRID_WRAPPER)
+
+  // CSS classNames
   const CLS_ACTIVE = 'active'
   const CLS_HIDE = 'hidden'
 
   // reset to unhighlight toggle and hide all content
-  $(TOGGLES).removeClass(CLS_ACTIVE)
-  $('> *', pane).removeClass(CLS_ACTIVE)
-  .parentsUntil(topContentContainer).removeClass(CLS_ACTIVE)
+  toggles.removeClass(CLS_ACTIVE)
+  sidePaneContents.removeClass(CLS_ACTIVE)
+  parents(sidePaneContents).removeClass(CLS_ACTIVE)
 
   // show/highlight what needs to be
-  $(`${TOGGLES}[data-tab="${tabName}"]`).addClass(CLS_ACTIVE)
-  $(`.${tabName}`, pane).addClass(CLS_ACTIVE)
-  .parentsUntil(topContentContainer).addClass(CLS_ACTIVE)
+  toggles.filter(`[data-tab="${tabName}"]`).addClass(CLS_ACTIVE)
+  const sidepaneActualContent = sidePaneContents.filter(`.${tabName}`)
+  sidepaneActualContent.addClass(CLS_ACTIVE)
+  parents(sidepaneActualContent).addClass(CLS_ACTIVE)
 }
 
 
