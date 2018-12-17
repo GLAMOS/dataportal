@@ -1,0 +1,18 @@
+{%- for block in item.downloadDoc -%}
+  {% switch block.type %}
+
+    {% case "mxDocDownloadCSV" %}
+
+      {% for asset in block.cellFile %}
+        <a href="{{ asset.url }}">{{ block.cellLabel }}</a>
+      {% endfor %}
+
+    {% case "mxDocDownloadExt" %}
+
+      <a href="{{ block.cellLink }}" target="_blank">{{ block.cellLabel }}</a>
+
+  {% endswitch %}
+
+  {% if not loop.last %} / {% endif %}
+
+{%- endfor -%}
