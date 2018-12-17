@@ -9,6 +9,8 @@ ieDetector();
 import controller from './controller'
 
 import './map/map.js';
+import sidepane from './map/monitoringSidepane';
+
 
 (function (global, $) {
   function getDate (dateString)
@@ -183,6 +185,8 @@ import './map/map.js';
 
 
   // -----
-  controller.onPageLoad()
+  // initializing
+  controller.onPageLoad();
+  sidepane.setup()
 
 }(this, $));

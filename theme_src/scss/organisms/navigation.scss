@@ -88,3 +88,21 @@
     }
   }
 }
+
+/* Handles to switch sidebar content (and open for mobile) */
+#sidebarSwitcher {
+  display: grid;   // create nested grid
+  grid-template-rows: min-content min-content min-content min-content min-content;
+  justify-content: end;
+  grid-row: 1/1;
+  grid-column: 1/-1;
+  @include smUp {
+    grid-column: 1/-3;   // skip sidebar
+  }
+}
+
+#sidebarSwitcher > * {
+  // note: don't set z-index on #sidebarSwitcher since it would inhibit click through to underlaying
+  z-index: 10;
+}
+
