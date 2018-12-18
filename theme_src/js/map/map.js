@@ -718,3 +718,7 @@ if (map)
       return filterFeature(feature);
     });
 
+    map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+    featureHover(pixel);
+  });
+}
