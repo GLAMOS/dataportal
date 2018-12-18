@@ -17,17 +17,44 @@
 }
 .outputContainer {
   grid-column: 1/-1;
+  grid-row: -2/-1;
   //background-color: yellow;
-  z-index: 100;
   @include smUp {
     grid-column: 2/-3;
-    grid-row: -2/-1;
   }
 }
 .sidebarContainer {
+  /* sidepane is layered above map (+chart), coverint it on mobile */
+  z-index: 5;
   grid-column: 1/-1;
+  grid-row: 1/-1;
   @include smUp {
     grid-column: -3/-1;
-    grid-row: 1/-1;
+  }
+}
+
+
+.gridMapViewer {
+  /* on mobile, sidebar shall cover up full width */
+  .sidebarContainer {
+    @include mdDown {
+      display: none;
+      &.active {
+        display: flex !important; //TODO: replace .sidebarContainer by something not in gugus
+      }
+    }
+  }
+
+  /* toggle visibility of different sidebar content blocks */
+  .sidebarContainer > * {
+    display: none;
+    &.active {
+      display: block;
+    }
+
+    // show schluesseldaten anyway
+    &.latestMeasurements {
+      display: inherit;
+    }
   }
 }

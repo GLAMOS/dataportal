@@ -93,7 +93,7 @@
 #sidebarSwitcher {
   display: grid;   // create nested grid
   grid-template-rows: min-content min-content min-content min-content min-content;
-  justify-content: end;
+  /* justify-content is replaced by justify-self on .attached-left|right */
   grid-row: 1/1;
   grid-column: 1/-1;
   @include smUp {
@@ -104,5 +104,35 @@
 #sidebarSwitcher > * {
   // note: don't set z-index on #sidebarSwitcher since it would inhibit click through to underlaying
   z-index: 10;
+}
+
+
+#sidebarSwitcher {
+  /* .exclusiveToggle needs to be the first of its siblings.
+   * Either is is shown alone (think exclusively) or all others are shown
+   */
+
+  // default for desktop
+  .exclusiveToggle {
+    display: none;
+  }
+
+  @include mdDown {
+    // all non-.exclusiveToggle's
+    .navSidebarToggle {
+      display: none;
+    }
+    .exclusiveToggle.active ~ .navSidebarToggle {
+      display: inherit;
+    }
+
+    // .exclusiveToggle itself
+    .exclusiveToggle {
+      display: inherit;
+    }
+    .exclusiveToggle.active {
+      display: none;
+    }
+  }
 }
 
