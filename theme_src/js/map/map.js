@@ -623,20 +623,11 @@ function selectGlacier (feature) {
   fillSchluesseldaten(gletscher_id, page);
 
   /* 2a. Reset current selection */
-  if (highlightedGlacier.feature) {
-    try {
-      selectedOverlay.getSource().removeFeature(highlightedGlacier.feature);
-    } catch (e) {
-      console.debug('seems highlightedGlacier was not found on selectedOverlay');
-    }
-  }
+  selectedOverlay.getSource().clear();
 
   /* 2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu */
-  // hoverOverlay.getSource().removeFeature(hover);
   selectedOverlay.getSource().addFeature(feature);
   selected = feature;
-
-  /* TODO: If monitoring, change/update also chart (add glacier and/or highlighted this one) */
 }
 
 /*
