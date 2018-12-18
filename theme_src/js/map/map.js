@@ -470,11 +470,11 @@ var gletscher_source_haslength = new Vector({
   id: 'pk_sgi'
 });
 
+
 var gletscher_source_hasmass = new Vector({
   strategy: bbox,
   id: 'pk_sgi'
 });
-
 
 var gletscher_nodata = new VectorLayer({
   allwaysOnTop: true,
@@ -528,7 +528,7 @@ if (document.getElementById('factsheet-map')) {
   map = new Map({
     target: 'factsheet-map',
     extent: [650000, 4000000, 1200000, 6500000],
-    layers: [pixelkarte_grau_wmts],
+    layers: [pixelkarte_grau_wmts, gletscher_nodata],
     interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
     controls: [],//remove zoom for factsheetwindow
     view: new View({
@@ -541,6 +541,7 @@ if (document.getElementById('factsheet-map')) {
 
   page = 'factsheet';
   pixelkarte_grau_wmts.set('visible', true);
+  gletscher_nodata.setStyle(hidePoints);
 
 } else if (document.getElementById('monitoring-map')) {
   map = new Map({
