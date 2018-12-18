@@ -406,7 +406,7 @@ const format = new GeoJSON;
 const url = '/geo/glamos_inventory_dummy.geojson';
 
 /* Default = Aletschgletscher */
-let gletscher_id;  // = 'B36\/26';
+let gletscher_id;
 
 /* Selected feature (glacier) */
 let selected;
@@ -541,7 +541,6 @@ if (document.getElementById('factsheet-map')) {
 
   page = 'factsheet';
   pixelkarte_grau_wmts.set('visible', true);
-  //gletscher_nodata.setStyle(hidePoints);
 
 } else if (document.getElementById('monitoring-map')) {
   map = new Map({
@@ -574,7 +573,6 @@ if (document.getElementById('factsheet-map')) {
 
   page = 'home';
   eiszeit_wmts.set('visible', true);
-  //map.addLayer(gletscher_nodata);
 } else {
   page = 'other';
 }
