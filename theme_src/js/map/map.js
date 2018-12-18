@@ -11,27 +11,45 @@ import bbox from 'ol/loadingstrategy';
 import Circle from 'ol/style/Circle';
 import { Icon, Style, Stroke, Fill } from 'ol/style';
 import { defaults as Interactions } from 'ol/interaction';
-import { defaults as Control } from 'ol/control';
+import LayerSwitcher from 'ol-ext/control/LayerSwitcher';
 import Point from 'ol/geom/Point';
 import Feature from 'ol/Feature';
 import glacier_vip from './layer/glacier_vip';
-import { pixel_500px, pixel_1000px, eiszeit } from './layer/swisstopo_layer';
-import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010 } from './layer/glamos_layer';
+import { swissimage_wmts, swissalti3d_wmts, eiszeit_wmts, dufour_wmts, siegfried_wmts, pixelkarte_farbe_wmts, pixelkarte_grau_wmts } from './layer/swisstopo_layer';
+import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010, glacier_outlines } from './layer/glamos_layer';
+import Group from 'ol/layer/Group';
 
-import controller from '../controller';
-import urlManager from '../UrlManager';
-import {
-  /* Selected feature (glacier) */
-  highlightedGlacier,
-
-  /* List of features (glaciers) for comparison */
-  selectedGlaciers
-} from '../datastore';
-
+import controller from '../controller'
+import urlManager from '../UrlManager'
+import datastore from '../datastore';
+import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
+import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 
 const DISPLAY_NAME = 'glacier_short_name';
 
-const hidePoints = new Style({
+	// A group layer for base layers
+var baseLayers = new Group(
+  {
+    title: 'Hintergrundkarten',
+    openInLayerSwitcher: true,
+    layers: [ dufour_wmts,
+              siegfried_wmts,
+              eiszeit_wmts, swissimage_wmts, swissalti3d_wmts,  pixelkarte_grau_wmts, pixelkarte_farbe_wmts]
+  });
+
+  var layer = baseLayers.getLayers().getArray();
+for (var i = 0; i < layer.length; i++) {
+  layer[i].setVisible(false);
+}
+
+var glamosSgi = new Group(
+  {
+    title: 'Gletscherausdehnung',
+    openInLayerSwitcher: false,
+    layers: [glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010]
+  });
+
+var hidePoints = new Style({
   image: new Circle(({
     radius: 0,
     fill: new Fill({
@@ -60,7 +78,18 @@ const selectableStyleSmall = new Style({
   }))
 });
 
-const hoverStyleSmall = new Style({
+var selectableStyleSmall_hasmass = new Style({
+  image: new Circle(({
+    radius: 5,
+    fill: new Fill({
+      color: '#2b7bb9',
+      stroke: '#2b7bb9',
+      zIndex: 0
+    })
+  }))
+});
+
+var hoverStyleSmall = new Style({
   image: new Circle(({
     radius: 5,
     fill: new Fill({
@@ -95,7 +124,14 @@ const selectableStyle = new Style({
   }))
 });
 
-const activeStyle = new Style({
+var selectableStyle_hassmass = new Style({
+  image: new Icon(({
+    src: '/theme/img/pin-masse.svg',
+    scale: 0.7
+  }))
+});
+
+var activeStyle = new Style({
   image: new Icon(({
     src: '/theme/img/pin-active.svg',
     scale: 0.7,
@@ -110,37 +146,50 @@ style[1] = defaultGlacierStyle;
 style[2] = selectableStyle;
 style[3] = selectableStyleSmall;
 style[4] = hidePoints;
+style[5] = selectableStyleSmall_hasmass;
+style[6] = selectableStyle_hassmass;
 
-function filterFeature (feature) {
-  /* Keine Werte */
-  const has_mass_value = feature.get('has_mass_value');
-  const has_length_value = feature.get('has_length_value');
+function filterFeature(feature) {
+  //keine Werte
+  var has_mass_value = feature.get('has_mass_value');
+  var has_length_value = feature.get('has_length_value');
 
-  if (has_mass_value == 't' || has_length_value == 't') return true;
-
-  return false;
-}
-
-function switchStyle (feature, resolution) {
-  /* DEBUG */
-  // console.log(resolution);
-
-  if (filterFeature(feature)) {
-    if (resolution > 100) {
-      return [style[3]];
-    }
-
-    return [style[2]];
+  if (has_mass_value == 't' || has_length_value == 't') {
+    return true;
   }
-
-  /* No data → noDataGlacierStyle */
-  return [style[0]];
+  else return false;
 }
 
-const unit = function (x) {
-  if (x >= -999 && x <= 999) return `${x} m`;
+function checkResolution_masse(feature, resolution) {
+  if (resolution > 100) {  
+      return [style[5]];
+  }
+  else {
+      return [style[6]];
+  }    
+};
 
-  return `${Math.round(x / 100) / 10} km`;
+function checkResolution_laenge(feature, resolution) {
+  if (resolution > 100) {  
+    return [style[3]];
+}
+else {
+    return [style[2]];
+}  
+};
+
+var switcher = new LayerSwitcher(
+  {	target:$(".layerSwitcher").get(0), 
+    reordering: false
+    //oninfo: function (l) { alert(l.get("title")); }
+  });
+
+
+var unit = function (x) {
+  if (x >= -999 && x <= 999)
+    return x + ' m';
+  else
+    return Math.round(x / 100) / 10 + ' km';
 };
 
 function fillSchluesseldaten (featureId, page) {
@@ -159,52 +208,34 @@ function fillSchluesseldaten (featureId, page) {
     }
   }
 
-  console.log(infoboxGlacierName);
-  if (gletscher_source.getFeatureById(featureId).get('has_mass_value') == 't') {
-    updateValue(
-      infoboxMassTimespan,
-      `${gletscher_source.getFeatureById(featureId).get('date_from_mass').toFixed(0)}
-        &ndash; ${gletscher_source.getFeatureById(featureId).get('date_to_mass').toFixed(0)}`
-    );
-    updateValue(
-      infoboxMassDuration,
-      `${gletscher_source.getFeatureById(featureId).get('mass_anzahl_jahre').toFixed(0)} Jahre`
-    );
-    updateValue(
-      infoboxMassCumulative,
-      `${unit(gletscher_source.getFeatureById(featureId).get('last_mass_change_cumulative'))}&sup3;`
-    );
-  }
-  else {
-    updateValue(infoboxMassTimespan, '--');
-    updateValue(infoboxMassDuration, '--');
-    updateValue(infoboxMassCumulative, '--');
-  }
+  const feature = datastore.features.findById(featureId);
 
-  if (gletscher_source.getFeatureById(featureId).get('has_length_value') == 't') {
-    updateValue(
-      infoboxLengthTimespan,
-      `${gletscher_source.getFeatureById(featureId).get('date_from_length').toFixed(0)}
-        &ndash; ${gletscher_source.getFeatureById(featureId).get('date_to_length').toFixed(0)}`
-    );
-    updateValue(
-      infoboxLengthDuration,
-      `${gletscher_source.getFeatureById(featureId).get('length_anzahl_jahre').toFixed(0)} Jahre`
-    );
-    updateValue(
-      infoboxLengthCumulative,
-      unit(gletscher_source.getFeatureById(featureId).get('last_length_change_cumulative'))
-    );
-  }
-  else {
-    updateValue(infoboxLengthTimespan, '--');
-    updateValue(infoboxLengthDuration, '--');
-    updateValue(infoboxLengthCumulative, '--');
-  }
-  updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get(DISPLAY_NAME));
+  console.log(infoboxGlacierName);
+    if (feature.get('has_mass_value') == 't') {
+      updateValue(infoboxMassTimespan, feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0) );
+      updateValue(infoboxMassDuration, feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre' );
+      updateValue(infoboxMassCumulative, unit(feature.get('last_mass_change_cumulative')) + '&sup3;' );
+    }
+    else {
+      updateValue(infoboxMassTimespan, '--');
+      updateValue(infoboxMassDuration, '--');
+      updateValue(infoboxMassCumulative, '--');
+    }
+
+    if (feature.get('has_length_value') == 't') {
+      updateValue(infoboxLengthTimespan, feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0) );
+      updateValue(infoboxLengthDuration, feature.get('length_anzahl_jahre').toFixed(0) + ' Jahre' );
+      updateValue(infoboxLengthCumulative, unit(feature.get('last_length_change_cumulative')) );
+    }
+    else {
+      updateValue(infoboxLengthTimespan, '--');
+      updateValue(infoboxLengthDuration, '--');
+      updateValue(infoboxLengthCumulative, '--');
+    }
+    updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
 
   if (page == 'factsheet') {
-    updateValue(infoboxGlacierName, gletscher_source.getFeatureById(featureId).get(DISPLAY_NAME));
+    updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
   }
 }
 
@@ -309,20 +340,10 @@ function dynamicLinks () {
     e.preventDefault();
   });
 }
-controller.bridge({dynamicLinks});
+controller.bridge({dynamicLinks})
 
-/* Currently static file, should be provided by the GLAMOS server */
-// var gletscher_alle = new VectorLayer({
-//   source: new Vector({
-//     format: new GeoJSON(),
-//     url: '/geo/glamos_inventory_dummy.geojson'
-//   }),
-//   map: map,
-//   style: switchStyle //style different depending on data availibility
-// });
 
-/**
- * Search Bar
+/*  Search Bar
  *
  * Used on the tabs Home, Monitoring and Factsheet
  * This function bootstratps the search bar:
@@ -385,7 +406,7 @@ const format = new GeoJSON;
 const url = '/geo/glamos_inventory_dummy.geojson';
 
 /* Default = Aletschgletscher */
-let gletscher_id;  // = 'B36\/26';
+let gletscher_id;
 
 /* Selected feature (glacier) */
 let selected;
@@ -404,110 +425,154 @@ function getRandomVIP () {
 }
 controller.bridge({getRandomVIP});
 
-/**
- * @type {Vector}
- * @depends
- *   map, selectedOverlay, bbox, url, activeStyle, format, self,
- *   highlightedGlacier, getRandomVIP, fillSchluesseldaten
- */
-const gletscher_source = new Vector({
-  strategy: bbox,
-  loader (extent, resolution, projection) {
+// depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, getRandomVIP, fillSchluesseldaten
+function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
-      const features = format.readFeatures(
-        response,
-        { featureProjection: 'EPSG:3857' }
-      );
-      gletscher_source.addFeatures(features);
 
-      /* Store features in data storage and do stuff, now that we know about them */
-      controller.gotFeatures(features);
+      var features = format.readFeatures(response,
+        { featureProjection: 'EPSG:3857' });
+        var j = 0;
+ 
+        // store features in 3 different vectorsources to filter in layerswitcher
+        for(var i = 0; i < features.length; i++){ 
+
+          if (features[i].get("has_mass_value") == "t"){
+            gletscher_source_hasmass.addFeature(features[i]);
+
+            if (features[i].get("has_length_value") == "t"){
+              gletscher_source_haslength.addFeature(features[i]);
+            };
+          }
+          else if (features[i].get("has_length_value") == "t"){
+            gletscher_source_haslength.addFeature(features[i]);
+          }
+          else {
+            j++;
+            gletscher_source_nodata.addFeature(features[i]);
+          }
+
+        };
+        
+      // store features in datastorage and do stuff now we know about them
+      controller.gotFeatures(features)
     });
-  }
+}
+
+var gletscher_source_nodata = new Vector({
+  strategy: bbox,
+  loader: loadFeatures,   //gletscher inventar datei wird hier aufgerufen und in den datastore geladen
+  id: 'pk_sgi'
 });
 
-const gletscher_alle = new VectorLayer({
-  name: 'Gletscher Inventar',
-  source: gletscher_source,
-  map,
-
-  /* Different style depending on data availability */
-  style: switchStyle
+// gletscher_source_haslength und gletscher_source_hasmass: wird asynchron im loadFeatures() gefiltert und gefuellt
+var gletscher_source_haslength = new Vector({
+  strategy: bbox,
+  id: 'pk_sgi'
 });
-gletscher_alle.set('name', 'gletscher_alle');
-gletscher_source.set('id', 'pk_sgi');
 
-const selectedOverlay = new VectorLayer({
+var gletscher_source_hasmass = new Vector({
+  strategy: bbox,
+  id: 'pk_sgi'
+});
+
+
+var gletscher_nodata = new VectorLayer({
+  allwaysOnTop: true,
+  title: 'ohne Messwerte',   // used as display name for layerswitcher
+  source: gletscher_source_nodata,
+  map: map,
+  style: style[0] //style different depending on data availibility
+});
+
+var gletscher_masse = new VectorLayer({
+  title: 'Masse-Messungen',   // used as display name for layerswitcher
+  source: gletscher_source_hasmass,
+  map: map,
+  style: checkResolution_masse //style different depending on data availibility
+});
+
+var gletscher_length = new VectorLayer({
+  allwaysOnTop: true,
+  title: 'Länge-Messungen' ,   // used as display name for layerswitcher
+  source: gletscher_source_haslength,
+  map: map,
+  style: checkResolution_laenge //style different depending on data availibility
+});
+
+var GletscherLayers = new Group(
+  {
+    title: 'Gletscher',
+    openInLayerSwitcher: true,
+    layers: [ gletscher_nodata, gletscher_length, gletscher_masse ]
+  });
+
+var selectedOverlay = new VectorLayer({
   source: new Vector(),
-  map,
-  style: activeStyle
+  map: map,
+  style: activeStyle,
+  displayInLayerSwitcher: false
 });
 
 /* 3 Map instances, one for each tab */
 let page = null;
 let map = null;
+
+const mapDefaults = {
+  resolutions: [500,229.31, 100, 57.327, 28.663, 14.331, 7.165, 3.582, 1.791, 0.8955],
+  extent: [650000, 4000000, 1200000, 6500000],
+  center: [903280, 5913450]
+}
+
 if (document.getElementById('factsheet-map')) {
   /* Only one map layer, static map centered on glacier (dynamically set) */
   map = new Map({
     target: 'factsheet-map',
     extent: [650000, 4000000, 1200000, 6500000],
-    layers: [eiszeit],
-
-    /* Remove all interactions, like zoom, pan etc. for factsheet window */
-    interactions: [],
-
-    /* Remove zoom for factsheet window */
-    controls: [],
-
+    layers: [pixelkarte_grau_wmts],
+    interactions: [], //remove all interactions like zoom, pan etc. for factsheetwindow
+    controls: [],//remove zoom for factsheetwindow
     view: new View({
-      center: [903280, 5913450],
-      zoom: 10,
-      minZoom: 8,
-      maxZoom: 14
+      extent: mapDefaults.extent,
+      center: mapDefaults.center,
+      resolutions: mapDefaults.resolutions,
+      resolution: 28.663,
     })
   });
 
   page = 'factsheet';
-  map.addLayer(gletscher_alle);
-  gletscher_alle.setStyle(hidePoints);
+  pixelkarte_grau_wmts.set('visible', true);
+
 } else if (document.getElementById('monitoring-map')) {
   map = new Map({
     target: 'monitoring-map',
-    layers: [pixel_500px, pixel_1000px, eiszeit, glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010],
+    layers: [baseLayers, glamosSgi, GletscherLayers ],
     view: new View({
-      extent: [650000, 4000000, 1200000, 6500000],
-      center: [903280, 5913450],
-      zoom: 10,
-      minZoom: 8,
-      maxZoom: 14
+      extent: mapDefaults.extent,
+      center: mapDefaults.center,
+      resolutions: mapDefaults.resolutions,
+      resolution: 57.327,
     })
   });
 
   page = 'monitoring';
-  map.addLayer(gletscher_alle);
+  pixelkarte_farbe_wmts.set('visible', true);
+  map.addControl(switcher);
+
 } else if (document.getElementById('home-map')) {
   /* Only one map layer → no layer switcher */
   map = new Map({
     target: 'home-map',
-    layers: [pixel_500px, pixel_1000px, eiszeit],
-
-    /* Remove all interactions, like zoom, pan etc. for factsheet window */
-    // interactions: [],
-
-    /* Remove zoom for factsheet window */
-    // controls: [],
-
+    layers: [eiszeit_wmts,  GletscherLayers],
     view: new View({
-      extent: [650000, 4000000, 1200000, 6500000],
-      center: [903280, 5913450],
-      zoom: 10,
-      minZoom: 8,
-      maxZoom: 14
+      extent: mapDefaults.extent,
+      center: mapDefaults.center,
+      resolutions: mapDefaults.resolutions,
+      resolution: 100,
     })
   });
 
   page = 'home';
-  map.addLayer(gletscher_alle);
+  eiszeit_wmts.set('visible', true);
 } else {
   page = 'other';
 }
@@ -655,9 +720,3 @@ if (map)
     featureHover(pixel);
   });
 }
-
-/*
- * Clone buttons:
- * <https://api.jquery.com/clone/>
- * <https://api.jquery.com/category/miscellaneous/dom-element-methods/>
- */

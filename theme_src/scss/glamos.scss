@@ -4,6 +4,7 @@
 @import "../../node_modules/lightgallery/src/css/lightgallery";
 @import "../../node_modules/gugus-media-queries/gugus-media-queries";
 @import '../../node_modules/ol/ol';
+@import '../../node_modules/ol-ext/dist/ol-ext';
 @import "../../node_modules/c3/c3";
 
 @import 'variables';
@@ -31,6 +32,7 @@
 @import 'molecules/indexOverview';
 @import 'molecules/search';
 @import 'molecules/mapInput';
+@import 'molecules/mapLayerSwitcher';
 @import 'molecules/mapComparison';
 @import 'molecules/mapMeasurement';
 @import 'molecules/factsheetMeasurements';

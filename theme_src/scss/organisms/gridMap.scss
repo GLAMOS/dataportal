@@ -8,7 +8,7 @@
   }
 }
 .mapContainer {
-  background-color: $glamosColor;
+  background-color: #fff;
   grid-column: 1/-1;
   grid-row: 1/2;
   @include smUp {

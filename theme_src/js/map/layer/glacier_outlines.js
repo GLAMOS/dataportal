@@ -1,13 +1,13 @@
 import TileLayer from 'ol/layer/Tile';
 import TileWMS from 'ol/source/TileWMS';
 
-  var glamos_sgi_1850 = new TileLayer({
-    title: "1850",
+  var glacier_outlines = new TileLayer({
+    title: "Gletscher Umrisse",
     source: new TileWMS({
       attribution: '(C) glamos.ch',
-      url: 'https://ogc.glamos.ch/sgi',
+      url: 'https://ogc.glamos.ch/sgi', 
       params: {
-        'LAYERS': 'SGI_1850',
+        'LAYERS': 'Glacier_Outlines',
         'TRANSPARENT': true,
       },
       serverType: 'qgis',
@@ -15,4 +15,4 @@ import TileWMS from 'ol/source/TileWMS';
     })
   });
 
-  export default glamos_sgi_1850;
+  export default glacier_outlines;

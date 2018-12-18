@@ -18,6 +18,7 @@
     "gugus-media-queries": "^1.1.1",
     "jquery.mmenu": "^7.0.6",
     "normalize.css": "^8.0.0",
+    "ol-ext": "^3.0.2",
     "stickUp": "^2.3.1"
   },
   "devDependencies": {
