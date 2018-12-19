@@ -51,6 +51,7 @@ global.my = {};
   controller.bridge({selectDownloadTab});
 
   let chart;
+  const SELECT_TYPE = document.getElementById('chart_param');
 
   controller.bridge({
     /**
@@ -65,10 +66,24 @@ global.my = {};
       const DATA_CONFIG = {
         length_change: {
           URI: '/glacier-data.php?type=length_change&id='  // '/geo/griessgletscher_length_change.geojson',
+          axis: {
+            y: {
+              label: {
+                text: 'Kumulative Längenänderung (m)',
+              }
+            }
+          },
           type: 'line',
         },
         mass_balance: {
           URI: '/glacier-data.php?type=mass_balance&id='   // '/geo/griessgletscher_mass_change.geojson'
+          axis: {
+            y: {
+              label: {
+                text: 'Massenbilanz (mm H20)',
+              }
+            }
+          },
           type: 'bar',
         }
       };
@@ -84,6 +99,8 @@ global.my = {};
 
       const KEY_YEAR = 'year';
       const KEY_NAME = 'glacier_full_name';
+      const DATA_TYPE = SELECT_TYPE.options[SELECT_TYPE.selectedIndex].value;
+      const LABEL_VALUES = DATA_CONFIG[DATA_TYPE].axis.y.label.text;
       const CHART_CONFIG = {
         bindto: '#chart',
         axis: {
@@ -98,7 +115,7 @@ global.my = {};
           y: {
             label: {
               position: 'outer',
-              text: 'Kumulative Längenänderung (m)',
+              text: LABEL_VALUES
             },
             tick: {
               outer: false,
@@ -115,9 +132,6 @@ global.my = {};
           }
         }
       };
-
-      const SELECT_TYPE = document.getElementById('chart_param');
-      const DATA_TYPE = SELECT_TYPE.options[SELECT_TYPE.selectedIndex].value;
 
       for (let i = 0, len = ids.length; i < len; ++i)
       {
@@ -161,6 +175,8 @@ global.my = {};
             }
             else
             {
+              chart.axis.labels({y: LABEL_VALUES});
+
               if (options.unload)
               {
                 CHART_DATA.unload = true;
