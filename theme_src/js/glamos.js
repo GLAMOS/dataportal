@@ -65,7 +65,6 @@ global.my = {};
     loadGlacierData (ids, options = {unload: false}) {
       const DATA_CONFIG = {
         length_change: {
-          URI: '/glacier-data.php?type=length_change&id='  // '/geo/griessgletscher_length_change.geojson',
           axis: {
             y: {
               label: {
@@ -74,9 +73,9 @@ global.my = {};
             }
           },
           type: 'line',
+          URI: '/glacier-data.php?type=length_change&id=',
         },
         mass_balance: {
-          URI: '/glacier-data.php?type=mass_balance&id='   // '/geo/griessgletscher_mass_change.geojson'
           axis: {
             y: {
               label: {
@@ -85,6 +84,7 @@ global.my = {};
             }
           },
           type: 'bar',
+          URI: '/glacier-data.php?type=mass_balance&id=',
         }
       };
 
