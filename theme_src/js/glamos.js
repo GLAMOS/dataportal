@@ -53,13 +53,23 @@ global.my = {};
   let chart;
 
   controller.bridge({
-    loadGlacierData (ids) {
-      const DATA_SOURCE = {
+    /**
+     * Load data for glaciers
+     * @param  {Array[string]} ids  Glacier IDs
+     * @param  {Object} options
+     *   | Property | Meaning |
+     *   |:-------- |:--------|
+     *   | unload   | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
+     */
+    loadGlacierData (ids, options = {unload: false}) {
+      const DATA_CONFIG = {
         length_change: {
           URI: '/glacier-data.php?type=length_change&id='  // '/geo/griessgletscher_length_change.geojson',
+          type: 'line',
         },
         mass_balance: {
           URI: '/glacier-data.php?type=mass_balance&id='   // '/geo/griessgletscher_mass_change.geojson'
+          type: 'bar',
         }
       };
 
@@ -114,7 +124,7 @@ global.my = {};
         const xhr = new XMLHttpRequest();
         const id = ids[i];
 
-        xhr.open('GET', DATA_SOURCE[DATA_TYPE].URI + id, true);
+        xhr.open('GET', DATA_CONFIG[DATA_TYPE].URI + id, true);
 
         let loaded = false;
         const onload = function (ev) {
@@ -133,7 +143,8 @@ global.my = {};
               columns: [YEARS, VALUES],
               names: {
                 [id]: LINE_LABEL
-              }
+              },
+              type: DATA_CONFIG[DATA_TYPE].type
             };
 
             /* DEBUG */
@@ -147,7 +158,19 @@ global.my = {};
             }
             else
             {
+              if (options.unload)
+              {
+                CHART_DATA.unload = true;
+              }
+              else
+              {
+                delete CHART_DATA.unload;
+              }
+
               chart.load(CHART_DATA);
+
+              /* Only unload for the first (fastest) glacier per glacier set */
+              options.unload = false;
             }
           }
           else
@@ -169,6 +192,10 @@ global.my = {};
         xhr.send(null);
       }
     },
+    /**
+     * Unload the data of a specific glacier
+     * @param  {string} id  Glacier ID
+     */
     unloadGlacierData (id) {
       chart.unload({ids: [id]});
     }
@@ -177,4 +204,8 @@ global.my = {};
   /* initializing */
   controller.onPageLoad();
   sidepane.setup();
+
+  SELECT_TYPE.onchange = function () {
+    controller.switchChartType(this.options[this.selectedIndex].value);
+  };
 }(global, $));

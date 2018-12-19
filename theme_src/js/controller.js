@@ -136,14 +136,16 @@ class Controller {
     urlManager.majorUpdate();
   }
 
-  selectionListReset (_id) {
+  selectionListReset () {
     datastore.selectedGlaciers.clear();
     this._chooseRandom();
     urlManager.majorUpdate();
   }
 
   switchChartType (type) {
-    //TODO ...update URL
+    bridge.loadGlacierData(datastore.selectedGlaciers.get(), {unload: true});
+
+    /* TODO: Update URL */
   }
 
   toggleMapLayer (layerId) {
