@@ -155,6 +155,9 @@ global.my = {};
             {
               CHART_CONFIG.data = CHART_DATA;
               chart = c3.generate(CHART_CONFIG);
+
+              /* DEBUG */
+              global.my.chart = chart;
             }
             else
             {
@@ -189,7 +192,13 @@ global.my = {};
             onload({target: xhr});
           }
         };
-        xhr.send(null);
+        /*
+         * FIXME: Avoid race conditions by fulfilling a promise when all glaciers have been processed
+         *        (regardless of success/failure) _instead_
+         */
+        window.setTimeout(function () {
+          this.send(null);
+        }.bind(xhr), i * 1500);
       }
     },
     /**
