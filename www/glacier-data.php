@@ -7,6 +7,7 @@ namespace Meteotest;
 // exit;
 
 require_once \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'modules', 'Meteotest', 'PDO_pgSQL.php']);
+require_once \implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'modules', 'Meteotest', 'db-chart-config.inc']);
 
 const MOCK_ENABLED = false;
 
@@ -29,14 +30,6 @@ $mock_data = [
             'value'             => 'mass_cum'
         ]
     ]
-];
-
-const DB_CONFIG = [
-    'host'     => 'vawsrv01.ethz.ch',
-    'port'     => 5432,
-    'database' => 'glamos',
-    'user'     => 'glporo',
-    'password' => 'RmyWGsMp',
 ];
 
 $type = $_GET['type'];
