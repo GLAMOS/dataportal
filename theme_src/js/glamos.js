@@ -133,6 +133,11 @@ global.my = {};
         }
       };
 
+      if (chart)
+      {
+        chart.axis.labels({y: LABEL_VALUES});
+      }
+
       for (let i = 0, len = ids.length; i < len; ++i)
       {
         const xhr = new XMLHttpRequest();
@@ -147,12 +152,12 @@ global.my = {};
           {
             const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year));
             const VALUES = [id].concat(JSON_DATA.map((entry) => entry.value));
-            const LINE_LABEL = JSON_DATA[0][KEY_NAME];
+            const LABEL_LINE = JSON_DATA[0][KEY_NAME];
             const CHART_DATA = {
               x: KEY_YEAR,
               columns: [YEARS, VALUES],
               names: {
-                [id]: LINE_LABEL
+                [id]: LABEL_LINE
               },
               type: DATA_CONFIG[DATA_TYPE].type
             };
@@ -171,8 +176,6 @@ global.my = {};
             }
             else
             {
-              chart.axis.labels({y: LABEL_VALUES});
-
               if (options.unload)
               {
                 CHART_DATA.unload = true;
