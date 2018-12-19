@@ -140,11 +140,7 @@ global.my = {};
 
         xhr.open('GET', DATA_CONFIG[DATA_TYPE].URI + id, true);
 
-        let loaded = false;
         const onload = function (ev) {
-          if (loaded) return;
-          loaded = true;
-
           const JSON_DATA = JSON.parse(ev.target.responseText);
 
           if (JSON_DATA && JSON_DATA.length > 0)
@@ -200,14 +196,7 @@ global.my = {};
         };
 
         xhr.onload = onload;
-        xhr.onreadystatechange = function () {
-          if (loaded) return;
 
-          if (xhr.readyState == 4 && xhr.status === 200)
-          {
-            onload({target: xhr});
-          }
-        };
         /*
          * FIXME: Avoid race conditions by fulfilling a promise when all glaciers have been processed
          *        (regardless of success/failure) _instead_
