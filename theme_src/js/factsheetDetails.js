@@ -59,6 +59,8 @@ function setup() {
       $(`<div data-src="${url}" class="zoomItem">${thumb}</div>`).appendTo( box)
       // TODO: pic.legend
     })
+    // enable lightbox/gallery features
+    box.filter('.imgGallery').lightGallery();
   })
 }
 
