@@ -1,4 +1,8 @@
-/*global $: true */
+
+import $ from 'jquery';
+//window.$ = window.jQuery = $;
+import 'jquery-ui/ui/widgets/autocomplete';
+
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import Image from 'ol/layer/Image';
