@@ -1,12 +1,14 @@
 
 import $ from 'jquery'
 
+import { highlightedGlacier } from './datastore'
+
 
 // -----
 // constants
 
 // paths on the server
-const JSON_BASE = '/geo'   // where per-glacier .json files live  //TODO
+const JSON_BASE = '/tmp'   // where per-glacier .json files live  //TODO
 const PIC_BASE = '/tmp'   // where glacier pictures live  //TODO
 
 // CSS selectors of factsheet blocks
@@ -88,8 +90,7 @@ function populatePhotos(json) {
 
 function setup() {
   // load and fill in facts description and pictures
-  //TODO: for current glacier
-  fetch('web_glacier_details_json-sample')
+  fetch( highlightedGlacier.feature.get('uuid') )
   .fail( () => {
     console.error( "failed to fetch" )
   })
