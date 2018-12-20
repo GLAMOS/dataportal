@@ -44,7 +44,7 @@ class Controller {
     const feature = datastore.features.findById(bridge.getRandomVIP());
     if (feature) {
       bridge.selectGlacier(feature);
-      bridge.loadGlacierData([feature2id(feature)], {unload: true});
+      bridge.loadGlacierData([feature2id(feature)], {clear: true});
       bridge.mapPanTo(feature);
       bridge.monitoringSelectedFeatureList.add(feature);
     }
@@ -143,7 +143,7 @@ class Controller {
   }
 
   switchChartType (type) {
-    bridge.loadGlacierData(datastore.selectedGlaciers.get(), {unload: true});
+    bridge.loadGlacierData(datastore.selectedGlaciers.get(), {clear: true});
 
     /* TODO: Update URL */
   }

@@ -52,6 +52,7 @@ global.my = {};
 
   let chart;
   const SELECT_TYPE = document.getElementById('chart_param');
+  const BASE_URI = '/glacier-data.php';
 
   controller.bridge({
     /**
@@ -60,9 +61,9 @@ global.my = {};
      * @param  {Object} options
      *   | Property | Meaning |
      *   |:-------- |:--------|
-     *   | unload   | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
+     *   | clear    | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
      */
-    loadGlacierData (ids, options = {unload: false}) {
+    loadGlacierData (glacierIds, options = {clear: false}) {
       const DATA_CONFIG = {
         length_change: {
           axis: {
@@ -73,7 +74,7 @@ global.my = {};
             }
           },
           type: 'line',
-          URI: '/glacier-data.php?type=length_change&id=',
+          BASE_URI: `${BASE_URI}?type=length_change&id=`,
         },
         mass_balance: {
           axis: {
@@ -84,15 +85,9 @@ global.my = {};
             }
           },
           type: 'bar',
-          URI: '/glacier-data.php?type=mass_balance&id=',
+          BASE_URI: `${BASE_URI}?type=mass_balance&id=`,
         }
       };
-
-      /* TODO: Write a fetch API wrapper */
-      // fetch(URI)
-      // .then((response) => response.json())
-      // .then((json) => {
-      // }
 
       /* DEBUG */
       // console.log(`IDs: ${ids}`);
@@ -138,26 +133,50 @@ global.my = {};
         chart.axis.labels({y: LABEL_VALUES});
       }
 
-      for (let i = 0, len = ids.length; i < len; ++i)
+      const num_requests = glacierIds.length;
+
+      /**
+       * Makes an HTTP request for the data of a glacier
+       *
+       * @param  {int} glacierIndex
+       *   Index in the list of glaciers IDs of the glacier whose data is to be fetched
+       */
+      function makeRequest (glacierIndex)
       {
-        const xhr = new XMLHttpRequest();
-        const id = ids[i];
+        const GLACIER_ID = glacierIds[glacierIndex];
 
-        xhr.open('GET', DATA_CONFIG[DATA_TYPE].URI + id, true);
+        /* TODO: Write a fetch API wrapper */
+        // fetch(DATA_CONFIG[DATA_TYPE].BASE_URI + GLACIER_ID)
+        // .then((response) => response.json())
+        // .then((json) => {
+        // }
 
-        const onload = function (ev) {
+        const XHR = new XMLHttpRequest();
+
+        XHR.open('GET', DATA_CONFIG[DATA_TYPE].BASE_URI + GLACIER_ID, true);
+
+        XHR.onload = function (ev) {
+          function nextRequest ()
+          {
+            /* Make XHR for next glacier, if any */
+            if (glacierIndex + 1 < num_requests)
+            {
+              makeRequest(glacierIndex + 1);
+            }
+          }
+
           const JSON_DATA = JSON.parse(ev.target.responseText);
 
           if (JSON_DATA && JSON_DATA.length > 0)
           {
             const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year));
-            const VALUES = [id].concat(JSON_DATA.map((entry) => entry.value));
+            const VALUES = [GLACIER_ID].concat(JSON_DATA.map((entry) => entry.value));
             const LABEL_LINE = JSON_DATA[0][KEY_NAME];
             const CHART_DATA = {
               x: KEY_YEAR,
               columns: [YEARS, VALUES],
               names: {
-                [id]: LABEL_LINE
+                [GLACIER_ID]: LABEL_LINE
               },
               type: DATA_CONFIG[DATA_TYPE].type
             };
@@ -173,10 +192,15 @@ global.my = {};
 
               /* DEBUG */
               global.my.chart = chart;
+
+              /* NOTE: c3.generate() ignores .data.done property, so we have to do it manually */
+              nextRequest();
             }
             else
             {
-              if (options.unload)
+              CHART_DATA.done = nextRequest;
+
+              if (options.clear)
               {
                 CHART_DATA.unload = true;
               }
@@ -187,27 +211,29 @@ global.my = {};
 
               chart.load(CHART_DATA);
 
-              /* Only unload for the first (fastest) glacier per glacier set */
-              options.unload = false;
+              /* Only unload for the first glacier per glacier set if options.clear === true */
+              options.clear = false;
             }
           }
           else
           {
+            /* Request successful, but no data of this type available */
+
             /* TODO: Display message only if there are no data at all, without breaking the chart */
             // document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
+
+            nextRequest();
           }
         };
 
-        xhr.onload = onload;
+        XHR.onerror = function () {
+          /* Do something if network connection fails */
+        };
 
-        /*
-         * FIXME: Avoid race conditions by fulfilling a promise when all glaciers have been processed
-         *        (regardless of success/failure) _instead_
-         */
-        window.setTimeout(function () {
-          this.send(null);
-        }.bind(xhr), i * 1500);
+        XHR.send(null);
       }
+
+      makeRequest(0);
     },
     /**
      * Unload the data of a specific glacier
