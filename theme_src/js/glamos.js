@@ -51,12 +51,13 @@ global.my = {};
   controller.bridge({selectDownloadTab});
 
   let chart;
-  const SELECT_TYPE = document.getElementById('chart_param');
+  let SELECT_TYPE;
   const BASE_URI = '/glacier-data.php';
 
   controller.bridge({
     /**
      * Load data for glaciers
+     *
      * @param  {Array[string]} ids  Glacier IDs
      * @param  {Object} options
      *   | Property | Meaning |
@@ -244,11 +245,14 @@ global.my = {};
     }
   });
 
-  /* initializing */
-  controller.onPageLoad();
-  sidepane.setup();
+  $(document).ready(() => {
+    /* initializing */
+    controller.onPageLoad();
+    sidepane.setup();
 
-  SELECT_TYPE.onchange = function () {
-    controller.switchChartType(this.options[this.selectedIndex].value);
-  };
+    SELECT_TYPE = document.getElementById('chart_param');
+    SELECT_TYPE.onchange = function () {
+      controller.switchChartType(this.options[this.selectedIndex].value);
+    };
+  });
 }(global, $));
