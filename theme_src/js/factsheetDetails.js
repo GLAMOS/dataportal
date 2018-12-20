@@ -28,16 +28,9 @@ function fetch(basename, cb) {
 
 
 // -----
-// Init
+// Factsheet textual description blocks
 
-function setup() {
-  // load and fill in facts description
-  fetch('web_glacier_details_json-sample')
-  .fail( () => {
-    console.error( "failed to fetch" )
-  })
-  // textual description
-  .done( json => {
+function populateDescription(json) {
     const box = $(SEL_DESCRIPTION)
     const prevSibling = box.prev()
     const lang = box.attr('data-lang')
@@ -47,9 +40,13 @@ function setup() {
     texts.forEach( txt =>
         box.clone().html( txt.description ).insertAfter( prevSibling )
     )
-  })
-  // photos
-  .done( json => {
+}
+
+
+// -----
+// Factsheet photo block (single lightbox-ish block)
+
+function populatePhotos(json) {
     const box = $(SEL_PHOTO)
     // TODO: harden
     const pics = json.facts.photos
@@ -61,7 +58,20 @@ function setup() {
     })
     // enable lightbox/gallery features
     box.filter('.imgGallery').lightGallery();
+}
+
+
+// -----
+// Init
+
+function setup() {
+  // load and fill in facts description
+  fetch('web_glacier_details_json-sample')
+  .fail( () => {
+    console.error( "failed to fetch" )
   })
+  .done( populateDescription)
+  .done( populatePhotos)
 }
 
 
