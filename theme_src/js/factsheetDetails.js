@@ -5,9 +5,8 @@ import $ from 'jquery'
 // -----
 // constants
 
-console.error('TODO: change JSON_BASE')//TODO:TODO:TODO
-const JSON_BASE = 'http://localhost:8080/geo'
-const PIC_BASE = 'http://localhost:8080/data/'   //TODO
+const JSON_BASE = '/geo'   //TODO
+const PIC_BASE = '/tmp'   //TODO
 
 // CSS selectors of factsheet blocks
 const SEL_DESCRIPTION = '.fsComment'   // needs attribute data-lang
