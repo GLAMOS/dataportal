@@ -65,6 +65,8 @@ global.my = {};
      *   | clear    | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
      */
     loadGlacierData (glacierIds, options = {clear: false}) {
+      let clear = !!options.clear;
+
       const DATA_CONFIG = {
         length_change: {
           axis: {
@@ -201,7 +203,7 @@ global.my = {};
             {
               CHART_DATA.done = nextRequest;
 
-              if (options.clear)
+              if (clear)
               {
                 CHART_DATA.unload = true;
               }
@@ -213,7 +215,7 @@ global.my = {};
               chart.load(CHART_DATA);
 
               /* Only unload for the first glacier per glacier set if options.clear === true */
-              options.clear = false;
+              clear = false;
             }
           }
           else
@@ -222,6 +224,14 @@ global.my = {};
 
             /* TODO: Display message only if there are no data at all, without breaking the chart */
             // document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
+
+            /*
+             * Clear chart if there is only one glacier in the list
+             * but for which there is no data of this type.
+             *
+             * FIXME: What if there are several glaciers, all without data for this type?
+             */
+            if (num_requests === 1) chart.unload();
 
             nextRequest();
           }
