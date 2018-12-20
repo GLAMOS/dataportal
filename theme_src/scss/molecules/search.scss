@@ -45,3 +45,11 @@
     }
   }
 }
+
+.ui-autocomplete.ui-widget {
+  // lower grid row is: minmax( (300px+250px), (58vh+1fr) )
+  // position of bottom-of-searchbar from top edge is: 50+20+30 = 100
+  max-height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
