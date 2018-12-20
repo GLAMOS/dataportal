@@ -6,8 +6,8 @@
 console.error('TODO: change JSON_BASE')//TODO:TODO:TODO
 const JSON_BASE = 'http://localhost:8080/geo'
 
-// CSS selector of description container, needs attribute data-lang
-const SEL_DESCRIPTION = '.fsComment'
+// CSS selectors of factsheet blocks
+const SEL_DESCRIPTION = '.fsComment'   // needs attribute data-lang
 
 
 // -----
@@ -29,6 +29,10 @@ function fetch(basename, cb) {
 function setup() {
   // load and fill in facts description
   fetch('web_glacier_details_json-sample')
+  .fail( () => {
+    console.error( "failed to fetch" )
+  })
+  // textual description
   .done( json => {
     const box = $(SEL_DESCRIPTION)
     const prevSibling = box.prev()
@@ -39,9 +43,6 @@ function setup() {
     texts.forEach( txt =>
         box.clone().html( txt.description ).insertAfter( prevSibling )
     )
-  })
-  .fail( () => {
-    console.error( "failed to fetch" )
   })
 }
 
