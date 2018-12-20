@@ -73,8 +73,9 @@ function populatePhotos(json) {
     const pics = json.facts.photos
     pics.forEach( (pic,ix) => {
       const url = `${PIC_BASE}/${pic.filename}`
+      const legend = pic.legend
       const thumb = (0 == ix) ? `<img src="${url}">` : ''
-      $(`<div data-src="${url}" class="zoomItem">${thumb}</div>`).appendTo( box)
+      $(`<div data-src="${url}" data-sub-html="${legend}" class="zoomItem">${thumb}</div>`).appendTo( box)
       // TODO: pic.legend
     })
 
