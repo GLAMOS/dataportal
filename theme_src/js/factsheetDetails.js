@@ -33,7 +33,12 @@ function populateDescription(json) {
     const box = $(SEL_DESCRIPTION)
     const prevSibling = box.prev()
     const lang = box.attr('data-lang')
-    // TODO: harden
+
+    if( !json || !json.facts || !json.facts.descriptions) {
+      // either something went wrong or this glacier doesn't have any photos
+      return
+    }
+
     const texts = json.facts.descriptions.filter( d => d.language == lang)
     box.detach()
     texts.forEach( txt =>
@@ -47,7 +52,12 @@ function populateDescription(json) {
 
 function populatePhotos(json) {
     const box = $(SEL_PHOTO)
-    // TODO: harden
+
+    if( !json || !json.facts || !json.facts.photos) {
+      // either something went wrong or this glacier doesn't have any photos
+      return
+    }
+
     const pics = json.facts.photos
     pics.forEach( (pic,ix) => {
       const url = `${PIC_BASE}/${pic.filename}`
