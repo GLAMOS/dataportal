@@ -88,9 +88,9 @@ function populatePhotos(json) {
 // -----
 // Init
 
-function setup() {
+function setup(feature) {
   // load and fill in facts description and pictures
-  fetch( highlightedGlacier.feature.get('uuid') )
+  fetch( feature.get('uuid') )
   .fail( () => {
     console.error( "failed to fetch" )
   })
