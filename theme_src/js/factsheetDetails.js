@@ -5,8 +5,9 @@ import $ from 'jquery'
 // -----
 // constants
 
-const JSON_BASE = '/geo'   //TODO
-const PIC_BASE = '/tmp'   //TODO
+// paths on the server
+const JSON_BASE = '/geo'   // where per-glacier .json files live  //TODO
+const PIC_BASE = '/tmp'   // where glacier pictures live  //TODO
 
 // CSS selectors of factsheet blocks
 const SEL_DESCRIPTION = '.fsComment'   // needs attribute data-lang
@@ -20,6 +21,10 @@ const SEL_PHOTO = '.fsPhoto'
 // -----
 // helpers
 
+/**
+ * gets a per-glacier JSON from the server
+ * @return a jQuery Deferred (jqXHR)
+ */
 function fetch(basename, cb) {
   const url = `${JSON_BASE}/${basename}.json`
   return $.getJSON(url, cb)
@@ -29,6 +34,10 @@ function fetch(basename, cb) {
 // -----
 // Factsheet textual description blocks
 
+/**
+ * populates template description node with data from per-glacier JSON
+ * (also handles the case where there is multiple texts for current lang)
+ */
 function populateDescription(json) {
     const box = $(SEL_DESCRIPTION)
     const prevSibling = box.prev()
@@ -50,6 +59,9 @@ function populateDescription(json) {
 // -----
 // Factsheet photo block (single lightbox-ish block)
 
+/**
+ * populates template picture collection with data from per-glacier JSON
+ */
 function populatePhotos(json) {
     const box = $(SEL_PHOTO)
 
@@ -65,6 +77,7 @@ function populatePhotos(json) {
       $(`<div data-src="${url}" class="zoomItem">${thumb}</div>`).appendTo( box)
       // TODO: pic.legend
     })
+
     // enable lightbox/gallery features
     box.filter('.imgGallery').lightGallery();
 }
@@ -74,7 +87,8 @@ function populatePhotos(json) {
 // Init
 
 function setup() {
-  // load and fill in facts description
+  // load and fill in facts description and pictures
+  //TODO: for current glacier
   fetch('web_glacier_details_json-sample')
   .fail( () => {
     console.error( "failed to fetch" )
