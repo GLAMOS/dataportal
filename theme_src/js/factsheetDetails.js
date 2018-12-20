@@ -73,6 +73,7 @@ function populatePhotos(json) {
     }
 
     const pics = json.facts.photos
+    box.empty()   // children will be re-built
     pics.forEach( (pic,ix) => {
       const url = `${PIC_BASE}/${pic.filename}`
       const thumb = (0 == ix) ? `<img src="${url}">` : ''
