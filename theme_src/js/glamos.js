@@ -78,6 +78,7 @@ global.my = {};
           },
           baseURI: `${BASE_URI}?type=length_change&id=`,
           type: 'line',
+          unit: 'm',
         },
         mass_balance: {
           axis: {
@@ -89,6 +90,7 @@ global.my = {};
           },
           baseURI: `${BASE_URI}?type=mass_balance&id=`,
           type: 'bar',
+          unit: 'mm H₂0',
         }
       };
 
@@ -99,6 +101,8 @@ global.my = {};
       const KEY_NAME = 'glacier_full_name';
       const DATA_TYPE = SELECT_TYPE.options[SELECT_TYPE.selectedIndex].value;
       const LABEL_VALUES = DATA_CONFIG[DATA_TYPE].axis.y.label.text;
+      const UNIT = DATA_CONFIG[DATA_TYPE].unit;
+      const TOOLTIP_FORMATTER = ((value) => `${formatNumber(value)}\xA0${UNIT}`);
       const CHART_CONFIG = {
         bindto: '#chart',
         axis: {
@@ -126,7 +130,7 @@ global.my = {};
         },
         tooltip: {
           format: {
-            value (value) { return `${formatNumber(value)}\xA0m`; }
+            value: TOOLTIP_FORMATTER
           }
         }
       };
@@ -134,6 +138,9 @@ global.my = {};
       if (chart)
       {
         chart.axis.labels({y: LABEL_VALUES});
+
+        /* FIXME: Use method (if any) to set tooltip formatter */
+        chart.internal.config.tooltip_format_value = TOOLTIP_FORMATTER;
       }
 
       const num_requests = glacierIds.length;
