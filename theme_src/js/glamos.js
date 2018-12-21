@@ -76,8 +76,8 @@ global.my = {};
               }
             }
           },
+          baseURI: `${BASE_URI}?type=length_change&id=`,
           type: 'line',
-          BASE_URI: `${BASE_URI}?type=length_change&id=`,
         },
         mass_balance: {
           axis: {
@@ -87,8 +87,8 @@ global.my = {};
               }
             }
           },
+          baseURI: `${BASE_URI}?type=mass_balance&id=`,
           type: 'bar',
-          BASE_URI: `${BASE_URI}?type=mass_balance&id=`,
         }
       };
 
@@ -149,14 +149,14 @@ global.my = {};
         const GLACIER_ID = glacierIds[glacierIndex];
 
         /* TODO: Write a fetch API wrapper */
-        // fetch(DATA_CONFIG[DATA_TYPE].BASE_URI + GLACIER_ID)
+        // fetch(DATA_CONFIG[DATA_TYPE].baseURI + GLACIER_ID)
         // .then((response) => response.json())
         // .then((json) => {
         // }
 
         const XHR = new XMLHttpRequest();
 
-        XHR.open('GET', DATA_CONFIG[DATA_TYPE].BASE_URI + GLACIER_ID, true);
+        XHR.open('GET', DATA_CONFIG[DATA_TYPE].baseURI + GLACIER_ID, true);
 
         XHR.onload = function (ev) {
           function nextRequest ()
