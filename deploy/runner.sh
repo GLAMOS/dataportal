@@ -84,11 +84,22 @@ rsync -i -a "${RSYNC_OPT[@]}" .env "${REMOTE}:${PATH_APP}/"
 
 ## Hook up document root
 # note: The dir in the repo is www for sure; docroot on server is another thing
-ssh -v "${SSH_OPT[@]}" "$REMOTE" "
+ssh "${SSH_OPT[@]}" "$REMOTE" "
   if [ -e $PATH_WWW_ROOT -a ! -L $PATH_WWW_ROOT ] ; then
     mv -n $PATH_WWW_ROOT ${PATH_WWW_ROOT}.legacy ;
   fi ;
   ln -sfn ${PATH_APP}/www ${PATH_WWW_ROOT}
+"
+
+## Hookup ~/data
+# Uploads by VAW to our server goes to ~/data; documented in:
+#  https://wiki.glamos.ch/doku.php?id=website:schnittstellen
+ssh "${SSH_OPT[@]}" "$REMOTE" "
+  ln -snf ~/data/cms_uploads/downloads ${PATH_WWW_ROOT}/assets/files/ ;
+  ln -snf ~/data/from_vaw/inventory ${PATH_WWW_ROOT}/geo/ ;
+  ln -snf ~/data/from_vaw/glacier_infos ${PATH_WWW_ROOT}/geo/ ;
+  ln -snf ~/data/from_vaw/glacier_images ${PATH_WWW_ROOT}/geo/ ;
+  ln -snf ~/data/vaw ${PATH_WWW_ROOT}/ ;
 "
 
 
