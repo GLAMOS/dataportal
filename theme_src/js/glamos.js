@@ -51,23 +51,12 @@ global.my = {};
   controller.bridge({selectDownloadTab});
 
   let chart;
-  let SELECT_TYPE;
+  let select_type;
   const BASE_URI = '/glacier-data.php';
 
   controller.bridge({
-    /**
-     * Load data for glaciers
-     *
-     * @param  {Array[string]} ids  Glacier IDs
-     * @param  {Object} options
-     *   | Property | Meaning |
-     *   |:-------- |:--------|
-     *   | clear    | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
-     */
-    loadGlacierData (glacierIds, options = {clear: false}) {
-      let clear = !!options.clear;
-
-      const DATA_CONFIG = {
+    _getDefaultDataConfig () {
+      return {
         length_change: {
           axis: {
             y: {
@@ -93,15 +82,27 @@ global.my = {};
           unit: 'mm H₂0',
         }
       };
+    },
 
-      /* DEBUG */
-      // console.log(`IDs: ${ids}`);
+    /**
+     * Load data for glaciers
+     *
+     * @param  {Array[string]} ids  Glacier IDs
+     * @param  {Object} options
+     *   | Property | Meaning |
+     *   |:-------- |:--------|
+     *   | clear    | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
+     */
+    loadGlacierData (glacierIds, options = {clear: false}) {
+      let clear = !!options.clear;
 
+      const DATA_CONFIG = this._getDefaultDataConfig();
       const KEY_YEAR = 'year';
       const KEY_NAME = 'glacier_full_name';
-      const DATA_TYPE = SELECT_TYPE.options[SELECT_TYPE.selectedIndex].value;
-      const LABEL_VALUES = DATA_CONFIG[DATA_TYPE].axis.y.label.text;
-      const UNIT = DATA_CONFIG[DATA_TYPE].unit;
+      const DATA_TYPE = select_type.options[select_type.selectedIndex].value;
+      const CURRENT_DATA_CONFIG = DATA_CONFIG[DATA_TYPE];
+      const LABEL_VALUES = CURRENT_DATA_CONFIG.axis.y.label.text;
+      const UNIT = CURRENT_DATA_CONFIG.unit;
       const TOOLTIP_FORMATTER = ((value) => `${formatNumber(value)}\xA0${UNIT}`);
       const CHART_CONFIG = {
         bindto: '#chart',
@@ -156,14 +157,14 @@ global.my = {};
         const GLACIER_ID = glacierIds[glacierIndex];
 
         /* TODO: Write a fetch API wrapper */
-        // fetch(DATA_CONFIG[DATA_TYPE].baseURI + GLACIER_ID)
+        // fetch(CURRENT_DATA_CONFIG.baseURI + GLACIER_ID)
         // .then((response) => response.json())
         // .then((json) => {
         // }
 
         const XHR = new XMLHttpRequest();
 
-        XHR.open('GET', DATA_CONFIG[DATA_TYPE].baseURI + GLACIER_ID, true);
+        XHR.open('GET', CURRENT_DATA_CONFIG.baseURI + GLACIER_ID, true);
 
         XHR.onload = function (ev) {
           function nextRequest ()
@@ -188,7 +189,7 @@ global.my = {};
               names: {
                 [GLACIER_ID]: LABEL_LINE
               },
-              type: DATA_CONFIG[DATA_TYPE].type
+              type: CURRENT_DATA_CONFIG.type
             };
 
             /* DEBUG */
@@ -253,6 +254,7 @@ global.my = {};
 
       makeRequest(0);
     },
+
     /**
      * Unload the data of a specific glacier
      * @param  {string} id  Glacier ID
@@ -267,8 +269,8 @@ global.my = {};
     controller.onPageLoad();
     sidepane.setup();
 
-    SELECT_TYPE = document.getElementById('chart_param');
-    SELECT_TYPE.onchange = function () {
+    select_type = document.getElementById('chart_param');
+    select_type.onchange = function () {
       controller.switchChartType(this.options[this.selectedIndex].value);
     };
   });
