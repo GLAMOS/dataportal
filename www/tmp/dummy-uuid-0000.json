@@ -22,8 +22,9 @@
       {"language" : "de", "description" : "This text comes from sample web_glacier_details_json-sample.json file on the server"}
     ],
     "photos" : [
-      {"filename" : "sample-pic1.png", "legend" : "2004-07-22, M. Funk"},
-      {"filename" : "sample-pic2.svg", "legend" : "2004-07-21, M. Funk"}
+      {"filename" : "sample-pic1.png", "legend" : "2004-07-22, M. Funk", "is_factsheet_picture": true },
+      {"filename" : "sample-pic1.png", "legend" : "This picture should not show up", "is_factsheet_picture": false },
+      {"filename" : "sample-pic2.svg", "legend" : "2004-07-21, M. Funk", "is_factsheet_picture": true }
     ]
   }
 }
