@@ -3,6 +3,8 @@
 import urlManager from './UrlManager';
 import datastore from './datastore';
 
+import factsheetDetails from './factsheetDetails'
+
 
 /* Constants */
 
@@ -78,6 +80,7 @@ class Controller {
     this._bootstrapFromState();
     bridge.dynamicLinks();
     urlManager.observeHistory();
+    if( 'factsheet' == datastore.currentPage) factsheetDetails.setup()
   }
 
   onNavigate () {
