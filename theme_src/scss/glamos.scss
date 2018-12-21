@@ -6,6 +6,11 @@
 @import '../../node_modules/ol/ol';
 @import '../../node_modules/ol-ext/dist/ol-ext';
 @import "../../node_modules/c3/c3";
+// jQuery-UI: CSS dependencies, see: grep css node_modules/jquery-ui/ui/widgets/autocomplete.js
+@import "../../node_modules/jquery-ui/themes/base/core";
+@import "../../node_modules/jquery-ui/themes/base/menu";
+@import "../../node_modules/jquery-ui/themes/base/autocomplete";
+@import "../../node_modules/jquery-ui/themes/base/theme";
 
 @import 'variables';
 
@@ -28,7 +33,6 @@
 @import 'atoms/cardChart';
 
 //molecules
-
 @import 'molecules/indexOverview';
 @import 'molecules/search';
 @import 'molecules/mapInput';

@@ -1,4 +1,8 @@
-/*global $: true */
+
+import $ from 'jquery';
+//window.$ = window.jQuery = $;
+import 'jquery-ui/ui/widgets/autocomplete';
+
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import Image from 'ol/layer/Image';
@@ -14,10 +18,11 @@ import { defaults as Interactions } from 'ol/interaction';
 import LayerSwitcher from 'ol-ext/control/LayerSwitcher';
 import Point from 'ol/geom/Point';
 import Feature from 'ol/Feature';
+import Group from 'ol/layer/Group';
+
 import glacier_vip from './layer/glacier_vip';
 import { swissimage_wmts, swissalti3d_wmts, eiszeit_wmts, dufour_wmts, siegfried_wmts, pixelkarte_farbe_wmts, pixelkarte_grau_wmts } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010, glacier_outlines } from './layer/glamos_layer';
-import Group from 'ol/layer/Group';
 
 import controller from '../controller'
 import urlManager from '../UrlManager'
