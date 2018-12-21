@@ -22,8 +22,8 @@
       {"language" : "de", "description" : "This text comes from sample web_glacier_details_json-sample.json file on the server"}
     ],
     "photos" : [
-      {"filename" : "allalin.jpg", "legend" : "2004-07-22, M. Funk"},
-      {"filename" : "allalin2.jpg", "legend" : "2004-07-21, M. Funk"}
+      {"filename" : "sample-pic1.png", "legend" : "2004-07-22, M. Funk"},
+      {"filename" : "sample-pic2.svg", "legend" : "2004-07-21, M. Funk"}
     ]
   }
 }
