@@ -83,7 +83,7 @@ global.my = {};
           axis: {
             y: {
               label: {
-                text: 'Massenbilanz (mm H20)',
+                text: 'Massenbilanz (mm H₂0)',
               }
             }
           },
