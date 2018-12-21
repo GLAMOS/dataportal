@@ -37,6 +37,7 @@ class Controller {
     const feature = datastore.features.findById(bridge.getRandomVIP());
     if (feature) {
       bridge.selectGlacier(feature);
+      bridge.loadGlacierData([feature2id(feature)], {unload: true});
       bridge.mapPanTo(feature);
       bridge.monitoringSelectedFeatureList.add(feature);
     }
