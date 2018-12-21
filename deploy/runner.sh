@@ -95,6 +95,7 @@ ssh "${SSH_OPT[@]}" "$REMOTE" "
 # Uploads by VAW to our server goes to ~/data; documented in:
 #  https://wiki.glamos.ch/doku.php?id=website:schnittstellen
 ssh "${SSH_OPT[@]}" "$REMOTE" "
+  bash ${PATH_APP}/deploy/create_data_dirs.sh ;
   ln -snf ~/data/cms_uploads/downloads ${PATH_WWW_ROOT}/assets/files/ ;
   ln -snf ~/data/from_vaw/inventory ${PATH_WWW_ROOT}/geo/ ;
   ln -snf ~/data/from_vaw/glacier_infos ${PATH_WWW_ROOT}/geo/ ;
