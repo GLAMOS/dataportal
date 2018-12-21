@@ -19,6 +19,10 @@ function feature2id (feature) {
   return feature.getId();
 }
 
+function factsheetUpdate(feature) {
+  if( 'factsheet' == datastore.currentPage) factsheetDetails.setup(feature)
+}
+
 
 /** Our Controller (Action → Reaction) */
 class Controller {
@@ -31,6 +35,7 @@ class Controller {
       bridge.selectGlacier(feature);
       bridge.mapPanTo(feature);
       bridge.loadGlacierData(datastore.selectedGlaciers.get());
+      factsheetUpdate(feature)
     }
     bridge.monitoringSelectedFeatureList.refresh();
   }
@@ -80,7 +85,6 @@ class Controller {
     this._bootstrapFromState();
     bridge.dynamicLinks();
     urlManager.observeHistory();
-    if( 'factsheet' == datastore.currentPage) factsheetDetails.setup()
   }
 
   onNavigate () {
@@ -110,6 +114,7 @@ class Controller {
     bridge.loadGlacierData([feature2id(feature)]);
     bridge.mapPanTo(feature);
     bridge.monitoringSelectedFeatureList.add(feature);
+    factsheetUpdate(feature)
     urlManager.majorUpdate();
   }
 

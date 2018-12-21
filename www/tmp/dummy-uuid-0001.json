@@ -1,0 +1,29 @@
+{
+  "pk_sgi" : "B51/13",
+  "glacier_short_name" : "Dummy-Gletscher",
+  "measurements" : {
+    "length" : [
+      {"year_from" : 1955, "year_to" : 1956, "variation" : 111, "cumulative" : 111},
+      {"year_from" : 1955, "year_to" : 1956, "variation" : -20, "cumulative" : 91}
+    ],
+    "mass_balance" : [
+      {"year_from" : 1955, "year_to" : 1956, "variation" : 232, "cumulative" : 232},
+      {"year_from" : 1956, "year_to" : 1957, "variation" : 324, "cumulative" : 556},
+      {"year_from" : 1957, "year_to" : 1958, "variation" : -286, "cumulative" : 270},
+      {"year_from" : 1958, "year_to" : 1959, "variation" : 138, "cumulative" : 408},
+      {"year_from" : 1959, "year_to" : 1960, "variation" : 285, "cumulative" : 693},
+      {"year_from" : 1960, "year_to" : 1961, "variation" : 183, "cumulative" : 876},
+      {"year_from" : 2017, "year_to" : 2018, "variation" : -801, "cumulative" : -12445}
+    ]
+  },
+  "facts" : {
+    "descriptions" : [
+      {"language" : "fr", "description" : "Silvretta Texte modèle depuis le fichier JSON du serveur"},
+      {"language" : "de", "description" : "Silvretta This text comes from sample web_glacier_details_json-sample.json file on the server"}
+    ],
+    "photos" : [
+      {"filename" : "sample-pic2.svg", "legend" : "Silvretta, 2004-07-22, M. Funk"},
+      {"filename" : "sample-pic1.png", "legend" : "Silvretta, 2004-07-21, M. Funk"}
+    ]
+  }
+}
