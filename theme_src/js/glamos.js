@@ -51,29 +51,58 @@ global.my = {};
   controller.bridge({selectDownloadTab});
 
   let chart;
+  let SELECT_TYPE;
+  const BASE_URI = '/glacier-data.php';
 
   controller.bridge({
-    loadGlacierData (ids) {
-      const DATA_SOURCE = {
+    /**
+     * Load data for glaciers
+     *
+     * @param  {Array[string]} ids  Glacier IDs
+     * @param  {Object} options
+     *   | Property | Meaning |
+     *   |:-------- |:--------|
+     *   | clear    | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
+     */
+    loadGlacierData (glacierIds, options = {clear: false}) {
+      let clear = !!options.clear;
+
+      const DATA_CONFIG = {
         length_change: {
-          URI: '/glacier-data.php?type=length_change&id='  // '/geo/griessgletscher_length_change.geojson',
+          axis: {
+            y: {
+              label: {
+                text: 'Kumulative Längenänderung (m)',
+              }
+            }
+          },
+          baseURI: `${BASE_URI}?type=length_change&id=`,
+          type: 'line',
+          unit: 'm',
         },
         mass_balance: {
-          URI: '/glacier-data.php?type=mass_balance&id='   // '/geo/griessgletscher_mass_change.geojson'
+          axis: {
+            y: {
+              label: {
+                text: 'Massenbilanz (mm H₂0)',
+              }
+            }
+          },
+          baseURI: `${BASE_URI}?type=mass_balance&id=`,
+          type: 'bar',
+          unit: 'mm H₂0',
         }
       };
-
-      /* TODO: Write a fetch API wrapper */
-      // fetch(URI)
-      // .then((response) => response.json())
-      // .then((json) => {
-      // }
 
       /* DEBUG */
       // console.log(`IDs: ${ids}`);
 
       const KEY_YEAR = 'year';
       const KEY_NAME = 'glacier_full_name';
+      const DATA_TYPE = SELECT_TYPE.options[SELECT_TYPE.selectedIndex].value;
+      const LABEL_VALUES = DATA_CONFIG[DATA_TYPE].axis.y.label.text;
+      const UNIT = DATA_CONFIG[DATA_TYPE].unit;
+      const TOOLTIP_FORMATTER = ((value) => `${formatNumber(value)}\xA0${UNIT}`);
       const CHART_CONFIG = {
         bindto: '#chart',
         axis: {
@@ -88,7 +117,7 @@ global.my = {};
           y: {
             label: {
               position: 'outer',
-              text: 'Kumulative Längenänderung (m)',
+              text: LABEL_VALUES
             },
             tick: {
               outer: false,
@@ -101,39 +130,65 @@ global.my = {};
         },
         tooltip: {
           format: {
-            value (value) { return `${formatNumber(value)}\xA0m`; }
+            value: TOOLTIP_FORMATTER
           }
         }
       };
 
-      const SELECT_TYPE = document.getElementById('chart_param');
-      const DATA_TYPE = SELECT_TYPE.options[SELECT_TYPE.selectedIndex].value;
-
-      for (let i = 0, len = ids.length; i < len; ++i)
+      if (chart)
       {
-        const xhr = new XMLHttpRequest();
-        const id = ids[i];
+        chart.axis.labels({y: LABEL_VALUES});
 
-        xhr.open('GET', DATA_SOURCE[DATA_TYPE].URI + id, true);
+        /* FIXME: Use method (if any) to set tooltip formatter */
+        chart.internal.config.tooltip_format_value = TOOLTIP_FORMATTER;
+      }
 
-        let loaded = false;
-        const onload = function (ev) {
-          if (loaded) return;
-          loaded = true;
+      const num_requests = glacierIds.length;
+
+      /**
+       * Makes an HTTP request for the data of a glacier
+       *
+       * @param  {int} glacierIndex
+       *   Index in the list of glaciers IDs of the glacier whose data is to be fetched
+       */
+      function makeRequest (glacierIndex)
+      {
+        const GLACIER_ID = glacierIds[glacierIndex];
+
+        /* TODO: Write a fetch API wrapper */
+        // fetch(DATA_CONFIG[DATA_TYPE].baseURI + GLACIER_ID)
+        // .then((response) => response.json())
+        // .then((json) => {
+        // }
+
+        const XHR = new XMLHttpRequest();
+
+        XHR.open('GET', DATA_CONFIG[DATA_TYPE].baseURI + GLACIER_ID, true);
+
+        XHR.onload = function (ev) {
+          function nextRequest ()
+          {
+            /* Make XHR for next glacier, if any */
+            if (glacierIndex + 1 < num_requests)
+            {
+              makeRequest(glacierIndex + 1);
+            }
+          }
 
           const JSON_DATA = JSON.parse(ev.target.responseText);
 
           if (JSON_DATA && JSON_DATA.length > 0)
           {
             const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year));
-            const VALUES = [id].concat(JSON_DATA.map((entry) => entry.value));
-            const LINE_LABEL = JSON_DATA[0][KEY_NAME];
+            const VALUES = [GLACIER_ID].concat(JSON_DATA.map((entry) => entry.value));
+            const LABEL_LINE = JSON_DATA[0][KEY_NAME];
             const CHART_DATA = {
               x: KEY_YEAR,
               columns: [YEARS, VALUES],
               names: {
-                [id]: LINE_LABEL
-              }
+                [GLACIER_ID]: LABEL_LINE
+              },
+              type: DATA_CONFIG[DATA_TYPE].type
             };
 
             /* DEBUG */
@@ -144,37 +199,77 @@ global.my = {};
             {
               CHART_CONFIG.data = CHART_DATA;
               chart = c3.generate(CHART_CONFIG);
+
+              /* DEBUG */
+              global.my.chart = chart;
+
+              /* NOTE: c3.generate() ignores .data.done property, so we have to do it manually */
+              nextRequest();
             }
             else
             {
+              CHART_DATA.done = nextRequest;
+
+              if (clear)
+              {
+                CHART_DATA.unload = true;
+              }
+              else
+              {
+                delete CHART_DATA.unload;
+              }
+
               chart.load(CHART_DATA);
+
+              /* Only unload for the first glacier per glacier set if options.clear === true */
+              clear = false;
             }
           }
           else
           {
+            /* Request successful, but no data of this type available */
+
             /* TODO: Display message only if there are no data at all, without breaking the chart */
             // document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
+
+            /*
+             * Clear chart if there is only one glacier in the list
+             * but for which there is no data of this type.
+             *
+             * FIXME: What if there are several glaciers, all without data for this type?
+             */
+            if (num_requests === 1) chart.unload();
+
+            nextRequest();
           }
         };
 
-        xhr.onload = onload;
-        xhr.onreadystatechange = function () {
-          if (loaded) return;
-
-          if (xhr.readyState == 4 && xhr.status === 200)
-          {
-            onload({target: xhr});
-          }
+        XHR.onerror = function () {
+          /* Do something if network connection fails */
         };
-        xhr.send(null);
+
+        XHR.send(null);
       }
+
+      makeRequest(0);
     },
+    /**
+     * Unload the data of a specific glacier
+     * @param  {string} id  Glacier ID
+     */
     unloadGlacierData (id) {
       chart.unload({ids: [id]});
     }
   });
 
-  /* initializing */
-  controller.onPageLoad();
-  sidepane.setup();
+  $(document).ready(() => {
+    /* initializing */
+    controller.onPageLoad();
+    sidepane.setup();
+
+    SELECT_TYPE = document.getElementById('chart_param');
+    SELECT_TYPE.onchange = function () {
+      controller.switchChartType(this.options[this.selectedIndex].value);
+    };
+  });
 }(global, $));

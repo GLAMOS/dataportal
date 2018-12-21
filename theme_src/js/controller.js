@@ -44,7 +44,7 @@ class Controller {
     const feature = datastore.features.findById(bridge.getRandomVIP());
     if (feature) {
       bridge.selectGlacier(feature);
-      bridge.loadGlacierData([feature2id(feature)], {unload: true});
+      bridge.loadGlacierData([feature2id(feature)], {clear: true});
       bridge.mapPanTo(feature);
       bridge.monitoringSelectedFeatureList.add(feature);
     }
@@ -76,7 +76,7 @@ class Controller {
     }
   }
 
-  // -- Init
+  /* Init */
 
   //onPageLoad(page) {
   onPageLoad () {
@@ -88,7 +88,7 @@ class Controller {
   }
 
   onNavigate () {
-    this.onPageLoad();   // just alias
+    this.onPageLoad();   /* just alias */
   }
 
   gotFeatures (features) {
@@ -99,12 +99,12 @@ class Controller {
     bridge.enableSearch(features);
   }
 
-  // -- Home
+  /* Home */
 
   mapMarkerHighlighted (feature) {
     bridge.selectGlacier(feature);
     bridge.loadGlacierData([feature2id(feature)]);
-    // note: no map panning
+    /* note: no map panning */
     bridge.monitoringSelectedFeatureList.add(feature);
     urlManager.majorUpdate();
   }
@@ -118,7 +118,7 @@ class Controller {
     urlManager.majorUpdate();
   }
 
-  // -- Monitoring
+  /* Monitoring */
 
   selectionListHighlight (id) {
     const feature = datastore.selectedGlaciers.findById(id);
@@ -136,14 +136,16 @@ class Controller {
     urlManager.majorUpdate();
   }
 
-  selectionListReset (_id) {
+  selectionListReset () {
     datastore.selectedGlaciers.clear();
     this._chooseRandom();
     urlManager.majorUpdate();
   }
 
   switchChartType (type) {
-    //TODO ...update URL
+    bridge.loadGlacierData(datastore.selectedGlaciers.get(), {clear: true});
+
+    /* TODO: Update URL */
   }
 
   toggleMapLayer (layerId) {
