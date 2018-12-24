@@ -92,7 +92,6 @@ ssh "${SSH_OPT[@]}" "$REMOTE" "
 "
 
 ## Hookup ~/data
-# Uploads by VAW to our server goes to ~/data
 ssh "${SSH_OPT[@]}" "$REMOTE" "bash ${PATH_APP}/deploy/server_post_rsync.sh '${PATH_WWW_ROOT}'"
 
 
