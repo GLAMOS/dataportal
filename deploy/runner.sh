@@ -68,7 +68,7 @@ fi
 
 
 # Generate DB config
-bash ./deploy/generate_dotenv.sh
+bash ./deploy/generate_configs.sh
 
 
 # Replace general config with config for this deployment
