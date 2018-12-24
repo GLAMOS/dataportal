@@ -78,7 +78,8 @@ function populatePhotos(json) {
       box.data('lightGallery').destroy(true)   // we'll put it on again at the end
     }
 
-    const pics = json.facts.photos
+    // take only photos allowed to show up on factsheet
+    const pics = json.facts.photos.filter( p => p.is_factsheet_picture )
     pics.forEach( (pic,ix) => {
       const url = `${PIC_BASE}/${pic.filename}`
       const legend = pic.legend
