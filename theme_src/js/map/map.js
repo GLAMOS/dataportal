@@ -408,7 +408,7 @@ const glacierVips = glacier_vip.features.map(function (el) {
 });
 
 const format = new GeoJSON;
-const url = '/geo/glamos_inventory_dummy.geojson';
+const url = '/geo/inventory/web_glacier_base_data.geojson';
 
 /* Default = Aletschgletscher */
 let gletscher_id;

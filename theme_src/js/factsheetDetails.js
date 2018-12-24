@@ -8,8 +8,8 @@ import { highlightedGlacier } from './datastore'
 // constants
 
 // paths on the server
-const JSON_BASE = '/tmp'   // where per-glacier .json files live  //TODO
-const PIC_BASE = '/tmp'   // where glacier pictures live  //TODO
+const JSON_BASE = '/geo/glacier_infos'   // where per-glacier .json files live
+const PIC_BASE = '/geo/glacier_images'   // where glacier pictures live
 
 // CSS selectors of factsheet blocks
 const SEL_DESCRIPTION = '.fsComment'   // needs attribute data-lang
