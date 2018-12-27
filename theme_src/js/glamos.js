@@ -90,11 +90,7 @@ global.my = {};
     return {
       type,
       unit,
-      axis: {
-        y: {
-          label: { text }
-        }
-      },
+      text,
       baseURI: `${BASE_URI}?type=${uri_name}&id=`,
     };
   }
@@ -122,7 +118,7 @@ global.my = {};
       const KEY_NAME = 'glacier_full_name';
       const DATA_TYPE = select_type.options[select_type.selectedIndex].value;
       const DATA_CONFIG = graphs[DATA_TYPE];
-      const LABEL_VALUES = DATA_CONFIG.axis.y.label.text;
+      const LABEL_VALUES = DATA_CONFIG.text;
       const UNIT = DATA_CONFIG.unit;
       const TOOLTIP_FORMATTER = ((value) => `${formatNumber(value)}\xA0${UNIT}`);
       const CHART_CONFIG = Graph('#chart', LABEL_VALUES, TOOLTIP_FORMATTER);
