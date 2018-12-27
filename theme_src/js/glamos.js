@@ -92,6 +92,7 @@ global.my = {};
       unit,
       text,
       baseURI: `${BASE_URI}?type=${uri_name}&id=`,
+      formatter(value) { return `${formatNumber(value)}\xA0${unit}`; }
     };
   }
 
@@ -120,15 +121,14 @@ global.my = {};
       const DATA_CONFIG = graphs[DATA_TYPE];
       const LABEL_VALUES = DATA_CONFIG.text;
       const UNIT = DATA_CONFIG.unit;
-      const TOOLTIP_FORMATTER = ((value) => `${formatNumber(value)}\xA0${UNIT}`);
-      const CHART_CONFIG = Graph('#chart', LABEL_VALUES, TOOLTIP_FORMATTER);
+      const CHART_CONFIG = Graph('#chart', LABEL_VALUES, DATA_CONFIG.formatter);
 
       if (chart)
       {
         chart.axis.labels({y: LABEL_VALUES});
 
         /* FIXME: Use method (if any) to set tooltip formatter */
-        chart.internal.config.tooltip_format_value = TOOLTIP_FORMATTER;
+        chart.internal.config.tooltip_format_value = DATA_CONFIG.formatter;
       }
 
       const num_requests = glacierIds.length;
