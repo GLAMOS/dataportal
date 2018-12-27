@@ -54,6 +54,40 @@ global.my = {};
   let select_type;
   const BASE_URI = '/glacier-data.php';
 
+  const Graph = function(container, label_text, tooltip_formatter) {
+    return {
+      bindto: container,
+      axis: {
+        x: {
+          tick: {
+            // format: '%Y', //-%m-%d'
+            outer: false,
+            rotate: 45
+          },
+          // type: 'timeseries',
+        },
+        y: {
+          label: {
+            position: 'outer',
+            text: label_text
+          },
+          tick: {
+            outer: false,
+          }
+        }
+      },
+      grid: {
+        y: { show: true },
+        x: { show: true }
+      },
+      tooltip: {
+        format: {
+          value: tooltip_formatter
+        }
+      }
+    };
+  }
+
   const Config = function(text, uri_name, type, unit) {
     return {
       type,
@@ -93,37 +127,7 @@ global.my = {};
       const LABEL_VALUES = DATA_CONFIG.axis.y.label.text;
       const UNIT = DATA_CONFIG.unit;
       const TOOLTIP_FORMATTER = ((value) => `${formatNumber(value)}\xA0${UNIT}`);
-      const CHART_CONFIG = {
-        bindto: '#chart',
-        axis: {
-          x: {
-            tick: {
-              // format: '%Y', //-%m-%d'
-              outer: false,
-              rotate: 45
-            },
-            // type: 'timeseries',
-          },
-          y: {
-            label: {
-              position: 'outer',
-              text: LABEL_VALUES
-            },
-            tick: {
-              outer: false,
-            }
-          }
-        },
-        grid: {
-          y: { show: true },
-          x: { show: true }
-        },
-        tooltip: {
-          format: {
-            value: TOOLTIP_FORMATTER
-          }
-        }
-      };
+      const CHART_CONFIG = Graph('#chart', LABEL_VALUES, TOOLTIP_FORMATTER);
 
       if (chart)
       {
