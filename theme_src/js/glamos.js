@@ -15,21 +15,6 @@ import sidepane from './map/monitoringSidepane';
 global.my = {};
 
 (function (global, $) {
-  /* TODO: Done in PHP now; keep for library until clean-up */
-  // function clone (orig, props)
-  // {
-  //   const CLONE = Object.create(Object.getPrototypeOf(orig));
-  //   Object.keys(orig).forEach((key) => { CLONE[key] = orig[key]; });
-  //   if (props) Object.keys(props).forEach((key) => { CLONE[key] = props[key]; });
-  //   return CLONE;
-  // }
-
-  /* TODO: Useful if we can get dates for time series */
-  // function getDate (dateString)
-  // {
-  //   return dateString.replace(/\//g, '-');
-  // }
-
   function formatNumber (value)
   {
     return String(value).replace('-', '&minus;');
