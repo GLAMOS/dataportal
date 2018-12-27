@@ -13,11 +13,6 @@ import sidepane from './map/monitoringSidepane';
 
 
 (function (global, $) {
-  function formatNumber (value)
-  {
-    return String(value).replace('-', '&minus;');
-  }
-
   function getAvailableDownloadTabs () {
     return $('.tabContainer a[data-tab]').map((_ix, el) => el.getAttribute('data-tab'));
   }
@@ -106,7 +101,7 @@ import sidepane from './map/monitoringSidepane';
   const graph = Graph('#chart');
 
   const Config = function(text, uri_name, type, unit) {
-    const formatter = (value) => `${formatNumber(value)}\xA0${unit}`;
+    const formatter = (value) => `${String(value).replace('-', '&minus;')}\xA0${unit}`;
     return {
       type,
       unit,
