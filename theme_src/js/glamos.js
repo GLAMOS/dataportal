@@ -138,8 +138,6 @@ import sidepane from './map/monitoringSidepane';
         graph.clear()
       }
 
-      const KEY_YEAR = 'year';
-      const KEY_NAME = 'glacier_full_name';
       const DATA_TYPE = select_type.options[select_type.selectedIndex].value;
       const DATA_CONFIG = graphs[DATA_TYPE];
 
@@ -172,9 +170,10 @@ import sidepane from './map/monitoringSidepane';
 
           if (JSON_DATA && JSON_DATA.length > 0)
           {
+            const KEY_YEAR = 'year';
             const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year));
             const VALUES = [GLACIER_ID].concat(JSON_DATA.map((entry) => entry.value));
-            const LABEL_LINE = JSON_DATA[0][KEY_NAME];
+            const LABEL_LINE = JSON_DATA[0]['glacier_full_name'];
             const CHART_DATA = {
               x: KEY_YEAR,
               columns: [YEARS, VALUES],
