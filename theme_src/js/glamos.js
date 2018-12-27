@@ -181,17 +181,10 @@ global.my = {};
               type: DATA_CONFIG.type
             };
 
-            /* DEBUG */
-            console.log(JSON_DATA);
-            console.log(CHART_DATA);
-
             if (!chart)
             {
               CHART_CONFIG.data = CHART_DATA;
               chart = c3.generate(CHART_CONFIG);
-
-              /* DEBUG */
-              global.my.chart = chart;
 
               /* NOTE: c3.generate() ignores .data.done property, so we have to do it manually */
               nextRequest();
