@@ -60,11 +60,9 @@ global.my = {};
       axis: {
         x: {
           tick: {
-            // format: '%Y', //-%m-%d'
             outer: false,
             rotate: 45
           },
-          // type: 'timeseries',
         },
         y: {
           label: {
