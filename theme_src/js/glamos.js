@@ -117,7 +117,8 @@ import sidepane from './map/monitoringSidepane';
     };
   }
 
-  const graphs = {
+
+  const configs = {
     length_change: Config('Kumulative Längenänderung (m)', 'length_change', 'line', 'm'),
     mass_balance: Config('Massenbilanz (mm H₂0)', 'mass_balance', 'bar', 'mm H₂0'),
   }
@@ -139,7 +140,7 @@ import sidepane from './map/monitoringSidepane';
       }
 
       const DATA_TYPE = select_type.options[select_type.selectedIndex].value;
-      const DATA_CONFIG = graphs[DATA_TYPE];
+      const DATA_CONFIG = configs[DATA_TYPE];
 
       const num_requests = glacierIds.length;
 
