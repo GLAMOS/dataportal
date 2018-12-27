@@ -54,7 +54,7 @@ global.my = {};
   let select_type;
   const BASE_URI = '/glacier-data.php';
 
-  const Graph = function(container, label_text, tooltip_formatter) {
+  const Graph = function(container, config) {
     return {
       bindto: container,
       axis: {
@@ -67,7 +67,7 @@ global.my = {};
         y: {
           label: {
             position: 'outer',
-            text: label_text
+            text: config.text
           },
           tick: {
             outer: false,
@@ -80,19 +80,26 @@ global.my = {};
       },
       tooltip: {
         format: {
-          value: tooltip_formatter
+          value: config.formatter
         }
       }
     };
   }
 
   const Config = function(text, uri_name, type, unit) {
+    const formatter = (value) => `${formatNumber(value)}\xA0${unit}`;
     return {
       type,
       unit,
       text,
       baseURI: `${BASE_URI}?type=${uri_name}&id=`,
-      formatter(value) { return `${formatNumber(value)}\xA0${unit}`; }
+      formatter,
+      apply(chart) {
+        chart.axis.labels({y: text});
+
+        /* FIXME: Use method (if any) to set tooltip formatter */
+        chart.internal.config.tooltip_format_value = formatter;
+      }
     };
   }
 
@@ -119,16 +126,11 @@ global.my = {};
       const KEY_NAME = 'glacier_full_name';
       const DATA_TYPE = select_type.options[select_type.selectedIndex].value;
       const DATA_CONFIG = graphs[DATA_TYPE];
-      const LABEL_VALUES = DATA_CONFIG.text;
-      const UNIT = DATA_CONFIG.unit;
-      const CHART_CONFIG = Graph('#chart', LABEL_VALUES, DATA_CONFIG.formatter);
+      const CHART_CONFIG = Graph('#chart', DATA_CONFIG);
 
       if (chart)
       {
-        chart.axis.labels({y: LABEL_VALUES});
-
-        /* FIXME: Use method (if any) to set tooltip formatter */
-        chart.internal.config.tooltip_format_value = DATA_CONFIG.formatter;
+        DATA_CONFIG.apply(chart)
       }
 
       const num_requests = glacierIds.length;
