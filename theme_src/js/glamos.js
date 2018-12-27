@@ -54,36 +54,26 @@ global.my = {};
   let select_type;
   const BASE_URI = '/glacier-data.php';
 
-  controller.bridge({
-    _getDefaultDataConfig () {
-      return {
-        length_change: {
-          axis: {
-            y: {
-              label: {
-                text: 'Kumulative Längenänderung (m)',
-              }
-            }
-          },
-          baseURI: `${BASE_URI}?type=length_change&id=`,
-          type: 'line',
-          unit: 'm',
-        },
-        mass_balance: {
-          axis: {
-            y: {
-              label: {
-                text: 'Massenbilanz (mm H₂0)',
-              }
-            }
-          },
-          baseURI: `${BASE_URI}?type=mass_balance&id=`,
-          type: 'bar',
-          unit: 'mm H₂0',
+  const Config = function(text, uri_name, type, unit) {
+    return {
+      type,
+      unit,
+      axis: {
+        y: {
+          label: { text }
         }
-      };
-    },
+      },
+      baseURI: `${BASE_URI}?type=${uri_name}&id=`,
+    };
+  }
 
+  const graphs = {
+    length_change: Config('Kumulative Längenänderung (m)', 'length_change', 'line', 'm'),
+    mass_balance: Config('Massenbilanz (mm H₂0)', 'mass_balance', 'bar', 'mm H₂0'),
+  }
+
+
+  controller.bridge({
     /**
      * Load data for glaciers
      *
@@ -96,13 +86,12 @@ global.my = {};
     loadGlacierData (glacierIds, options = {clear: false}) {
       let clear = !!options.clear;
 
-      const DATA_CONFIG = this._getDefaultDataConfig();
       const KEY_YEAR = 'year';
       const KEY_NAME = 'glacier_full_name';
       const DATA_TYPE = select_type.options[select_type.selectedIndex].value;
-      const CURRENT_DATA_CONFIG = DATA_CONFIG[DATA_TYPE];
-      const LABEL_VALUES = CURRENT_DATA_CONFIG.axis.y.label.text;
-      const UNIT = CURRENT_DATA_CONFIG.unit;
+      const DATA_CONFIG = graphs[DATA_TYPE];
+      const LABEL_VALUES = DATA_CONFIG.axis.y.label.text;
+      const UNIT = DATA_CONFIG.unit;
       const TOOLTIP_FORMATTER = ((value) => `${formatNumber(value)}\xA0${UNIT}`);
       const CHART_CONFIG = {
         bindto: '#chart',
@@ -164,7 +153,7 @@ global.my = {};
 
         const XHR = new XMLHttpRequest();
 
-        XHR.open('GET', CURRENT_DATA_CONFIG.baseURI + GLACIER_ID, true);
+        XHR.open('GET', DATA_CONFIG.baseURI + GLACIER_ID, true);
 
         XHR.onload = function (ev) {
           function nextRequest ()
@@ -189,7 +178,7 @@ global.my = {};
               names: {
                 [GLACIER_ID]: LABEL_LINE
               },
-              type: CURRENT_DATA_CONFIG.type
+              type: DATA_CONFIG.type
             };
 
             /* DEBUG */
