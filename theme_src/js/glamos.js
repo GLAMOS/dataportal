@@ -106,8 +106,8 @@ import sidepane from './map/monitoringSidepane';
       type,
       unit,
       text,
-      baseURI: `${BASE_URI}?type=${uri_name}&id=`,
       formatter,
+      uri(glacier_id) { return `${BASE_URI}?type=${uri_name}&id=${glacier_id}`; },
       apply(chart) {
         chart.axis.labels({y: text});
 
@@ -157,7 +157,7 @@ import sidepane from './map/monitoringSidepane';
 
         const XHR = new XMLHttpRequest();
 
-        XHR.open('GET', DATA_CONFIG.baseURI + GLACIER_ID, true);
+        XHR.open('GET', DATA_CONFIG.uri(GLACIER_ID), true);
 
         XHR.onload = function (ev) {
           const nextRequest = function() {
