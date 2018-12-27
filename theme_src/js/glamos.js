@@ -12,8 +12,6 @@ import './map/map.js';
 import sidepane from './map/monitoringSidepane';
 
 
-global.my = {};
-
 (function (global, $) {
   function formatNumber (value)
   {
