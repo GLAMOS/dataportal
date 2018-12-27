@@ -145,12 +145,6 @@ global.my = {};
       {
         const GLACIER_ID = glacierIds[glacierIndex];
 
-        /* TODO: Write a fetch API wrapper */
-        // fetch(CURRENT_DATA_CONFIG.baseURI + GLACIER_ID)
-        // .then((response) => response.json())
-        // .then((json) => {
-        // }
-
         const XHR = new XMLHttpRequest();
 
         XHR.open('GET', DATA_CONFIG.baseURI + GLACIER_ID, true);
