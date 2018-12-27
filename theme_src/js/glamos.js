@@ -50,41 +50,77 @@ global.my = {};
   }
   controller.bridge({selectDownloadTab});
 
-  let chart;
   let select_type;
   const BASE_URI = '/glacier-data.php';
 
-  const Graph = function(container, config) {
-    return {
-      bindto: container,
-      axis: {
-        x: {
-          tick: {
-            outer: false,
-            rotate: 45
+  const Graph = function(container) {
+    let chart;
+    let clear = false;
+
+    const initialize = function(properties, data) {
+      const config = {
+        data,
+        bindto: container,
+        axis: {
+          x: {
+            tick: {
+              outer: false,
+              rotate: 45
+            },
           },
+          y: {
+            label: {
+              position: 'outer',
+              text: properties.text
+            },
+            tick: {
+              outer: false,
+            }
+          }
         },
-        y: {
-          label: {
-            position: 'outer',
-            text: config.text
-          },
-          tick: {
-            outer: false,
+        grid: {
+          y: { show: true },
+          x: { show: true }
+        },
+        tooltip: {
+          format: {
+            value: properties.formatter
           }
         }
-      },
-      grid: {
-        y: { show: true },
-        x: { show: true }
-      },
-      tooltip: {
-        format: {
-          value: config.formatter
+      };
+
+      chart = c3.generate(config);
+    };
+
+    const update = function(data, properties, done) {
+      properties.apply(chart);
+      if (clear) {
+        data.unload = true;
+        clear = false;
+      }
+      data.done = done;
+      chart.load(data);
+    }
+
+    return {
+      show(data, properties, done) {
+        if (!chart) {
+          initialize(properties, data);
+          done();
+        } else {
+          update(data, properties, done);
         }
+      },
+      clear() {
+        clear = true;
+      },
+      unload() {
+        chart.unload();
       }
     };
+
   }
+  const graph = Graph('#chart');
 
   const Config = function(text, uri_name, type, unit) {
     const formatter = (value) => `${formatNumber(value)}\xA0${unit}`;
@@ -120,18 +156,14 @@ global.my = {};
      *   | clear    | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
      */
     loadGlacierData (glacierIds, options = {clear: false}) {
-      let clear = !!options.clear;
+      if (options.clear) {
+        graph.clear()
+      }
 
       const KEY_YEAR = 'year';
       const KEY_NAME = 'glacier_full_name';
       const DATA_TYPE = select_type.options[select_type.selectedIndex].value;
       const DATA_CONFIG = graphs[DATA_TYPE];
-      const CHART_CONFIG = Graph('#chart', DATA_CONFIG);
-
-      if (chart)
-      {
-        DATA_CONFIG.apply(chart)
-      }
 
       const num_requests = glacierIds.length;
 
@@ -150,8 +182,7 @@ global.my = {};
         XHR.open('GET', DATA_CONFIG.baseURI + GLACIER_ID, true);
 
         XHR.onload = function (ev) {
-          function nextRequest ()
-          {
+          const nextRequest = function() {
             /* Make XHR for next glacier, if any */
             if (glacierIndex + 1 < num_requests)
             {
@@ -174,33 +205,7 @@ global.my = {};
               },
               type: DATA_CONFIG.type
             };
-
-            if (!chart)
-            {
-              CHART_CONFIG.data = CHART_DATA;
-              chart = c3.generate(CHART_CONFIG);
-
-              /* NOTE: c3.generate() ignores .data.done property, so we have to do it manually */
-              nextRequest();
-            }
-            else
-            {
-              CHART_DATA.done = nextRequest;
-
-              if (clear)
-              {
-                CHART_DATA.unload = true;
-              }
-              else
-              {
-                delete CHART_DATA.unload;
-              }
-
-              chart.load(CHART_DATA);
-
-              /* Only unload for the first glacier per glacier set if options.clear === true */
-              clear = false;
-            }
+            graph.show(CHART_DATA, DATA_CONFIG, nextRequest);
           }
           else
           {
@@ -215,7 +220,7 @@ global.my = {};
              *
              * FIXME: What if there are several glaciers, all without data for this type?
              */
-            if (num_requests === 1) chart.unload();
+            if (num_requests === 1) graph.unload();
 
             nextRequest();
           }
