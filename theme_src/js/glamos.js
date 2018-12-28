@@ -33,7 +33,18 @@ import sidepane from './map/monitoringSidepane';
 
   const Graph = function(container) {
     let chart;
-    let clear = false;
+    const pending = []; // Pending operations
+    let processing = false;
+
+    const next = function() {
+      const op = pending.shift();
+      if (op) {
+        processing = true;
+        op();
+      } else {
+        processing = false;
+      }
+    }
 
     const initialize = function(properties, data) {
       const config = {
@@ -70,34 +81,31 @@ import sidepane from './map/monitoringSidepane';
       chart = c3.generate(config);
     };
 
-    const update = function(data, properties, done) {
+    const update = function(data, properties) {
       properties.apply(chart);
-      if (clear) {
-        data.unload = true;
-        clear = false;
-      }
-      data.done = done;
+      data.done = next;
       chart.load(data);
     }
 
+    const enqueue = function(op) {
+      pending.push(op);
+      if (!processing) next();
+    }
+
     return {
-      show(data, properties, done) {
+      show(properties, data) {
         if (!chart) {
           initialize(properties, data);
-          done();
         } else {
-          update(data, properties, done);
+          enqueue(() => update(data, properties));
         }
       },
-      clear() {
-        clear = true;
-      },
-      unload() {
-        chart.unload();
-      }
+      clear() { enqueue(() => chart.unload({ done: next })); },
+      unload(id) { enqueue(() => chart.unload({ ids: [id], done: next })); },
     };
 
   }
+
   const graph = Graph('#chart');
 
   const Config = function(text, uri_name, type, unit) {
@@ -124,6 +132,67 @@ import sidepane from './map/monitoringSidepane';
   }
 
 
+  const Loading = function(glacier_id, config, done) {
+    let finished = false;
+    let data = false;
+
+    const receiver = function(event) {
+      const json = JSON.parse(event.target.responseText);
+
+      if (json && json.length > 0) {
+        const KEY_YEAR = 'year';
+        const YEARS = [KEY_YEAR].concat(json.map((e) => e.year));
+        const VALUES = [glacier_id].concat(json.map((e) => e.value));
+        const LABEL_LINE = json[0]['glacier_full_name'];
+        data = {
+          x: KEY_YEAR,
+          columns: [YEARS, VALUES],
+          names: {
+            [glacier_id]: LABEL_LINE
+          },
+          type: config.type
+        };
+      } else {
+        /* Request successful, but no data of this type available */
+      }
+      finished = true;
+      done();
+    };
+
+    const req = new XMLHttpRequest();
+    req.addEventListener("load", receiver)
+    req.open('GET', config.uri(glacier_id), true);
+    req.send();
+
+    return {
+      finished() { return finished; },
+      data() { return data; },
+    }
+  }
+  
+  const Queue = function(config, loaded) {
+    const queue = [];
+    let canceled = false;
+
+    const done = function() {
+      if (canceled) return;
+      while(queue.length > 0 && queue[0].finished()) {
+        const item = queue.shift();
+        const data = item.data();
+        if (data) {
+          loaded(data);
+        }
+      }
+    }
+    
+    return {
+      load(id) { queue.push(Loading(id, config, done)) },
+      cancel() { canceled = true; }
+    }
+  }
+
+  let queue;
+
   controller.bridge({
     /**
      * Load data for glaciers
@@ -136,82 +205,22 @@ import sidepane from './map/monitoringSidepane';
      */
     loadGlacierData (glacierIds, options = {clear: false}) {
       if (options.clear) {
-        graph.clear()
+        if (queue) {
+          console.log("canceling loader")
+          queue.cancel();
+          queue = false;
+        }
+        graph.clear();
       }
 
       const DATA_TYPE = select_type.options[select_type.selectedIndex].value;
       const DATA_CONFIG = configs[DATA_TYPE];
 
-      const num_requests = glacierIds.length;
-
-      /**
-       * Makes an HTTP request for the data of a glacier
-       *
-       * @param  {int} glacierIndex
-       *   Index in the list of glaciers IDs of the glacier whose data is to be fetched
-       */
-      function makeRequest (glacierIndex)
-      {
-        const GLACIER_ID = glacierIds[glacierIndex];
-
-        const XHR = new XMLHttpRequest();
-
-        XHR.open('GET', DATA_CONFIG.uri(GLACIER_ID), true);
-
-        XHR.onload = function (ev) {
-          const nextRequest = function() {
-            /* Make XHR for next glacier, if any */
-            if (glacierIndex + 1 < num_requests)
-            {
-              makeRequest(glacierIndex + 1);
-            }
-          }
-
-          const JSON_DATA = JSON.parse(ev.target.responseText);
-
-          if (JSON_DATA && JSON_DATA.length > 0)
-          {
-            const KEY_YEAR = 'year';
-            const YEARS = [KEY_YEAR].concat(JSON_DATA.map((entry) => entry.year));
-            const VALUES = [GLACIER_ID].concat(JSON_DATA.map((entry) => entry.value));
-            const LABEL_LINE = JSON_DATA[0]['glacier_full_name'];
-            const CHART_DATA = {
-              x: KEY_YEAR,
-              columns: [YEARS, VALUES],
-              names: {
-                [GLACIER_ID]: LABEL_LINE
-              },
-              type: DATA_CONFIG.type
-            };
-            graph.show(CHART_DATA, DATA_CONFIG, nextRequest);
-          }
-          else
-          {
-            /* Request successful, but no data of this type available */
-
-            /* TODO: Display message only if there are no data at all, without breaking the chart */
-            // document.getElementById('chart').innerHTML = 'Keine Daten verfügbar.';
-
-            /*
-             * Clear chart if there is only one glacier in the list
-             * but for which there is no data of this type.
-             *
-             * FIXME: What if there are several glaciers, all without data for this type?
-             */
-            if (num_requests === 1) graph.unload();
-
-            nextRequest();
-          }
-        };
-
-        XHR.onerror = function () {
-          /* Do something if network connection fails */
-        };
-
-        XHR.send(null);
+      if (!queue) {
+        queue = Queue(DATA_CONFIG, (data) => graph.show(DATA_CONFIG, data));
       }
 
-      makeRequest(0);
+      for (let id of glacierIds) queue.load(id);
     },
 
     /**
@@ -219,7 +228,7 @@ import sidepane from './map/monitoringSidepane';
      * @param  {string} id  Glacier ID
      */
     unloadGlacierData (id) {
-      chart.unload({ids: [id]});
+      graph.unload(id);
     }
   });
 
