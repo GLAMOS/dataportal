@@ -10,9 +10,9 @@
     {% include '_molecules/cardMap' %}
     {% include '_molecules/cardMeasurements' %}
     {% include '_molecules/cardExport' %}
-    <div class="factsheetChartBox">
-      {{ macro.cardChart('Längenänderung', 'chartOne') }}
-      {{ macro.cardChart('Massenbilanz', 'chartTwo') }}
+    <div class="factsheetChartBox" style="clear: both">
+      {{ macro.cardChart('Längenänderung', 'length_change') }}
+      {{ macro.cardChart('Massenbilanz', 'mass_balance') }}
     </div>
 
     {% include '_molecules/cardPhoto' %}

@@ -43,10 +43,10 @@
   </div>
 {% endmacro %}
 
-{% macro cardChart(nameParam) %}
+{% macro cardChart(nameParam, type) %}
   <div class="fsChart">
     <h3 class="chartTitle">{{ nameParam }}</h3>
-    // Hier erscheint dann der Chart für die {{ nameParam }}
+    <div class="js-chart" data-type="{{ type }}"">Wird geladen…</div>
   </div>
 {% endmacro %}
 
