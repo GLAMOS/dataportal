@@ -50,7 +50,6 @@ import { Graph, configs, Queue } from './chart';
 
       if (options.clear) {
         if (queue) {
-          console.log("canceling loader")
           queue.cancel();
           queue = false;
         }
