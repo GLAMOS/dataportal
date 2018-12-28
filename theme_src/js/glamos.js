@@ -45,6 +45,9 @@ import { Graph, configs, Queue } from './chart';
      *   | clear    | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
      */
     loadGlacierData (glacierIds, options = {clear: false}) {
+      // HACK do nothing if we're called for the wrong page
+      if (!select_type) return;
+
       if (options.clear) {
         if (queue) {
           console.log("canceling loader")
