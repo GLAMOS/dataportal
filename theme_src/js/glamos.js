@@ -238,8 +238,10 @@ import sidepane from './map/monitoringSidepane';
     sidepane.setup();
 
     select_type = document.getElementById('chart_param');
-    select_type.onchange = function () {
-      controller.switchChartType(this.options[this.selectedIndex].value);
-    };
+    if (select_type) {
+      select_type.onchange = function () {
+        controller.switchChartType(this.options[this.selectedIndex].value);
+      };
+    }
   });
 }(global, $));
