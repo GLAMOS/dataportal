@@ -23,42 +23,13 @@ export const Graph = function(container) {
   }
 
   const generate = function(properties, data) {
-    const config = {
-      data,
-      bindto: container,
-      axis: {
-        x: {
-          tick: {
-            outer: false,
-            rotate: 45
-          },
-        },
-        y: {
-          label: {
-            position: 'outer',
-            text: properties.text
-          },
-          tick: {
-            outer: false,
-          }
-        }
-      },
-      grid: {
-        y: { show: true },
-        x: { show: true }
-      },
-      tooltip: {
-        format: {
-          value: properties.formatter
-        }
-      }
-    };
+    const config = properties.config(container, data);
 
     chart = c3.generate(config);
   };
 
   const update = function(data, properties) {
-    properties.apply(chart);
+    properties.apply_to(chart);
     data.done = next;
     chart.load(data);
   }
@@ -86,17 +57,48 @@ export const Graph = function(container) {
 
 /** Construct a config instance
  * 
- * Configs can build request uri and can set axis labels on C3 charts.
+ * Configs can build request uri(), create a C3 config(), and
+ * apply_to() axis labels on C3 charts.
  */
 const Config = function(text, uri_name, chart_type, unit) {
   const formatter = (value) => `${String(value).replace('-', '&minus;')}\xA0${unit}`;
+  const config = (container, data) => ({
+    data,
+    bindto: container,
+    axis: {
+      x: {
+        tick: {
+          outer: false,
+          rotate: 45
+        },
+      },
+      y: {
+        label: {
+          position: 'outer',
+          text: text
+        },
+        tick: {
+          outer: false,
+        }
+      }
+    },
+    grid: {
+      y: { show: true },
+      x: { show: true }
+    },
+    tooltip: {
+      format: {
+        value: formatter
+      }
+    }
+  });
   return {
     unit,
     text,
-    formatter,
+    config,
     type: chart_type,
     uri(glacier_id) { return `${BASE_URI}?type=${uri_name}&id=${glacier_id}`; },
-    apply(chart) {
+    apply_to(chart) {
       chart.axis.labels({y: text});
 
       /* FIXME: Use method (if any) to set tooltip formatter */
