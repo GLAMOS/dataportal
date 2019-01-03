@@ -9,18 +9,7 @@ const BASE_URI = '/glacier-data.php';
   */
 export const Graph = function(container) {
   let chart;
-  const pending = []; // Pending operations
-  let processing = false;
-
-  const next = function() {
-    const op = pending.shift();
-    if (op) {
-      processing = true;
-      op();
-    } else {
-      processing = false;
-    }
-  }
+  const synch = Synch();
 
   const generate = function(properties, data) {
     const config = properties.config(container, data);
@@ -30,20 +19,8 @@ export const Graph = function(container) {
 
   const update = function(data, properties) {
     properties.apply_to(chart);
-    data.done = next;
+    data.done = synch.next;
     chart.load(data);
-  }
-
-  const enqueue = function(op) {
-    pending.push(op);
-
-    if (processing) {
-      // If C3 is already processing, it will call next()
-      // for us when it's done.
-    } else {
-      // If we're idle, start the next op
-      next();
-    }
   }
 
   // Build instance and return it
@@ -52,13 +29,50 @@ export const Graph = function(container) {
       if (!chart) {
         generate(properties, data);
       } else {
-        enqueue(() => update(data, properties));
+        synch.enqueue(() => update(data, properties));
       }
     },
-    clear() { enqueue(() => chart && chart.unload({ done: next })); },
-    unload(id) { enqueue(() => chart && chart.unload({ ids: [id], done: next })); },
+    clear() { synch.enqueue(() => chart && chart.unload({ done: synch.next })); },
+    unload(id) { synch.enqueue(() => chart && chart.unload({ ids: [id], done: synch.next })); },
   };
 
+}
+
+
+/** Create object that synchronizes operations
+ * 
+ * You can tell it to enqueue() ops. Each op needs to call
+ * next() once it's done to start the next op.
+ * 
+ * When no op is in progress, op() will be called
+ * immediately on enqueue().
+ */
+const Synch = function() {
+  const pending = []; // Pending operations
+  let processing = false;
+
+  return {
+    next() {
+      const op = pending.shift();
+      if (op) {
+        processing = true;
+        op();
+      } else {
+        processing = false;
+      }
+    },
+    enqueue(op) {
+      pending.push(op);
+
+      if (processing) {
+        // We're lready processing, op will call next()
+        // for us when it's done.
+      } else {
+        // If we're idle, start the next op
+        next();
+      }
+    }
+  }
 }
 
 
