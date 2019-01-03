@@ -51,16 +51,18 @@ const Synch = function() {
   const pending = []; // Pending operations
   let processing = false;
 
+  const next = function() {
+    const op = pending.shift();
+    if (op) {
+      processing = true;
+      op();
+    } else {
+      processing = false;
+    }
+  }
+
   return {
-    next() {
-      const op = pending.shift();
-      if (op) {
-        processing = true;
-        op();
-      } else {
-        processing = false;
-      }
-    },
+    next,
     enqueue(op) {
       pending.push(op);
 
