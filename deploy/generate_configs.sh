@@ -6,6 +6,13 @@
 # $CI_VAR_SUFFIX
 # ${DB_SERVER_$CI_VAR_SUFFIX}  (e.g. $DB_SERVER_TEST or $DB_SERVER_ETHDEV)
 # ...and some other with the same structure
+#
+# These env vars are read for the connection to the ETH glacier DB:
+# GLACIER_DB_HOST
+# GLACIER_DB_PORT
+# GLACIER_DB_NAME
+# GLACIER_DB_USER
+# GLACIER_DB_PASS
 
 destination=".env"
 
@@ -94,3 +101,16 @@ for addition in "${additions[@]}" ; do
   echo "$addition" >> $destination
 done
 
+
+# Generate glacier DB config
+cat > "modules/Meteotest/db-chart-config.inc" <<EOF
+<?php
+# Edit the contents of this file in $0
+const DB_CONFIG = [
+ 		  'host'     => '$GLACIER_DB_HOST',
+ 		  'port'     => $GLACIER_DB_PORT,
+ 		  'database' => '$GLACIER_DB_NAME',
+ 		  'user'     => '$GLACIER_DB_USER',
+ 		  'password' => '$GLACIER_DB_PASS',
+];
+EOF
