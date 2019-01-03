@@ -61,7 +61,7 @@ export const Graph = function(container) {
  * apply_to() axis labels on C3 charts.
  */
 const Config = function(text, uri_name, chart_type, unit) {
-  const formatter = (value) => `${String(value).replace('-', '&minus;')}\xA0${unit}`;
+  const formatter = (value) => `${String(value).replace('-', '&minus;')}&nbsp;${unit}`;
   const config = (container, data) => ({
     data,
     bindto: container,
