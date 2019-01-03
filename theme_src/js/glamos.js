@@ -55,11 +55,11 @@ import { Graph, configs, Queue } from './chart';
         graph.clear();
       }
 
-      const DATA_TYPE = select_type.options[select_type.selectedIndex].value;
-      const DATA_CONFIG = configs[DATA_TYPE];
+      const type = select_type.options[select_type.selectedIndex].value;
+      const config = configs[type];
 
       if (!queue) {
-        queue = Queue(DATA_CONFIG, (data) => graph.show(DATA_CONFIG, data));
+        queue = Queue(config, (data) => graph.show(config, data));
       }
 
       for (let id of glacierIds) queue.load(id);

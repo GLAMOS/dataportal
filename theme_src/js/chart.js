@@ -109,14 +109,14 @@ const Loading = function(glacier_id, config, done) {
 
     if (json && json.length > 0) {
       const KEY_YEAR = 'year';
-      const YEARS = [KEY_YEAR].concat(json.map((e) => e.year));
-      const VALUES = [glacier_id].concat(json.map((e) => e.value));
-      const LABEL_LINE = json[0]['glacier_full_name'];
+      const years = [KEY_YEAR].concat(json.map((e) => e.year));
+      const values = [glacier_id].concat(json.map((e) => e.value));
+      const label_line = json[0]['glacier_full_name'];
       data = {
         x: KEY_YEAR,
-        columns: [YEARS, VALUES],
+        columns: [years, values],
         names: {
-          [glacier_id]: LABEL_LINE
+          [glacier_id]: label_line
         },
         type: config.type
       };
