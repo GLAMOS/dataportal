@@ -36,7 +36,14 @@ export const Graph = function(container) {
 
   const enqueue = function(op) {
     pending.push(op);
-    if (!processing) next();
+
+    if (processing) {
+      // If C3 is already processing, it will call next()
+      // for us when it's done.
+    } else {
+      // If we're idle, start the next op
+      next();
+    }
   }
 
   // Build instance and return it
