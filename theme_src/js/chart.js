@@ -160,7 +160,8 @@ const Loading = function(glacier_id, config, done) {
 /** Create a loading queue instance
  * 
  * You can tell it to load() data by glacier ID.
- * It will call loaded() in the same order as data comes in.
+ * It will call loaded() in the same order as load() was called
+ * when data becomes available.
  * If you don't want any more updates, tell it to cancel().
  */
 export const Queue = function(config, loaded) {
