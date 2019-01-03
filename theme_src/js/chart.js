@@ -1,6 +1,12 @@
 import c3 from 'c3';
 const BASE_URI = '/glacier-data.php';
 
+/** Construct a graph instance
+  *
+  * Graph instances display a C3 chart in the given container.
+  * You can tell them to show() data, unload() data or
+  * clear() the chart.
+  */
 export const Graph = function(container) {
   let chart;
   const pending = []; // Pending operations
@@ -62,6 +68,7 @@ export const Graph = function(container) {
     if (!processing) next();
   }
 
+  // Build instance and return it
   return {
     show(properties, data) {
       if (!chart) {
@@ -76,6 +83,11 @@ export const Graph = function(container) {
 
 }
 
+
+/** Construct a config instance
+ * 
+ * Configs can build request uri and can set axis labels on C3 charts.
+ */
 const Config = function(text, uri_name, type, unit) {
   const formatter = (value) => `${String(value).replace('-', '&minus;')}\xA0${unit}`;
   return {
@@ -94,12 +106,19 @@ const Config = function(text, uri_name, type, unit) {
 }
 
 
+/** Available chart configs */
 export const configs = {
   length_change: Config('Kumulative Längenänderung (m)', 'length_change', 'line', 'm'),
   mass_balance: Config('Massenbilanz (mm H₂0)', 'mass_balance', 'bar', 'mm H₂0'),
 }
 
 
+/** Create a Loading instance
+ * 
+ * It pulls data and calls the done function on completion.
+ * You can ask whether it's finished() and get the data()
+ * from it.
+ */
 const Loading = function(glacier_id, config, done) {
   let finished = false;
   let data = false;
@@ -138,6 +157,12 @@ const Loading = function(glacier_id, config, done) {
   }
 }
 
+/** Create a loading queue instance
+ * 
+ * You can tell it to load() data by glacier ID.
+ * It will call loaded() in the same order as data comes in.
+ * If you don't want any more updates, tell it to cancel().
+ */
 export const Queue = function(config, loaded) {
   const queue = [];
   let canceled = false;
