@@ -16,7 +16,7 @@ export const Graph = function(container) {
     }
   }
 
-  const initialize = function(properties, data) {
+  const generate = function(properties, data) {
     const config = {
       data,
       bindto: container,
@@ -65,7 +65,7 @@ export const Graph = function(container) {
   return {
     show(properties, data) {
       if (!chart) {
-        initialize(properties, data);
+        generate(properties, data);
       } else {
         enqueue(() => update(data, properties));
       }
