@@ -118,6 +118,7 @@ export const configs = {
  * It pulls data and calls the done function on completion.
  * You can ask whether it's finished() and get the data()
  * from it.
+ * If there was no data to be loaded, data() returns false.
  */
 const Loading = function(glacier_id, config, done) {
   let finished = false;
@@ -162,6 +163,8 @@ const Loading = function(glacier_id, config, done) {
  * You can tell it to load() data by glacier ID.
  * It will call loaded() in the same order as load() was called
  * when data becomes available.
+ * When no data is available for a given ID, loaded() will
+ * not be called.
  * If you don't want any more updates, tell it to cancel().
  */
 export const Queue = function(config, loaded) {
