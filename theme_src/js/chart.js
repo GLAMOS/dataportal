@@ -88,13 +88,13 @@ export const Graph = function(container) {
  * 
  * Configs can build request uri and can set axis labels on C3 charts.
  */
-const Config = function(text, uri_name, type, unit) {
+const Config = function(text, uri_name, chart_type, unit) {
   const formatter = (value) => `${String(value).replace('-', '&minus;')}\xA0${unit}`;
   return {
-    type,
     unit,
     text,
     formatter,
+    type: chart_type,
     uri(glacier_id) { return `${BASE_URI}?type=${uri_name}&id=${glacier_id}`; },
     apply(chart) {
       chart.axis.labels({y: text});
