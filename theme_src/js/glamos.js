@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import 'jquery.mmenu';
 import 'lightgallery';
-import c3 from 'c3';
 
 import ieDetector from '@kspr/gugus-ie-detector';
 ieDetector();
