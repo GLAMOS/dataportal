@@ -116,8 +116,6 @@ const Config = function(text, uri_name, chart_type, unit) {
     }
   });
   return {
-    unit,
-    text,
     config,
     type: chart_type,
     uri(glacier_id) { return `${BASE_URI}?type=${uri_name}&id=${glacier_id}`; },
