@@ -397,15 +397,6 @@ function enableSearch (gletscher_features) {
 }
 controller.bridge({enableSearch});
 
-/**
- * List of VIP glaciers
- *
- * @type {Object}
- * @todo data source still unclear
- */
-const glacierVips = glacier_vip.features.map(function (el) {
-  return el.properties;
-});
 
 const format = new GeoJSON;
 const url = '/geo/inventory/web_glacier_base_data.geojson';
@@ -417,16 +408,17 @@ let gletscher_id;
 let selected;
 
 /**
- * Returns glacier ID from a list of 12 defined VIP glaciers
+ * Returns glacier ID from the list of VIP glaciers (VIG)
  *
  * @return {string}
- * @todo Determine number of glaciers from GeoJSON
  */
 function getRandomVIP () {
+  const vip_features_list = datastore.features.getAll().filter( g => g.get('is_vig') );
+  if( !vip_features_list.length) return;   // features not yet ready (?)
   const min = 1;
-  const max = 12;
+  const max = vip_features_list.length;
   const randomNumber = Math.floor((Math.random() * (max - min)) + min);
-  return glacierVips[randomNumber].pk_sgi;
+  return vip_features_list[randomNumber].getId();
 }
 controller.bridge({getRandomVIP});
 
