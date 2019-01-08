@@ -47,6 +47,9 @@ import { Graph, configs, Queue } from './chart';
       // HACK do nothing if we're called for the wrong page
       if (!select_type.length) return;
 
+      // Flag clear is set when the chart type changes.
+      // In this case we drop all pending queries and
+      // start a new queue with the new config
       if (options.clear) {
         if (queue) {
           queue.cancel();
