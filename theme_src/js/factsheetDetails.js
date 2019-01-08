@@ -102,7 +102,7 @@ function setup(feature) {
     const type = $(this).data('type');
     const config = configs[type];
     const queue = Queue(config, (data) => graph.show(config, data))
-    queue.load(feature.id_);
+    queue.load(feature.getId());
   });
 
   // load and fill in facts description and pictures
