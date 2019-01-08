@@ -20,7 +20,6 @@ import Point from 'ol/geom/Point';
 import Feature from 'ol/Feature';
 import Group from 'ol/layer/Group';
 
-import glacier_vip from './layer/glacier_vip';
 import { swissimage_wmts, swissalti3d_wmts, eiszeit_wmts, dufour_wmts, siegfried_wmts, pixelkarte_farbe_wmts, pixelkarte_grau_wmts } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010, glacier_outlines } from './layer/glamos_layer';
 
