@@ -97,7 +97,7 @@ function populatePhotos(json) {
 // Init
 
 function setup(feature) {
-  jQuery(".js-chart").each(function() {
+  $(".js-chart").each(function() {
     const graph = Graph(this);
     const type = $(this).data('type');
     const config = configs[type];
