@@ -98,7 +98,7 @@ function populatePhotos(json) {
 
 function setup(feature) {
   // load and fill in facts description and pictures
-  fetch( feature.get('uuid') )
+  fetch( feature.get('pk_glacier') )   // pk_glacier is the glacier's UUID
   .fail( () => {
     console.error( "failed to fetch" )
   })
