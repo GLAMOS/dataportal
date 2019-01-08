@@ -53,7 +53,7 @@ import { Graph, configs, Queue } from './chart';
       if (options.clear) {
         if (queue) {
           queue.cancel();
-          queue = false;
+          queue = false; // Will be created with new config
         }
         graph.clear();
       }
