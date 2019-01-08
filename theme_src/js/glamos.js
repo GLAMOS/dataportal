@@ -45,7 +45,7 @@ import { Graph, configs, Queue } from './chart';
      */
     loadGlacierData (glacierIds, options = {clear: false}) {
       // HACK do nothing if we're called for the wrong page
-      if (!select_type) return;
+      if (!select_type.length) return;
 
       if (options.clear) {
         if (queue) {
@@ -55,7 +55,7 @@ import { Graph, configs, Queue } from './chart';
         graph.clear();
       }
 
-      const type = select_type.options[select_type.selectedIndex].value;
+      const type = select_type.val();
       const config = configs[type];
 
       if (!queue) {
@@ -79,11 +79,9 @@ import { Graph, configs, Queue } from './chart';
     controller.onPageLoad();
     sidepane.setup();
 
-    select_type = document.getElementById('chart_param');
-    if (select_type) {
-      select_type.onchange = function () {
-        controller.switchChartType(this.options[this.selectedIndex].value);
-      };
-    }
+    select_type = $('#chart_param');
+    select_type.change(function() {
+      controller.switchChartType(select_type.val());
+    });
   });
 }(global, $));
