@@ -138,7 +138,7 @@ export const configs = {
 
 /** Create a Loading instance
  * 
- * It pulls data and calls the done function on completion.
+ * It pulls and restructures data then calls the done function.
  * You can ask whether it's finished() and get the data()
  * from it.
  * If there was no data to be loaded, data() returns false.
