@@ -32,8 +32,8 @@ export const Graph = function(container) {
         synch.enqueue(() => update(data, properties));
       }
     },
-    clear() { synch.enqueue(() => chart && chart.unload({ done: synch.next })); },
-    unload(id) { synch.enqueue(() => chart && chart.unload({ ids: [id], done: synch.next })); },
+    clear() { chart && synch.enqueue(() => chart.unload({ done: synch.next })); },
+    unload(id) { chart && synch.enqueue(() => chart.unload({ ids: [id], done: synch.next })); },
   };
 
 }
