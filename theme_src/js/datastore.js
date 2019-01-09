@@ -47,9 +47,7 @@ class FeatureSet {
     this.getRandomVIG = () => {
       const vip_features_list = this.getVIGs();
       if( !vip_features_list.length) return;   // features not yet ready (?)
-      const min = 1;
-      const max = vip_features_list.length;
-      const randomNumber = Math.floor((Math.random() * (max - min)) + min);
+      const randomNumber = Math.floor(Math.random() * vip_features_list.length);   // 0..length-1
       return vip_features_list[randomNumber];
     };
   }
