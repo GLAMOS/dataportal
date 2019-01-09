@@ -400,7 +400,7 @@ controller.bridge({enableSearch});
 const format = new GeoJSON;
 const url = '/geo/inventory/web_glacier_base_data.geojson';
 
-// depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, fillSchluesseldaten
+// depends: url, format
 function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
 
@@ -589,7 +589,7 @@ controller.bridge({mapPanTo});
  * Populate Schluesseldaten, highlight selected marker
  *
  * @param  {Object} feature [description]
- * @depends page; highlightedGlacier, selectedOverlay
+ * @depends page; highlightedGlacier, selectedOverlay, fillSchluesseldaten
  */
 function selectGlacier (feature) {
   if (!feature) return;
