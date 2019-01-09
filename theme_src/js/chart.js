@@ -23,6 +23,12 @@ export const Graph = function(container) {
     chart.load(data);
   }
 
+  const enqueueIfNeeded = function(op) {
+    // As long as there's no chart, clear and unload are NOOP
+    // Make sure not to skip synch.next call in any enqueued callback!
+    chart && synch.enqueue(op);
+  };
+
   // Build instance and return it
   return {
     show(properties, data) {
@@ -32,8 +38,8 @@ export const Graph = function(container) {
         synch.enqueue(() => update(data, properties));
       }
     },
-    clear() { chart && synch.enqueue(() => chart.unload({ done: synch.next })); },
-    unload(id) { chart && synch.enqueue(() => chart.unload({ ids: [id], done: synch.next })); },
+    clear() { enqueueIfNeeded(() => chart.unload({ done: synch.next })); },
+    unload(id) { enqueueIfNeeded(() => chart.unload({ ids: [id], done: synch.next })); },
   };
 
 }
