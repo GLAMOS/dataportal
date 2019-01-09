@@ -594,6 +594,9 @@ controller.bridge({mapPanTo});
 function selectGlacier (feature) {
   if (!feature) return;
 
+  /* 0. Store the feature as the highlighted one */
+  highlightedGlacier.feature = feature;
+
   /* 1. Fill infobox from feature */
   const gletscher_id = feature.getId();
   fillSchluesseldaten(gletscher_id, page);
@@ -603,7 +606,6 @@ function selectGlacier (feature) {
 
   /* 2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu */
   selectedOverlay.getSource().addFeature(feature);
-  highlightedGlacier.feature = feature;
 }
 
 /*
