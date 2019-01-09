@@ -406,22 +406,7 @@ let gletscher_id;
 /* Selected feature (glacier) */
 let selected;
 
-/**
- * Returns glacier ID from the list of VIP glaciers (VIG)
- *
- * @return {string}
- */
-function getRandomVIP () {
-  const vip_features_list = datastore.features.getVIGs();
-  if( !vip_features_list.length) return;   // features not yet ready (?)
-  const min = 1;
-  const max = vip_features_list.length;
-  const randomNumber = Math.floor((Math.random() * (max - min)) + min);
-  return vip_features_list[randomNumber].getId();
-}
-controller.bridge({getRandomVIP});
-
-// depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, getRandomVIP, fillSchluesseldaten
+// depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, fillSchluesseldaten
 function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
 

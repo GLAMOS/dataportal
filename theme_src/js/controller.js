@@ -41,7 +41,7 @@ class Controller {
   }
 
   _chooseRandom () {
-    const feature = datastore.features.findById(bridge.getRandomVIP());
+    const feature = datastore.features.getRandomVIG();
     if (feature) {
       bridge.selectGlacier(feature);
       bridge.loadGlacierData([feature2id(feature)], {clear: true});
