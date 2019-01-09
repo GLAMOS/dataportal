@@ -4,6 +4,7 @@ import urlManager from './UrlManager';
 import datastore from './datastore';
 
 import factsheetDetails from './factsheetDetails'
+import { Dataview } from './dataview';
 
 
 /* Constants */
@@ -25,6 +26,11 @@ function factsheetUpdate(feature) {
 
 
 /** Our Controller (Action → Reaction) */
+
+// HACK should be instance variable on Controller but Controller is
+// used with Proxy which expects that all instance variables are functions.
+const dataview = Dataview();
+
 class Controller {
   _bootstrapFromState () {
     if (datastore.downloadTab) {
@@ -34,7 +40,7 @@ class Controller {
     if (feature) {
       bridge.selectGlacier(feature);
       bridge.mapPanTo(feature);
-      bridge.loadGlacierData(datastore.selectedGlaciers.get());
+      dataview.load(datastore.selectedGlaciers.get());
       factsheetUpdate(feature)
     }
     bridge.monitoringSelectedFeatureList.refresh();
@@ -44,7 +50,7 @@ class Controller {
     const feature = datastore.features.findById(bridge.getRandomVIP());
     if (feature) {
       bridge.selectGlacier(feature);
-      bridge.loadGlacierData([feature2id(feature)], {clear: true});
+      dataview.load([feature2id(feature)], {clear: true});
       bridge.mapPanTo(feature);
       bridge.monitoringSelectedFeatureList.add(feature);
     }
@@ -80,6 +86,8 @@ class Controller {
 
   //onPageLoad(page) {
   onPageLoad () {
+    dataview.setup(controller);
+
     urlManager.loadState();
     this._setFallbackState();
     this._bootstrapFromState();
@@ -103,7 +111,7 @@ class Controller {
 
   mapMarkerHighlighted (feature) {
     bridge.selectGlacier(feature);
-    bridge.loadGlacierData([feature2id(feature)]);
+    dataview.load([feature2id(feature)]);
     /* note: no map panning */
     bridge.monitoringSelectedFeatureList.add(feature);
     urlManager.majorUpdate();
@@ -111,7 +119,7 @@ class Controller {
 
   searchSelected (feature) {
     bridge.selectGlacier(feature);
-    bridge.loadGlacierData([feature2id(feature)]);
+    dataview.load([feature2id(feature)]);
     bridge.mapPanTo(feature);
     bridge.monitoringSelectedFeatureList.add(feature);
     factsheetUpdate(feature)
@@ -129,7 +137,7 @@ class Controller {
 
   selectionListRemove (id) {
     datastore.selectedGlaciers.remove(id);
-    bridge.unloadGlacierData(id);
+    dataview.unload(id);
 
     /* Select last entry in selected glaciers list */
     // this.selectionListHighlight( datastore.selectedGlaciers.get().slice(-1)[0] )
@@ -143,7 +151,7 @@ class Controller {
   }
 
   switchChartType (type) {
-    bridge.loadGlacierData(datastore.selectedGlaciers.get(), {clear: true});
+    dataview.loadGlacierData(datastore.selectedGlaciers.get(), {clear: true});
 
     /* TODO: Update URL */
   }
