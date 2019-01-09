@@ -39,6 +39,17 @@ class FeatureSet {
     this.getAll = () => [..._data];   /* return a shallow copy */
 
     this.findById = (id) => _data.find((feat) => feat.getId() == id);
+
+    /** Return a subset of getAll() containing only VIGs */
+    this.getVIGs = () => _data.filter( g => g.get('is_vig') );
+
+    /** Returns a random glacier (features) from the list of VIP glaciers (VIG) */
+    this.getRandomVIG = () => {
+      const vip_features_list = this.getVIGs();
+      if( !vip_features_list.length) return;   // features not yet ready (?)
+      const randomNumber = Math.floor(Math.random() * vip_features_list.length);   // 0..length-1
+      return vip_features_list[randomNumber];
+    };
   }
 }
 

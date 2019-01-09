@@ -20,7 +20,6 @@ import Point from 'ol/geom/Point';
 import Feature from 'ol/Feature';
 import Group from 'ol/layer/Group';
 
-import glacier_vip from './layer/glacier_vip';
 import { swissimage_wmts, swissalti3d_wmts, eiszeit_wmts, dufour_wmts, siegfried_wmts, pixelkarte_farbe_wmts, pixelkarte_grau_wmts } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010, glacier_outlines } from './layer/glamos_layer';
 
@@ -397,15 +396,6 @@ function enableSearch (gletscher_features) {
 }
 controller.bridge({enableSearch});
 
-/**
- * List of VIP glaciers
- *
- * @type {Object}
- * @todo data source still unclear
- */
-const glacierVips = glacier_vip.features.map(function (el) {
-  return el.properties;
-});
 
 const format = new GeoJSON;
 const url = '/geo/inventory/web_glacier_base_data.geojson';
@@ -416,21 +406,7 @@ let gletscher_id;
 /* Selected feature (glacier) */
 let selected;
 
-/**
- * Returns glacier ID from a list of 12 defined VIP glaciers
- *
- * @return {string}
- * @todo Determine number of glaciers from GeoJSON
- */
-function getRandomVIP () {
-  const min = 1;
-  const max = 12;
-  const randomNumber = Math.floor((Math.random() * (max - min)) + min);
-  return glacierVips[randomNumber].pk_sgi;
-}
-controller.bridge({getRandomVIP});
-
-// depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, getRandomVIP, fillSchluesseldaten
+// depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, fillSchluesseldaten
 function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
 

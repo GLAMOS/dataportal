@@ -45,12 +45,12 @@ function populateDescription(json) {
     const prevSibling = box.prev()
     const lang = box.attr('data-lang')
 
-    if( !json || !json.facts || !json.facts.descriptions) {
+    if( !json || !json.texts) {
       // either something went wrong or this glacier doesn't have any photos
       return
     }
 
-    const texts = json.facts.descriptions.filter( d => d.language == lang)
+    const texts = json.texts.filter( d => d.language == lang)
     box.detach()
     texts.forEach( txt =>
         box.clone().html( txt.description ).insertAfter( prevSibling )
@@ -67,7 +67,7 @@ function populateDescription(json) {
 function populatePhotos(json) {
     const box = $(SEL_PHOTO)
 
-    if( !json || !json.facts || !json.facts.photos) {
+    if( !json || !json.pictures) {
       // either something went wrong or this glacier doesn't have any photos
       return
     }
@@ -79,13 +79,12 @@ function populatePhotos(json) {
     }
 
     // take only photos allowed to show up on factsheet
-    const pics = json.facts.photos.filter( p => p.is_factsheet_picture )
+    const pics = json.pictures.filter( p => p.is_factsheet_picture )
     pics.forEach( (pic,ix) => {
       const url = `${PIC_BASE}/${pic.filename}`
       const legend = pic.legend
       const thumb = (0 == ix) ? `<img src="${url}">` : ''
       $(`<div data-src="${url}" data-sub-html="${legend}" class="zoomItem">${thumb}</div>`).appendTo( box)
-      // TODO: pic.legend
     })
 
     // enable lightbox/gallery features
@@ -98,7 +97,7 @@ function populatePhotos(json) {
 
 function setup(feature) {
   // load and fill in facts description and pictures
-  fetch( feature.get('uuid') )
+  fetch( feature.get('pk_glacier') )   // pk_glacier is the glacier's UUID
   .fail( () => {
     console.error( "failed to fetch" )
   })
