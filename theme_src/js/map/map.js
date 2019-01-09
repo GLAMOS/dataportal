@@ -403,9 +403,6 @@ const url = '/geo/inventory/web_glacier_base_data.geojson';
 /* Default = Aletschgletscher */
 let gletscher_id;
 
-/* Selected feature (glacier) */
-let selected;
-
 // depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, fillSchluesseldaten
 function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
@@ -609,7 +606,7 @@ function selectGlacier (feature) {
 
   /* 2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu */
   selectedOverlay.getSource().addFeature(feature);
-  selected = feature;
+  highlightedGlacier.feature = feature;
 }
 
 /*
@@ -667,7 +664,7 @@ const featureHover = function (pixel) {
     return false;
   });
 
-  if (feature !== hover && feature !== selected) {
+  if (feature !== hover && feature !== highlightedGlacier.feature) {
     if (hover) {
       hoverOverlay.getSource().removeFeature(hover);
     }
