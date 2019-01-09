@@ -1,18 +1,16 @@
 import { Graph, configs, Queue } from './chart';
+import controller from './controller';
 
 /** A dataview displays a chart for multiple glaciers */
-export const Dataview = function() {
-  let select_type;
-  let graph;
-  let queue;
-
-  const setup = function(controller) {
-    graph = Graph('#chart');
-    select_type = $('#chart_param');
-    select_type.change(function() {
+class Dataview {
+  setup() {
+    this.graph = Graph('#chart');
+    this.select_type = $('#chart_param');
+    this.select_type.change(function() {
       controller.switchChartType();
     });
-  };
+    this.queue = false;
+  }
 
   /**
    * Load data for glaciers
@@ -23,38 +21,38 @@ export const Dataview = function() {
    *   |:-------- |:--------|
    *   | clear    | If <code>true</code>, previous data will be unloaded. Default: <code>false</code>. |
    */
-  const load = function(glacierIds, options = {clear: false}) {
+  load(glacierIds, options = {clear: false}) {
     // HACK do nothing if we're called for the wrong page
-    if (!select_type.length) return;
+    if (!this.select_type.length) return;
 
     // Flag clear is set when the chart type changes.
     // In this case we drop all pending queries and
     // start a new queue with the new config
     if (options.clear) {
-      if (queue) {
-        queue.cancel();
-        queue = false; // Will be created with new config
+      if (this.queue) {
+        this.queue.cancel();
+        this.queue = false; // Will be created with new config
       }
-      graph.clear();
+      this.graph.clear();
     }
 
-    const type = select_type.val();
+    const type = this.select_type.val();
     const config = configs[type];
 
-    if (!queue) {
-      queue = Queue(config, (data) => graph.show(config, data));
+    if (!this.queue) {
+      this.queue = Queue(config, (data) => this.graph.show(config, data));
     }
 
-    for (let id of glacierIds) queue.load(id);
-  };
+    for (let id of glacierIds) this.queue.load(id);
+  }
 
   /**
    * Unload the data of a specific glacier
    * @param  {string} id  Glacier ID
    */
-  const unload = function(id) {
-    graph.unload(id);
-  };
-
-  return {setup, load, unload};
+  unload(id) {
+    this.graph.unload(id);
+  }
 };
+
+export default new Dataview();

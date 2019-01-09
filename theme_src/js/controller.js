@@ -4,7 +4,7 @@ import urlManager from './UrlManager';
 import datastore from './datastore';
 
 import factsheetDetails from './factsheetDetails'
-import { Dataview } from './dataview';
+import dataview from './dataview';
 
 
 /* Constants */
@@ -26,10 +26,6 @@ function factsheetUpdate(feature) {
 
 
 /** Our Controller (Action → Reaction) */
-
-// HACK should be instance variable on Controller but Controller is
-// used with Proxy which expects that all instance variables are functions.
-const dataview = Dataview();
 
 class Controller {
   _bootstrapFromState () {
@@ -86,7 +82,7 @@ class Controller {
 
   //onPageLoad(page) {
   onPageLoad () {
-    dataview.setup(controller);
+    dataview.setup();
 
     urlManager.loadState();
     this._setFallbackState();
