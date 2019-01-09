@@ -151,7 +151,7 @@ class Controller {
   }
 
   switchChartType (type) {
-    dataview.loadGlacierData(datastore.selectedGlaciers.get(), {clear: true});
+    dataview.load(datastore.selectedGlaciers.get(), {clear: true});
 
     /* TODO: Update URL */
   }
