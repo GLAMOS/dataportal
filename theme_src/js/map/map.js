@@ -400,9 +400,6 @@ controller.bridge({enableSearch});
 const format = new GeoJSON;
 const url = '/geo/inventory/web_glacier_base_data.geojson';
 
-/* Default = Aletschgletscher */
-let gletscher_id;
-
 // depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, fillSchluesseldaten
 function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
@@ -598,7 +595,7 @@ function selectGlacier (feature) {
   if (!feature) return;
 
   /* 1. Fill infobox from feature */
-  gletscher_id = feature.getId();
+  const gletscher_id = feature.getId();
   fillSchluesseldaten(gletscher_id, page);
 
   /* 2a. Reset current selection */
