@@ -412,7 +412,7 @@ let selected;
  * @return {string}
  */
 function getRandomVIP () {
-  const vip_features_list = datastore.features.getAll().filter( g => g.get('is_vig') );
+  const vip_features_list = datastore.features.getVIGs();
   if( !vip_features_list.length) return;   // features not yet ready (?)
   const min = 1;
   const max = vip_features_list.length;

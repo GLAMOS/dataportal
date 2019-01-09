@@ -38,6 +38,8 @@ class FeatureSet {
 
     this.getAll = () => [..._data];   /* return a shallow copy */
 
+    this.getVIGs = () => _data.filter( g => g.get('is_vig') );
+
     this.findById = (id) => _data.find((feat) => feat.getId() == id);
   }
 }
