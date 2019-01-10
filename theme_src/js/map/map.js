@@ -189,7 +189,8 @@ var unit = function (x) {
     return Math.round(x / 100) / 10 + ' km';
 };
 
-function fillSchluesseldaten(featureId) {
+function fillSchluesseldaten(feature) {
+
   const infoboxGlacierName = document.getElementsByClassName('infobox-glaciername');
   const infoboxLengthCumulative = document.getElementsByClassName('infobox-length--cumulative');
   const infoboxMassCumulative = document.getElementsByClassName('infobox-mass--cumulative');
@@ -204,9 +205,6 @@ function fillSchluesseldaten(featureId) {
     }
   }
 
-  const feature = datastore.features.findById(featureId);
-
-  console.log(infoboxGlacierName);
     if (feature.get('has_mass_value') == 't') {
       updateValue(infoboxMassTimespan, feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0) );
       updateValue(infoboxMassDuration, feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre' );
@@ -584,8 +582,7 @@ function selectGlacier (feature) {
   highlightedGlacier.feature = feature;
 
   /* 1. Fill infobox from feature */
-  const gletscher_id = feature.getId();
-  fillSchluesseldaten(gletscher_id);
+  fillSchluesseldaten(feature);
 
   /* 2a. Reset current selection */
   selectedOverlay.getSource().clear();
