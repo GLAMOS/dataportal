@@ -400,13 +400,7 @@ controller.bridge({enableSearch});
 const format = new GeoJSON;
 const url = '/geo/inventory/web_glacier_base_data.geojson';
 
-/* Default = Aletschgletscher */
-let gletscher_id;
-
-/* Selected feature (glacier) */
-let selected;
-
-// depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, fillSchluesseldaten
+// depends: url, format
 function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
 
@@ -595,13 +589,16 @@ controller.bridge({mapPanTo});
  * Populate Schluesseldaten, highlight selected marker
  *
  * @param  {Object} feature [description]
- * @depends page; highlightedGlacier, selectedOverlay
+ * @depends page; highlightedGlacier, selectedOverlay, fillSchluesseldaten
  */
 function selectGlacier (feature) {
   if (!feature) return;
 
+  /* 0. Store the feature as the highlighted one */
+  highlightedGlacier.feature = feature;
+
   /* 1. Fill infobox from feature */
-  gletscher_id = feature.getId();
+  const gletscher_id = feature.getId();
   fillSchluesseldaten(gletscher_id, page);
 
   /* 2a. Reset current selection */
@@ -609,7 +606,6 @@ function selectGlacier (feature) {
 
   /* 2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu */
   selectedOverlay.getSource().addFeature(feature);
-  selected = feature;
 }
 
 /*
@@ -667,7 +663,7 @@ const featureHover = function (pixel) {
     return false;
   });
 
-  if (feature !== hover && feature !== selected) {
+  if (feature !== hover && feature !== highlightedGlacier.feature) {
     if (hover) {
       hoverOverlay.getSource().removeFeature(hover);
     }
