@@ -189,8 +189,7 @@ var unit = function (x) {
     return Math.round(x / 100) / 10 + ' km';
 };
 
-function fillSchluesseldaten (featureId, page) {
-  console.log(`fillSchlüsseldaten: ${page}`);
+function fillSchluesseldaten(featureId) {
   const infoboxGlacierName = document.getElementsByClassName('infobox-glaciername');
   const infoboxLengthCumulative = document.getElementsByClassName('infobox-length--cumulative');
   const infoboxMassCumulative = document.getElementsByClassName('infobox-mass--cumulative');
@@ -230,10 +229,6 @@ function fillSchluesseldaten (featureId, page) {
       updateValue(infoboxLengthCumulative, '--');
     }
     updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
-
-  if (page == 'factsheet') {
-    updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
-  }
 }
 
 // function remove_first_occurrence(str, searchstr)       {
@@ -590,7 +585,7 @@ function selectGlacier (feature) {
 
   /* 1. Fill infobox from feature */
   const gletscher_id = feature.getId();
-  fillSchluesseldaten(gletscher_id, page);
+  fillSchluesseldaten(gletscher_id);
 
   /* 2a. Reset current selection */
   selectedOverlay.getSource().clear();
