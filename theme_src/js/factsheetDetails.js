@@ -2,7 +2,7 @@
 import $ from 'jquery'
 
 import { highlightedGlacier } from './datastore'
-
+import { Graph, configs, Queue } from './chart';
 
 // -----
 // constants
@@ -96,6 +96,14 @@ function populatePhotos(json) {
 // Init
 
 function setup(feature) {
+  $(".js-chart").each(function() {
+    const graph = Graph(this);
+    const type = $(this).data('type');
+    const config = configs[type];
+    const queue = Queue(config, (data) => graph.show(config, data))
+    queue.load(feature.getId());
+  });
+
   // load and fill in facts description and pictures
   fetch( feature.get('pk_glacier') )   // pk_glacier is the glacier's UUID
   .fail( () => {
