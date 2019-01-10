@@ -406,26 +406,24 @@ function loadFeatures(extent, resolution, projection) {
 
       var features = format.readFeatures(response,
         { featureProjection: 'EPSG:3857' });
-        var j = 0;
  
         // store features in 3 different vectorsources to filter in layerswitcher
         for(var i = 0; i < features.length; i++){ 
-
-          if (features[i].get("has_mass_value") == "t"){
-            gletscher_source_hasmass.addFeature(features[i]);
-
-            if (features[i].get("has_length_value") == "t"){
-              gletscher_source_haslength.addFeature(features[i]);
-            };
-          }
-          else if (features[i].get("has_length_value") == "t"){
-            gletscher_source_haslength.addFeature(features[i]);
-          }
-          else {
-            j++;
-            gletscher_source_nodata.addFeature(features[i]);
+          const feature = features[i];
+          let got_data = false;
+          if (feature.get("has_mass_value") == "t") {
+            gletscher_source_hasmass.addFeature(feature);
+            got_data = true;
           }
 
+          if (feature.get("has_length_value") == "t") {
+            gletscher_source_haslength.addFeature(feature);
+            got_data = true;
+          }
+
+          if (!got_data) {
+            gletscher_source_nodata.addFeature(feature);
+          }
         };
         
       // store features in datastorage and do stuff now we know about them
