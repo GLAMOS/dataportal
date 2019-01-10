@@ -81,7 +81,7 @@ class PDO_pgSQL_Statement {
             \PDO::FETCH_NUM   => PGSQL_NUM
         ];
 
-        return \pg_fetch_all($this->_result, @$pdo_to_pgsql[$fetch_style] ?: PGSQL_BOTH);
+        return \pg_fetch_all($this->_result);
     }
 }
 
