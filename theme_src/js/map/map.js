@@ -154,14 +154,7 @@ style[5] = selectableStyleSmall_hasmass;
 style[6] = selectableStyle_hassmass;
 
 function filterFeature(feature) {
-  //keine Werte
-  var has_mass_value = feature.get('has_mass_value');
-  var has_length_value = feature.get('has_length_value');
-
-  if (has_mass_value == 't' || has_length_value == 't') {
-    return true;
-  }
-  else return false;
+  return feature.get('has_mass') || feature.get('has_length');
 }
 
 function checkResolution_masse(feature, resolution) {
@@ -411,12 +404,12 @@ function loadFeatures(extent, resolution, projection) {
         for(var i = 0; i < features.length; i++){ 
           const feature = features[i];
           let got_data = false;
-          if (feature.get("has_mass_value") == "t") {
+          if (feature.get("has_mass")) {
             gletscher_source_hasmass.addFeature(feature);
             got_data = true;
           }
 
-          if (feature.get("has_length_value") == "t") {
+          if (feature.get("has_length")) {
             gletscher_source_haslength.addFeature(feature);
             got_data = true;
           }
