@@ -208,8 +208,8 @@ const format_plain = function(text) {
 }
 
 class InfoboxField {
-  constructor(selector, format) {
-    this.selector = '.' + selector;
+  constructor(className, format) {
+    this.selector = '.' + className;
     this.format = format;
   }
   
