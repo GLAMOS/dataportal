@@ -154,14 +154,7 @@ style[5] = selectableStyleSmall_hasmass;
 style[6] = selectableStyle_hassmass;
 
 function filterFeature(feature) {
-  //keine Werte
-  var has_mass_value = feature.get('has_mass_value');
-  var has_length_value = feature.get('has_length_value');
-
-  if (has_mass_value == 't' || has_length_value == 't') {
-    return true;
-  }
-  else return false;
+  return feature.get('has_mass') || feature.get('has_length');
 }
 
 function checkResolution_masse(feature, resolution) {
@@ -215,7 +208,7 @@ function fillSchluesseldaten (featureId, page) {
   const feature = datastore.features.findById(featureId);
 
   console.log(infoboxGlacierName);
-    if (feature.get('has_mass_value') == 't') {
+    if (feature.get('has_mass') == 't') {
       updateValue(infoboxMassTimespan, feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0) );
       updateValue(infoboxMassDuration, feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre' );
       updateValue(infoboxMassCumulative, unit(feature.get('last_mass_change_cumulative')) + '&sup3;' );
@@ -226,7 +219,7 @@ function fillSchluesseldaten (featureId, page) {
       updateValue(infoboxMassCumulative, '--');
     }
 
-    if (feature.get('has_length_value') == 't') {
+    if (feature.get('has_length') == 't') {
       updateValue(infoboxLengthTimespan, feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0) );
       updateValue(infoboxLengthDuration, feature.get('length_anzahl_jahre').toFixed(0) + ' Jahre' );
       updateValue(infoboxLengthCumulative, unit(feature.get('last_length_change_cumulative')) );
@@ -406,26 +399,24 @@ function loadFeatures(extent, resolution, projection) {
 
       var features = format.readFeatures(response,
         { featureProjection: 'EPSG:3857' });
-        var j = 0;
  
         // store features in 3 different vectorsources to filter in layerswitcher
         for(var i = 0; i < features.length; i++){ 
-
-          if (features[i].get("has_mass_value") == "t"){
-            gletscher_source_hasmass.addFeature(features[i]);
-
-            if (features[i].get("has_length_value") == "t"){
-              gletscher_source_haslength.addFeature(features[i]);
-            };
-          }
-          else if (features[i].get("has_length_value") == "t"){
-            gletscher_source_haslength.addFeature(features[i]);
-          }
-          else {
-            j++;
-            gletscher_source_nodata.addFeature(features[i]);
+          const feature = features[i];
+          let got_data = false;
+          if (feature.get("has_mass")) {
+            gletscher_source_hasmass.addFeature(feature);
+            got_data = true;
           }
 
+          if (feature.get("has_length")) {
+            gletscher_source_haslength.addFeature(feature);
+            got_data = true;
+          }
+
+          if (!got_data) {
+            gletscher_source_nodata.addFeature(feature);
+          }
         };
         
       // store features in datastorage and do stuff now we know about them
@@ -652,14 +643,10 @@ let hover;
  */
 const featureHover = function (pixel) {
   const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
-    const has_mass_value = feature.get('has_mass_value');
-    const has_length_value = feature.get('has_length_value');
-
     /* Hover only works if glacier has data */
-    if (has_mass_value == 't' || has_length_value == 't') {
+    if (filterFeature(feature)) {
       return feature;
     }
-
     return false;
   });
 
