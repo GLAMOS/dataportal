@@ -187,7 +187,7 @@ const format_meters = function(m) {
   if (m >= -999 && m <= 999)
     return m + nbsp + 'm';
   else
-    return Math.round(m / 100) / 10 + nbsp + 'km';
+    return (m / 1000).toFixed(1) + nbsp + 'km';
 };
 
 const format_meters3 = function(m) {
