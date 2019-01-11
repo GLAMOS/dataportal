@@ -199,7 +199,8 @@ const format_years = function(y) {
 };
 
 const format_span = function(values) {
-  return values.map((y) => y.toFixed(0)).join(" – ");
+  const sep_with_thinspace = " – ";
+  return values.map((y) => y.toFixed(0)).join(sep_with_thinspace);
 }
 
 const format_plain = function(text) {
