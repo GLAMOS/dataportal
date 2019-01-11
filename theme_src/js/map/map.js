@@ -181,58 +181,83 @@ var switcher = new LayerSwitcher(
     //oninfo: function (l) { alert(l.get("title")); }
   });
 
+const nbsp = " ";
 
-var unit = function (x) {
-  if (x >= -999 && x <= 999)
-    return x + ' m';
+const format_meters = function(m) {
+  if (m >= -999 && m <= 999)
+    return m + nbsp + 'm';
   else
-    return Math.round(x / 100) / 10 + ' km';
+    return (m / 1000).toFixed(1) + nbsp + 'km';
 };
 
-function fillSchluesseldaten (featureId, page) {
-  console.log(`fillSchlüsseldaten: ${page}`);
-  const infoboxGlacierName = document.getElementsByClassName('infobox-glaciername');
-  const infoboxLengthCumulative = document.getElementsByClassName('infobox-length--cumulative');
-  const infoboxMassCumulative = document.getElementsByClassName('infobox-mass--cumulative');
-  const infoboxLengthTimespan = document.getElementsByClassName('infobox-length--timespan');
-  const infoboxMassTimespan = document.getElementsByClassName('infobox-mass--timespan');
-  const infoboxLengthDuration = document.getElementsByClassName('infobox-length--duration');
-  const infoboxMassDuration = document.getElementsByClassName('infobox-mass--duration');
+const format_meters3 = function(m) {
+  return m + nbsp + 'm³';
+};
 
-  function updateValue (el, value) {
-    for (let i = 0; i < el.length; i++) {
-      el[i].innerHTML = value;
-    }
+const format_years = function(y) {
+  return y.toFixed(0) + nbsp + 'Jahre';
+};
+
+const format_span = function(values) {
+  const thinspace = " ";
+  const en_dash = "–";
+  return values.map((y) => y.toFixed(0)).join(thinspace + en_dash + thinspace);
+}
+
+const format_plain = function(text) {
+  return text;
+}
+
+class InfoboxField {
+  constructor(className, format) {
+    this.selector = '.' + className;
+    this.format = format;
+  }
+  
+  clear() {
+    const em_dash = "—";
+    $(this.selector).text(em_dash);
   }
 
-  const feature = datastore.features.findById(featureId);
+  update(value) {
+    $(this.selector).text(this.format(value));
+  }
+}
 
-  console.log(infoboxGlacierName);
-    if (feature.get('has_mass') == 't') {
-      updateValue(infoboxMassTimespan, feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0) );
-      updateValue(infoboxMassDuration, feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre' );
-      updateValue(infoboxMassCumulative, unit(feature.get('last_mass_change_cumulative')) + '&sup3;' );
-    }
-    else {
-      updateValue(infoboxMassTimespan, '--');
-      updateValue(infoboxMassDuration, '--');
-      updateValue(infoboxMassCumulative, '--');
-    }
 
-    if (feature.get('has_length') == 't') {
-      updateValue(infoboxLengthTimespan, feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0) );
-      updateValue(infoboxLengthDuration, feature.get('length_anzahl_jahre').toFixed(0) + ' Jahre' );
-      updateValue(infoboxLengthCumulative, unit(feature.get('last_length_change_cumulative')) );
-    }
-    else {
-      updateValue(infoboxLengthTimespan, '--');
-      updateValue(infoboxLengthDuration, '--');
-      updateValue(infoboxLengthCumulative, '--');
-    }
-    updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
+function fillSchluesseldaten(feature) {
+  const glacierName = new InfoboxField('infobox-glaciername', format_plain);
+  glacierName.update(feature.get(DISPLAY_NAME));
 
-  if (page == 'factsheet') {
-    updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
+  const massCumulative = new InfoboxField('infobox-mass--cumulative', format_meters3);
+  const massTimespan = new InfoboxField('infobox-mass--timespan', format_span);
+  const massDuration = new InfoboxField('infobox-mass--duration', format_years);
+  if (feature.get('has_mass')) {
+    const first = feature.get('first_year_mass');
+    const last = feature.get('last_year_mass');
+    massTimespan.update([first, last]);
+    massDuration.update(last - first);
+    massCumulative.update(feature.get('last_mass_change_cumulative'));
+  } else {
+    massTimespan.clear()
+    massDuration.clear()
+    massCumulative.clear()
+  }
+
+  const lengthCumulative = new InfoboxField('infobox-length--cumulative', format_meters);
+  const lengthTimespan = new InfoboxField('infobox-length--timespan', format_span);
+  const lengthDuration = new InfoboxField('infobox-length--duration', format_years);
+  if (feature.get('has_length')) {
+    const first = feature.get('first_year_length');
+    const last = feature.get('last_year_length');
+    lengthTimespan.update([first, last]);
+    lengthDuration.update(last - first);
+    lengthCumulative.update(feature.get('last_length_change_cumulative'));
+  }
+  else {
+    lengthTimespan.clear()
+    lengthDuration.clear()
+    lengthCumulative.clear()
   }
 }
 
@@ -589,8 +614,7 @@ function selectGlacier (feature) {
   highlightedGlacier.feature = feature;
 
   /* 1. Fill infobox from feature */
-  const gletscher_id = feature.getId();
-  fillSchluesseldaten(gletscher_id, page);
+  fillSchluesseldaten(feature);
 
   /* 2a. Reset current selection */
   selectedOverlay.getSource().clear();
