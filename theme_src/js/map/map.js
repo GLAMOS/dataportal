@@ -181,9 +181,9 @@ var switcher = new LayerSwitcher(
     //oninfo: function (l) { alert(l.get("title")); }
   });
 
+const nbsp = " ";
 
 const format_meters = function(m) {
-  const nbsp = " ";
   if (m >= -999 && m <= 999)
     return m + nbsp + 'm';
   else
@@ -191,11 +191,11 @@ const format_meters = function(m) {
 };
 
 const format_meters3 = function(m) {
-  return m + 'm³';
+  return m + nbsp + 'm³';
 };
 
 const format_years = function(y) {
-  return y.toFixed(0) + ' Jahre';
+  return y.toFixed(0) + nbsp + 'Jahre';
 };
 
 const format_span = function(values) {
