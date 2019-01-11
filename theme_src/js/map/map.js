@@ -208,7 +208,7 @@ function fillSchluesseldaten (featureId, page) {
   const feature = datastore.features.findById(featureId);
 
   console.log(infoboxGlacierName);
-    if (feature.get('has_mass_value') == 't') {
+    if (feature.get('has_mass') == 't') {
       updateValue(infoboxMassTimespan, feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0) );
       updateValue(infoboxMassDuration, feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre' );
       updateValue(infoboxMassCumulative, unit(feature.get('last_mass_change_cumulative')) + '&sup3;' );
@@ -219,7 +219,7 @@ function fillSchluesseldaten (featureId, page) {
       updateValue(infoboxMassCumulative, '--');
     }
 
-    if (feature.get('has_length_value') == 't') {
+    if (feature.get('has_length') == 't') {
       updateValue(infoboxLengthTimespan, feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0) );
       updateValue(infoboxLengthDuration, feature.get('length_anzahl_jahre').toFixed(0) + ' Jahre' );
       updateValue(infoboxLengthCumulative, unit(feature.get('last_length_change_cumulative')) );
@@ -643,14 +643,10 @@ let hover;
  */
 const featureHover = function (pixel) {
   const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
-    const has_mass_value = feature.get('has_mass_value');
-    const has_length_value = feature.get('has_length_value');
-
     /* Hover only works if glacier has data */
-    if (has_mass_value == 't' || has_length_value == 't') {
+    if (filterFeature(feature)) {
       return feature;
     }
-
     return false;
   });
 
