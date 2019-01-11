@@ -199,8 +199,9 @@ const format_years = function(y) {
 };
 
 const format_span = function(values) {
-  const sep_with_thinspace = " – ";
-  return values.map((y) => y.toFixed(0)).join(sep_with_thinspace);
+  const thinspace = " ";
+  const en_dash = "–";
+  return values.map((y) => y.toFixed(0)).join(thinspace + en_dash + thinspace);
 }
 
 const format_plain = function(text) {
