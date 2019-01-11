@@ -94,7 +94,3 @@ ssh "${SSH_OPT[@]}" "$REMOTE" "
 ## Hookup ~/data
 ssh "${SSH_OPT[@]}" "$REMOTE" "bash ${PATH_APP}/deploy/server_post_rsync.sh '${PATH_WWW_ROOT}'"
 
-
-# Flush Craft cache
-printf '%s' 'Flushing cache: '
-curl --silent "https://${REMOTE_HOST}/flush"
