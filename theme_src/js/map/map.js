@@ -29,7 +29,7 @@ import datastore from '../datastore';
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 
-const DISPLAY_NAME = 'glacier_short_name';
+const DISPLAY_NAME = 'glacier_full_name';
 
 	// A group layer for base layers
 var baseLayers = new Group(
