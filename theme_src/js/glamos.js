@@ -26,7 +26,7 @@ import sidepane from './map/monitoringSidepane';
     $(`#${TAB_ID}`).addClass(CLASS_NAME);
   }
   controller.bridge({selectDownloadTab});
-});
+}(global, $));
 
 
 $(document).ready(() => {
