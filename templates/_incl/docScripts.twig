@@ -9,7 +9,9 @@
 <script type="text/javascript">
   jQuery(function($) {
     $(document).ready( function() {
-      $('.navBar').stickUp({itemClass: 'stickyNav',marginTop: '50px'});
+      if ( $( ".stickyNav" ).length ) {
+        $('.navBar').stickUp({itemClass: 'stickyNav',marginTop: '50px'});
+      }
     });
   });
 </script>
