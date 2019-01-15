@@ -33,4 +33,13 @@ $(document).ready(() => {
   /* initializing */
   controller.onPageLoad();
   sidepane.setup();
+
+  // fire mobile menu drawer
+  $("#mainMobileNav").mmenu();
+
+  //fire the lightgallery plugin
+  $(".imgGallery").lightGallery({
+    download: false
+  });
+
 });
