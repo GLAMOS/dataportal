@@ -9,13 +9,12 @@
     {% include '_molecules/factsheetHead' %}
     {% include '_molecules/cardMap' %}
     {% include '_molecules/cardMeasurements' %}
-    <div class="factsheetChartBox">
-      {{ macro.cardChart('Längenänderung', 'length_change') }}
-      {{ macro.cardChart('Massenbilanz', 'mass_balance') }}
-    </div>
+    {{ macro.cardChart('Längenänderung', 'length_change') }}
+    {{ macro.cardChart('Massenbilanz', 'mass_balance') }}
 
     {% include '_molecules/cardPhoto' %}
     {% include '_molecules/cardComment' %}
+    <div class="fsQuotation"><p>Box für Zitierhinweis</p></div>
 
     {# {{ macro.cardChart('Volumenänderung', 'chartThree') }}
     {{ macro.cardChart('Eisdicke', 'chartOne') }}

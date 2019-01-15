@@ -30,7 +30,7 @@
   .fsMap {
     grid-column: 1/-1;
     @include smUp {
-      grid-column: span 5;
+      grid-column: span 6;
     }
   }
   .fsMeasurements {
@@ -45,7 +45,7 @@
   .fsPhoto {
     grid-column: 1/-1;
     @include smUp {
-      grid-column: span 2;
+      grid-column: span 3;
     }
   }
   .fsComment {
@@ -55,25 +55,15 @@
     }
     &.cardCommentBig {
       @include smUp {
-        grid-column: span 6;
+        grid-column: span 4;
       }
     }
   }
   .fsExport {
     @extend %hiddenMdDown
   }
-  .factsheetChartBox {
+  .fsChart {
     grid-column: 1/-1;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    .fsChart {
-      width: 100%;
-      margin-bottom: 20px;
-      @include smUp {
-        width: 49%;
-      }
-    }
   }
 
 }
