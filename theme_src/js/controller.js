@@ -108,19 +108,20 @@ class Controller {
   mapMarkerHighlighted (feature) {
     this._extendSelection(feature);
     /* note: no map panning */
+    urlManager.majorUpdate();
   }
 
   searchSelected (feature) {
     bridge.mapPanTo(feature);
     factsheetUpdate(feature);
     this._extendSelection(feature);
+    urlManager.majorUpdate();
   }
 
   _extendSelection(feature) {
     bridge.selectGlacier(feature);
     const added = bridge.monitoringSelectedFeatureList.add(feature);
     if (added) dataview.load([feature2id(feature)]);
-    urlManager.majorUpdate();
   }
 
   /* Monitoring */
