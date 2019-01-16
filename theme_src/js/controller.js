@@ -106,16 +106,16 @@ class Controller {
   /* Home */
 
   mapMarkerHighlighted (feature) {
-    this._addGlacier(feature);
+    this._extendSelection(feature);
     /* note: no map panning */
   }
 
   searchSelected (feature) {
     bridge.mapPanTo(feature);
-    this._addGlacier(feature);
+    this._extendSelection(feature);
   }
 
-  _addGlacier(feature) {
+  _extendSelection(feature) {
     bridge.selectGlacier(feature);
     const added = bridge.monitoringSelectedFeatureList.add(feature);
     if (added) dataview.load([feature2id(feature)]);
