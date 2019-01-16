@@ -41,16 +41,6 @@ import controller from './controller'
 class UrlManager {
   constructor() {
 
-    // @param href  URL without hash
-    // @usage page tabs (activated by dynamicLinks)
-    this.navigateTo = function(href) {
-      const url = href + _getFullHash(true);
-      // if href part changes, navigate; otherwise just add history entry
-      window.location.href = url;
-    }
-
-    // REDESIGNED
-
     // private
 
     // helpers
@@ -110,6 +100,15 @@ class UrlManager {
     }
 
     // public
+
+    /** called when navigating to another page
+     * @param href  URL without hash
+     */
+    this.navigateTo = function(href) {
+      const url = href + _getFullHash(true);
+      // if href part changes, navigate; otherwise just adds history entry
+      window.location.href = url;
+    }
 
     /// just updates the URL hash shown in browser, without history entry
     this.minorUpdate = () => {
