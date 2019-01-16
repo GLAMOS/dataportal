@@ -92,12 +92,15 @@ class UrlManager {
 
     // features (glaciers)
     const _getFeatureHashPart = () => {
-      const highlighted = datastore.highlightedGlacier.get()
-      const selectedNonActive = datastore.selectedGlaciers.get().filter(
-          id => highlighted != id
-      )
-      const highlightedAry = highlighted ? [highlighted] : []
-      return [ ...highlightedAry, ...selectedNonActive ].map(id2hash)
+      const candidates = [
+        datastore.highlightedGlacier.get(),
+        ...datastore.selectedGlaciers.get()];
+
+      const selected = [];
+      for (let id of candidates) {
+        if (id && selected.indexOf(id) < 0) selected.push(id);
+      }
+      return selected.map(id2hash);
     }
 
     const _setFeaturesFromHashPart = (hashes) => {
