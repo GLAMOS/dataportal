@@ -2,6 +2,9 @@ import $ from 'jquery';
 import 'jquery.mmenu';
 import 'lightgallery';
 
+import ieDetector from '@kspr/gugus-ie-detector';
+ieDetector();
+
 import controller from './controller';
 
 import './map/map.js';
@@ -24,6 +27,7 @@ import sidepane from './map/monitoringSidepane';
   }
   controller.bridge({selectDownloadTab});
 }(global, $));
+
 
 $(document).ready(() => {
   /* initializing */
