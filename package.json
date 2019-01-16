@@ -13,7 +13,6 @@
     "Thomas Lahn <thomas.lahn@meteotest.ch>"
   ],
   "dependencies": {
-    "@kspr/gugus-ie-detector": "^3.0.0",
     "c3": "^0.6.8",
     "gugus-media-queries": "^1.1.1",
     "jquery-ui": "^1.12.1",

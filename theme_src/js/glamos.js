@@ -2,9 +2,6 @@ import $ from 'jquery';
 import 'jquery.mmenu';
 import 'lightgallery';
 
-import ieDetector from '@kspr/gugus-ie-detector';
-ieDetector();
-
 import controller from './controller';
 
 import './map/map.js';
@@ -28,9 +25,32 @@ import sidepane from './map/monitoringSidepane';
   controller.bridge({selectDownloadTab});
 }(global, $));
 
-
 $(document).ready(() => {
   /* initializing */
   controller.onPageLoad();
   sidepane.setup();
+
+  // fire mobile menu drawer
+  $("#mainMobileNav").mmenu();
+
+  //fire the lightgallery plugin
+  $(".imgGallery").lightGallery({
+    download: false
+  });
+
+  // glossar anchor scroll animation
+  if ( $( ".glossarListing" ).length ) {
+    $("a[href^='#']").on("click", function(e) { e.preventDefault();
+      $("html, body").animate({
+        scrollTop: $($(this).attr("href")).offset().top
+      }, 1000);
+    });
+
+    if ($(window.location.hash).length > 1) {
+      $("html, body").animate({
+        scrollTop: $(window.location.hash).offset().top
+      }, 1000);
+    }
+  }
+
 });

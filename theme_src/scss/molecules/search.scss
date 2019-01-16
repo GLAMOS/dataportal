@@ -1,35 +1,34 @@
 .fieldSearchWrapper {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   @extend %mobilePadding;
   input {
     border-radius: 40px 0 0 40px;
     background-color: lighten($glamosColor,30%);
     padding-left: 20px;
+    min-width: 0;
     height: 30px;
     @extend %fontM;
     border: solid 1px $lightBorder;
-    &::-moz-placeholder {
-      color: $markerColor;
-      padding-left: 20px;
+    @include mdDown {
+      max-width: 100px;
     }
-    // @include smUp {
-    //   width: 110px;
-    // }
-    @include mdUp {
-      max-width: 70%;
+    @include smDown {
+      max-width: 100%;
+      flex: 1;
     }
+  }
+  ::-moz-placeholder, ::-webkit-input-placeholder, :-ms-input-placeholder, ::placeholder {
+    color: $markerColor;
+    padding-left: 20px;
   }
   button {
     border: none;
-    flex-grow: 1;
     height: 30px;
     background-color: $markerColor;
     color: $txtInvert;
     border-radius: 0 40px 40px 0;
     margin: 0;
-    max-width: 85px;
   }
 }
 
