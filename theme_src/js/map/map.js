@@ -316,7 +316,7 @@ class SelectionList {
       .find('[name="remove"]')
       .on('click', (ev) => this.remove(ev.currentTarget.id))
       .end();
-    $('#selectionlist-max-warn').toggleClass('hidden', !datastore.selectedGlaciers.maxEntriesReached());
+    $('#selectionlist-max-warn').toggleClass('hidden', !this.store.maxEntriesReached());
   }
 
   renderEntry (feature) {
