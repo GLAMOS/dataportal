@@ -86,6 +86,7 @@ class SelectionList {
      * @type {Array}
      */
     let _data = [];
+    const listMaxEntries = 5;
 
     /* allows polyvalence */
     const _ensureId = ((idORfeat) => (isFeature(idORfeat) ? idORfeat.getId() : idORfeat));
@@ -105,6 +106,11 @@ class SelectionList {
     };
 
     this.clear = () => { _data = []; };
+
+    this.maxEntriesReached = () => {
+      return _data.length >= listMaxEntries;
+    }
+
 
     this.findById = (id) => _data.includes(id) && features.findById(id);
   }

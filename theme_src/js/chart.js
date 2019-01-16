@@ -39,9 +39,8 @@ export const Graph = function(container) {
       }
     },
     clear() { enqueueIfNeeded(() => chart.unload({ done: synch.next })); },
-    unload(id) { enqueueIfNeeded(() => chart.unload({ ids: [id], done: synch.next })); },
+    hide(id) { enqueueIfNeeded(() => chart.unload({ ids: [id], done: synch.next })); },
   };
-
 }
 
 
@@ -215,4 +214,61 @@ export const Queue = function(config, loaded) {
     load(id) { queue.push(Loading(id, config, done)) },
     cancel() { canceled = true; }
   }
+}
+
+
+/** Desired state of a chart
+ * 
+ * It can give you a cleared() version of itself with an empty ids list. You can
+ * ask it which ids are added() or removed() in another selection.
+*/
+export const Selection = function(type, ids) {
+  const config = configs[type];
+  
+  const cleared = function() {
+    return Selection(type, []);
+  };
+
+  const only_in_first = function(first, second) {
+    return first.filter(id => second.indexOf(id) < 0);
+  }
+
+  const added = function(other) {
+    return only_in_first(other.ids, ids);
+  }
+
+  const removed = function(other) {
+    return only_in_first(ids, other.ids);
+  }
+
+  return {type, ids, config, cleared, added, removed};
+}
+
+
+/** Shows a chart in the given container
+ * 
+ * You can tell it to update() itself to a new selection.
+*/
+export const Chart = function(container) {
+  let graph = Graph(container);
+  let queue;
+  let selection = Selection('uninitialized', []);
+
+  const update = function(newSelection) {
+    if (queue) queue.cancel();
+    const config = newSelection.config;
+    queue = Queue(config, (data) => graph.show(config, data));
+
+    if (selection.type !== newSelection.type) {
+      graph.clear();
+      selection = newSelection.cleared();
+    }
+    
+    for (let id of selection.removed(newSelection)) graph.hide(id);
+    for (let id of selection.added(newSelection)) queue.load(id);
+
+    selection = newSelection;
+  }
+
+  return {update};
 }

@@ -280,28 +280,12 @@ class SelectionList {
         <title>close</title>
         <path d="M305.5,256,473.75,87.75a35,35,0,0,0-49.5-49.5L256,206.5,87.75,38.25a35,35,0,0,0-49.5,49.5L206.5,256,38.25,424.25a35,35,0,0,0,49.5,49.5L256,305.5,424.25,473.75a35,35,0,0,0,49.5-49.5Z"></path>
       </svg>`;
-    this.listMaxEntries = 5;
 
-    this.add = this.add.bind(this);
     this.reset = this.reset.bind(this);
     this.renderEntry = this.renderEntry.bind(this);
 
     /* Hook up reset callback only once (thus done in contructor) */
     $('#monitoring-glacier--list + button[name="reset"]').on('click', this.reset);
-  }
-
-  maxEntriesReached () {
-    return this.store.get().length >= this.listMaxEntries;
-  }
-
-  add (feature) {
-    if (this.maxEntriesReached()) {
-      this.denyAddition(feature);
-      return false;
-    }
-    this.store.add(feature);
-    this.refresh();
-    return true;
   }
 
   select (id) {
@@ -332,7 +316,7 @@ class SelectionList {
       .find('[name="remove"]')
       .on('click', (ev) => this.remove(ev.currentTarget.id))
       .end();
-    $('#selectionlist-max-warn').toggleClass('hidden', !this.maxEntriesReached());
+    $('#selectionlist-max-warn').toggleClass('hidden', !datastore.selectedGlaciers.maxEntriesReached());
   }
 
   renderEntry (feature) {
