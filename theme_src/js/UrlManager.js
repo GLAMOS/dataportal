@@ -98,6 +98,7 @@ class UrlManager {
 
       let selected = [];
       for (let id of candidates) {
+        // skip duplicates: avoids taking highlighted one also from selectedGlaciers
         if (id && selected.indexOf(id) < 0) selected.push(id);
       }
 
