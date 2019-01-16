@@ -112,6 +112,7 @@ class Controller {
 
   searchSelected (feature) {
     bridge.mapPanTo(feature);
+    factsheetUpdate(feature);
     this._extendSelection(feature);
   }
 
@@ -119,7 +120,6 @@ class Controller {
     bridge.selectGlacier(feature);
     const added = bridge.monitoringSelectedFeatureList.add(feature);
     if (added) dataview.load([feature2id(feature)]);
-    factsheetUpdate(feature)
     urlManager.majorUpdate();
   }
 
