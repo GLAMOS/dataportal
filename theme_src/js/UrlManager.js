@@ -42,11 +42,6 @@ class UrlManager {
   constructor() {
 
     // LEGACY (ported)
-
-    this.getIdFromUrl = () =>
-        // RFC-3986 tells '#' is not part of fragment identifier, but browsers do. We drop it
-        decodeURIComponent( window.location.hash.replace(/^#/, '') )
-
     // @usage selectGlacier (i.e. via marker or search)
     this.setId = (id) => { window.location.hash = id }
     //TODO: OR encodeURIComponent(id)
