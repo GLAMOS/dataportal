@@ -106,12 +106,12 @@ class Controller {
   /* Home */
 
   mapMarkerHighlighted (feature) {
-    controller._addGlacier(feature);
+    this._addGlacier(feature);
     /* note: no map panning */
   }
 
   searchSelected (feature) {
-    controller._addGlacier(feature);
+    this._addGlacier(feature);
     bridge.mapPanTo(feature);
   }
 
