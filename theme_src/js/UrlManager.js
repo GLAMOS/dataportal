@@ -44,7 +44,7 @@ class UrlManager {
     // @param href  URL without hash
     // @usage page tabs (activated by dynamicLinks)
     this.navigateTo = function(href) {
-      const url = href + _getFullHash();
+      const url = href + _getFullHash(true);
       // if href part changes, navigate; otherwise just add history entry
       window.location.href = url;
     }
@@ -91,14 +91,18 @@ class UrlManager {
     }
 
     // features (glaciers)
-    const _getFeatureHashPart = () => {
+    const _getFeatureHashPart = (limited) => {
       const candidates = [
         datastore.highlightedGlacier.get(),
         ...datastore.selectedGlaciers.get()];
 
-      const selected = [];
+      let selected = [];
       for (let id of candidates) {
         if (id && selected.indexOf(id) < 0) selected.push(id);
+      }
+
+      if (limited) {
+        selected = selected.slice(0, 1);
       }
       return selected.map(id2hash);
     }
@@ -110,10 +114,10 @@ class UrlManager {
     }
 
     // get from / set to hash
-    const _getFullHash = () => {
+    const _getFullHash = (limited) => {
       const fullHash = '#' + [
           _getLayerHashPart().join('&'),
-          _getFeatureHashPart().join('&'),
+          _getFeatureHashPart(limited).join('&'),
       ].join('/')
       return fullHash
     }
