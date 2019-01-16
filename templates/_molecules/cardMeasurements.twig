@@ -3,13 +3,15 @@
 <div class="fsMeasurements">
   <h2 class="cardTitle">{{ 'Kumulierte Messwerte' | t }}</h2>
 
+  {{ macro.singleValue('—', '', 'Masseänderung', 'infobox-mass--cumulative') }}
+  {{ macro.timeValue('—', '', 'Messzeitraum Masse', 'infobox-mass--timespan') }}
+  {{ macro.timeValue('—', ' Jahre', 'Messdauer', 'infobox-mass--duration') }}
+
   {{ macro.singleValue('—', '', 'Längenänderung', 'infobox-length--cumulative') }}
   {{ macro.timeValue('—', '', 'Messzeitraum Länge', 'infobox-length--timespan') }}
   {{ macro.timeValue('—', ' Jahre', 'Messdauer', 'infobox-length--duration') }}
 
-  {{ macro.singleValue('—', '', 'Masseänderung', 'infobox-mass--cumulative') }}
-  {{ macro.timeValue('—', '', 'Messzeitraum Masse', 'infobox-mass--timespan') }}
-  {{ macro.timeValue('—', ' Jahre', 'Messdauer', 'infobox-mass--duration') }}
+
 
 {# {{ macro.singleValue('-3.24','%','Volumenänderung') }}
 {{ macro.singleValue('324','%','Eisdicken') }}
