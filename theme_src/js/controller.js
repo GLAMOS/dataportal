@@ -107,17 +107,17 @@ class Controller {
 
   mapMarkerHighlighted (feature) {
     bridge.selectGlacier(feature);
-    dataview.load([feature2id(feature)]);
     /* note: no map panning */
-    bridge.monitoringSelectedFeatureList.add(feature);
+    const added = bridge.monitoringSelectedFeatureList.add(feature);
+    if (added) dataview.load([feature2id(feature)]);
     urlManager.majorUpdate();
   }
 
   searchSelected (feature) {
     bridge.selectGlacier(feature);
-    dataview.load([feature2id(feature)]);
     bridge.mapPanTo(feature);
-    bridge.monitoringSelectedFeatureList.add(feature);
+    const added = bridge.monitoringSelectedFeatureList.add(feature);
+    if (added) dataview.load([feature2id(feature)]);
     factsheetUpdate(feature)
     urlManager.majorUpdate();
   }
