@@ -111,8 +111,8 @@ class Controller {
   }
 
   searchSelected (feature) {
-    this._addGlacier(feature);
     bridge.mapPanTo(feature);
+    this._addGlacier(feature);
   }
 
   _addGlacier(feature) {
