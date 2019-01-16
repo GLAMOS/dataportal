@@ -46,10 +46,8 @@ class Controller {
   _chooseRandom () {
     const feature = datastore.features.getRandomVIG();
     if (feature) {
-      datastore.selectedGlaciers.add(feature);
-      bridge.selectGlacier(feature);
+      this._extendSelection(feature);
       bridge.mapPanTo(feature);
-      dataview.update();
     }
   }
 
@@ -128,7 +126,6 @@ class Controller {
       bridge.selectGlacier(feature);
       dataview.update();
       factsheetUpdate(feature)
-      urlManager.majorUpdate();
     }
   }
 
