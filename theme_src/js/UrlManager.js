@@ -41,11 +41,6 @@ import controller from './controller'
 class UrlManager {
   constructor() {
 
-    // LEGACY (ported)
-    // @usage selectGlacier (i.e. via marker or search)
-    this.setId = (id) => { window.location.hash = id }
-    //TODO: OR encodeURIComponent(id)
-
     // @param href  URL without hash
     // @usage page tabs (activated by dynamicLinks)
     this.navigateTo = (href) =>
