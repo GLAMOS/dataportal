@@ -49,20 +49,6 @@ class UrlManager {
       window.location.href = url;
     }
 
-    // @param hash  of the mini-tab
-    // @usage navigation between download (mini-)tabs
-    this.switchTo = (HREF_VALUE) => {
-      //add hash to url
-      if (history.pushState) {
-        // note: no hashchange event fired
-        history.pushState(null, null, HREF_VALUE);
-      }
-      else {
-        // no new history entry if hash does not change
-        location.hash = HREF_VALUE;
-      }
-    }
-
     // REDESIGNED
 
     // private
