@@ -106,16 +106,17 @@ class Controller {
   /* Home */
 
   mapMarkerHighlighted (feature) {
-    bridge.selectGlacier(feature);
+    controller._addGlacier(feature);
     /* note: no map panning */
-    const added = bridge.monitoringSelectedFeatureList.add(feature);
-    if (added) dataview.load([feature2id(feature)]);
-    urlManager.majorUpdate();
   }
 
   searchSelected (feature) {
-    bridge.selectGlacier(feature);
+    controller._addGlacier(feature);
     bridge.mapPanTo(feature);
+  }
+
+  _addGlacier(feature) {
+    bridge.selectGlacier(feature);
     const added = bridge.monitoringSelectedFeatureList.add(feature);
     if (added) dataview.load([feature2id(feature)]);
     factsheetUpdate(feature)
