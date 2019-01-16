@@ -43,9 +43,11 @@ class UrlManager {
 
     // @param href  URL without hash
     // @usage page tabs (activated by dynamicLinks)
-    this.navigateTo = (href) =>
-        // if href part changes, navigate; otherwise just add history entry
-        window.location.href = href + window.location.hash;
+    this.navigateTo = function(href) {
+      const url = href + _getFullHash();
+      // if href part changes, navigate; otherwise just add history entry
+      window.location.href = url;
+    }
 
     // @param hash  of the mini-tab
     // @usage navigation between download (mini-)tabs
