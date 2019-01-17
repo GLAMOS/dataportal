@@ -272,9 +272,11 @@ export const Chart = function(container) {
     if (queue) queue.cancel();
     const config = newSelection.config;
     const receive = function(data, id) {
+      // Update graph with incoming data
       graph.show(config, data);
     };
     const completed = function(id) {
+      // Mark this id as loaded, even if there was no data
       selection = selection.including(id);
     };
     queue = Queue(config, receive, completed);
