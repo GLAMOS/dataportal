@@ -191,12 +191,11 @@ const Loading = function(glacier_id, config, done) {
  *
  * You can tell it to load() data by glacier ID.
  * It will call loaded() in the same order as load() was called
- * when data becomes available.
- * Regardless of data availability, completed() will be called
- * for each requested id.
+ * when data becomes available. loaded() is called with two parameters
+ * `data` and `id`. `data` may be false if there was no data available.
  * If you don't want any more updates, tell it to cancel().
  */
-export const Queue = function(config, loaded, completed) {
+export const Queue = function(config, loaded) {
   const queue = [];
   let canceled = false;
 
@@ -205,10 +204,7 @@ export const Queue = function(config, loaded, completed) {
     while(queue.length > 0 && queue[0].finished()) {
       const item = queue.shift();
       const data = item.data();
-      if (data) {
-        loaded(data);
-      }
-      if (completed) completed(item.id);
+      loaded(data, item.id);
     }
   }
 
@@ -271,15 +267,14 @@ export const Chart = function(container) {
   const update = function(newSelection) {
     if (queue) queue.cancel();
     const config = newSelection.config;
-    const receive = function(data) {
+    const receive = function(data, id) {
       // Update graph with incoming data
-      graph.show(config, data);
-    };
-    const completed = function(id) {
+      if (data) graph.show(config, data);
+
       // Mark this id as loaded, even if there was no data
       selection = selection.including(id);
     };
-    queue = Queue(config, receive, completed);
+    queue = Queue(config, receive);
 
     if (selection.type !== newSelection.type) {
       graph.clear();

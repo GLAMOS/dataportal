@@ -100,7 +100,7 @@ function setup(feature) {
     const graph = Graph(this);
     const type = $(this).data('type');
     const config = configs[type];
-    const queue = Queue(config, (data) => graph.show(config, data))
+    const queue = Queue(config, (data) => data && graph.show(config, data));
     queue.load(feature.getId());
   });
 
