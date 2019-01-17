@@ -206,7 +206,7 @@ export const Queue = function(config, loaded, completed) {
       const item = queue.shift();
       const data = item.data();
       if (data) {
-        loaded(data, item.id);
+        loaded(data);
       }
       if (completed) completed(item.id);
     }
@@ -271,7 +271,7 @@ export const Chart = function(container) {
   const update = function(newSelection) {
     if (queue) queue.cancel();
     const config = newSelection.config;
-    const receive = function(data, id) {
+    const receive = function(data) {
       // Update graph with incoming data
       graph.show(config, data);
     };
