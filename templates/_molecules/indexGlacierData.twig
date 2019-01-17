@@ -6,13 +6,11 @@
     {{ macro.crossLink('/factsheet', 'Zum Gletscher', 'infobox-glaciername--link') }}
   </h2>
 
-  {{ macro.singleValue('-', '', 'Masseänderung', 'infobox-mass--cumulative') }}
+  {{ macro.singleValue('-', '', 'Masseänderung (mm H₂O)', 'infobox-mass--change') }}
   {{ macro.timeValue('-', '', 'Messzeitraum Masse', 'infobox-mass--timespan') }}
-  {{ macro.timeValue('-', ' Jahre', 'Messdauer', 'infobox-mass--duration') }}
 
-  {{ macro.singleValue('-', '', 'Längenänderung', 'infobox-length--cumulative') }}
+  {{ macro.singleValue('-', '', 'Längenänderung (m)', 'infobox-length--change') }}
   {{ macro.timeValue('-', '', 'Messzeitraum Länge', 'infobox-length--timespan') }}
-  {{ macro.timeValue('-', ' Jahre', 'Messdauer', 'infobox-length--duration') }}
 
   <p class="hint">{{ 'Kumulierte Messwerte' | t }}</p>
   {# <a class="btn " href="#">Zum Aletschgletscher</a> #}
