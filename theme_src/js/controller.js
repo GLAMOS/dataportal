@@ -117,7 +117,7 @@ class Controller {
     urlManager.majorUpdate();
   }
 
-  this._extendSelection(feature) {
+  _extendSelection(feature) {
     if (datastore.selectedGlaciers.maxEntriesReached()) {
       bridge.monitoringSelectedFeatureList.denyAddition(feature);
     } else {
