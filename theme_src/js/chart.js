@@ -45,10 +45,10 @@ export const Graph = function(container) {
 
 
 /** Create object that synchronizes operations
- * 
+ *
  * You can tell it to enqueue() ops. Each op needs to call
  * next() once it's done to start the next op.
- * 
+ *
  * When no op is in progress, op() will be called
  * immediately on enqueue().
  */
@@ -84,7 +84,7 @@ const Synch = function() {
 
 
 /** Construct a config instance
- * 
+ *
  * Configs can build request uri(), create a C3 config(), and
  * apply_to() axis labels on C3 charts.
  */
@@ -142,7 +142,7 @@ export const configs = {
 
 
 /** Create a Loading instance
- * 
+ *
  * It pulls and restructures data then calls the done function.
  * You can ask whether it's finished() and get the data()
  * from it.
@@ -187,7 +187,7 @@ const Loading = function(glacier_id, config, done) {
 }
 
 /** Create a loading queue instance
- * 
+ *
  * You can tell it to load() data by glacier ID.
  * It will call loaded() in the same order as load() was called
  * when data becomes available.
@@ -209,7 +209,7 @@ export const Queue = function(config, loaded) {
       }
     }
   }
-  
+
   return {
     load(id) { queue.push(Loading(id, config, done)) },
     cancel() { canceled = true; }
@@ -218,13 +218,13 @@ export const Queue = function(config, loaded) {
 
 
 /** Desired state of a chart
- * 
+ *
  * It can give you a cleared() version of itself with an empty ids list. You can
  * ask it which ids are added() or removed() in another selection.
 */
 export const Selection = function(type, ids) {
   const config = configs[type];
-  
+
   const cleared = function() {
     return Selection(type, []);
   };
@@ -246,7 +246,7 @@ export const Selection = function(type, ids) {
 
 
 /** Shows a chart in the given container
- * 
+ *
  * You can tell it to update() itself to a new selection.
 */
 export const Chart = function(container) {
@@ -263,7 +263,7 @@ export const Chart = function(container) {
       graph.clear();
       selection = newSelection.cleared();
     }
-    
+
     for (let id of selection.removed(newSelection)) graph.hide(id);
     for (let id of selection.added(newSelection)) queue.load(id);
 
