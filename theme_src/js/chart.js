@@ -7,7 +7,7 @@ const BASE_URI = '/glacier-data.php';
   * You can tell them to show() data, unload() data or
   * clear() the chart.
   */
-export const Graph = function(container) {
+const Graph = function(container) {
   let chart;
   const synch = Synch();
 
@@ -135,81 +135,87 @@ const Config = function(text, uri_name, chart_type, unit) {
 
 
 /** Available chart configs */
-export const configs = {
+const configs = {
   length_change: Config('Kumulative Längenänderung (m)', 'length_change', 'line', 'm'),
   mass_balance: Config('Massenbilanz (mm H₂0)', 'mass_balance', 'bar', 'mm H₂0'),
 }
 
 
-/** Create a Loading instance
+/** Query data for glacier id
  *
- * It pulls and restructures data then calls the done function.
- * You can ask whether it's finished() and get the data()
- * from it.
+ * When you tell it to start(done) it pulls and restructures
+ * data then calls done(). You can ask whether it's finished()
+ * and get the data() from it.
+ *
  * If there was no data to be loaded, data() returns false.
  */
-const Loading = function(glacier_id, config, done) {
+const Query = function(id, config) {
   let finished = false;
-  let data = false;
+  let json = false;
 
-  const receiver = function(event) {
-    const json = JSON.parse(event.target.responseText);
-
+  const data = function() {
     if (json && json.length > 0) {
       const KEY_YEAR = 'year';
       const years = [KEY_YEAR].concat(json.map((e) => e.year));
-      const values = [glacier_id].concat(json.map((e) => e.value));
+      const values = [id].concat(json.map((e) => e.value));
       const label_line = json[0]['glacier_full_name'];
-      data = {
+      return {
         x: KEY_YEAR,
         columns: [years, values],
         names: {
-          [glacier_id]: label_line
+          [id]: label_line
         },
         type: config.type
       };
     } else {
-      /* Request successful, but no data of this type available */
+      /* No data of this type available */
+      return false;
     }
-    finished = true;
-    done();
   };
 
-  const req = new XMLHttpRequest();
-  req.addEventListener("load", receiver)
-  req.open('GET', config.uri(glacier_id), true);
-  req.send();
+  const start = function(done) {
+    const receiver = function(event) {
+      json = JSON.parse(event.target.responseText);
+      finished = true;
+      done();
+    };
+
+    const req = new XMLHttpRequest();
+    req.addEventListener("load", receiver);
+    req.open('GET', config.uri(id), true);
+    req.send();
+  };
 
   return {
-    id: glacier_id,
+    id,
+    data,
+    start,
     finished() { return finished; },
-    data() { return data; },
   }
 }
 
 /** Create a loading queue instance
  *
- * You can tell it to load() data by glacier ID.
- * It will call loaded() in the same order as load() was called
- * when data becomes available. loaded() is called with two parameters
- * `data` and `id`. `data` may be false if there was no data available.
+ * You can add() queries to the queue. The queue will start()
+ * each query. It will call loaded() for queries in the same
+ * order add() was called when data becomes available.
+ *
  * If you don't want any more updates, tell it to cancel().
  */
-export const Queue = function(config, loaded) {
+const Queue = function() {
   const queue = [];
   let canceled = false;
 
   const done = function() {
     if (canceled) return;
-    while(queue.length > 0 && queue[0].finished()) {
-      const item = queue.shift();
-      const data = item.data();
-      loaded(data, item.id);
+    while(queue.length > 0 && queue[0].item.finished()) {
+      const next = queue.shift();
+      next.loaded(next.item);
     }
   }
 
   return {
-    load(id) { queue.push(Loading(id, config, done)) },
+    add(item, loaded) { item.start(done), queue.push({item, loaded}); },
     cancel() { canceled = true; }
   }
 }
@@ -266,15 +272,8 @@ export const Chart = function(container) {
 
   const update = function(newSelection) {
     if (queue) queue.cancel();
-    const config = newSelection.config;
-    const receive = function(data, id) {
-      // Update graph with incoming data
-      if (data) graph.show(config, data);
 
-      // Mark this id as loaded, even if there was no data
-      selection = selection.including(id);
-    };
-    queue = Queue(config, receive);
+    queue = Queue();
 
     if (selection.type !== newSelection.type) {
       graph.clear();
@@ -286,7 +285,15 @@ export const Chart = function(container) {
     }
 
     for (let id of selection.added(newSelection)) {
-      queue.load(id);
+      const config = newSelection.config;
+      queue.add(Query(id, config), (item) => {
+        // Update graph with incoming data
+        const data = item.data();
+        if (data) graph.show(config, data);
+
+        // Mark this id as loaded, even if there was no data
+        selection = selection.including(item.id);
+      });
     }
   }
 
