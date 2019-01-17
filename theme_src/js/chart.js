@@ -181,6 +181,7 @@ const Loading = function(glacier_id, config, done) {
   req.send();
 
   return {
+    id: glacier_id,
     finished() { return finished; },
     data() { return data; },
   }
@@ -191,11 +192,11 @@ const Loading = function(glacier_id, config, done) {
  * You can tell it to load() data by glacier ID.
  * It will call loaded() in the same order as load() was called
  * when data becomes available.
- * When no data is available for a given ID, loaded() will
- * not be called.
+ * Regardless of data availability, completed() will be called
+ * for each requested id.
  * If you don't want any more updates, tell it to cancel().
  */
-export const Queue = function(config, loaded) {
+export const Queue = function(config, loaded, completed) {
   const queue = [];
   let canceled = false;
 
@@ -205,8 +206,9 @@ export const Queue = function(config, loaded) {
       const item = queue.shift();
       const data = item.data();
       if (data) {
-        loaded(data);
+        loaded(data, item.id);
       }
+      if (completed) completed(item.id);
     }
   }
 
@@ -233,6 +235,10 @@ export const Selection = function(type, ids) {
     return first.filter(id => second.indexOf(id) < 0);
   }
 
+  const unique = function(list) {
+    return list.filter((id, i) => list.indexOf(id) == i);
+  }
+
   const added = function(other) {
     return only_in_first(other.ids, ids);
   }
@@ -241,7 +247,15 @@ export const Selection = function(type, ids) {
     return only_in_first(ids, other.ids);
   }
 
-  return {type, ids, config, cleared, added, removed};
+  const including = function(include) {
+    return Selection(type, unique([include, ...ids]));
+  };
+
+  const excluding = function(exclude) {
+    return Selection(type, ids.filter(id => id != exclude));
+  };
+
+  return {type, ids, config, cleared, added, removed, including, excluding};
 }
 
 
@@ -257,17 +271,26 @@ export const Chart = function(container) {
   const update = function(newSelection) {
     if (queue) queue.cancel();
     const config = newSelection.config;
-    queue = Queue(config, (data) => graph.show(config, data));
+    const receive = function(data, id) {
+      graph.show(config, data);
+    };
+    const completed = function(id) {
+      selection = selection.including(id);
+    };
+    queue = Queue(config, receive, completed);
 
     if (selection.type !== newSelection.type) {
       graph.clear();
       selection = newSelection.cleared();
     }
+    for (let id of selection.removed(newSelection)) {
+      graph.hide(id);
+      selection = selection.excluding(id);
+    }
 
-    for (let id of selection.removed(newSelection)) graph.hide(id);
-    for (let id of selection.added(newSelection)) queue.load(id);
-
-    selection = newSelection;
+    for (let id of selection.added(newSelection)) {
+      queue.load(id);
+    }
   }
 
   return {update};
