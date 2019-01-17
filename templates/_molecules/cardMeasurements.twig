@@ -1,11 +1,9 @@
 {% import '_incl/docMacros' as macro %}
 
 <div class="fsMeasurements">
-  {{ macro.singleValue('—', '', 'Masseänderung', 'infobox-mass--cumulative') }}
+  {{ macro.singleValue('—', '', 'Masseänderung (mm H₂O)', 'infobox-mass--change') }}
   {{ macro.timeValue('—', '', 'Messzeitraum Masse', 'infobox-mass--timespan') }}
-  {{ macro.timeValue('—', ' Jahre', 'Messdauer', 'infobox-mass--duration') }}
 
-  {{ macro.singleValue('—', '', 'Längenänderung', 'infobox-length--cumulative') }}
+  {{ macro.singleValue('—', '', 'Längenänderung (m)', 'infobox-length--change') }}
   {{ macro.timeValue('—', '', 'Messzeitraum Länge', 'infobox-length--timespan') }}
-  {{ macro.timeValue('—', ' Jahre', 'Messdauer', 'infobox-length--duration') }}
 </div>
