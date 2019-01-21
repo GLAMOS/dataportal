@@ -50,7 +50,7 @@ make_data_dir_and_symlink "$DATA/from_vaw/downloads" "${PATH_WWW_ROOT}/assets/fi
 make_data_dir_and_symlink "$DATA/cms_uploads/downloads" "${PATH_WWW_ROOT}/assets/files/downloads/cms"
 
 # some other documents uploaded via CMS
-make_data_dir_and_symlink "$DATA/cms_uploads/documents" "${PATH_WWW_ROOT}/assets/files/"
+make_data_dir_and_symlink "$DATA/cms_uploads/documents" "${PATH_WWW_ROOT}/assets/files/documents"
 
 
 # from_vaw: uploaded by VAW (cronjob server-to-server)
