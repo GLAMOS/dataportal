@@ -44,9 +44,13 @@ function make_data_dir_and_symlink {
 ## do it for all these
 
 # files that will be available in the Download section
-# uploaded by CMS or via SSH for bulk
-make_data_dir_and_symlink "$DATA/cms_uploads/downloads" "${PATH_WWW_ROOT}/assets/files/"
-make_data_dir_and_symlink "$DATA/cms_uploads/documents" "${PATH_WWW_ROOT}/assets/files/"
+# uploaded via SSH for bulk
+make_data_dir_and_symlink "$DATA/from_vaw/downloads" "${PATH_WWW_ROOT}/assets/files/downloads/rsync"
+# uploaded manually by CMS
+make_data_dir_and_symlink "$DATA/cms_uploads/downloads" "${PATH_WWW_ROOT}/assets/files/downloads/cms"
+
+# some other documents uploaded via CMS
+make_data_dir_and_symlink "$DATA/cms_uploads/documents" "${PATH_WWW_ROOT}/assets/files/documents"
 
 
 # from_vaw: uploaded by VAW (cronjob server-to-server)
