@@ -2,30 +2,18 @@
 
 <div class="latestMeasurementsHead">
   <h1 class="currentGlacier">
-      <span class="infobox-glaciername">-</span>
+    <span class="infobox-glaciername">—</span>
     {% set lgFactsheetLink = 'Zum Factsheet' | t %}
     {{ macro.crossLink('/factsheet', lgFactsheetLink) }}
   </h1>
 
 </div>
 
-  {{ macro.singleValue('-1.6', ' km', 'Längenänderung', 'infobox-length--cumulative') }}
+  {{ macro.singleValue('—', '', 'Masseänderung (mm H₂O)', 'infobox-mass--change') }}
 
-  {{ macro.timeValue('1856 – 2016', '', 'Messzeitraum Länge', 'infobox-length--timespan') }}
-  {{ macro.timeValue('160', ' Jahre', 'Messdauer', 'infobox-length--duration') }}
-
-
-  {{ macro.singleValue('7.6', ' km³', 'Masseänderung', 'infobox-mass--cumulative') }}
-
-  {{ macro.timeValue('2006 – 2016', '', 'Messzeitraum Masse', 'infobox-mass--timespan') }}
-  {{ macro.timeValue('10', ' Jahre', 'Messdauer', 'infobox-mass--duration') }}
+  {{ macro.timeValue('—', '', 'Messzeitraum Masse', 'infobox-mass--timespan') }}
 
 
+  {{ macro.singleValue('—', '', 'Längenänderung (m)', 'infobox-length--change') }}
 
-
-{# {{ macro.singleValue('-3.24','%','Volumenänderung') }}
-{{ macro.singleValue('324','%','Eisdicken') }}
-{{ macro.singleValue('3214','km/h','Geschwindigkeit') }}
-{{ macro.singleValue('10','°','Firntemperaturen') }} #}
-
-<p class="hint">{{ 'Kumulierte Messwerte' | t }}</p>
+  {{ macro.timeValue('—', '', 'Messzeitraum Länge', 'infobox-length--timespan') }}

@@ -19,7 +19,6 @@
   }
 }
 .timeValue {
-  width: 45%;
   padding-top: 10px;
   p {
     @extend %fontL;
@@ -32,5 +31,10 @@
     @extend %fontS;
     font-weight: 400;
     padding-top: 3px;
+  }
+  abbr {
+    // Hide default browser abbr-style
+    border-bottom: none;
+    text-decoration: none;
   }
 }

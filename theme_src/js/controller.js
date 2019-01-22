@@ -3,6 +3,9 @@
 import urlManager from './UrlManager';
 import datastore from './datastore';
 
+import factsheetDetails from './factsheetDetails'
+import dataview from './dataview';
+
 
 /* Constants */
 
@@ -17,8 +20,13 @@ function feature2id (feature) {
   return feature.getId();
 }
 
+function factsheetUpdate(feature) {
+  if( 'factsheet' == datastore.currentPage) factsheetDetails.setup(feature)
+}
+
 
 /** Our Controller (Action → Reaction) */
+
 class Controller {
   _bootstrapFromState () {
     if (datastore.downloadTab) {
@@ -28,17 +36,18 @@ class Controller {
     if (feature) {
       bridge.selectGlacier(feature);
       bridge.mapPanTo(feature);
-      bridge.loadGlacierData(datastore.selectedGlaciers.get());
+      dataview.update();
+      
+      factsheetUpdate(feature)
     }
     bridge.monitoringSelectedFeatureList.refresh();
   }
 
   _chooseRandom () {
-    const feature = datastore.features.findById(bridge.getRandomVIP());
+    const feature = datastore.features.getRandomVIG();
     if (feature) {
-      bridge.selectGlacier(feature);
+      this._extendSelection(feature);
       bridge.mapPanTo(feature);
-      bridge.monitoringSelectedFeatureList.add(feature);
     }
   }
 
@@ -68,10 +77,12 @@ class Controller {
     }
   }
 
-  // -- Init
+  /* Init */
 
   //onPageLoad(page) {
   onPageLoad () {
+    dataview.setup();
+
     urlManager.loadState();
     this._setFallbackState();
     this._bootstrapFromState();
@@ -80,7 +91,7 @@ class Controller {
   }
 
   onNavigate () {
-    this.onPageLoad();   // just alias
+    this.onPageLoad();   /* just alias */
   }
 
   gotFeatures (features) {
@@ -91,25 +102,34 @@ class Controller {
     bridge.enableSearch(features);
   }
 
-  // -- Home
+  /* Home */
 
   mapMarkerHighlighted (feature) {
-    bridge.selectGlacier(feature);
-    bridge.loadGlacierData([feature2id(feature)]);
-    // note: no map panning
-    bridge.monitoringSelectedFeatureList.add(feature);
+    this._extendSelection(feature);
+    /* note: no map panning */
     urlManager.majorUpdate();
   }
 
   searchSelected (feature) {
-    bridge.selectGlacier(feature);
-    bridge.loadGlacierData([feature2id(feature)]);
     bridge.mapPanTo(feature);
-    bridge.monitoringSelectedFeatureList.add(feature);
+    factsheetUpdate(feature);
+    this._extendSelection(feature);
     urlManager.majorUpdate();
   }
 
-  // -- Monitoring
+  _extendSelection(feature) {
+    if (datastore.selectedGlaciers.maxEntriesReached()) {
+      bridge.monitoringSelectedFeatureList.denyAddition(feature);
+    } else {
+      datastore.selectedGlaciers.add(feature);
+      bridge.monitoringSelectedFeatureList.refresh();
+      bridge.selectGlacier(feature);
+      dataview.update();
+      factsheetUpdate(feature)
+    }
+  }
+
+  /* Monitoring */
 
   selectionListHighlight (id) {
     const feature = datastore.selectedGlaciers.findById(id);
@@ -120,21 +140,23 @@ class Controller {
 
   selectionListRemove (id) {
     datastore.selectedGlaciers.remove(id);
-    bridge.unloadGlacierData(id);
+    dataview.update();
 
     /* Select last entry in selected glaciers list */
     // this.selectionListHighlight( datastore.selectedGlaciers.get().slice(-1)[0] )
     urlManager.majorUpdate();
   }
 
-  selectionListReset (_id) {
+  selectionListReset () {
     datastore.selectedGlaciers.clear();
     this._chooseRandom();
     urlManager.majorUpdate();
   }
 
   switchChartType (type) {
-    //TODO ...update URL
+    dataview.update();
+
+    /* TODO: Update URL */
   }
 
   toggleMapLayer (layerId) {

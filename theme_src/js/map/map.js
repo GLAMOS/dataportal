@@ -1,4 +1,8 @@
-/*global $: true */
+
+import $ from 'jquery';
+//window.$ = window.jQuery = $;
+import 'jquery-ui/ui/widgets/autocomplete';
+
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import Image from 'ol/layer/Image';
@@ -14,10 +18,10 @@ import { defaults as Interactions } from 'ol/interaction';
 import LayerSwitcher from 'ol-ext/control/LayerSwitcher';
 import Point from 'ol/geom/Point';
 import Feature from 'ol/Feature';
-import glacier_vip from './layer/glacier_vip';
+import Group from 'ol/layer/Group';
+
 import { swissimage_wmts, swissalti3d_wmts, eiszeit_wmts, dufour_wmts, siegfried_wmts, pixelkarte_farbe_wmts, pixelkarte_grau_wmts } from './layer/swisstopo_layer';
 import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010, glacier_outlines } from './layer/glamos_layer';
-import Group from 'ol/layer/Group';
 
 import controller from '../controller'
 import urlManager from '../UrlManager'
@@ -25,7 +29,7 @@ import datastore from '../datastore';
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 
-const DISPLAY_NAME = 'glacier_short_name';
+const DISPLAY_NAME = 'glacier_full_name';
 
 	// A group layer for base layers
 var baseLayers = new Group(
@@ -150,14 +154,7 @@ style[5] = selectableStyleSmall_hasmass;
 style[6] = selectableStyle_hassmass;
 
 function filterFeature(feature) {
-  //keine Werte
-  var has_mass_value = feature.get('has_mass_value');
-  var has_length_value = feature.get('has_length_value');
-
-  if (has_mass_value == 't' || has_length_value == 't') {
-    return true;
-  }
-  else return false;
+  return feature.get('has_mass') || feature.get('has_length');
 }
 
 function checkResolution_masse(feature, resolution) {
@@ -184,58 +181,79 @@ var switcher = new LayerSwitcher(
     //oninfo: function (l) { alert(l.get("title")); }
   });
 
+// https://stackoverflow.com/a/53849880/2652567
+function htmlencode (str){
 
-var unit = function (x) {
-  if (x >= -999 && x <= 999)
-    return x + ' m';
-  else
-    return Math.round(x / 100) / 10 + ' km';
-};
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
 
-function fillSchluesseldaten (featureId, page) {
-  console.log(`fillSchlüsseldaten: ${page}`);
-  const infoboxGlacierName = document.getElementsByClassName('infobox-glaciername');
-  const infoboxLengthCumulative = document.getElementsByClassName('infobox-length--cumulative');
-  const infoboxMassCumulative = document.getElementsByClassName('infobox-mass--cumulative');
-  const infoboxLengthTimespan = document.getElementsByClassName('infobox-length--timespan');
-  const infoboxMassTimespan = document.getElementsByClassName('infobox-mass--timespan');
-  const infoboxLengthDuration = document.getElementsByClassName('infobox-length--duration');
-  const infoboxMassDuration = document.getElementsByClassName('infobox-mass--duration');
+const thin_nbsp = " ";
 
-  function updateValue (el, value) {
-    for (let i = 0; i < el.length; i++) {
-      el[i].innerHTML = value;
-    }
+const format_span = function(dates) {
+  const abbrs = [];
+  // Turn strings of the form "2019-01-22" into <abbr> tags
+  // with content "2019" and title "22.01.2019".
+  for (let date of dates) {
+    const parts = date.split('-');
+    const year = htmlencode(parts[0]);
+    parts.reverse();
+    const str = htmlencode(parts.join('.'));
+    abbrs.push('<abbr title="' + str + '">' + year + "</abbr>");
+  }
+  const en_dash = "–";
+  return abbrs.join(thin_nbsp + en_dash + thin_nbsp);
+}
+
+const format_plain = function(text) {
+  return htmlencode(text);
+}
+
+class InfoboxField {
+  constructor(className, format) {
+    this.selector = '.' + className;
+    this.format = format;
+  }
+  
+  clear() {
+    const em_dash = "—";
+    $(this.selector).text(em_dash);
   }
 
-  const feature = datastore.features.findById(featureId);
+  update(value) {
+    $(this.selector).html(this.format(value));
+  }
+}
 
-  console.log(infoboxGlacierName);
-    if (feature.get('has_mass_value') == 't') {
-      updateValue(infoboxMassTimespan, feature.get('date_from_mass').toFixed(0) + ' &ndash; ' + feature.get('date_to_mass').toFixed(0) );
-      updateValue(infoboxMassDuration, feature.get('mass_anzahl_jahre').toFixed(0) + ' Jahre' );
-      updateValue(infoboxMassCumulative, unit(feature.get('last_mass_change_cumulative')) + '&sup3;' );
-    }
-    else {
-      updateValue(infoboxMassTimespan, '--');
-      updateValue(infoboxMassDuration, '--');
-      updateValue(infoboxMassCumulative, '--');
-    }
 
-    if (feature.get('has_length_value') == 't') {
-      updateValue(infoboxLengthTimespan, feature.get('date_from_length').toFixed(0) + ' &ndash; ' + feature.get('date_to_length').toFixed(0) );
-      updateValue(infoboxLengthDuration, feature.get('length_anzahl_jahre').toFixed(0) + ' Jahre' );
-      updateValue(infoboxLengthCumulative, unit(feature.get('last_length_change_cumulative')) );
-    }
-    else {
-      updateValue(infoboxLengthTimespan, '--');
-      updateValue(infoboxLengthDuration, '--');
-      updateValue(infoboxLengthCumulative, '--');
-    }
-    updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
+function fillSchluesseldaten(feature) {
+  const glacierName = new InfoboxField('infobox-glaciername', format_plain);
+  glacierName.update(feature.get(DISPLAY_NAME));
 
-  if (page == 'factsheet') {
-    updateValue(infoboxGlacierName, feature.get(DISPLAY_NAME) );
+  const massChange = new InfoboxField('infobox-mass--change', format_plain);
+  const massTimespan = new InfoboxField('infobox-mass--timespan', format_span);
+  if (feature.get('has_mass')) {
+    const from = feature.get('last_mass_balance_fix_date_from');
+    const to = feature.get('last_mass_balance_fix_date_to');
+    massTimespan.update([from, to]);
+    massChange.update(feature.get('last_mass_balance_fix_date'));
+  } else {
+    massChange.clear()
+    massTimespan.clear()
+  }
+
+  const lengthChange = new InfoboxField('infobox-length--change', format_plain);
+  const lengthTimespan = new InfoboxField('infobox-length--timespan', format_span);
+  if (feature.get('has_length')) {
+    const from = feature.get('last_length_change_from');
+    const to = feature.get('last_length_change_to');
+    lengthTimespan.update([from, to]);
+    lengthChange.update(feature.get('last_length_change'));
+  }
+  else {
+    lengthChange.clear()
+    lengthTimespan.clear()
   }
 }
 
@@ -258,26 +276,12 @@ class SelectionList {
         <title>close</title>
         <path d="M305.5,256,473.75,87.75a35,35,0,0,0-49.5-49.5L256,206.5,87.75,38.25a35,35,0,0,0-49.5,49.5L206.5,256,38.25,424.25a35,35,0,0,0,49.5,49.5L256,305.5,424.25,473.75a35,35,0,0,0,49.5-49.5Z"></path>
       </svg>`;
-    this.listMaxEntries = 5;
 
-    this.add = this.add.bind(this);
     this.reset = this.reset.bind(this);
     this.renderEntry = this.renderEntry.bind(this);
 
     /* Hook up reset callback only once (thus done in contructor) */
     $('#monitoring-glacier--list + button[name="reset"]').on('click', this.reset);
-  }
-
-  maxEntriesReached () {
-    return this.store.get().length >= this.listMaxEntries;
-  }
-
-  add (feature) {
-    if (this.maxEntriesReached()) {
-      return this.denyAddition(feature);
-    }
-    this.store.add(feature);
-    this.refresh();
   }
 
   select (id) {
@@ -308,7 +312,7 @@ class SelectionList {
       .find('[name="remove"]')
       .on('click', (ev) => this.remove(ev.currentTarget.id))
       .end();
-    $('#selectionlist-max-warn').toggleClass('hidden', !this.maxEntriesReached());
+    $('#selectionlist-max-warn').toggleClass('hidden', !this.store.maxEntriesReached());
   }
 
   renderEntry (feature) {
@@ -392,65 +396,34 @@ function enableSearch (gletscher_features) {
 }
 controller.bridge({enableSearch});
 
-/**
- * List of VIP glaciers
- *
- * @type {Object}
- * @todo data source still unclear
- */
-const glacierVips = glacier_vip.features.map(function (el) {
-  return el.properties;
-});
 
 const format = new GeoJSON;
-const url = '/geo/glamos_inventory_dummy.geojson';
+const url = '/geo/inventory/web_glacier_base_data.geojson';
 
-/* Default = Aletschgletscher */
-let gletscher_id;
-
-/* Selected feature (glacier) */
-let selected;
-
-/**
- * Returns glacier ID from a list of 12 defined VIP glaciers
- *
- * @return {string}
- * @todo Determine number of glaciers from GeoJSON
- */
-function getRandomVIP () {
-  const min = 1;
-  const max = 12;
-  const randomNumber = Math.floor((Math.random() * (max - min)) + min);
-  return glacierVips[randomNumber].pk_sgi;
-}
-controller.bridge({getRandomVIP});
-
-// depends: map, selectedOverlay, bbox, url, activeStyle, format, self, highlightedGlacier, getRandomVIP, fillSchluesseldaten
+// depends: url, format
 function loadFeatures(extent, resolution, projection) {
     $.ajax(url).then(function (response) {
 
       var features = format.readFeatures(response,
         { featureProjection: 'EPSG:3857' });
-        var j = 0;
  
         // store features in 3 different vectorsources to filter in layerswitcher
         for(var i = 0; i < features.length; i++){ 
-
-          if (features[i].get("has_mass_value") == "t"){
-            gletscher_source_hasmass.addFeature(features[i]);
-
-            if (features[i].get("has_length_value") == "t"){
-              gletscher_source_haslength.addFeature(features[i]);
-            };
-          }
-          else if (features[i].get("has_length_value") == "t"){
-            gletscher_source_haslength.addFeature(features[i]);
-          }
-          else {
-            j++;
-            gletscher_source_nodata.addFeature(features[i]);
+          const feature = features[i];
+          let got_data = false;
+          if (feature.get("has_mass")) {
+            gletscher_source_hasmass.addFeature(feature);
+            got_data = true;
           }
 
+          if (feature.get("has_length")) {
+            gletscher_source_haslength.addFeature(feature);
+            got_data = true;
+          }
+
+          if (!got_data) {
+            gletscher_source_nodata.addFeature(feature);
+          }
         };
         
       // store features in datastorage and do stuff now we know about them
@@ -563,7 +536,7 @@ if (document.getElementById('factsheet-map')) {
   /* Only one map layer → no layer switcher */
   map = new Map({
     target: 'home-map',
-    layers: [eiszeit_wmts,  GletscherLayers],
+    layers: [pixelkarte_farbe_wmts,  GletscherLayers],
     view: new View({
       extent: mapDefaults.extent,
       center: mapDefaults.center,
@@ -573,7 +546,7 @@ if (document.getElementById('factsheet-map')) {
   });
 
   page = 'home';
-  eiszeit_wmts.set('visible', true);
+  pixelkarte_farbe_wmts.set('visible', true);
 } else {
   page = 'other';
 }
@@ -614,21 +587,22 @@ controller.bridge({mapPanTo});
  * Populate Schluesseldaten, highlight selected marker
  *
  * @param  {Object} feature [description]
- * @depends page; highlightedGlacier, selectedOverlay
+ * @depends page; highlightedGlacier, selectedOverlay, fillSchluesseldaten
  */
 function selectGlacier (feature) {
   if (!feature) return;
 
+  /* 0. Store the feature as the highlighted one */
+  highlightedGlacier.feature = feature;
+
   /* 1. Fill infobox from feature */
-  gletscher_id = feature.getId();
-  fillSchluesseldaten(gletscher_id, page);
+  fillSchluesseldaten(feature);
 
   /* 2a. Reset current selection */
   selectedOverlay.getSource().clear();
 
   /* 2. fuege roten Marker (selektierter Gletscher) als Overlay hinzu */
   selectedOverlay.getSource().addFeature(feature);
-  selected = feature;
 }
 
 /*
@@ -675,18 +649,14 @@ let hover;
  */
 const featureHover = function (pixel) {
   const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
-    const has_mass_value = feature.get('has_mass_value');
-    const has_length_value = feature.get('has_length_value');
-
     /* Hover only works if glacier has data */
-    if (has_mass_value == 't' || has_length_value == 't') {
+    if (filterFeature(feature)) {
       return feature;
     }
-
     return false;
   });
 
-  if (feature !== hover && feature !== selected) {
+  if (feature !== hover && feature !== highlightedGlacier.feature) {
     if (hover) {
       hoverOverlay.getSource().removeFeature(hover);
     }

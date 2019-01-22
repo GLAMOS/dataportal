@@ -68,7 +68,7 @@ fi
 
 
 # Generate DB config
-bash ./deploy/generate_dotenv.sh
+bash ./deploy/generate_configs.sh
 
 
 # Replace general config with config for this deployment
@@ -84,14 +84,13 @@ rsync -i -a "${RSYNC_OPT[@]}" .env "${REMOTE}:${PATH_APP}/"
 
 ## Hook up document root
 # note: The dir in the repo is www for sure; docroot on server is another thing
-ssh -v "${SSH_OPT[@]}" "$REMOTE" "
+ssh "${SSH_OPT[@]}" "$REMOTE" "
   if [ -e $PATH_WWW_ROOT -a ! -L $PATH_WWW_ROOT ] ; then
     mv -n $PATH_WWW_ROOT ${PATH_WWW_ROOT}.legacy ;
   fi ;
   ln -sfn ${PATH_APP}/www ${PATH_WWW_ROOT}
 "
 
+## Hookup ~/data
+ssh "${SSH_OPT[@]}" "$REMOTE" "bash ${PATH_APP}/deploy/server_post_rsync.sh '${PATH_WWW_ROOT}'"
 
-# Flush Craft cache
-printf '%s' 'Flushing cache: '
-curl --silent "https://${REMOTE_HOST}/flush"

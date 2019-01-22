@@ -14,38 +14,32 @@
   .pageTitle {
     grid-column: 1/-1;
     @include smUp {
-      grid-column: span 5;
+      grid-column: span 6;
       align-self: flex-end;
     }
   }
   .fieldSearchWrapper {
     grid-column: 1/-1;
     @include smUp {
-      grid-column: span 3;
-    }
-    @include mdUp {
       grid-column: span 2;
     }
   }
   .fsMap {
     grid-column: 1/-1;
     @include smUp {
-      grid-column: span 5;
+      grid-column: span 6;
     }
   }
   .fsMeasurements {
     grid-column: 1/-1;
     @include smUp {
-      grid-column: span 3;
-    }
-    @include mdUp {
       grid-column: span 2;
     }
   }
   .fsPhoto {
     grid-column: 1/-1;
     @include smUp {
-      grid-column: span 2;
+      grid-column: span 3;
     }
   }
   .fsComment {
@@ -55,25 +49,21 @@
     }
     &.cardCommentBig {
       @include smUp {
-        grid-column: span 6;
+        grid-column: span 4;
       }
+    }
+  }
+  .fsQuotation {
+    grid-column: 1/-1;
+    @include smUp {
+      grid-column: span 1;
     }
   }
   .fsExport {
     @extend %hiddenMdDown
   }
-  .factsheetChartBox {
+  .fsChart {
     grid-column: 1/-1;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    .fsChart {
-      width: 100%;
-      margin-bottom: 20px;
-      @include smUp {
-        width: 49%;
-      }
-    }
   }
 
 }

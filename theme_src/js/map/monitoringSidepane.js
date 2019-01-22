@@ -1,4 +1,6 @@
 
+import $ from 'jquery';
+
 import controller from '../controller'
 import datastore from '../datastore'   // the one feature (glacier) which is selected
 

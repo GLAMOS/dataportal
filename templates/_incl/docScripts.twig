@@ -1,8 +1,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script src="/theme/js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="/theme/js/jquery-ui-1.12.1.custom/jquery-ui.min.css" />
-
 {% if not craft.app.config.general.devMode %}
   <script src="/theme/js/glamos.min.js?version={{ themeVersions }}"></script>
 {% else %}
@@ -12,7 +9,9 @@
 <script type="text/javascript">
   jQuery(function($) {
     $(document).ready( function() {
-      $('.navBar').stickUp({itemClass: 'stickyNav',marginTop: '50px'});
+      if ( $( ".stickyNav" ).length ) {
+        $('.navBar').stickUp({itemClass: 'stickyNav',marginTop: '50px'});
+      }
     });
   });
 </script>
