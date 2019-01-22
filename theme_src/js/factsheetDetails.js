@@ -54,13 +54,12 @@ function populate( selector, data) {
  * (also handles the case where there is multiple texts for current lang)
  */
 function populateDescription(json) {
-    const box = $(SEL_DESCRIPTION)
-    const lang = box.attr('data-lang')
-
     if( !json || !json.texts) {
       // either something went wrong or this glacier doesn't have any photos
       return
     }
+
+    const lang = $(SEL_DESCRIPTION).attr('data-lang')
     const texts = json.texts.filter( d => d.language == lang)
 
     // add description(s)
@@ -78,13 +77,12 @@ function populateDescription(json) {
  * populates template picture collection with data from per-glacier JSON
  */
 function populatePhotos(json) {
-    const box = $(SEL_PHOTO)
-
     if( !json || !json.pictures) {
       // either something went wrong or this glacier doesn't have any photos
       return
     }
 
+    const box = $(SEL_PHOTO)
     // cleanup
     if( box.data('lightGallery') ) {
       box.data('lightGallery').destroy(true)   // we'll put it on again at the end
