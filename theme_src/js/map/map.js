@@ -236,7 +236,6 @@ function fillSchluesseldaten(feature) {
   if (feature.get('has_mass')) {
     const from = feature.get('last_mass_balance_fix_date_from');
     const to = feature.get('last_mass_balance_fix_date_to');
-    console.log(feature)
     massTimespan.update([from, to]);
     massChange.update(feature.get('last_mass_balance_fix_date'));
   } else {
