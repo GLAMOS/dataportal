@@ -201,12 +201,12 @@ const Query = function(id, config) {
  * order add() was called when data becomes available.
  *
  * Example:
- *    const queue = Queue();
+ *    const loaded = console.log;
+ *    const queue = Queue(loaded);
  *    const item1 = Item(...);
  *    const item2 = Item(...);
- *    const loaded = console.log;
- *    queue.add(item1, loaded) // item1.start() is called
- *    queue.add(item2, loaded) // item2.start() is called
+ *    queue.add(item1) // item1.start() is called
+ *    queue.add(item2) // item2.start() is called
  *
  *    // When the queries complete, loaded() is called in order by the queue:
  *    loaded(item1); // Once item1 is loaded
