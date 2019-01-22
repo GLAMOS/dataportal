@@ -41,30 +41,6 @@ import controller from './controller'
 class UrlManager {
   constructor() {
 
-    // @param href  URL without hash
-    // @usage page tabs (activated by dynamicLinks)
-    this.navigateTo = function(href) {
-      const url = href + _getFullHash(true);
-      // if href part changes, navigate; otherwise just add history entry
-      window.location.href = url;
-    }
-
-    // @param hash  of the mini-tab
-    // @usage navigation between download (mini-)tabs
-    this.switchTo = (HREF_VALUE) => {
-      //add hash to url
-      if (history.pushState) {
-        // note: no hashchange event fired
-        history.pushState(null, null, HREF_VALUE);
-      }
-      else {
-        // no new history entry if hash does not change
-        location.hash = HREF_VALUE;
-      }
-    }
-
-    // REDESIGNED
-
     // private
 
     // helpers
@@ -98,6 +74,7 @@ class UrlManager {
 
       let selected = [];
       for (let id of candidates) {
+        // skip duplicates: avoids taking highlighted one also from selectedGlaciers
         if (id && selected.indexOf(id) < 0) selected.push(id);
       }
 
@@ -123,6 +100,15 @@ class UrlManager {
     }
 
     // public
+
+    /** called when navigating to another page
+     * @param href  URL without hash
+     */
+    this.navigateTo = function(href) {
+      const url = href + _getFullHash(true);
+      // if href part changes, navigate; otherwise just adds history entry
+      window.location.href = url;
+    }
 
     /// just updates the URL hash shown in browser, without history entry
     this.minorUpdate = () => {

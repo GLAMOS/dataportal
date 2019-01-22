@@ -2,7 +2,7 @@
 import $ from 'jquery'
 
 import { highlightedGlacier } from './datastore'
-import { Graph, configs, Queue } from './chart';
+import { Chart, Selection } from './chart';
 
 // -----
 // constants
@@ -97,11 +97,8 @@ function populatePhotos(json) {
 
 function setup(feature) {
   $(".js-chart").each(function() {
-    const graph = Graph(this);
-    const type = $(this).data('type');
-    const config = configs[type];
-    const queue = Queue(config, (data) => graph.show(config, data))
-    queue.load(feature.getId());
+    const chart = Chart(this);
+    chart.update(Selection($(this).data('type'), [feature.getId()]));
   });
 
   // load and fill in facts description and pictures

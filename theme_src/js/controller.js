@@ -36,7 +36,8 @@ class Controller {
     if (feature) {
       bridge.selectGlacier(feature);
       bridge.mapPanTo(feature);
-      dataview.load(datastore.selectedGlaciers.get());
+      dataview.update();
+      
       factsheetUpdate(feature)
     }
     bridge.monitoringSelectedFeatureList.refresh();
@@ -45,10 +46,8 @@ class Controller {
   _chooseRandom () {
     const feature = datastore.features.getRandomVIG();
     if (feature) {
-      bridge.selectGlacier(feature);
-      dataview.load([feature2id(feature)], {clear: true});
+      this._extendSelection(feature);
       bridge.mapPanTo(feature);
-      bridge.monitoringSelectedFeatureList.add(feature);
     }
   }
 
@@ -119,9 +118,15 @@ class Controller {
   }
 
   _extendSelection(feature) {
-    bridge.selectGlacier(feature);
-    const added = bridge.monitoringSelectedFeatureList.add(feature);
-    if (added) dataview.load([feature2id(feature)]);
+    if (datastore.selectedGlaciers.maxEntriesReached()) {
+      bridge.monitoringSelectedFeatureList.denyAddition(feature);
+    } else {
+      datastore.selectedGlaciers.add(feature);
+      bridge.monitoringSelectedFeatureList.refresh();
+      bridge.selectGlacier(feature);
+      dataview.update();
+      factsheetUpdate(feature)
+    }
   }
 
   /* Monitoring */
@@ -135,7 +140,7 @@ class Controller {
 
   selectionListRemove (id) {
     datastore.selectedGlaciers.remove(id);
-    dataview.unload(id);
+    dataview.update();
 
     /* Select last entry in selected glaciers list */
     // this.selectionListHighlight( datastore.selectedGlaciers.get().slice(-1)[0] )
@@ -149,7 +154,7 @@ class Controller {
   }
 
   switchChartType (type) {
-    dataview.load(datastore.selectedGlaciers.get(), {clear: true});
+    dataview.update();
 
     /* TODO: Update URL */
   }
