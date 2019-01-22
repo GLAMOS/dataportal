@@ -200,23 +200,35 @@ const Query = function(id, config) {
  * each query. It will call loaded() for queries in the same
  * order add() was called when data becomes available.
  *
+ * Example:
+ *    const queue = Queue();
+ *    const item1 = Item(...);
+ *    const item2 = Item(...);
+ *    const loaded = console.log;
+ *    queue.add(item1, loaded) // item1.start() is called
+ *    queue.add(item2, loaded) // item2.start() is called
+ *
+ *    // When the queries complete, loaded() is called in order by the queue:
+ *    loaded(item1); // Once item1 is loaded
+ *    loaded(item2); // Once item2 is loaded
+ *
+ *
  * If you don't want any more updates, tell it to cancel().
  */
-const Queue = function() {
+const Queue = function(loaded) {
   const queue = [];
   let canceled = false;
 
   const done = function() {
     if (canceled) return;
-    while(queue.length > 0 && queue[0].item.finished()) {
-      const next = queue.shift();
-      next.loaded(next.item);
+    while(queue.length > 0 && queue[0].finished()) {
+      loaded(queue.shift());
     }
   }
 
-  const add = function(item, loaded) {
+  const add = function(item) {
     item.start(done);
-    queue.push({item, loaded});
+    queue.push(item);
   };
 
   return {
@@ -276,29 +288,46 @@ export const Chart = function(container) {
   let selection = Selection('uninitialized', []);
 
   const update = function(newSelection) {
-    if (queue) queue.cancel();
-
-    queue = Queue();
-
+    // When the chart type changes (between line and bar-chart)
+    // we need to remove all data from the chart first.
     if (selection.type !== newSelection.type) {
       graph.clear();
       selection = newSelection.cleared();
     }
+
+    // If there are ID that should not be shown in the desired state
+    // we tell the graph to remove them.
     for (let id of selection.removed(newSelection)) {
       graph.hide(id);
       selection = selection.excluding(id);
     }
 
-    for (let id of selection.added(newSelection)) {
-      const config = newSelection.config;
-      queue.add(Query(id, config), (item) => {
-        // Update graph with incoming data
-        const data = item.data();
-        if (data) graph.show(config, data);
+    // In the last step we launch data queries for all ID that are
+    // to be shown. First we have to build the handler that shows
+    // incoming data in the chart.
+    const config = newSelection.config;
+    const loaded = (item) => {
+      // Update graph with incoming data
+      const data = item.data();
+      if (data) graph.show(config, data);
 
-        // Mark this id as loaded, even if there was no data
-        selection = selection.including(item.id);
-      });
+      // Mark this id as loaded, even if there was no data
+      selection = selection.including(item.id);
+    };
+
+    // When we receive a new desired state, we cancel all
+    // requests and launch them anew. This is inefficient
+    // when there are pending queries but it's much easier
+    // to manage.
+    if (queue) queue.cancel();
+    queue = Queue(loaded);
+
+    // Now enqueue a query for all the ID that are desired but
+    // not shown yet. They will be loaded async and shown when
+    // the query completes. The queue will call loaded() on
+    // each.
+    for (let id of selection.added(newSelection)) {
+      queue.add(Query(id, config));
     }
   }
 
