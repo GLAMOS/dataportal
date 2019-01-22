@@ -554,7 +554,7 @@ if (document.getElementById('factsheet-map')) {
   /* Only one map layer → no layer switcher */
   map = new Map({
     target: 'home-map',
-    layers: [eiszeit_wmts,  GletscherLayers],
+    layers: [pixelkarte_farbe_wmts,  GletscherLayers],
     view: new View({
       extent: mapDefaults.extent,
       center: mapDefaults.center,
@@ -564,7 +564,7 @@ if (document.getElementById('factsheet-map')) {
   });
 
   page = 'home';
-  eiszeit_wmts.set('visible', true);
+  pixelkarte_farbe_wmts.set('visible', true);
 } else {
   page = 'other';
 }
