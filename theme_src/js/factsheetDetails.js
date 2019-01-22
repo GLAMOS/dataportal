@@ -34,14 +34,15 @@ function fetch(basename, cb) {
 }
 
 /**
- * populates content boxes by duplicating a hidden template one
+ * populates a content box or hides it
  */
 function populate( selector, data) {
     const box = $(selector)
-    const prevSibling = box.prev()
-    box.detach()
+    // clear old contents
+    box.empty()
+    // rebuild fresh
     data.forEach( bit =>
-        bit && box.clone().html(bit).insertAfter( prevSibling )
+        bit && box.append( $.parseHTML(bit) )
     )
 }
 
@@ -97,7 +98,6 @@ function populatePhotos(json) {
       return `<div data-src="${url}" data-sub-html="${legend}" class="zoomItem">${thumb}</div>`
     })
     populate( SEL_PHOTO, content)
-    //TODO:FIXME refactoring: should be div.zoomItem .appendTo(box)
 
     // enable lightbox/gallery features
     box.filter('.imgGallery').lightGallery();
