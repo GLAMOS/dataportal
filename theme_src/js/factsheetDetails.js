@@ -55,7 +55,7 @@ function populateDescription(json) {
     const prevSibling = box.prev()
     box.detach()
     texts.forEach( txt =>
-        box.clone().html( txt.description ).insertAfter( prevSibling )
+        txt.description && box.clone().html( txt.description ).insertAfter( prevSibling )
     )
 
     // add citation/quotation
@@ -63,7 +63,7 @@ function populateDescription(json) {
     const cite_prevSibling = cite_box.prev()
     cite_box.detach()
     texts.forEach( txt =>
-        cite_box.clone().html( txt.citation ).insertAfter( cite_prevSibling )
+        txt.citation && cite_box.clone().html( txt.citation ).insertAfter( cite_prevSibling )
     )
 }
 
