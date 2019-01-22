@@ -214,8 +214,13 @@ const Queue = function() {
     }
   }
 
+  const add = function(item, loaded) {
+    item.start(done);
+    queue.push({item, loaded});
+  };
+
   return {
-    add(item, loaded) { item.start(done), queue.push({item, loaded}); },
+    add,
     cancel() { canceled = true; }
   }
 }
