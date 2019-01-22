@@ -42,15 +42,16 @@ function fetch(basename, cb) {
  */
 function populateDescription(json) {
     const box = $(SEL_DESCRIPTION)
-    const prevSibling = box.prev()
     const lang = box.attr('data-lang')
 
     if( !json || !json.texts) {
       // either something went wrong or this glacier doesn't have any photos
       return
     }
-
     const texts = json.texts.filter( d => d.language == lang)
+
+    // add description(s)
+    const prevSibling = box.prev()
     box.detach()
     texts.forEach( txt =>
         box.clone().html( txt.description ).insertAfter( prevSibling )
