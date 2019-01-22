@@ -13,6 +13,7 @@ const PIC_BASE = '/geo/glacier_images'   // where glacier pictures live
 
 // CSS selectors of factsheet blocks
 const SEL_DESCRIPTION = '.fsComment'   // needs attribute data-lang
+const SEL_CITATION = '.fsQuotation'   // (same language as SEL_DESCRIPTION)
 const SEL_PHOTO = '.fsPhoto'
 
 
@@ -37,7 +38,7 @@ function fetch(basename, cb) {
 // Factsheet textual description blocks
 
 /**
- * populates template description node with data from per-glacier JSON
+ * populates template description and citation/quotation node with data from per-glacier JSON
  * (also handles the case where there is multiple texts for current lang)
  */
 function populateDescription(json) {
@@ -55,6 +56,14 @@ function populateDescription(json) {
     box.detach()
     texts.forEach( txt =>
         box.clone().html( txt.description ).insertAfter( prevSibling )
+    )
+
+    // add citation/quotation
+    const cite_box = $(SEL_CITATION)
+    const cite_prevSibling = cite_box.prev()
+    cite_box.detach()
+    texts.forEach( txt =>
+        cite_box.clone().html( txt.citation ).insertAfter( cite_prevSibling )
     )
 }
 
