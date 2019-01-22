@@ -181,31 +181,33 @@ var switcher = new LayerSwitcher(
     //oninfo: function (l) { alert(l.get("title")); }
   });
 
-const nbsp = " ";
+// https://stackoverflow.com/a/53849880/2652567
+function htmlencode (str){
 
-const format_meters = function(m) {
-  if (m >= -999 && m <= 999)
-    return m + nbsp + 'm';
-  else
-    return (m / 1000).toFixed(1) + nbsp + 'km';
-};
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
 
-const format_meters3 = function(m) {
-  return m + nbsp + 'm³';
-};
+const thin_nbsp = " ";
 
-const format_years = function(y) {
-  return y.toFixed(0) + nbsp + 'Jahre';
-};
-
-const format_span = function(values) {
-  const thinspace = " ";
+const format_span = function(dates) {
+  const abbrs = [];
+  // Turn strings of the form "2019-01-22" into <abbr> tags
+  // with content "2019" and title "22.01.2019".
+  for (let date of dates) {
+    const parts = date.split('-');
+    const year = htmlencode(parts[0]);
+    parts.reverse();
+    const str = htmlencode(parts.join('.'));
+    abbrs.push('<abbr title="' + str + '">' + year + "</abbr>");
+  }
   const en_dash = "–";
-  return values.map((y) => y.toFixed(0)).join(thinspace + en_dash + thinspace);
+  return abbrs.join(thin_nbsp + en_dash + thin_nbsp);
 }
 
 const format_plain = function(text) {
-  return text;
+  return htmlencode(text);
 }
 
 class InfoboxField {
@@ -220,7 +222,7 @@ class InfoboxField {
   }
 
   update(value) {
-    $(this.selector).text(this.format(value));
+    $(this.selector).html(this.format(value));
   }
 }
 
@@ -229,35 +231,29 @@ function fillSchluesseldaten(feature) {
   const glacierName = new InfoboxField('infobox-glaciername', format_plain);
   glacierName.update(feature.get(DISPLAY_NAME));
 
-  const massCumulative = new InfoboxField('infobox-mass--cumulative', format_meters3);
+  const massChange = new InfoboxField('infobox-mass--change', format_plain);
   const massTimespan = new InfoboxField('infobox-mass--timespan', format_span);
-  const massDuration = new InfoboxField('infobox-mass--duration', format_years);
   if (feature.get('has_mass')) {
-    const first = feature.get('first_year_mass');
-    const last = feature.get('last_year_mass');
-    massTimespan.update([first, last]);
-    massDuration.update(last - first);
-    massCumulative.update(feature.get('last_mass_change_cumulative'));
+    const from = feature.get('last_mass_balance_fix_date_from');
+    const to = feature.get('last_mass_balance_fix_date_to');
+    massTimespan.update([from, to]);
+    massChange.update(feature.get('last_mass_balance_fix_date'));
   } else {
+    massChange.clear()
     massTimespan.clear()
-    massDuration.clear()
-    massCumulative.clear()
   }
 
-  const lengthCumulative = new InfoboxField('infobox-length--cumulative', format_meters);
+  const lengthChange = new InfoboxField('infobox-length--change', format_plain);
   const lengthTimespan = new InfoboxField('infobox-length--timespan', format_span);
-  const lengthDuration = new InfoboxField('infobox-length--duration', format_years);
   if (feature.get('has_length')) {
-    const first = feature.get('first_year_length');
-    const last = feature.get('last_year_length');
-    lengthTimespan.update([first, last]);
-    lengthDuration.update(last - first);
-    lengthCumulative.update(feature.get('last_length_change_cumulative'));
+    const from = feature.get('last_length_change_from');
+    const to = feature.get('last_length_change_to');
+    lengthTimespan.update([from, to]);
+    lengthChange.update(feature.get('last_length_change'));
   }
   else {
+    lengthChange.clear()
     lengthTimespan.clear()
-    lengthDuration.clear()
-    lengthCumulative.clear()
   }
 }
 
