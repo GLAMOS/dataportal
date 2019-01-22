@@ -2,8 +2,9 @@
 
 <div class="latestMeasurementsHead">
   <h1 class="currentGlacier">
-      <span class="infobox-glaciername">—</span>
-    {{ macro.crossLink('/factsheet', 'Zum Factsheet') }}
+    <span class="infobox-glaciername">—</span>
+    {% set lgFactsheetLink = 'Zum Factsheet' | t %}
+    {{ macro.crossLink('/factsheet', lgFactsheetLink) }}
   </h1>
 
 </div>
