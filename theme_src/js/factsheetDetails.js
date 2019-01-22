@@ -33,6 +33,18 @@ function fetch(basename, cb) {
   return $.getJSON(url, cb)
 }
 
+/**
+ * populates content boxes by duplicating a hidden template one
+ */
+function populate( selector, data) {
+    const box = $(selector)
+    const prevSibling = box.prev()
+    box.detach()
+    data.forEach( bit =>
+        bit && box.clone().html(bit).insertAfter( prevSibling )
+    )
+}
+
 
 // -----
 // Factsheet textual description blocks
@@ -52,19 +64,10 @@ function populateDescription(json) {
     const texts = json.texts.filter( d => d.language == lang)
 
     // add description(s)
-    const prevSibling = box.prev()
-    box.detach()
-    texts.forEach( txt =>
-        txt.description && box.clone().html( txt.description ).insertAfter( prevSibling )
-    )
+    populate( SEL_DESCRIPTION, texts.map( t => t.description) )
 
     // add citation/quotation
-    const cite_box = $(SEL_CITATION)
-    const cite_prevSibling = cite_box.prev()
-    cite_box.detach()
-    texts.forEach( txt =>
-        txt.citation && cite_box.clone().html( txt.citation ).insertAfter( cite_prevSibling )
-    )
+    populate( SEL_CITATION, texts.map( t => t.citation) )
 }
 
 
@@ -83,19 +86,20 @@ function populatePhotos(json) {
     }
 
     // cleanup
-    box.empty()   // children will be re-built
     if( box.data('lightGallery') ) {
       box.data('lightGallery').destroy(true)   // we'll put it on again at the end
     }
 
     // take only photos allowed to show up on factsheet
     const pics = json.pictures.filter( p => p.is_factsheet_picture )
-    pics.forEach( (pic,ix) => {
+    const content = pics.map( (pic,ix) => {
       const url = `${PIC_BASE}/${pic.filename}`
       const legend = pic.legend
       const thumb = (0 == ix) ? `<img src="${url}">` : ''
-      $(`<div data-src="${url}" data-sub-html="${legend}" class="zoomItem">${thumb}</div>`).appendTo( box)
+      return `<div data-src="${url}" data-sub-html="${legend}" class="zoomItem">${thumb}</div>`
     })
+    populate( SEL_PHOTO, content)
+    //TODO:FIXME refactoring: should be div.zoomItem .appendTo(box)
 
     // enable lightbox/gallery features
     box.filter('.imgGallery').lightGallery();
