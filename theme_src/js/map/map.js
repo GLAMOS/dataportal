@@ -193,6 +193,8 @@ const thin_nbsp = " ";
 
 const format_span = function(dates) {
   const abbrs = [];
+  // Turn strings of the form "2019-01-22" into <abbr> tags
+  // with content "2019" and title "22.01.2019".
   for (let date of dates) {
     const parts = date.split('-');
     const year = htmlencode(parts[0]);
