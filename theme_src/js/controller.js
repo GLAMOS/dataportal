@@ -106,20 +106,22 @@ class Controller {
   /* Home */
 
   mapMarkerHighlighted (feature) {
-    bridge.selectGlacier(feature);
-    dataview.load([feature2id(feature)]);
+    this._extendSelection(feature);
     /* note: no map panning */
-    bridge.monitoringSelectedFeatureList.add(feature);
     urlManager.majorUpdate();
   }
 
   searchSelected (feature) {
-    bridge.selectGlacier(feature);
-    dataview.load([feature2id(feature)]);
     bridge.mapPanTo(feature);
-    bridge.monitoringSelectedFeatureList.add(feature);
-    factsheetUpdate(feature)
+    factsheetUpdate(feature);
+    this._extendSelection(feature);
     urlManager.majorUpdate();
+  }
+
+  _extendSelection(feature) {
+    bridge.selectGlacier(feature);
+    const added = bridge.monitoringSelectedFeatureList.add(feature);
+    if (added) dataview.load([feature2id(feature)]);
   }
 
   /* Monitoring */

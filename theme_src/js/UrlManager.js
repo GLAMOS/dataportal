@@ -41,21 +41,13 @@ import controller from './controller'
 class UrlManager {
   constructor() {
 
-    // LEGACY (ported)
-
-    this.getIdFromUrl = () =>
-        // RFC-3986 tells '#' is not part of fragment identifier, but browsers do. We drop it
-        decodeURIComponent( window.location.hash.replace(/^#/, '') )
-
-    // @usage selectGlacier (i.e. via marker or search)
-    this.setId = (id) => { window.location.hash = id }
-    //TODO: OR encodeURIComponent(id)
-
     // @param href  URL without hash
     // @usage page tabs (activated by dynamicLinks)
-    this.navigateTo = (href) =>
-        // if href part changes, navigate; otherwise just add history entry
-        window.location.href = href + window.location.hash;
+    this.navigateTo = function(href) {
+      const url = href + _getFullHash(true);
+      // if href part changes, navigate; otherwise just add history entry
+      window.location.href = url;
+    }
 
     // @param hash  of the mini-tab
     // @usage navigation between download (mini-)tabs
@@ -99,13 +91,20 @@ class UrlManager {
     }
 
     // features (glaciers)
-    const _getFeatureHashPart = () => {
-      const highlighted = datastore.highlightedGlacier.get()
-      const selectedNonActive = datastore.selectedGlaciers.get().filter(
-          id => highlighted != id
-      )
-      const highlightedAry = highlighted ? [highlighted] : []
-      return [ ...highlightedAry, ...selectedNonActive ].map(id2hash)
+    const _getFeatureHashPart = (limited) => {
+      const candidates = [
+        datastore.highlightedGlacier.get(),
+        ...datastore.selectedGlaciers.get()];
+
+      let selected = [];
+      for (let id of candidates) {
+        if (id && selected.indexOf(id) < 0) selected.push(id);
+      }
+
+      if (limited) {
+        selected = selected.slice(0, 1);
+      }
+      return selected.map(id2hash);
     }
 
     const _setFeaturesFromHashPart = (hashes) => {
@@ -115,10 +114,10 @@ class UrlManager {
     }
 
     // get from / set to hash
-    const _getFullHash = () => {
+    const _getFullHash = (limited) => {
       const fullHash = '#' + [
           _getLayerHashPart().join('&'),
-          _getFeatureHashPart().join('&'),
+          _getFeatureHashPart(limited).join('&'),
       ].join('/')
       return fullHash
     }

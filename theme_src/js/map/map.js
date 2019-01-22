@@ -292,10 +292,12 @@ class SelectionList {
 
   add (feature) {
     if (this.maxEntriesReached()) {
-      return this.denyAddition(feature);
+      this.denyAddition(feature);
+      return false;
     }
     this.store.add(feature);
     this.refresh();
+    return true;
   }
 
   select (id) {
