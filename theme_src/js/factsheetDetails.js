@@ -63,11 +63,17 @@ function populateDescription(json) {
     const lang = $(SEL_DESCRIPTION).attr('data-lang')
     const texts = json.texts.filter( d => d.language == lang)
 
+    // formats textual content and wraps it in a <p> tag
+    const format = (str) => {
+      const content = str.replace(/\n/, '<br />')
+      return `<p>${content}</p>`
+    }
+
     // add description(s)
-    populate( SEL_DESCRIPTION, texts.map( t => t.description) )
+    populate( SEL_DESCRIPTION, texts.map( t => format(t.description) ) )
 
     // add citation/quotation
-    populate( SEL_CITATION, texts.map( t => t.citation) )
+    populate( SEL_CITATION, texts.map( t => format(t.citation) ) )
 }
 
 
