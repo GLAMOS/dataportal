@@ -3,7 +3,11 @@
 {% endmacro %}
 
 {% macro richText(string) %}
-  {{ string | striptags('<p><a><strong><br><ul><li><em>')  | raw }}
+  {{ string
+    | striptags('<p><a><strong><br><ul><li><em><sup>')
+    | replace({'m2 ': 'm<sup>2 </sup>', 'm3 ': 'm<sup>3 </sup>'})
+    | raw
+  }}
 {% endmacro %}
 
 {%- macro pubDate(dateParam) -%}
