@@ -55,9 +55,6 @@
   }
   .fsQuotation {
     grid-column: 1/-1;
-    @include smUp {
-      grid-column: span 1;
-    }
   }
   .fsExport {
     @extend %hiddenMdDown
