@@ -38,11 +38,11 @@ function fetch(basename, cb) {
  */
 function populate( selector, data) {
     const box = $(selector)
-    // clear old contents
-    box.empty()
+    // clear old contents, hide so empty one will remain hidden
+    box.empty().hide()
     // rebuild fresh
     data.forEach( bit =>
-        bit && box.append( $.parseHTML(bit) )
+        bit && box.append( $.parseHTML(bit) ).show()
     )
 }
 
