@@ -49,15 +49,12 @@
     }
     &.cardCommentBig {
       @include smUp {
-        grid-column: span 4;
+        grid-column: span 5;
       }
     }
   }
   .fsQuotation {
     grid-column: 1/-1;
-    @include smUp {
-      grid-column: span 1;
-    }
   }
   .fsExport {
     @extend %hiddenMdDown

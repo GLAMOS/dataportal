@@ -3,7 +3,24 @@
 {% endmacro %}
 
 {% macro richText(string) %}
-  {{ string | striptags('<p><a><strong><br><ul><li><em>')  | raw }}
+  {{ string
+    | striptags('<p><a><strong><br><ul><li><em><sup><sub>')
+    | replace({
+      'm3 ' : 'm<sup>3</sup>',
+      'm2 '  : 'm<sup>2</sup>',
+      'km3 ' : 'km<sup>3</sup>',
+      'km2 ' : 'km<sup>2</sup>',
+      'm-2 ' : 'm<sup>-2</sup>',
+      'm-3 ' : 'm<sup>-3</sup>',
+      'a-1 ' : 'a<sup>-1</sup>',
+      'yr-1 '  : 'yr<sup>-1</sup>',
+      's-1 ' : 's<sup>-1</sup>',
+      's-2 ': 's<sup>-2</sup>',
+      'H2O ': 'H<sub>2</sub>O',
+      'h2o ': 'h<sub>2</sub>o'
+      })
+    | raw
+  }}
 {% endmacro %}
 
 {%- macro pubDate(dateParam) -%}
@@ -46,7 +63,7 @@
 {% macro cardChart(nameParam, type) %}
   <div class="fsChart">
     <h3 class="chartTitle">{{ nameParam }}</h3>
-    <div class="js-chart" data-type="{{ type }}"">{{ "Grafik wird geladen…" | t }}</div>
+    <div class="js-chart" data-type="{{ type }}">{{ "Keine Daten" | t }}…</div>
   </div>
 {% endmacro %}
 
