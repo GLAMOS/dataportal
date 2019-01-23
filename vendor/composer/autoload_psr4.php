@@ -21,6 +21,7 @@ return array(
     'yii\\composer\\' => array($vendorDir . '/yiisoft/yii2-composer'),
     'yii\\bootstrap\\' => array($vendorDir . '/yiisoft/yii2-bootstrap/src'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
+    'ostark\\AsyncQueue\\' => array($vendorDir . '/ostark/craft-async-queue/src'),
     'modules\\' => array($baseDir . '/modules'),
     'mmikkel\\cpclearcache\\' => array($vendorDir . '/mmikkel/cp-clearcache/src'),
     'mikehaertl\\shellcommand\\' => array($vendorDir . '/mikehaertl/php-shellcommand/src'),
