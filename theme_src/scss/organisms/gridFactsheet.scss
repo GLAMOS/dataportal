@@ -49,7 +49,7 @@
     }
     &.cardCommentBig {
       @include smUp {
-        grid-column: span 4;
+        grid-column: span 5;
       }
     }
   }
