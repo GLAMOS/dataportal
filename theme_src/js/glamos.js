@@ -2,9 +2,6 @@ import $ from 'jquery';
 import 'jquery.mmenu';
 import 'lightgallery';
 
-import ieDetector from '@kspr/gugus-ie-detector';
-ieDetector();
-
 import controller from './controller';
 
 import './map/map.js';
