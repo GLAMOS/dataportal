@@ -1,5 +1,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+{# detect IE 11 #}
+<script type="text/javascript">
+
+  var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+  //console.log('is this IE11? ' + isIE11);
+  if (isIE11 == true) {
+    document.body.className += " " + "internetExplorer ie11"
+  }
+
+</script>
+
 {% if not craft.app.config.general.devMode %}
   <script src="/theme/js/glamos.min.js?version={{ themeVersions }}"></script>
 {% else %}
