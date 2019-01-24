@@ -63,6 +63,7 @@ function populateDescription(json) {
 
     // escape and format textual content
     const format = (str) => {
+      if( undefined == str) return str
       // transform each line to a <p>, .text escapes
       const content = str.split(/\n/).map( line => $('<p></p>').text(line) )
       // wrap everything in a <div>
@@ -70,10 +71,10 @@ function populateDescription(json) {
     }
 
     // add description(s)
-    populate( SEL_DESCRIPTION, texts.map( t => t.description && format(t.description) ) )
+    populate( SEL_DESCRIPTION, texts.map( t => format(t.description) ) )
 
     // add citation/quotation
-    populate( SEL_CITATION, texts.map( t => t.citation && format(t.citation) ) )
+    populate( SEL_CITATION, texts.map( t => format(t.citation) ) )
 }
 
 
