@@ -8,8 +8,12 @@
         <h4 class="scientificTitle">{{ item.title }}</h4>
         <p>
           <span class="normal">
-            {{ docMacros.textField(item.downloadBeschrieb)}},
-            {{ docMacros.pubDate(item.releaseDate) }}:
+            {# // version with releaseDate (disabled GLAMOS-191)
+              {{ docMacros.textField(item.downloadBeschrieb) }},
+              {{ docMacros.pubDate(item.releaseDate) }}:
+            #}
+            {# version without releaseDate #}
+            {{ docMacros.textField(item.downloadBeschrieb) }}:
           </span>
           {% include '_atoms/downloadDoc' %}
         </p>
