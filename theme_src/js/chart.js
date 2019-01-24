@@ -270,6 +270,9 @@ const Selection = function(ids) {
  *
  * You can tell it to update() itself to a new selection.
  *
+ * Just before showing data in the chart, beforeShow() is called.
+ * If no data is available, beforeShow() is not called.
+ *
  * These options can be set:
  *   legend: The legend of the y-axis (Example: "Massenbilanz")
  *   source: Data source to read (Example: "mass_balance")
@@ -277,7 +280,7 @@ const Selection = function(ids) {
  *   unit: String for the unit of the values shown in the chart (Example: "mm H₂0")
  *   showNames: Show glacier name legend (Preset: false)
  */
-export const Chart = function(container, options) {
+export const Chart = function (container, options, beforeShow) {
   const config = Config(options.legend, options.source, options.type, options.unit, options.showNames);
 
   const graph = Graph(container, config);
@@ -300,7 +303,10 @@ export const Chart = function(container, options) {
     const loaded = (item) => {
       // Update graph with incoming data
       const data = item.data();
-      if (data) graph.show(data);
+      if (data) {
+        if (beforeShow) beforeShow();
+        graph.show(data);
+      }
 
       // Mark this id as loaded, even if there was no data
       selection = selection.including(item.id);

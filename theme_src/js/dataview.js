@@ -14,17 +14,16 @@ import datastore from './datastore';
 class Dataview {
   setup() {
     // Only one of these is shown at a time, depending on select_source
-    this.containers = $(".chartContainer");
+    this.containers = $(".chartContainer .js-chart");
 
     // Keep chart instances indexed by source name
     this.charts = {};
 
     this.containers.each((_, container) => {
-      const innerContainer = $(container).find(".js-chart");
-      const options = innerContainer.data();
+      const options = $(container).data();
       options.showNames = true;
 
-      const chart = Chart(innerContainer[0], options);
+      const chart = Chart(container, options);
       this.charts[options.source] = chart;
     });
 
@@ -41,7 +40,7 @@ class Dataview {
     const source = this.select_source.val();
 
     this.containers.hide();
-    this.containers.filter(`.${source}`).show();
+    this.containers.filter(`[data-source="${source}"]`).show();
 
     const ids = datastore.selectedGlaciers.get();
     this.charts[source].update(ids);

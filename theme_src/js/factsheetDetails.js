@@ -96,10 +96,20 @@ function populatePhotos(json) {
 // Init
 
 function setup(feature) {
-  $(".js-chart").each(function() {
-    const options = $(this).data();
+  const chartBoxes = $('.fsChart');
+
+  // Only show chart boxes when we have data
+  chartBoxes.hide();
+
+  chartBoxes.each(function() {
+    const box = $(this);
+    const container = box.find('.js-chart');
+    const options = container.data();
     options.showNames = false;
-    const chart = Chart(this, options);
+
+    // Box needs to be shown before the chart is generated so it gets
+    // the right height.
+    const chart = Chart(container[0], options, () => box.show());
     chart.update([feature.getId()]);
   });
 
