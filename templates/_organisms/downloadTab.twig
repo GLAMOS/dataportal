@@ -17,6 +17,12 @@
           </span>
           {% include '_atoms/downloadDoc' %}
         </p>
+        {% if item['downloadCitation'] is defined and item.downloadCitation %}
+          <p>
+            {{ "Daten bitte folgendermassen zitieren" | t }}:<br />
+            <span class="normal">{{ item.downloadCitation }}</span>
+          </p>
+        {% endif %}
       </div>
     {% endif %}
   {% endfor %}
