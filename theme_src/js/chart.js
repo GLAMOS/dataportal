@@ -1,4 +1,7 @@
 import c3 from 'c3';
+
+import { currentPage } from './datastore'
+
 const BASE_URI = '/glacier-data.php';
 
 /** Construct a graph instance
@@ -118,7 +121,10 @@ const Config = function(text, uri_name, chart_type, unit) {
       format: {
         value: formatter
       }
-    }
+    },
+    // specificities for current page
+    legend: ('factsheet' == currentPage) ? { hide: true } : undefined,
+    padding: ('factsheet' == currentPage) ? { bottom: -40 } : undefined,
   });
   return {
     config,

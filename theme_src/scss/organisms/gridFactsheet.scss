@@ -9,7 +9,7 @@
   }
   @include smUp {
     grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: $pageTitleColumn auto minmax(300px, 35vh) auto;
+    grid-template-rows: $pageTitleColumn auto;
   }
   .pageTitle {
     grid-column: 1/-1;
