@@ -36,6 +36,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
         ),
+        'o' => 
+        array (
+            'ostark\\AsyncQueue\\' => 18,
+        ),
         'm' => 
         array (
             'modules\\' => 8,
@@ -186,6 +190,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'ostark\\AsyncQueue\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ostark/craft-async-queue/src',
         ),
         'modules\\' => 
         array (
@@ -2767,6 +2775,10 @@ class ComposerStaticInit226fe9869013018dbb99a3eea8ef3452
         'mmikkel\\cpclearcache\\CpClearCache' => __DIR__ . '/..' . '/mmikkel/cp-clearcache/src/CpClearCache.php',
         'mmikkel\\cpclearcache\\CpClearCacheBundle' => __DIR__ . '/..' . '/mmikkel/cp-clearcache/src/CpClearCacheBundle.php',
         'modules\\Module' => __DIR__ . '/../..' . '/modules/Module.php',
+        'ostark\\AsyncQueue\\Plugin' => __DIR__ . '/..' . '/ostark/craft-async-queue/src/Plugin.php',
+        'ostark\\AsyncQueue\\ProcessPool' => __DIR__ . '/..' . '/ostark/craft-async-queue/src/ProcessPool.php',
+        'ostark\\AsyncQueue\\QueueHandler' => __DIR__ . '/..' . '/ostark/craft-async-queue/src/QueueHandler.php',
+        'ostark\\AsyncQueue\\Settings' => __DIR__ . '/..' . '/ostark/craft-async-queue/src/Settings.php',
         'yii\\BaseYii' => __DIR__ . '/..' . '/yiisoft/yii2/BaseYii.php',
         'yii\\base\\Action' => __DIR__ . '/..' . '/yiisoft/yii2/base/Action.php',
         'yii\\base\\ActionEvent' => __DIR__ . '/..' . '/yiisoft/yii2/base/ActionEvent.php',
