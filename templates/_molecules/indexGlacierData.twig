@@ -3,12 +3,12 @@
 <div class="glacierData">
   <h2 class="currentGlacier">
     <span class="infobox-glaciername"></span>
-    {{ macro.crossLink('/factsheet', 'Zum Gletscher', 'infobox-glaciername--link') }}
+    {{ macro.crossLink('/factsheet', 'Zum Gletscher' | t, 'infobox-glaciername--link') }}
   </h2>
 
-  {{ macro.singleValue('-', '', 'Masseänderung (mm H₂O)', 'infobox-mass--change') }}
-  {{ macro.timeValue('-', '', 'Messzeitraum Masse', 'infobox-mass--timespan') }}
+  {{ macro.singleValue('-', '', 'Masseänderung (mm H₂O)' | t, 'infobox-mass--change') }}
+  {{ macro.timeValue('-', '', 'Messzeitraum Masse' | t, 'infobox-mass--timespan') }}
 
-  {{ macro.singleValue('-', '', 'Längenänderung (m)', 'infobox-length--change') }}
-  {{ macro.timeValue('-', '', 'Messzeitraum Länge', 'infobox-length--timespan') }}
+  {{ macro.singleValue('-', '', 'Längenänderung (m)' | t, 'infobox-length--change') }}
+  {{ macro.timeValue('-', '', 'Messzeitraum Länge' | t, 'infobox-length--timespan') }}
 </div>
