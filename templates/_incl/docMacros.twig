@@ -60,11 +60,21 @@
   </div>
 {% endmacro %}
 
-{% macro cardChart(nameParam, type) %}
+{% macro cardChart(nameParam, legend, source, type, unit) %}
+  {% import _self as macro %}
   <div class="fsChart">
     <h3 class="chartTitle">{{ nameParam }}</h3>
-    <div class="js-chart" data-type="{{ type }}">{{ "Keine Daten" | t }}…</div>
+    {{ macro.chart(legend, source, type, unit) }}
   </div>
+{% endmacro %}
+
+{% macro chart(legend, source, type, unit) %}
+  <div class="js-chart outputChart"
+    data-legend="{{ legend }}"
+    data-source="{{ source }}"
+    data-type="{{ type }}"
+    data-unit="{{ unit }}"
+  >{{ "Keine Daten" | t }}…</div>
 {% endmacro %}
 
 {% macro crossLink(linkParam, titleParam, idParam) %}

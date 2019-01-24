@@ -96,9 +96,21 @@ function populatePhotos(json) {
 // Init
 
 function setup(feature) {
-  $(".js-chart").each(function() {
-    const chart = Chart(this);
-    chart.update(Selection($(this).data('type'), [feature.getId()]));
+  const chartBoxes = $('.fsChart');
+
+  // Only show chart boxes when we have data
+  chartBoxes.hide();
+
+  chartBoxes.each(function() {
+    const box = $(this);
+    const container = box.find('.js-chart');
+    const options = container.data();
+    options.showNames = false;
+
+    // Box needs to be shown before the chart is generated so it gets
+    // the right height.
+    const chart = Chart(container[0], options, () => box.show());
+    chart.update([feature.getId()]);
   });
 
   // load and fill in facts description and pictures
