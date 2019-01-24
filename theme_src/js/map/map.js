@@ -174,7 +174,6 @@ var switcher = new LayerSwitcher(
   {
     target:switcherNode,
     reordering: false
-    //oninfo: function (l) { alert(l.get("title")); }
   });
 
 // https://stackoverflow.com/a/53849880/2652567
@@ -252,14 +251,6 @@ function fillSchluesseldaten(feature) {
     lengthTimespan.clear()
   }
 }
-
-// function remove_first_occurrence(str, searchstr)       {
-// 	var index = str.indexOf(searchstr);
-// 	if (index === -1) {
-// 		return str;
-// 	}
-// 	return str.slice(0, index) + str.slice(index + searchstr.length);
-// }
 
 /**
  * Monitoring: Selection List
