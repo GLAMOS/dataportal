@@ -1,7 +1,5 @@
 import c3 from 'c3';
 
-import { currentPage } from './datastore'
-
 const BASE_URI = '/glacier-data.php';
 
 /** Construct a graph instance
@@ -10,18 +8,15 @@ const BASE_URI = '/glacier-data.php';
   * You can tell them to show() data, unload() data or
   * clear() the chart.
   */
-const Graph = function(container) {
+const Graph = function(container, config) {
   let chart;
   const synch = Synch();
 
-  const generate = function(properties, data) {
-    const config = properties.config(container, data);
-
-    chart = c3.generate(config);
+  const generate = function(data) {
+    chart = c3.generate(config.c3Config(container, data));
   };
 
-  const update = function(data, properties) {
-    properties.apply_to(chart);
+  const update = function(data) {
     data.done = synch.next;
     chart.load(data);
   }
@@ -34,14 +29,13 @@ const Graph = function(container) {
 
   // Build instance and return it
   return {
-    show(properties, data) {
+    show(data) {
       if (!chart) {
-        generate(properties, data);
+        generate(data);
       } else {
-        synch.enqueue(() => update(data, properties));
+        synch.enqueue(() => update(data));
       }
     },
-    clear() { enqueueIfNeeded(() => chart.unload({ done: synch.next })); },
     hide(id) { enqueueIfNeeded(() => chart.unload({ ids: [id], done: synch.next })); },
   };
 }
@@ -91,9 +85,12 @@ const Synch = function() {
  * Configs can build request uri(), create a C3 config(), and
  * apply_to() axis labels on C3 charts.
  */
-const Config = function(text, uri_name, chart_type, unit) {
+const Config = function(text, uri_name, chart_type, unit, showNames) {
   const formatter = (value) => `${String(value).replace('-', '&minus;')}&nbsp;${unit}`;
-  const config = (container, data) => ({
+
+  const c3Config = function (container, data) {
+    // FIXME indentation
+    const result = {
     data,
     bindto: container,
     axis: {
@@ -121,30 +118,22 @@ const Config = function(text, uri_name, chart_type, unit) {
       format: {
         value: formatter
       }
-    },
-    // specificities for current page
-    legend: ('factsheet' == currentPage) ? { hide: true } : undefined,
-    padding: ('factsheet' == currentPage) ? { bottom: -40 } : undefined,
-  });
+    }
+    };
+    if (!showNames) {
+      result.legend = { hide: true };
+      result.padding = { bottom: -40 };
+    }
+    return result;
+  };
+
   return {
-    config,
+    c3Config,
     type: chart_type,
     uri(glacier_id) { return `${BASE_URI}?type=${uri_name}&id=${glacier_id}`; },
-    apply_to(chart) {
-      chart.axis.labels({y: text});
-
-      /* FIXME: Use method (if any) to set tooltip formatter */
-      chart.internal.config.tooltip_format_value = formatter;
-    }
   };
 }
 
-
-/** Available chart configs */
-const configs = {
-  length_change: Config('Kumulative Längenänderung (m)', 'length_change', 'line', 'm'),
-  mass_balance: Config('Massenbilanz (mm H₂0)', 'mass_balance', 'bar', 'mm H₂0'),
-}
 
 
 /** Query data for glacier id
@@ -246,16 +235,9 @@ const Queue = function(loaded) {
 
 /** Desired state of a chart
  *
- * It can give you a cleared() version of itself with an empty ids list. You can
- * ask it which ids are added() or removed() in another selection.
-*/
-export const Selection = function(type, ids) {
-  const config = configs[type];
-
-  const cleared = function() {
-    return Selection(type, []);
-  };
-
+ * You can ask it which ids are added() or removed() in another selection.
+ */
+const Selection = function(ids) {
   const only_in_first = function(first, second) {
     return first.filter(id => second.indexOf(id) < 0);
   }
@@ -273,33 +255,37 @@ export const Selection = function(type, ids) {
   }
 
   const including = function(include) {
-    return Selection(type, unique([include, ...ids]));
+    return Selection(unique([include, ...ids]));
   };
 
   const excluding = function(exclude) {
-    return Selection(type, ids.filter(id => id != exclude));
+    return Selection(ids.filter(id => id != exclude));
   };
 
-  return {type, ids, config, cleared, added, removed, including, excluding};
+  return {ids, added, removed, including, excluding};
 }
 
 
-/** Shows a chart in the given container
+/** Shows a chart in the given container element.
  *
  * You can tell it to update() itself to a new selection.
-*/
-export const Chart = function(container) {
-  let graph = Graph(container);
-  let queue;
-  let selection = Selection('uninitialized', []);
+ *
+ * These options can be set:
+ *   legend: The legend of the y-axis (Example: "Massenbilanz")
+ *   source: Data source to read (Example: "mass_balance")
+ *   type: Either "line" or "bar" for the type of chart you want
+ *   unit: String for the unit of the values shown in the chart (Example: "mm H₂0")
+ *   showNames: Show glacier name legend (Preset: false)
+ */
+export const Chart = function(container, options) {
+  const config = Config(options.legend, options.source, options.type, options.unit, options.showNames);
 
-  const update = function(newSelection) {
-    // When the chart type changes (between line and bar-chart)
-    // we need to remove all data from the chart first.
-    if (selection.type !== newSelection.type) {
-      graph.clear();
-      selection = newSelection.cleared();
-    }
+  const graph = Graph(container, config);
+  let queue;
+  let selection = Selection([]);
+
+  const update = function(ids) {
+    const newSelection = Selection(ids);
 
     // If there are ID that should not be shown in the desired state
     // we tell the graph to remove them.
@@ -311,11 +297,10 @@ export const Chart = function(container) {
     // In the last step we launch data queries for all ID that are
     // to be shown. First we have to build the handler that shows
     // incoming data in the chart.
-    const config = newSelection.config;
     const loaded = (item) => {
       // Update graph with incoming data
       const data = item.data();
-      if (data) graph.show(config, data);
+      if (data) graph.show(data);
 
       // Mark this id as loaded, even if there was no data
       selection = selection.including(item.id);

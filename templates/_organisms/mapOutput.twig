@@ -1,3 +1,5 @@
+{% import '_incl/docMacros' as macro %}
+
 <div class="outputContainer">
   <div class="chartControls">
     <select id="chart_param">
@@ -13,10 +15,10 @@
       <button class="btn">{{ 'Export PDF' | t }}</button><button class="btn">{{ 'Export CSV' | t }}</button>
     </div>
   </div>
-
-  <div class="chartContainer">
-    <div id="chart" class="outputChart">
-      Daten werden geladen&nbsp;...
-    </div>
+  <div class="length_change chartContainer">
+    {{ macro.chart("Kumulative Längenänderung (m)", 'length_change', 'line', 'm') }}
+  </div>
+  <div class="mass_balance chartContainer">
+    {{ macro.chart('Massenbilanz (mm H₂0)', 'mass_balance', 'bar', 'mm H₂0') }}
   </div>
 </div>

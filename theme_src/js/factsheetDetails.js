@@ -97,8 +97,10 @@ function populatePhotos(json) {
 
 function setup(feature) {
   $(".js-chart").each(function() {
-    const chart = Chart(this);
-    chart.update(Selection($(this).data('type'), [feature.getId()]));
+    const options = $(this).data();
+    options.showNames = false;
+    const chart = Chart(this, options);
+    chart.update([feature.getId()]);
   });
 
   // load and fill in facts description and pictures

@@ -2,30 +2,48 @@ import { Chart, Selection } from './chart';
 import controller from './controller';
 import datastore from './datastore';
 
-/** A dataview displays a chart for multiple glaciers
- * 
+/** A dataview displays charts for multiple glaciers
+ *
  * Tell it to setup() event handlers and graph library once.
- * It will then tell controller when to switchChartType().
- * 
+ * It will monitor the selection of tell controller when to switchChartType().
+ *
  * You can tell it to update() and it will add or remove
- * data displayed in the chart depending on selectedGlaciers.
+ * data displayed in the chart.
  */
 class Dataview {
   setup() {
-    this.chart = Chart('#chart');
-    this.select_type = $('#chart_param');
-    this.select_type.change(function() {
+    // Only one of these is shown at a time, depending on select_source
+    this.containers = $(".chartContainer");
+
+    // Keep chart instances indexed by source name
+    this.charts = {};
+
+    this.containers.each((_, container) => {
+      const innerContainer = $(container).find(".js-chart");
+      const options = innerContainer.data();
+      options.showNames = true;
+
+      const chart = Chart(innerContainer[0], options);
+      this.charts[options.source] = chart;
+    });
+
+    this.select_source = $('#chart_param');
+    this.select_source.change(function() {
       controller.switchChartType();
     });
   }
 
   update() {
     // HACK do nothing if we're called for the wrong page
-    if (!this.select_type.length) return;
+    if (!this.select_source.length) return;
+
+    const source = this.select_source.val();
+
+    this.containers.hide();
+    this.containers.filter(`.${source}`).show();
 
     const ids = datastore.selectedGlaciers.get();
-    const type = this.select_type.val();
-    this.chart.update(Selection(type, ids));    
+    this.charts[source].update(ids);
   }
 };
 
