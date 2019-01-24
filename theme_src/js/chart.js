@@ -93,6 +93,7 @@ const Config = function(text, uri_name, chart_type, unit, showNames) {
     const result = {
     data,
     bindto: container,
+    size: { height: 300 },
     axis: {
       x: {
         tick: {
