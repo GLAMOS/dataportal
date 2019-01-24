@@ -5,7 +5,8 @@ import datastore from './datastore';
 /** A dataview displays charts for multiple glaciers
  *
  * Tell it to setup() event handlers and graph library once.
- * It will monitor the selection of tell controller when to switchChartType().
+ * It will monitor the selection of the #chart_param control
+ * and tell controller when to switchChartType().
  *
  * You can tell it to update() and it will add or remove
  * data displayed in the chart.
