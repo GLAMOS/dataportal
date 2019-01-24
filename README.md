@@ -47,3 +47,11 @@
 ## Ignored Files and folders
 
 * Folders where CMS users can upload files trough the CMS are not in the repo. See `.gitignore` for said folders.
+
+
+## Quick & Dirty Dev-Setup
+
+npm run dev
+cd www
+php -S localhost:8000
+
