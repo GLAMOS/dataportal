@@ -33,6 +33,18 @@ function fetch(basename, cb) {
   return $.getJSON(url, cb)
 }
 
+/**
+ * populates a content box or hides it
+ */
+function populate( selector, data) {
+    const box = $(selector)
+    // swap content
+    box.empty().append(data)
+    // hide if no contents
+    const contentcount = data && data.filter( d => undefined != d).length
+    box.toggle(!!contentcount)
+}
+
 
 // -----
 // Factsheet textual description blocks
@@ -42,29 +54,28 @@ function fetch(basename, cb) {
  * (also handles the case where there is multiple texts for current lang)
  */
 function populateDescription(json) {
-    const box = $(SEL_DESCRIPTION)
-    const lang = box.attr('data-lang')
-
     if( !json || !json.texts) {
       // either something went wrong or this glacier doesn't have any photos
       return
     }
+
+    const lang = $(SEL_DESCRIPTION).attr('data-lang')
     const texts = json.texts.filter( d => d.language == lang)
 
+    // escape and format textual content
+    const format = (str) => {
+      if( undefined == str) return str
+      // transform each line to a <p>, .text escapes
+      const content = str.split(/\n/).map( line => $('<p></p>').text(line) )
+      // wrap everything in a <div>
+      return $('<div></div>').append(content)
+    }
+
     // add description(s)
-    const prevSibling = box.prev()
-    box.detach()
-    texts.forEach( txt =>
-        txt.description && box.clone().html( txt.description ).insertAfter( prevSibling )
-    )
+    populate( SEL_DESCRIPTION, texts.map( t => format(t.description) ) )
 
     // add citation/quotation
-    const cite_box = $(SEL_CITATION)
-    const cite_prevSibling = cite_box.prev()
-    cite_box.detach()
-    texts.forEach( txt =>
-        txt.citation && cite_box.clone().html( txt.citation ).insertAfter( cite_prevSibling )
-    )
+    populate( SEL_CITATION, texts.map( t => format(t.citation) ) )
 }
 
 
@@ -75,27 +86,27 @@ function populateDescription(json) {
  * populates template picture collection with data from per-glacier JSON
  */
 function populatePhotos(json) {
-    const box = $(SEL_PHOTO)
-
     if( !json || !json.pictures) {
       // either something went wrong or this glacier doesn't have any photos
       return
     }
 
+    const box = $(SEL_PHOTO)
     // cleanup
-    box.empty()   // children will be re-built
     if( box.data('lightGallery') ) {
       box.data('lightGallery').destroy(true)   // we'll put it on again at the end
     }
 
     // take only photos allowed to show up on factsheet
     const pics = json.pictures.filter( p => p.is_factsheet_picture )
-    pics.forEach( (pic,ix) => {
+    const content = pics.map( (pic,ix) => {
       const url = `${PIC_BASE}/${pic.filename}`
-      const legend = pic.legend
-      const thumb = (0 == ix) ? `<img src="${url}">` : ''
-      $(`<div data-src="${url}" data-sub-html="${legend}" class="zoomItem">${thumb}</div>`).appendTo( box)
+      const gallery_attributes = { 'data-src': url, 'data-sub-html': pic.legend }
+      // note: using .attr() escapes values
+      const thumb = (0 == ix) ? $('<img />').attr( 'src', url) : ''
+      return $('<div class="zoomItem"></div>').attr(gallery_attributes).append(thumb)
     })
+    populate( SEL_PHOTO, content)
 
     // enable lightbox/gallery features
     box.filter('.imgGallery').lightGallery();
