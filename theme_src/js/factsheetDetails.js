@@ -41,9 +41,7 @@ function populate( selector, data) {
     // clear old contents, hide so empty one will remain hidden
     box.empty().hide()
     // rebuild fresh
-    data.forEach( bit =>
-        bit && box.append( $.parseHTML(bit) ).show()
-    )
+    box.append(data).show()
 }
 
 
@@ -63,10 +61,12 @@ function populateDescription(json) {
     const lang = $(SEL_DESCRIPTION).attr('data-lang')
     const texts = json.texts.filter( d => d.language == lang)
 
-    // formats textual content and wraps it in a <p> tag
+    // escape and format textual content
     const format = (str) => {
-      const content = str.replace(/\n/, '<br />')
-      return `<p>${content}</p>`
+      // transform each line to a <p>, .text escapes
+      const content = str.split(/\n/).map( line => $('<p></p>').text(line) )
+      // wrap everything in a <div>
+      return $('<div></div>').append(content)
     }
 
     // add description(s)
@@ -99,9 +99,10 @@ function populatePhotos(json) {
     const pics = json.pictures.filter( p => p.is_factsheet_picture )
     const content = pics.map( (pic,ix) => {
       const url = `${PIC_BASE}/${pic.filename}`
-      const legend = pic.legend
-      const thumb = (0 == ix) ? `<img src="${url}">` : ''
-      return `<div data-src="${url}" data-sub-html="${legend}" class="zoomItem">${thumb}</div>`
+      const gallery_attributes = { 'data-src': url, 'data-sub-html': pic.legend }
+      // note: using .attr() escapes values
+      const thumb = (0 == ix) ? $('<img />').attr( 'src', url) : ''
+      return $('<div class="zoomItem"></div>').attr(gallery_attributes).append(thumb)
     })
     populate( SEL_PHOTO, content)
 
