@@ -3,20 +3,13 @@ import $ from 'jquery';
 import 'jquery-ui/ui/widgets/autocomplete';
 
 import { Map, View } from 'ol';
-import TileLayer from 'ol/layer/Tile';
-import Image from 'ol/layer/Image';
-import TileWMS from 'ol/source/TileWMS';
-import ImageWMS from 'ol/source/ImageWMS';
 import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
 import Vector from 'ol/source/Vector';
 import bbox from 'ol/loadingstrategy';
 import Circle from 'ol/style/Circle';
-import { Icon, Style, Stroke, Fill } from 'ol/style';
-import { defaults as Interactions } from 'ol/interaction';
+import { Icon, Style, Fill } from 'ol/style';
 import LayerSwitcher from 'ol-ext/control/LayerSwitcher';
-import Point from 'ol/geom/Point';
-import Feature from 'ol/Feature';
 import Group from 'ol/layer/Group';
 
 import { swissimage_wmts, swissalti3d_wmts, eiszeit_wmts, dufour_wmts, siegfried_wmts, pixelkarte_farbe_wmts, pixelkarte_grau_wmts } from './layer/swisstopo_layer';
@@ -24,7 +17,6 @@ import { glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010, glacier_outlines } f
 
 import controller from '../controller'
 import urlManager from '../UrlManager'
-import datastore from '../datastore';
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 import Translation from '../Translation'
