@@ -16,9 +16,11 @@
     </div>
   </div>
   <div class="length_change chartContainer">
-    {{ macro.chart("Kumulative Längenänderung (m)", 'length_change', 'line', 'm') }}
+    {% set legend = 'Kumulative Längenänderung (m)' | t %}
+    {{ macro.chart(legend, 'length_change', 'line', 'm') }}
   </div>
   <div class="mass_balance chartContainer">
-    {{ macro.chart('Massenbilanz (mm H₂0)', 'mass_balance', 'bar', 'mm H₂0') }}
+    {% set legend = 'Massenbilanz (mm H₂0)' | t %}
+    {{ macro.chart(legend, 'mass_balance', 'bar', 'mm H₂0') }}
   </div>
 </div>

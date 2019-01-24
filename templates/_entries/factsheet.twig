@@ -9,8 +9,14 @@
     {% include '_molecules/factsheetHead' %}
     {% include '_molecules/cardMap' %}
     {% include '_molecules/cardMeasurements' %}
-    {{ macro.cardChart('Längenänderung', "Kumulative Längenänderung (m)" | t, 'length_change', 'line', 'm') }}
-    {{ macro.cardChart('Massenbilanz', 'Massenbilanz (mm H₂0)' | t, 'mass_balance', 'bar', 'mm H₂0') }}
+
+    {% set title = 'Längenänderung' | t %}
+    {% set legend = 'Kumulative Längenänderung (m)' | t %}
+    {{ macro.cardChart(title, legend, 'length_change', 'line', 'm') }}
+
+    {% set title = 'Massenbilanz' | t %}
+    {% set legend = 'Massenbilanz (mm H₂0)' | t %}
+    {{ macro.cardChart(title, legend, 'mass_balance', 'bar', 'mm H₂0') }}
 
     {% include '_molecules/cardPhoto' %}
     {% include '_molecules/cardComment' %}
