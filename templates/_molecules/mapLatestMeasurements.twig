@@ -9,11 +9,4 @@
 
 </div>
 
-  {{ macro.singleValue('—', '', 'Masseänderung (mm H₂O)' | t, 'infobox-mass--change') }}
-
-  {{ macro.timeValue('—', '', 'Messzeitraum Masse' | t, 'infobox-mass--timespan') }}
-
-
-  {{ macro.singleValue('—', '', 'Längenänderung (m)' | t, 'infobox-length--change') }}
-
-  {{ macro.timeValue('—', '', 'Messzeitraum Länge' | t, 'infobox-length--timespan') }}
+{% include '_molecules/factsheetFields' %}

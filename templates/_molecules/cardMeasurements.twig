@@ -1,9 +1,5 @@
 {% import '_incl/docMacros' as macro %}
 
 <div class="fsMeasurements">
-  {{ macro.singleValue('—', '', 'Masseänderung (mm H₂O)', 'infobox-mass--change') }}
-  {{ macro.timeValue('—', '', 'Messzeitraum Masse', 'infobox-mass--timespan') }}
-
-  {{ macro.singleValue('—', '', 'Längenänderung (m)', 'infobox-length--change') }}
-  {{ macro.timeValue('—', '', 'Messzeitraum Länge', 'infobox-length--timespan') }}
+  {% include '_molecules/factsheetFields' %}
 </div>

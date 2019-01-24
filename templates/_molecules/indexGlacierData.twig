@@ -6,14 +6,5 @@
     {% set s = 'Zum Gletscher' | t %}
     {{ macro.crossLink('/factsheet', s, 'infobox-glaciername--link') }}
   </h2>
-
-  {% set s = 'Masseänderung (mm H₂O)' | t %}
-  {{ macro.singleValue('-', '', s, 'infobox-mass--change') }}
-  {% set s = 'Messzeitraum Masse' | t %}
-  {{ macro.timeValue('-', '', s, 'infobox-mass--timespan') }}
-
-  {% set s = 'Längenänderung (m)' | t %}
-  {{ macro.singleValue('-', '', s, 'infobox-length--change') }}
-  {% set s = 'Messzeitraum Länge' | t %}
-  {{ macro.timeValue('-', '', s, 'infobox-length--timespan') }}
+  {% include '_molecules/factsheetFields' %}
 </div>
