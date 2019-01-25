@@ -98,7 +98,7 @@ function populatePhotos(json) {
     }
 
     // take only photos allowed to show up on factsheet
-    const pics = json.pictures.filter( p => p.is_factsheet_picture )
+    const pics = json.pictures.sort( p => p.is_factsheet_picture ? -1 : +1 )
     const content = pics.map( (pic,ix) => {
       const url = `${PIC_BASE}/${pic.filename}`
       const gallery_attributes = { 'data-src': url, 'data-sub-html': pic.legend }
