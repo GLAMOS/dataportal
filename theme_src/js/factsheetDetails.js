@@ -45,6 +45,15 @@ function populate( selector, data) {
     box.toggle(!!contentcount)
 }
 
+/**
+* populates template description and citation/quotation node with data from per-glacier JSON
+* (also handles the case where there is multiple texts for current lang)
+*/
+function clearPopulated() {
+  populate( SEL_DESCRIPTION, null)
+  populate( SEL_CITATION, null)
+  populate( SEL_PHOTO, null)
+}
 
 // -----
 // Factsheet textual description blocks
@@ -137,6 +146,7 @@ function setup(feature) {
   // load and fill in facts description and pictures
   fetch( feature.get('pk_glacier') )   // pk_glacier is the glacier's UUID
   .fail( () => {
+    clearPopulated()
     console.error( "failed to fetch" )
   })
   .done( populateDescription)
