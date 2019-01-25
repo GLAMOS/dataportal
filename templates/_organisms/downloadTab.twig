@@ -2,7 +2,7 @@
 {% macro tabContent(category) %}
   {% import '_incl/docMacros' as docMacros %}
 
-  {% for item in craft.entries.section('downloads').relatedTo(category) %}
+  {% for item in craft.entries.section('downloads').relatedTo(category).all() %}
     {% if item.type != 'leadtextDownload' %}{# OR == 'downloadEntry' #}
       <div class="downloadEntry" name="downloads-{{ item.slug }}">
         <h4 class="scientificTitle">{{ item.title }}</h4>
@@ -17,4 +17,3 @@
     {% endif %}
   {% endfor %}
 {% endmacro %}
-
