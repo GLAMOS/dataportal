@@ -458,7 +458,7 @@ var gletscher_nodata = new VectorLayer({
 });
 
 var gletscher_masse = new VectorLayer({
-  title: 'Masse-Messungen',   // used as display name for layerswitcher
+  title: 'Massenbilanz',   // used as display name for layerswitcher
   source: gletscher_source_hasmass,
   map: map,
   style: checkResolution_masse //style different depending on data availibility
@@ -466,7 +466,7 @@ var gletscher_masse = new VectorLayer({
 
 var gletscher_length = new VectorLayer({
   allwaysOnTop: true,
-  title: 'Länge-Messungen' ,   // used as display name for layerswitcher
+  title: 'Längenänderung' ,   // used as display name for layerswitcher
   source: gletscher_source_haslength,
   map: map,
   style: checkResolution_laenge //style different depending on data availibility
