@@ -28,13 +28,15 @@ import urlManager from '../UrlManager'
 import datastore from '../datastore';
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
+import Translation from '../Translation'
+const t = Translation('.layerSwitcher')
 
 const DISPLAY_NAME = 'glacier_full_name';
 
 	// A group layer for base layers
 var baseLayers = new Group(
   {
-    title: 'Hintergrundkarten',
+    title: t('Hintergrundkarten'),
     openInLayerSwitcher: true,
     layers: [ dufour_wmts,
               siegfried_wmts,
@@ -48,7 +50,7 @@ for (var i = 0; i < layer.length; i++) {
 
 var glamosSgi = new Group(
   {
-    title: 'Gletscherausdehnung',
+    title: t('Gletscherausdehnung'),
     openInLayerSwitcher: false,
     layers: [glamos_sgi_1850, glamos_sgi_1973, glamos_sgi_2010]
   });
@@ -451,14 +453,14 @@ var gletscher_source_hasmass = new Vector({
 
 var gletscher_nodata = new VectorLayer({
   allwaysOnTop: true,
-  title: 'ohne Messwerte',   // used as display name for layerswitcher
+  title: t('ohne Messwerte'),   // used as display name for layerswitcher
   source: gletscher_source_nodata,
   map: map,
   style: style[0] //style different depending on data availibility
 });
 
 var gletscher_masse = new VectorLayer({
-  title: 'Massenbilanz',   // used as display name for layerswitcher
+  title: t('Massenbilanz'),   // used as display name for layerswitcher
   source: gletscher_source_hasmass,
   map: map,
   style: checkResolution_masse //style different depending on data availibility
@@ -466,7 +468,7 @@ var gletscher_masse = new VectorLayer({
 
 var gletscher_length = new VectorLayer({
   allwaysOnTop: true,
-  title: 'Längenänderung' ,   // used as display name for layerswitcher
+  title: t('Längenänderung') ,   // used as display name for layerswitcher
   source: gletscher_source_haslength,
   map: map,
   style: checkResolution_laenge //style different depending on data availibility
@@ -474,7 +476,7 @@ var gletscher_length = new VectorLayer({
 
 var GletscherLayers = new Group(
   {
-    title: 'Gletscher',
+    title: t('Gletscher'),
     openInLayerSwitcher: true,
     layers: [ gletscher_nodata, gletscher_length, gletscher_masse ]
   });

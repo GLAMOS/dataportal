@@ -1,6 +1,14 @@
 <div class="sidebarContainer">
 
-  <div class="external layerSwitcher"><b>{{ 'Karten-Layer' | t }}</b></div>
+  {% set translations = {
+    'Hintergrundkarten':   'Hintergrundkarten' | t,
+    'Gletscherausdehnung': 'Gletscherausdehnung' | t,
+    'ohne Messwerte':      'ohne Messwerte' | t,
+    'Massenbilanz':        'Massenbilanz' | t,
+    'Längenänderung':      'Längenänderung' | t,
+    'Gletscher':           'Gletscher' | t,
+  } %}
+  <div class="external layerSwitcher" data-translations="{{ translations | json_encode() }}"><b>{{ 'Karten-Layer' | t }}</b></div>
 
   <div class="sidebarControls comparisonContainer active">
     {% include '_molecules/fieldSearch' %}
