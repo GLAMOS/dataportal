@@ -60,3 +60,19 @@ eth_test_deploy:
     REMOTE_IDENTITY: "server2servertransfer.rsa"
     CI_VAR_SUFFIX: "ETH"
   script: ./deploy/runner.sh
+
+# NOTE: for ETH, we use their term 'PROD' instead of 'LIVE'
+eth_prod_deploy:
+  stage: deploy
+  only:
+  - ETH-PROD
+  environment:
+    name: eth-prod
+    url: https://www.glamos.ch
+  variables:
+    TIER: "live"
+    REMOTE_USER: "glpo-prod"
+    REMOTE_HOST: "www.glamos.ch"
+    REMOTE_IDENTITY: "server2servertransfer.rsa"
+    CI_VAR_SUFFIX: "ETH"
+  script: ./deploy/runner.sh
