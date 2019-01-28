@@ -1,5 +1,7 @@
 import TileLayer from 'ol/layer/Tile';
 import XYZLayer from 'ol/source/XYZ';
+import Translation from '../../Translation'
+const t = Translation('.layerSwitcher')
 
 var siegfried_wmts = new TileLayer({
     source: new XYZLayer({
@@ -7,7 +9,7 @@ var siegfried_wmts = new TileLayer({
       attributions: '© <a target="new" href="https://www.swisstopo.admin.ch/">swisstopo</a>'
     }),
     baseLayer: true,
-    title: "Siegfried-Karte 1926",
+    title: t("Siegfried-Karte 1926"),
   });
 
   export default siegfried_wmts;
