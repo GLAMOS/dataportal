@@ -35,13 +35,11 @@ h2.currentGlacier {
   @extend %fontXL;
   font-weight: 700 !important;
   padding-bottom: 20px;
-  @extend %hyphenate;
 }
 h1.currentGlacier {
   position: relative;
   @extend %fontXL;
   font-weight: 700 !important;
-  @extend %hyphenate;
 }
 
 p, li, ul {
@@ -68,4 +66,3 @@ a {
 .toast {
   background-color: #FE8;
 }
-

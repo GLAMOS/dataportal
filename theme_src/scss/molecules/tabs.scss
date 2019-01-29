@@ -2,7 +2,9 @@ ul.tabLinks {
 	margin: 0px;
 	padding: 0px;
 	list-style: none;
-	display: flex;
+	@include smUp {
+		display: flex;
+	}
   & li {
 		@extend %fontM;
 		a {
@@ -26,6 +28,13 @@ ul.tabLinks {
 	padding: 15px;
 	margin-bottom: 30px;
 	min-height: 50vh;
+	@include smUp {
+		columns: 300px 3;
+		.downloadEntry {
+			break-inside: avoid;
+			page-break-inside: avoid;
+		}
+	}
   &.current {
     display: inherit;
 		@extend %boxShadow;
