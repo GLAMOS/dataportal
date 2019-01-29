@@ -22,7 +22,9 @@
     "Relief":                  "Relief" | t,
     "Luftbilder":              "Luftbilder" | t,
   } %}
-  <div class="external layerSwitcher" data-translations="{{ translations | json_encode() }}"><b>{{ 'Karten-Layer' | t }}</b></div>
+  <div class="external layerSwitcher" data-translations="{{ translations | json_encode() }}">
+    <b>{{ 'Karten-Layer' | t }}</b>
+  </div>
 
   <div class="sidebarControls comparisonContainer active">
     {% include '_molecules/fieldSearch' %}
