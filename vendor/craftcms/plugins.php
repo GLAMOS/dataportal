@@ -55,28 +55,6 @@ return array (
     'hasCpSettings' => false,
     'hasCpSection' => false,
   ),
-  'enupal/translate' => 
-  array (
-    'class' => 'enupal\\translate\\Translate',
-    'basePath' => $vendorDir . '/enupal/translate/src',
-    'handle' => 'enupal-translate',
-    'aliases' => 
-    array (
-      '@enupal/translate' => $vendorDir . '/enupal/translate/src',
-    ),
-    'name' => 'Enupal Translate',
-    'version' => '1.1.6',
-    'schemaVersion' => '1.0.0',
-    'description' => 'Translate your website templates and plugins into multiple languages. Bulk translation with Google Translate or Yandex.',
-    'developer' => 'Enupal',
-    'developerUrl' => 'http://enupal.com/en',
-    'developerEmail' => 'info@enupal.com',
-    'documentationUrl' => 'https://enupal.com/en/craft-plugins/enupal-translate/docs',
-    'components' => 
-    array (
-      'app' => 'enupal\\translate\\services\\App',
-    ),
-  ),
   'ostark/craft-async-queue' => 
   array (
     'class' => 'ostark\\AsyncQueue\\Plugin',
@@ -94,5 +72,27 @@ return array (
     'changelogUrl' => 'https://raw.githubusercontent.com/ostark/craft-async-queue/master/CHANGELOG.md',
     'hasCpSettings' => false,
     'hasCpSection' => false,
+  ),
+  'enupal/translate' => 
+  array (
+    'class' => 'enupal\\translate\\Translate',
+    'basePath' => $vendorDir . '/enupal/translate/src',
+    'handle' => 'enupal-translate',
+    'aliases' => 
+    array (
+      '@enupal/translate' => $vendorDir . '/enupal/translate/src',
+    ),
+    'name' => 'Enupal Translate',
+    'version' => '1.1.8',
+    'schemaVersion' => '1.0.0',
+    'description' => 'Translate your website templates and plugins into multiple languages. Bulk translation with Google Translate or Yandex.',
+    'developer' => 'Enupal',
+    'developerUrl' => 'http://enupal.com/en',
+    'developerEmail' => 'info@enupal.com',
+    'documentationUrl' => 'https://enupal.com/en/craft-plugins/enupal-translate/docs',
+    'components' => 
+    array (
+      'app' => 'enupal\\translate\\services\\App',
+    ),
   ),
 );

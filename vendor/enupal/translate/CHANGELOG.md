@@ -1,5 +1,13 @@
 # Enupal Translate Changelog
 
+## 1.1.8 - 2018.12.22
+### Fixed
+- Fixed issue on Craft 3.1
+
+## 1.1.7 - 2018.12.18
+### Added
+- Added support for import csv files
+
 ## 1.1.6 - 2018.11.20
 ### Added
 - Added support for "CMD + S" shortcut
