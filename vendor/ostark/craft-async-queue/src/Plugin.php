@@ -14,7 +14,6 @@ use Craft;
 use craft\base\Plugin as BasePlugin;
 use craft\queue\BaseJob;
 use craft\queue\Command;
-use craft\queue\JobInterface;
 use craft\queue\Queue;
 use yii\base\ActionEvent;
 use yii\base\Event;
@@ -58,14 +57,10 @@ class Plugin extends BasePlugin
                 // Disable frontend queue runner
                 Craft::$app->getConfig()->getGeneral()->runQueueAutomatically = false;
 
-                $context = ($event->job instanceof JobInterface)
-                            ? $event->job->getDescription()
-                            : 'Not instanceof craft\queue\JobInterface';
-
                 // Run queue in the background
-                if ($this->getPool()->canIUse($context)) {
+                if ($this->getPool()->canIUse()) {
                     $this->getHandler()->startBackgroundProcess();
-                    $this->getPool()->increment($context);
+                    $this->getPool()->increment();
                     $handled = true;
                 }
 
@@ -79,7 +74,7 @@ class Plugin extends BasePlugin
             Command::EVENT_AFTER_ACTION,
             function (ActionEvent $event) {
                 if ('run' === $event->action->id) {
-                    $this->getPool()->decrement(Command::class . '::run() ' . Command::EVENT_AFTER_ACTION);
+                    $this->getPool()->decrement();
                 }
             }
         );
@@ -113,11 +108,8 @@ class Plugin extends BasePlugin
      */
     protected function logPushEvent(PushEvent $event, $handled = false)
     {
-        if (!YII_DEBUG) {
-            return;
-        }
         if ($event->job instanceof BaseJob) {
-            Craft::debug(
+            Craft::trace(
                 Craft::t(
                     'async-queue',
                     'New PushEvent for {job} job - ({handled})', [
@@ -125,7 +117,7 @@ class Plugin extends BasePlugin
                         'handled' => $handled ? 'handled' : 'skipped'
                     ]
                 ),
-                'async-queue'
+                __METHOD__
             );
         }
     }
