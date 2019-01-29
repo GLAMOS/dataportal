@@ -3,7 +3,7 @@
 
     {% case "mxDocPubPDF" %}
 
-      {% for asset in block.cellFile %}
+      {% for asset in block.cellFile.all() %}
         <a href="{{ asset.url }}">{{ block.cellLabel }}</a>
       {% endfor %}
 
