@@ -89,7 +89,6 @@ const Config = function (text, uri_name, chart_type, unit, showNames) {
   const formatter = (value) => `${String(value).replace('-', '&minus;')}&nbsp;${unit}`;
 
   const c3Config = function (container, data) {
-    // FIXME indentation
     const result = {
       data,
       bindto: container,
