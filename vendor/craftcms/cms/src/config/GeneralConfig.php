@@ -294,6 +294,25 @@ class GeneralConfig extends BaseObject
      */
     public $extraAppLocales;
     /**
+     * @var array List of additional file kinds Craft should support. This array
+     * will get merged with the one defined in [[craft\helpers\Assets::_buildFileKinds()]].
+     *
+     * ```php
+     * 'extraFileKinds' => [
+     *     // merge .psb into list of Photoshop file kinds
+     *     'photoshop' => [
+     *         'extensions' => ['psb'],
+     *     ],
+     *     // register new "Stylesheet" file kind
+     *     'stylesheet' => [
+     *         'label' => 'Stylesheet',
+     *         'extensions' => ['css', 'less', 'pcss', 'sass', 'scss', 'styl'],
+     *     ],
+     * ],
+     * ```
+     */
+    public $extraFileKinds = [];
+    /**
      * @var string|bool The string to use to separate words when uploading Assets. If set to `false`, spaces will be left alone.
      */
     public $filenameWordSeparator = '-';
@@ -410,12 +429,12 @@ class GeneralConfig extends BaseObject
      */
     public $pathParam = 'p';
     /**
-     * @var string The maximum amount of memory Craft will try to reserve during memory intensive operations such as zipping,
+     * @var string|null The maximum amount of memory Craft will try to reserve during memory intensive operations such as zipping,
      * unzipping and updating. Defaults to an empty string, which means it will use as much memory as it possibly can.
      *
      * See <http://php.net/manual/en/faq.using.php#faq.using.shorthandbytes> for a list of acceptable values.
      */
-    public $phpMaxMemoryLimit = '';
+    public $phpMaxMemoryLimit;
     /**
      * @var string The name of the PHP session cookie.
      * @see https://php.net/manual/en/function.session-name.php
@@ -557,6 +576,12 @@ class GeneralConfig extends BaseObject
      * where PHP’s [flush()](http://php.net/manual/en/function.flush.php) method won’t work.
      *
      * If disabled, an alternate queue runner *must* be set up separately.
+     *
+     * Here is an example of how you would setup a queue runner from a cron job that ran every minute:
+     *
+     * ```text
+     * /1 * * * * /path/to/project/root/craft queue/run
+     * ```
      */
     public $runQueueAutomatically = true;
     /**

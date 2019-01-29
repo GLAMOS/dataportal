@@ -825,6 +825,40 @@ Only use this setting if your server has the Intl PHP extension, or if you’ve 
 [locale data](https://github.com/craftcms/locales) into your `config/locales/` folder.
 
 
+### `extraFileKinds`
+
+Allowed types
+
+:   [array](http://php.net/language.types.array)
+
+Default value
+
+:   `[]`
+
+Defined by
+
+:   [GeneralConfig::$extraFileKinds](api:craft\config\GeneralConfig::$extraFileKinds)
+
+
+
+List of additional file kinds Craft should support. This array
+will get merged with the one defined in `\craft\config\craft\helpers\Assets::_buildFileKinds()`.
+
+```php
+'extraFileKinds' => [
+    // merge .psb into list of Photoshop file kinds
+    'photoshop' => [
+        'extensions' => ['psb'],
+    ],
+    // register new "Stylesheet" file kind
+    'stylesheet' => [
+        'label' => 'Stylesheet',
+        'extensions' => ['css', 'less', 'pcss', 'sass', 'scss', 'styl'],
+    ],
+],
+```
+
+
 ### `filenameWordSeparator`
 
 Allowed types
@@ -1226,11 +1260,11 @@ The query string param that Craft will check when determining the request's path
 
 Allowed types
 
-:   [string](http://php.net/language.types.string)
+:   [string](http://php.net/language.types.string), [null](http://php.net/language.types.null)
 
 Default value
 
-:   `''`
+:   `null`
 
 Defined by
 
@@ -1665,6 +1699,12 @@ This setting should be disabled for servers running Win32, or with Apache’s mo
 where PHP’s [flush()](http://php.net/manual/en/function.flush.php) method won’t work.
 
 If disabled, an alternate queue runner *must* be set up separately.
+
+Here is an example of how you would setup a queue runner from a cron job that ran every minute:
+
+```text
+/1 * * * * /path/to/project/root/craft queue/run
+```
 
 
 ### `sanitizeSvgUploads`
