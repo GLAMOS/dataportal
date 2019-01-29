@@ -4,7 +4,7 @@
   @extend %horizontalGrid;
   grid-template-rows: 55vh 35vh;
   @include smUp {
-    grid-template-rows: minmax(300px, 58vh) minmax(250px, 1fr);
+    grid-template-rows: minmax(195px, 58vh) minmax(300px, 1fr);
   }
 }
 .mapContainer {
