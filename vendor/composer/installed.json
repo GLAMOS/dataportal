@@ -1402,21 +1402,19 @@
     },
     {
         "name": "ostark/craft-async-queue",
-        "version": "1.3.3",
-        "version_normalized": "1.3.3.0",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/ostark/craft-async-queue/zipball/00aa46c61aa244ca2d70b6492f86b77974d00605",
-            "reference": "00aa46c61aa244ca2d70b6492f86b77974d00605",
+            "url": "https://api.github.com/repos/ostark/craft-async-queue/zipball/49652f005e0ce47e327871adfa744a4ec72dac85",
+            "reference": "49652f005e0ce47e327871adfa744a4ec72dac85",
             "shasum": ""
         },
         "require": {
-            "craftcms/cms": "^3.0.0"
+            "craftcms/cms": "^3.0.0",
+            "symfony/process": "^4.0"
         },
-        "require-dev": {
-            "phpstan/phpstan": "^0.9.2"
-        },
-        "time": "2018-06-15T15:12:31+00:00",
+        "time": "2018-12-17T09:45:05+00:00",
         "type": "craft-plugin",
         "extra": {
             "name": "AsyncQueue",
@@ -1431,7 +1429,6 @@
                 "ostark\\AsyncQueue\\": "src/"
             }
         },
-        "notification-url": "https://packagist.org/downloads/",
         "license": [
             "MIT"
         ],
@@ -1443,12 +1440,16 @@
         ],
         "description": "A queue handler that moves queue execution to a non-blocking background process",
         "keywords": [
-            "Craft",
             "cms",
+            "craft",
             "craft-plugin",
             "craftcms",
             "queue"
-        ]
+        ],
+        "support": {
+            "docs": "https://github.com/ostark/craft-async-queue/blob/master/README.md",
+            "issues": "https://github.com/ostark/craft-async-queue/issues"
+        }
     },
     {
         "name": "paragonie/random_compat",
@@ -2211,22 +2212,22 @@
     },
     {
         "name": "symfony/process",
-        "version": "v3.3.6",
-        "version_normalized": "3.3.6.0",
+        "version": "v4.2.2",
+        "version_normalized": "4.2.2.0",
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/process/zipball/07432804942b9f6dd7b7377faf9920af5f95d70a",
-            "reference": "07432804942b9f6dd7b7377faf9920af5f95d70a",
+            "url": "https://api.github.com/repos/symfony/process/zipball/ea043ab5d8ed13b467a9087d81cb876aee7f689a",
+            "reference": "ea043ab5d8ed13b467a9087d81cb876aee7f689a",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.5.9"
+            "php": "^7.1.3"
         },
-        "time": "2017-07-13T13:05:09+00:00",
+        "time": "2019-01-03T14:48:52+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.3-dev"
+                "dev-master": "4.2-dev"
             }
         },
         "installation-source": "dist",
@@ -2238,7 +2239,6 @@
                 "/Tests/"
             ]
         },
-        "notification-url": "https://packagist.org/downloads/",
         "license": [
             "MIT"
         ],
