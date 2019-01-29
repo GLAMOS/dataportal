@@ -1,7 +1,5 @@
 'use strict';
 
-//import $ from 'jquery';
-
 import datastore from './datastore'
 import controller from './controller'
 
@@ -50,18 +48,18 @@ class UrlManager {
     const id2feat = function (...args) { return datastore.features.findById(...args); }
 
     const _getCurrentPage = () =>
-        window.location.pathname.split('/').slice(-1)[0]
+      window.location.pathname.split('/').slice(-1)[0]
 
     // map layers: baselayers, div. featurelayers
     const _getLayerHashPart = () => {
-      if( 'downloads' == datastore.currentPage ) {
+      if ('downloads' == datastore.currentPage) {
         return [datastore.downloadTab]
       }
       return []   // fallback
     }
 
     const _setLayersFromHashPart = (hashes) => {
-      if( 'downloads' == datastore.currentPage ) {
+      if ('downloads' == datastore.currentPage) {
         datastore.downloadTab = hashes[0]
       }
     }
@@ -86,15 +84,15 @@ class UrlManager {
 
     const _setFeaturesFromHashPart = (hashes) => {
       const ids = hashes.map(hash2id)
-      if( ids.length)  datastore.highlightedGlacier.set( ids[0] )
-      datastore.selectedGlaciers.set( ids)
+      if (ids.length) datastore.highlightedGlacier.set(ids[0])
+      datastore.selectedGlaciers.set(ids)
     }
 
     // get from / set to hash
     const _getFullHash = (limited) => {
       const fullHash = '#' + [
-          _getLayerHashPart().join('&'),
-          _getFeatureHashPart(limited).join('&'),
+        _getLayerHashPart().join('&'),
+        _getFeatureHashPart(limited).join('&'),
       ].join('/')
       return fullHash
     }
@@ -104,7 +102,7 @@ class UrlManager {
     /** called when navigating to another page
      * @param href  URL without hash
      */
-    this.navigateTo = function(href) {
+    this.navigateTo = function (href) {
       const url = href + _getFullHash(true);
       // if href part changes, navigate; otherwise just adds history entry
       window.location.href = url;
@@ -114,13 +112,13 @@ class UrlManager {
     this.minorUpdate = () => {
       const newHash = _getFullHash()
       console.debug('UrlManager.minorUpdate', newHash)
-      if( window.history && window.history.replaceState) {
+      if (window.history && window.history.replaceState) {
         window.history.replaceState(null, null, newHash)
       } else {
         // src: https://stackoverflow.com/a/21782734
-        $(window).unbind( 'hashchange');
+        $(window).unbind('hashchange');
         window.location.hash = hash;
-        $(window).bind( 'hashchange');
+        $(window).bind('hashchange');
       }
     }
 
@@ -128,7 +126,7 @@ class UrlManager {
     this.majorUpdate = () => {
       const newHash = _getFullHash()
       console.debug('UrlManager.majorUpdate', newHash)
-      if( window.history && window.history.pushState) {
+      if (window.history && window.history.pushState) {
         window.history.pushState(null, null, newHash)
       } else {
         window.location.hash = hash;
@@ -142,9 +140,9 @@ class UrlManager {
       datastore.currentPage = _getCurrentPage()
       const hash = window.location.hash.replace(/^#/, '')
       // console.debug('UrlManager.loadState', hash)
-      const [ layerPart, featurePart ] = hash.split('/')
-      layerPart && _setLayersFromHashPart( layerPart.split('&') )
-      featurePart && _setFeaturesFromHashPart( featurePart.split('&') )
+      const [layerPart, featurePart] = hash.split('/')
+      layerPart && _setLayersFromHashPart(layerPart.split('&'))
+      featurePart && _setFeaturesFromHashPart(featurePart.split('&'))
       // console.debug('UrlManager.loadState end', datastore.downloadTab, datastore.selectedGlaciers.get(), datastore.highlightedGlacier.get())
     }
 
@@ -162,6 +160,3 @@ class UrlManager {
 // exports
 
 export default new UrlManager()
-
-//module.exports = {
-//}

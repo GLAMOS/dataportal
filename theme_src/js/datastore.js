@@ -6,7 +6,7 @@
 
 /* Helpers */
 
-function isFeature (feature) {
+function isFeature(feature) {
   /* NOTE: feature instanceof Vector does not work (import Vector from 'ol/source/Vector') */
   return typeof feature == 'object'
     && 'getId' in feature
@@ -31,7 +31,7 @@ const downloadTab = null;
  * Manages the set of features
  */
 class FeatureSet {
-  constructor () {
+  constructor() {
     let _data = [];   // the store
 
     this.set = (features) => { _data = features; };
@@ -41,12 +41,12 @@ class FeatureSet {
     this.findById = (id) => _data.find((feat) => feat.getId() == id);
 
     /** Return a subset of getAll() containing only VIGs */
-    this.getVIGs = () => _data.filter( g => g.get('is_vig') );
+    this.getVIGs = () => _data.filter(g => g.get('is_vig'));
 
     /** Returns a random glacier (features) from the list of VIP glaciers (VIG) */
     this.getRandomVIG = () => {
       const vip_features_list = this.getVIGs();
-      if( !vip_features_list.length) return;   // features not yet ready (?)
+      if (!vip_features_list.length) return;   // features not yet ready (?)
       const randomNumber = Math.floor(Math.random() * vip_features_list.length);   // 0..length-1
       return vip_features_list[randomNumber];
     };
@@ -57,7 +57,7 @@ class FeatureSet {
  * Manages the single highlighted/selected feature
  */
 class SingleSelection {
-  constructor () {
+  constructor() {
     /**
      * Data storage
      */
@@ -71,8 +71,8 @@ class SingleSelection {
   }
 
   /* by accessing .feature, it will be transformed from/to id */
-  get feature () { return features.findById(this.get()); }
-  set feature (feature) { return this.set(feature.getId()); }
+  get feature() { return features.findById(this.get()); }
+  set feature(feature) { return this.set(feature.getId()); }
 }
 
 
@@ -80,7 +80,7 @@ class SingleSelection {
  * Manages the list of selected features
  */
 class SelectionList {
-  constructor () {
+  constructor() {
     /**
      * Data storage
      * @type {Array}
@@ -120,7 +120,7 @@ class SelectionList {
    *
    * @return {Array[Feature]}
    */
-  get features () { return this.get().map(features.findById).filter((feature) => !!feature); }
+  get features() { return this.get().map(features.findById).filter((feature) => !!feature); }
 }
 
 

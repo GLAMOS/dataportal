@@ -16,19 +16,19 @@ const bridge = {};
 
 /* Helpers */
 
-function feature2id (feature) {
+function feature2id(feature) {
   return feature.getId();
 }
 
 function factsheetUpdate(feature) {
-  if( 'factsheet' == datastore.currentPage) factsheetDetails.setup(feature)
+  if ('factsheet' == datastore.currentPage) factsheetDetails.setup(feature)
 }
 
 
 /** Our Controller (Action → Reaction) */
 
 class Controller {
-  _bootstrapFromState () {
+  _bootstrapFromState() {
     if (datastore.downloadTab) {
       bridge.selectDownloadTab(datastore.downloadTab);
     }
@@ -37,13 +37,13 @@ class Controller {
       bridge.selectGlacier(feature);
       bridge.mapPanTo(feature);
       dataview.update();
-      
+
       factsheetUpdate(feature)
     }
     bridge.monitoringSelectedFeatureList.refresh();
   }
 
-  _chooseRandom () {
+  _chooseRandom() {
     const feature = datastore.features.getRandomVIG();
     if (feature) {
       this._extendSelection(feature);
@@ -54,7 +54,7 @@ class Controller {
   /**
    * sets some state bits to defaults if they're empty
    */
-  _setFallbackState () {
+  _setFallbackState() {
     let needsUpdate = false;
 
     // default to random glacier
@@ -80,7 +80,7 @@ class Controller {
   /* Init */
 
   //onPageLoad(page) {
-  onPageLoad () {
+  onPageLoad() {
     dataview.setup();
 
     urlManager.loadState();
@@ -90,11 +90,11 @@ class Controller {
     urlManager.observeHistory();
   }
 
-  onNavigate () {
+  onNavigate() {
     this.onPageLoad();   /* just alias */
   }
 
-  gotFeatures (features) {
+  gotFeatures(features) {
     datastore.features.set(features);
     urlManager.loadState();
     this._setFallbackState();
@@ -104,13 +104,13 @@ class Controller {
 
   /* Home */
 
-  mapMarkerHighlighted (feature) {
+  mapMarkerHighlighted(feature) {
     this._extendSelection(feature);
     /* note: no map panning */
     urlManager.majorUpdate();
   }
 
-  searchSelected (feature) {
+  searchSelected(feature) {
     bridge.mapPanTo(feature);
     factsheetUpdate(feature);
     this._extendSelection(feature);
@@ -131,14 +131,14 @@ class Controller {
 
   /* Monitoring */
 
-  selectionListHighlight (id) {
+  selectionListHighlight(id) {
     const feature = datastore.selectedGlaciers.findById(id);
     bridge.selectGlacier(feature);
     bridge.mapPanTo(feature);
     urlManager.minorUpdate();
   }
 
-  selectionListRemove (id) {
+  selectionListRemove(id) {
     datastore.selectedGlaciers.remove(id);
     dataview.update();
 
@@ -147,25 +147,25 @@ class Controller {
     urlManager.majorUpdate();
   }
 
-  selectionListReset () {
+  selectionListReset() {
     datastore.selectedGlaciers.clear();
     this._chooseRandom();
     urlManager.majorUpdate();
   }
 
-  switchChartType (type) {
+  switchChartType(type) {
     dataview.update();
 
     /* TODO: Update URL */
   }
 
-  toggleMapLayer (layerId) {
+  toggleMapLayer(layerId) {
     //TODO ...update URL
   }
 
   // -- Downloads
 
-  changeDownloadTab (tabId) {
+  changeDownloadTab(tabId) {
     datastore.downloadTab = tabId;
     bridge.selectDownloadTab(tabId);
     urlManager.minorUpdate();
@@ -180,8 +180,7 @@ class Controller {
 /* Singleton instance */
 let controller = new Controller();
 
-if (!(Object.assign instanceof Function))
-{
+if (!(Object.assign instanceof Function)) {
   Object.assign = (
     (target, ...sources) => sources.forEach(
       (source) => Object.keys(source).forEach(
@@ -200,12 +199,14 @@ controller.bridge = function (options) {
 /* DEBUG */
 controller = new Proxy(
   controller,
-  { get (controller, fn, proxy) {
-    return function wrapped () {
-      console.debug('Controller', fn, arguments);
-      return controller[fn].apply(this, arguments);
-    };
-  }}
+  {
+    get(controller, fn, proxy) {
+      return function wrapped() {
+        console.debug('Controller', fn, arguments);
+        return controller[fn].apply(this, arguments);
+      };
+    }
+  }
 );
 
 /* Exports */
