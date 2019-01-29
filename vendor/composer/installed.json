@@ -829,26 +829,25 @@
     },
     {
         "name": "enupal/translate",
-        "version": "1.1.8",
-        "version_normalized": "1.1.8.0",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/enupal/translate/zipball/eb94ac27938b24ac86a25dbe6eb8b01c25e643d0",
-            "reference": "eb94ac27938b24ac86a25dbe6eb8b01c25e643d0",
+            "url": "https://api.github.com/repos/enupal/translate/zipball/6e706885e61ba9460b18ef565ed88a05781e6f2a",
+            "reference": "6e706885e61ba9460b18ef565ed88a05781e6f2a",
             "shasum": ""
         },
         "require": {
             "beeyev/yandex-translate": "2.0.1",
-            "craftcms/cms": "^3.0.0-RC1",
+            "craftcms/cms": "^3.1.0",
             "stichoza/google-translate-php": "3.2.13",
             "viniciusgava/google-translate-api": "2.0.2"
         },
-        "time": "2018-12-22T04:20:58+00:00",
+        "time": "2019-01-27T17:13:13+00:00",
         "type": "craft-plugin",
         "extra": {
             "name": "Enupal Translate",
             "handle": "enupal-translate",
-            "schemaVersion": "1.0.0",
             "hasSettings": true,
             "developer": "Enupal",
             "class": "enupal\\translate\\Translate",
@@ -865,14 +864,14 @@
         "authors": [
             {
                 "name": "Enupal",
-                "homepage": "http://enupal.com/en"
+                "homepage": "http://enupal.com"
             }
         ],
         "description": "Translate your website templates and plugins into multiple languages. Bulk translation with Google Translate or Yandex.",
         "support": {
             "email": "info@enupal.com",
             "issues": "https://github.com/enupal/translate/issues",
-            "docs": "https://enupal.com/en/craft-plugins/enupal-translate/docs"
+            "docs": "https://enupal.com/craft-plugins/enupal-translate/docs"
         }
     },
     {
