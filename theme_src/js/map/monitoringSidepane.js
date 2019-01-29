@@ -36,7 +36,7 @@ const DEFAULT_PANE = 'comparisonContainer'
 function setup() {
   $(TOGGLES).on('click', (ev) => {
     ev.preventDefault()
-    goToSidebarTab( ev.currentTarget.getAttribute('data-tab') )
+    goToSidebarTab(ev.currentTarget.getAttribute('data-tab'))
   })
 }
 
@@ -72,12 +72,12 @@ function render() {
 // -----
 // Tab switching
 
-function goToSidebarTab( tabName=DEFAULT_PANE) {
+function goToSidebarTab(tabName = DEFAULT_PANE) {
   // TODO: if mobile, leave sidepane closed (=null(?))
   datastore.sidepane = tabName
   render()
 }
-controller.bridge({goToSidebarTab})
+controller.bridge({ goToSidebarTab })
 
 
 // -----
