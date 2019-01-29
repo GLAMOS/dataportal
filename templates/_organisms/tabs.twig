@@ -11,9 +11,9 @@
   <div class="tabContent">
     {% for item in categories %}
       <div id="tab-{{ item.slug }}" class="tabPanel">
-        <p>
-          {{ item.leadtextDownloads }}
-        </p>
+        {% if item.leadtextDownloads %}
+          <p>{{ item.leadtextDownloads }}</p>
+        {% endif %}
         {{ dls.tabContent(item.downloadCategory.0) }}{# leadtext should be associated to exactly one downloadCategory #}
       </div>
     {% endfor %}
