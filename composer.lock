@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "142c0f537ef966f73840775d489dac07",
+    "content-hash": "cbb8cbb6470d1ddc6bd9a51d84930f04",
     "packages": [
         {
             "name": "beeyev/yandex-translate",
@@ -491,15 +491,15 @@
         },
         {
             "name": "craftcms/redactor",
-            "version": "2.1.6",
+            "version": "2.3.0",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/redactor/zipball/86699fb2e9be6c689b3f5da75145acacf9497938",
-                "reference": "86699fb2e9be6c689b3f5da75145acacf9497938",
+                "url": "https://api.github.com/repos/craftcms/redactor/zipball/f96f9ce6c94b2c7a443939d244e99ad7317d7a23",
+                "reference": "f96f9ce6c94b2c7a443939d244e99ad7317d7a23",
                 "shasum": ""
             },
             "require": {
-                "craftcms/cms": "^3.0.0-RC15"
+                "craftcms/cms": "^3.1.0"
             },
             "type": "craft-plugin",
             "extra": {
@@ -534,7 +534,7 @@
                 "source": "https://github.com/craftcms/redactor",
                 "docs": "https://github.com/craftcms/redactor"
             },
-            "time": "2018-08-21T07:54:14+00:00"
+            "time": "2019-01-22T21:41:57+00:00"
         },
         {
             "name": "craftcms/server-check",

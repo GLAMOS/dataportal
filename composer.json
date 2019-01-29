@@ -22,7 +22,7 @@
     "craftcms/cms": "3.1.5",
     "vlucas/phpdotenv": "^2.4.0",
     "mmikkel/cp-clearcache": "1.0.3",
-    "craftcms/redactor": "2.1.6",
+    "craftcms/redactor": "2.3.0",
     "enupal/translate": "1.1.8",
     "ether/seo": "v3.4.4",
     "ostark/craft-async-queue": "1.4.0"

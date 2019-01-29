@@ -502,18 +502,18 @@
     },
     {
         "name": "craftcms/redactor",
-        "version": "2.1.6",
-        "version_normalized": "2.1.6.0",
+        "version": "2.3.0",
+        "version_normalized": "2.3.0.0",
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/craftcms/redactor/zipball/86699fb2e9be6c689b3f5da75145acacf9497938",
-            "reference": "86699fb2e9be6c689b3f5da75145acacf9497938",
+            "url": "https://api.github.com/repos/craftcms/redactor/zipball/f96f9ce6c94b2c7a443939d244e99ad7317d7a23",
+            "reference": "f96f9ce6c94b2c7a443939d244e99ad7317d7a23",
             "shasum": ""
         },
         "require": {
-            "craftcms/cms": "^3.0.0-RC15"
+            "craftcms/cms": "^3.1.0"
         },
-        "time": "2018-08-21T07:54:14+00:00",
+        "time": "2019-01-22T21:41:57+00:00",
         "type": "craft-plugin",
         "extra": {
             "name": "Redactor",
