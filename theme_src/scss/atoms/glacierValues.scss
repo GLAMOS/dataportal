@@ -20,6 +20,9 @@
 }
 .timeValue {
   padding-top: 10px;
+  width: 100%;
+  text-align: right;
+  padding-bottom: 40px;
   p {
     @extend %fontL;
     font-weight: 700;
