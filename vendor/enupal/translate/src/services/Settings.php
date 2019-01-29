@@ -12,6 +12,8 @@ namespace enupal\translate\services;
 
 use Craft;
 use craft\db\Query;
+use enupal\translate\integrations\LegacyTwigSearch;
+use enupal\translate\integrations\OptimizedTwigSearch;
 use yii\base\Component;
 
 class Settings extends Component
@@ -44,6 +46,9 @@ class Settings extends Component
         return $success;
     }
 
+    /**
+     * @return \craft\base\Model|null
+     */
     public function getSettings()
     {
         $translatePlugin = $this->getPlugin();
@@ -52,23 +57,26 @@ class Settings extends Component
     }
 
     /**
-     * @return array|bool|mixed
+     * @return \craft\base\PluginInterface|null
      */
-    public function getDbSettings()
-    {
-        $settings = (new Query())
-            ->select('settings')
-            ->from(['{{%plugins}}'])
-            ->where(['handle' => 'enupal-translate'])
-            ->one();
-
-        $settings = json_decode($settings['settings'], true);
-
-        return $settings;
-    }
-
     public function getPlugin()
     {
         return Craft::$app->getPlugins()->getPlugin('enupal-translate');
+    }
+
+    /**
+     * @return array
+     */
+    public function getTwigSearchMethods()
+    {
+        $legacy = new LegacyTwigSearch();
+
+        $optimized = new OptimizedTwigSearch();
+        $methods = [
+            LegacyTwigSearch::class => $legacy->getName(),
+            OptimizedTwigSearch::class => $optimized->getName(),
+        ];
+
+        return $methods;
     }
 }

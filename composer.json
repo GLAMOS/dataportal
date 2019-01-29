@@ -19,13 +19,13 @@
     "rss": "https://craftcms.com/changelog.rss"
   },
   "require": {
-    "craftcms/cms": "3.0.33",
+    "craftcms/cms": "3.1.5",
     "vlucas/phpdotenv": "^2.4.0",
     "mmikkel/cp-clearcache": "1.0.3",
-    "craftcms/redactor": "2.1.6",
-    "enupal/translate": "1.1.6",
+    "craftcms/redactor": "2.3.0",
+    "enupal/translate": "1.2.0",
     "ether/seo": "v3.4.4",
-    "ostark/craft-async-queue": "1.3.*"
+    "ostark/craft-async-queue": "1.4.0"
   },
   "autoload": {
     "psr-4": {
@@ -35,7 +35,7 @@
   "config": {
     "optimize-autoloader": true,
     "platform": {
-      "php": "7.0"
+      "php": "7.2.1"
     }
   },
   "scripts": {

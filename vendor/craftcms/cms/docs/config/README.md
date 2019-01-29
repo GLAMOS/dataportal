@@ -10,7 +10,7 @@ Craft supports several [general config settings](config-settings.md). You can ov
 
 ```php
 return [
-    'devMode' => true, 
+    'devMode' => true,
 ];
 ```
 
@@ -96,6 +96,10 @@ Then you can pull them into the alias definitions using [getenv()](http://php.ne
     '@assetBasePath' => getenv('ASSETS_BASE_PATH'),
 ],
 ```
+
+::: tip
+When referencing aliases in your settings, you can append additional segments onto the URL or path. For example, you can set a volume’s base URL to `@assetBaseUrl/user-photos`.
+:::
 
 ## Overriding Volume Settings
 

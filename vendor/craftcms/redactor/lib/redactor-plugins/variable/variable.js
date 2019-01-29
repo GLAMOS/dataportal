@@ -60,6 +60,8 @@
         // public
         start: function()
         {
+            if (!this.opts.variables) return;
+
             var obj = {
                 title: this.lang.get('variable'),
                 api: 'plugin.variable.open'
@@ -134,6 +136,7 @@
 		{
     		var selectedType = this._getCurrentType();
     		var items = this.opts.variables;
+
     		for (var i = 0; i < items.length; i++)
             {
                 var type = items[i].trim();
@@ -179,6 +182,7 @@
         init: function(app, el)
         {
             this.app = app;
+            this.utils = app.utils;
 
             // init
             return (el && el.cmnt !== undefined) ? el : this._init(el);
@@ -201,7 +205,9 @@
         },
         _getType: function()
         {
-            return this.text().trim().replace(/[\u200B-\u200D\uFEFF]/g, '');
+            var text = this.text().trim();
+
+            return this.utils.removeInvisibleChars(text);
         },
         _initWrapper: function()
         {

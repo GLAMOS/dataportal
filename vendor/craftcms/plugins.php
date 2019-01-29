@@ -3,23 +3,6 @@
 $vendorDir = dirname(__DIR__);
 
 return array (
-  'craftcms/redactor' => 
-  array (
-    'class' => 'craft\\redactor\\Plugin',
-    'basePath' => $vendorDir . '/craftcms/redactor/src',
-    'handle' => 'redactor',
-    'aliases' => 
-    array (
-      '@craft/redactor' => $vendorDir . '/craftcms/redactor/src',
-    ),
-    'name' => 'Redactor',
-    'version' => '2.1.6',
-    'description' => 'Edit rich text content in Craft CMS using Redactor by Imperavi.',
-    'developer' => 'Pixel & Tonic',
-    'developerUrl' => 'https://pixelandtonic.com/',
-    'developerEmail' => 'support@craftcms.com',
-    'documentationUrl' => 'https://github.com/craftcms/redactor',
-  ),
   'ether/seo' => 
   array (
     'class' => 'ether\\seo\\Seo',
@@ -55,28 +38,6 @@ return array (
     'hasCpSettings' => false,
     'hasCpSection' => false,
   ),
-  'enupal/translate' => 
-  array (
-    'class' => 'enupal\\translate\\Translate',
-    'basePath' => $vendorDir . '/enupal/translate/src',
-    'handle' => 'enupal-translate',
-    'aliases' => 
-    array (
-      '@enupal/translate' => $vendorDir . '/enupal/translate/src',
-    ),
-    'name' => 'Enupal Translate',
-    'version' => '1.1.6',
-    'schemaVersion' => '1.0.0',
-    'description' => 'Translate your website templates and plugins into multiple languages. Bulk translation with Google Translate or Yandex.',
-    'developer' => 'Enupal',
-    'developerUrl' => 'http://enupal.com/en',
-    'developerEmail' => 'info@enupal.com',
-    'documentationUrl' => 'https://enupal.com/en/craft-plugins/enupal-translate/docs',
-    'components' => 
-    array (
-      'app' => 'enupal\\translate\\services\\App',
-    ),
-  ),
   'ostark/craft-async-queue' => 
   array (
     'class' => 'ostark\\AsyncQueue\\Plugin',
@@ -87,12 +48,51 @@ return array (
       '@ostark/AsyncQueue' => $vendorDir . '/ostark/craft-async-queue/src',
     ),
     'name' => 'AsyncQueue',
-    'version' => '1.3.3',
+    'version' => '1.4.0',
     'description' => 'A queue handler that moves queue execution to a non-blocking background process',
     'developer' => 'Oliver Stark',
     'developerUrl' => 'https://www.fortrabbit.com',
+    'documentationUrl' => 'https://github.com/ostark/craft-async-queue/blob/master/README.md',
     'changelogUrl' => 'https://raw.githubusercontent.com/ostark/craft-async-queue/master/CHANGELOG.md',
     'hasCpSettings' => false,
     'hasCpSection' => false,
+  ),
+  'craftcms/redactor' => 
+  array (
+    'class' => 'craft\\redactor\\Plugin',
+    'basePath' => $vendorDir . '/craftcms/redactor/src',
+    'handle' => 'redactor',
+    'aliases' => 
+    array (
+      '@craft/redactor' => $vendorDir . '/craftcms/redactor/src',
+    ),
+    'name' => 'Redactor',
+    'version' => '2.3.0',
+    'description' => 'Edit rich text content in Craft CMS using Redactor by Imperavi.',
+    'developer' => 'Pixel & Tonic',
+    'developerUrl' => 'https://pixelandtonic.com/',
+    'developerEmail' => 'support@craftcms.com',
+    'documentationUrl' => 'https://github.com/craftcms/redactor',
+  ),
+  'enupal/translate' => 
+  array (
+    'class' => 'enupal\\translate\\Translate',
+    'basePath' => $vendorDir . '/enupal/translate/src',
+    'handle' => 'enupal-translate',
+    'aliases' => 
+    array (
+      '@enupal/translate' => $vendorDir . '/enupal/translate/src',
+    ),
+    'name' => 'Enupal Translate',
+    'version' => '1.2.0',
+    'description' => 'Translate your website templates and plugins into multiple languages. Bulk translation with Google Translate or Yandex.',
+    'developer' => 'Enupal',
+    'developerUrl' => 'http://enupal.com',
+    'developerEmail' => 'info@enupal.com',
+    'documentationUrl' => 'https://enupal.com/craft-plugins/enupal-translate/docs',
+    'components' => 
+    array (
+      'app' => 'enupal\\translate\\services\\App',
+    ),
   ),
 );

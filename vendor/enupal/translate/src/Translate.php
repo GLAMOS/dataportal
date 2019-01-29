@@ -32,15 +32,17 @@ class Translate extends Plugin
 
     public $hasCpSettings = true;
 
+    public $schemaVersion = '1.2.0';
+
     public function init()
     {
         parent::init();
         self::$app = $this->get('app');
 
-        $settings = Translate::$app->settings->getDbSettings();
+        $settings = $this->getSettings();
 
-        if (isset($settings['pluginNameOverride']) && $settings['pluginNameOverride']){
-            $this->name = $settings['pluginNameOverride'];
+        if ($settings->pluginNameOverride){
+            $this->name = $settings->pluginNameOverride;
         }
 
         // Register our variables
