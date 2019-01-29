@@ -1,0 +1,14 @@
+{% import '_incl/docMacros' as macro %}
+
+{% for item in craft.entries.section('furtherPublications').with(['pubDoc']).all() %}
+  <div class="pubEntry">
+    <h4 class="scientificTitle">
+      {{ item.title }}<br>
+      <span class="normal">
+        {% include '_atoms/authors' %}
+        {{ macro.textField(item.publikationsmedium)}}
+        {% include '_atoms/pubDoc' %}
+      </span>
+    </h4>
+  </div>
+{% endfor %}

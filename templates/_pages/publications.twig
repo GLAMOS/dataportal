@@ -27,6 +27,12 @@
       {% include '_organisms/pubJahrbuecher' %}
     </div>
 
+    <div class="pubContentSection">
+      <h3 class="sectionTitle" id="{{ entry.titleFurtherPublications | kebab }}">{{ entry.titleFurtherPublications }}</h3>
+      {% if entry.leadtextJahrbuecher %}{{ macro.richText(entry.leadtextFurtherPublications) }}{% endif %}
+      {% include '_organisms/pubFurtherPublications' %}
+    </div>
+
     {% include '_molecules/navPublikationen' %}
   </div>
 {% endblock %}
