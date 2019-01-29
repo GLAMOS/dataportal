@@ -38,25 +38,6 @@ return array (
     'hasCpSettings' => false,
     'hasCpSection' => false,
   ),
-  'ostark/craft-async-queue' => 
-  array (
-    'class' => 'ostark\\AsyncQueue\\Plugin',
-    'basePath' => $vendorDir . '/ostark/craft-async-queue/src',
-    'handle' => 'async-queue',
-    'aliases' => 
-    array (
-      '@ostark/AsyncQueue' => $vendorDir . '/ostark/craft-async-queue/src',
-    ),
-    'name' => 'AsyncQueue',
-    'version' => '1.4.0',
-    'description' => 'A queue handler that moves queue execution to a non-blocking background process',
-    'developer' => 'Oliver Stark',
-    'developerUrl' => 'https://www.fortrabbit.com',
-    'documentationUrl' => 'https://github.com/ostark/craft-async-queue/blob/master/README.md',
-    'changelogUrl' => 'https://raw.githubusercontent.com/ostark/craft-async-queue/master/CHANGELOG.md',
-    'hasCpSettings' => false,
-    'hasCpSection' => false,
-  ),
   'craftcms/redactor' => 
   array (
     'class' => 'craft\\redactor\\Plugin',
@@ -94,5 +75,23 @@ return array (
     array (
       'app' => 'enupal\\translate\\services\\App',
     ),
+  ),
+  'ostark/craft-async-queue' => 
+  array (
+    'class' => 'ostark\\AsyncQueue\\Plugin',
+    'basePath' => $vendorDir . '/ostark/craft-async-queue/src',
+    'handle' => 'async-queue',
+    'aliases' => 
+    array (
+      '@ostark/AsyncQueue' => $vendorDir . '/ostark/craft-async-queue/src',
+    ),
+    'name' => 'AsyncQueue',
+    'version' => '1.3.3',
+    'description' => 'A queue handler that moves queue execution to a non-blocking background process',
+    'developer' => 'Oliver Stark',
+    'developerUrl' => 'https://www.fortrabbit.com',
+    'changelogUrl' => 'https://raw.githubusercontent.com/ostark/craft-async-queue/master/CHANGELOG.md',
+    'hasCpSettings' => false,
+    'hasCpSection' => false,
   ),
 );

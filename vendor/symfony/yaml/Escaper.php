@@ -50,7 +50,7 @@ class Escaper
      *
      * @return bool True if the value would require double quotes
      */
-    public static function requiresDoubleQuoting(string $value): bool
+    public static function requiresDoubleQuoting($value)
     {
         return 0 < preg_match('/'.self::REGEX_CHARACTER_TO_ESCAPE.'/u', $value);
     }
@@ -62,7 +62,7 @@ class Escaper
      *
      * @return string The quoted, escaped string
      */
-    public static function escapeWithDoubleQuotes(string $value): string
+    public static function escapeWithDoubleQuotes($value)
     {
         return sprintf('"%s"', str_replace(self::$escapees, self::$escaped, $value));
     }
@@ -74,11 +74,11 @@ class Escaper
      *
      * @return bool True if the value would require single quotes
      */
-    public static function requiresSingleQuoting(string $value): bool
+    public static function requiresSingleQuoting($value)
     {
         // Determines if a PHP value is entirely composed of a value that would
         // require single quoting in YAML.
-        if (\in_array(strtolower($value), array('null', '~', 'true', 'false', 'y', 'n', 'yes', 'no', 'on', 'off'))) {
+        if (in_array(strtolower($value), array('null', '~', 'true', 'false', 'y', 'n', 'yes', 'no', 'on', 'off'))) {
             return true;
         }
 
@@ -94,7 +94,7 @@ class Escaper
      *
      * @return string The quoted, escaped string
      */
-    public static function escapeWithSingleQuotes(string $value): string
+    public static function escapeWithSingleQuotes($value)
     {
         return sprintf("'%s'", str_replace('\'', '\'\'', $value));
     }
