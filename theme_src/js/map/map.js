@@ -29,7 +29,9 @@ import datastore from '../datastore';
 import { highlightedGlacier } from '../datastore'   // the one feature (glacier) which is selected
 import { selectedGlaciers } from '../datastore'   // list of features (glaciers) for comparison
 import Translation from '../Translation'
-const t = Translation('.layerSwitcher')
+
+const switcherNode = $(".layerSwitcher").get(0)
+const t = Translation(switcherNode)
 
 const DISPLAY_NAME = 'glacier_full_name';
 
@@ -178,7 +180,8 @@ else {
 };
 
 var switcher = new LayerSwitcher(
-  {	target:$(".layerSwitcher").get(0), 
+  {
+    target:switcherNode,
     reordering: false
     //oninfo: function (l) { alert(l.get("title")); }
   });
