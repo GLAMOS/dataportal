@@ -1,6 +1,30 @@
 <div class="sidebarContainer">
 
-  <div class="external layerSwitcher"><b>{{ 'Karten-Layer' | t }}</b></div>
+  {% set translations = {
+    "// layer groups": null,
+    'Hintergrundkarten':   'Hintergrundkarten' | t,
+    'Gletscherausdehnung': 'Gletscherausdehnung' | t,
+    'ohne Messwerte':      'ohne Messwerte' | t,
+    'Massenbilanz':        'Massenbilanz' | t,
+    'Längenänderung':      'Längenänderung' | t,
+    'Gletscher':           'Gletscher' | t,
+
+    "// individual layer names": null,
+    "Dufour-Karte 1865":       "Dufour-Karte 1865" | t,
+    "Eiszeit max. Ausdehnung": "Eiszeit max. Ausdehnung" | t,
+    "Gletscher Umrisse":       "Gletscher Umrisse" | t,
+    "Landeskarte farbig":      "Landeskarte farbig" | t,
+    "Landeskarte grau":        "Landeskarte grau" | t,
+    "1850":                    "1850" | t,
+    "1973":                    "1973" | t,
+    "2010":                    "2010" | t,
+    "Siegfried-Karte 1926":    "Siegfried-Karte 1926" | t,
+    "Relief":                  "Relief" | t,
+    "Luftbilder":              "Luftbilder" | t,
+  } %}
+  <div class="external layerSwitcher" data-translations="{{ translations | json_encode() }}">
+    <b>{{ 'Karten-Layer' | t }}</b>
+  </div>
 
   <div class="sidebarControls comparisonContainer active">
     {% include '_molecules/fieldSearch' %}

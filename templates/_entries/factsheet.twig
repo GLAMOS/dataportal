@@ -10,11 +10,11 @@
     {% include '_molecules/cardMap' %}
     {% include '_molecules/cardMeasurements' %}
 
-    {% set title = 'Längenänderung' | t %}
+    {% set title = 'Längenänderung (kumulativ)' | t %}
     {% set legend = 'Kumulative Längenänderung (m)' | t %}
     {{ macro.cardChart(title, legend, 'length_change', 'line', 'm') }}
 
-    {% set title = 'Massenbilanz' | t %}
+    {% set title = 'Massenbilanz (Beobachtungsperiode)' | t %}
     {% set legend = 'Massenbilanz (mm H₂0)' | t %}
     {{ macro.cardChart(title, legend, 'mass_balance', 'bar', 'mm H₂0') }}
 

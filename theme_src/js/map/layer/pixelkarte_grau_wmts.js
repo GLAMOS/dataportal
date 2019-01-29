@@ -1,5 +1,7 @@
 import TileLayer from 'ol/layer/Tile';
 import XYZLayer from 'ol/source/XYZ';
+import Translation from '../../Translation'
+const t = Translation('.layerSwitcher')
 
 var pixelkarte_grau_wmts = new TileLayer({
     source: new XYZLayer({
@@ -7,7 +9,7 @@ var pixelkarte_grau_wmts = new TileLayer({
       attributions: '© <a target="new" href="https://www.swisstopo.admin.ch/">swisstopo</a>'
     }),
     baseLayer: true,
-    title: "Landeskarte grau"
+    title: t("Landeskarte grau")
   });
 
   export default pixelkarte_grau_wmts;
