@@ -15,14 +15,6 @@ function isFeature(feature) {
 }
 
 
-/* Keeping track of current site navigation state */
-
-/* Active page (from CMS navigation) */
-const currentPage = null;
-
-/* Active monitoring sidepane content */
-const sidepane = null;
-
 /* Active Download tab */
 const downloadTab = null;
 
@@ -141,4 +133,3 @@ const datastore = {
 };
 
 module.exports = datastore;
-window.dbg_data = datastore;   // for easier debugging

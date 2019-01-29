@@ -1,4 +1,4 @@
-import { Chart, Selection } from './chart';
+import { Chart } from './chart';
 import controller from './controller';
 import datastore from './datastore';
 

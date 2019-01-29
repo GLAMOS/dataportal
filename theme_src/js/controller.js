@@ -16,10 +16,6 @@ const bridge = {};
 
 /* Helpers */
 
-function feature2id(feature) {
-  return feature.getId();
-}
-
 function factsheetUpdate(feature) {
   if ('factsheet' == datastore.currentPage) factsheetDetails.setup(feature)
 }
@@ -143,7 +139,6 @@ class Controller {
     dataview.update();
 
     /* Select last entry in selected glaciers list */
-    // this.selectionListHighlight( datastore.selectedGlaciers.get().slice(-1)[0] )
     urlManager.majorUpdate();
   }
 
@@ -159,10 +154,6 @@ class Controller {
     /* TODO: Update URL */
   }
 
-  toggleMapLayer(layerId) {
-    //TODO ...update URL
-  }
-
   // -- Downloads
 
   changeDownloadTab(tabId) {
@@ -170,8 +161,6 @@ class Controller {
     bridge.selectDownloadTab(tabId);
     urlManager.minorUpdate();
   }
-
-  // TODO: More to come...
 }
 
 
@@ -196,7 +185,6 @@ controller.bridge = function (options) {
 };
 
 
-/* DEBUG */
 controller = new Proxy(
   controller,
   {
@@ -212,6 +200,3 @@ controller = new Proxy(
 /* Exports */
 
 export default controller;
-
-// module.exports = {
-// }
