@@ -2,7 +2,9 @@ ul.tabLinks {
 	margin: 0px;
 	padding: 0px;
 	list-style: none;
-	display: flex;
+	@include smUp {
+		display: flex;
+	}
   & li {
 		@extend %fontM;
 		a {
