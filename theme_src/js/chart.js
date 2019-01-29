@@ -8,20 +8,20 @@ const BASE_URI = '/glacier-data.php';
   * You can tell them to show() data, unload() data or
   * clear() the chart.
   */
-const Graph = function(container, config) {
+const Graph = function (container, config) {
   let chart;
   const synch = Synch();
 
-  const generate = function(data) {
+  const generate = function (data) {
     chart = c3.generate(config.c3Config(container, data));
   };
 
-  const update = function(data) {
+  const update = function (data) {
     data.done = synch.next;
     chart.load(data);
   }
 
-  const enqueueIfNeeded = function(op) {
+  const enqueueIfNeeded = function (op) {
     // As long as there's no chart, clear and unload are NOOP
     // Make sure not to skip synch.next call in any enqueued callback!
     chart && synch.enqueue(op);
@@ -49,11 +49,11 @@ const Graph = function(container, config) {
  * When no op is in progress, op() will be called
  * immediately on enqueue().
  */
-const Synch = function() {
+const Synch = function () {
   const pending = []; // Pending operations
   let processing = false;
 
-  const next = function() {
+  const next = function () {
     const op = pending.shift();
     if (op) {
       processing = true;
@@ -85,41 +85,40 @@ const Synch = function() {
  * Configs can build request uri(), create a C3 config(), and
  * apply_to() axis labels on C3 charts.
  */
-const Config = function(text, uri_name, chart_type, unit, showNames) {
+const Config = function (text, uri_name, chart_type, unit, showNames) {
   const formatter = (value) => `${String(value).replace('-', '&minus;')}&nbsp;${unit}`;
 
   const c3Config = function (container, data) {
-    // FIXME indentation
     const result = {
-    data,
-    bindto: container,
-    size: { height: 300 },
-    axis: {
-      x: {
-        tick: {
-          outer: false,
-          rotate: 45
+      data,
+      bindto: container,
+      size: { height: 300 },
+      axis: {
+        x: {
+          tick: {
+            outer: false,
+            rotate: 45
+          },
         },
+        y: {
+          label: {
+            position: 'outer',
+            text: text
+          },
+          tick: {
+            outer: false,
+          }
+        }
       },
-      y: {
-        label: {
-          position: 'outer',
-          text: text
-        },
-        tick: {
-          outer: false,
+      grid: {
+        y: { show: true },
+        x: { show: true }
+      },
+      tooltip: {
+        format: {
+          value: formatter
         }
       }
-    },
-    grid: {
-      y: { show: true },
-      x: { show: true }
-    },
-    tooltip: {
-      format: {
-        value: formatter
-      }
-    }
     };
     if (!showNames) {
       result.legend = { hide: true };
@@ -145,11 +144,11 @@ const Config = function(text, uri_name, chart_type, unit, showNames) {
  *
  * If there was no data to be loaded, data() returns false.
  */
-const Query = function(id, config) {
+const Query = function (id, config) {
   let finished = false;
   let json = false;
 
-  const data = function() {
+  const data = function () {
     if (json && json.length > 0) {
       const KEY_YEAR = 'year';
       const years = [KEY_YEAR].concat(json.map((e) => e.year));
@@ -169,8 +168,8 @@ const Query = function(id, config) {
     }
   };
 
-  const start = function(done) {
-    const receiver = function(event) {
+  const start = function (done) {
+    const receiver = function (event) {
       json = JSON.parse(event.target.responseText);
       finished = true;
       done();
@@ -211,18 +210,18 @@ const Query = function(id, config) {
  *
  * If you don't want any more updates, tell it to cancel().
  */
-const Queue = function(loaded) {
+const Queue = function (loaded) {
   const queue = [];
   let canceled = false;
 
-  const done = function() {
+  const done = function () {
     if (canceled) return;
-    while(queue.length > 0 && queue[0].finished()) {
+    while (queue.length > 0 && queue[0].finished()) {
       loaded(queue.shift());
     }
   }
 
-  const add = function(item) {
+  const add = function (item) {
     item.start(done);
     queue.push(item);
   };
@@ -238,32 +237,32 @@ const Queue = function(loaded) {
  *
  * You can ask it which ids are added() or removed() in another selection.
  */
-const Selection = function(ids) {
-  const only_in_first = function(first, second) {
+const Selection = function (ids) {
+  const only_in_first = function (first, second) {
     return first.filter(id => second.indexOf(id) < 0);
   }
 
-  const unique = function(list) {
+  const unique = function (list) {
     return list.filter((id, i) => list.indexOf(id) == i);
   }
 
-  const added = function(other) {
+  const added = function (other) {
     return only_in_first(other.ids, ids);
   }
 
-  const removed = function(other) {
+  const removed = function (other) {
     return only_in_first(ids, other.ids);
   }
 
-  const including = function(include) {
+  const including = function (include) {
     return Selection(unique([include, ...ids]));
   };
 
-  const excluding = function(exclude) {
+  const excluding = function (exclude) {
     return Selection(ids.filter(id => id != exclude));
   };
 
-  return {ids, added, removed, including, excluding};
+  return { ids, added, removed, including, excluding };
 }
 
 
@@ -288,7 +287,7 @@ export const Chart = function (container, options, beforeShow) {
   let queue;
   let selection = Selection([]);
 
-  const update = function(ids) {
+  const update = function (ids) {
     const newSelection = Selection(ids);
 
     // If there are ID that should not be shown in the desired state
@@ -329,5 +328,5 @@ export const Chart = function (container, options, beforeShow) {
     }
   }
 
-  return {update};
+  return { update };
 }

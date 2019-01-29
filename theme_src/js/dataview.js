@@ -28,7 +28,7 @@ class Dataview {
     });
 
     this.select_source = $('#chart_param');
-    this.select_source.change(function() {
+    this.select_source.change(function () {
       controller.switchChartType();
     });
   }

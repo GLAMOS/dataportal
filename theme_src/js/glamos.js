@@ -9,12 +9,12 @@ import sidepane from './map/monitoringSidepane';
 
 
 (function (global, $) {
-  function getAvailableDownloadTabs () {
+  function getAvailableDownloadTabs() {
     return $('.tabContainer a[data-tab]').map((_ix, el) => el.getAttribute('data-tab'));
   }
-  controller.bridge({getAvailableDownloadTabs});
+  controller.bridge({ getAvailableDownloadTabs });
 
-  function selectDownloadTab (TAB_ID) {
+  function selectDownloadTab(TAB_ID) {
     const CLASS_NAME = 'current';
     $('ul.tabLinks a').removeClass(CLASS_NAME);
     $('.tabPanel').removeClass(CLASS_NAME);
@@ -22,7 +22,7 @@ import sidepane from './map/monitoringSidepane';
     $(`a[data-tab="${TAB_ID}"]`).addClass(CLASS_NAME);
     $(`#${TAB_ID}`).addClass(CLASS_NAME);
   }
-  controller.bridge({selectDownloadTab});
+  controller.bridge({ selectDownloadTab });
 }(global, $));
 
 
@@ -40,8 +40,9 @@ $(document).ready(() => {
   });
 
   // glossar anchor scroll animation
-  if ( $( ".glossarListing" ).length ) {
-    $("a[href^='#']").on("click", function(e) { e.preventDefault();
+  if ($(".glossarListing").length) {
+    $("a[href^='#']").on("click", function (e) {
+      e.preventDefault();
       $("html, body").animate({
         scrollTop: $($(this).attr("href")).offset().top
       }, 1000);
