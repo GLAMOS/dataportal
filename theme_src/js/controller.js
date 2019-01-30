@@ -118,8 +118,8 @@ class Controller {
       bridge.monitoringSelectedFeatureList.denyAddition(feature);
     } else {
       datastore.selectedGlaciers.add(feature);
-      bridge.monitoringSelectedFeatureList.refresh();
       bridge.selectGlacier(feature);
+      bridge.monitoringSelectedFeatureList.refresh();
       dataview.update();
       factsheetUpdate(feature)
     }
