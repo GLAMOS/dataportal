@@ -56,7 +56,8 @@
 
     // show schluesseldaten anyway
     &.latestMeasurements {
-      display: inherit;
+      display: flex;
+      justify-content: flex-end;
     }
   }
 }

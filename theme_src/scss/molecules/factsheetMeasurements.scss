@@ -2,7 +2,7 @@
   @extend %cardDesignAlpha;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-end;
   .cardTitle {
     margin: 0;
