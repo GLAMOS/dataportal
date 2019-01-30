@@ -3,6 +3,16 @@ $ieColumnsDesktop: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 280px 20px;
 .internetExplorer {
   &.ie11, &.ie10, &.ie9 {
     //lets do this
+    .oldIE {
+      background-color: $glamosColor;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 50px;
+      padding-top: 100px;
+      text-align: center;
+    }
     .navGrid {
       display: -ms-grid;
       -ms-grid-columns: $ieColumnsDesktop;
