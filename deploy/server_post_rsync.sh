@@ -70,4 +70,4 @@ make_data_dir_and_symlink "$DATA/from_vaw/glacier_images" "$JSON_DIR"
 make_data_dir_and_symlink "$DATA/vaw" "$PATH_WWW_ROOT/"
 
 # Remove Craft template cache
-rm -r "$HOME"/app/storage/runtime/compiled_templates/*
+rm -rf "$HOME"/app/storage/runtime/compiled_templates/*
