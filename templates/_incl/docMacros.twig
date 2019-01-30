@@ -78,7 +78,7 @@
 {% endmacro %}
 
 {% macro crossLink(linkParam, titleParam, idParam) %}
-  <a id="{{ idParam }}" href="{{ siteUrl }}factsheet" class="titleCrosslink js-keephash" title="{{ titleParam }}">
+  <a id="{{ idParam }}" href="{{ siteUrl }}{{ linkParam }}" class="titleCrosslink js-keephash" title="{{ titleParam }}">
     {{ svg('@webroot/theme/img/crosslink.svg') }}
   </a>
 {% endmacro %}
