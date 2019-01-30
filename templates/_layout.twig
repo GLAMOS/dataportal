@@ -12,17 +12,19 @@
   {# {% endif %} #}
 {% endif %}
 {% cache %}
-	<!doctype html>
-  <html lang="{{ craft.app.language }}">
-    {% include '_incl/docHead' %}
-    <body class="{{ entry.section.handle }}">
-      {% include '_organisms/navMain' %}
-      {% include '_organisms/navMobile' %}
-      <div class="content">{% block content %}{# all the content #}{% endblock %}</div>
-      {% if entry.section.handle != 'mapViewer'%}
-        {% include '_incl/docFooter' %}
-      {% endif %}
-    	{% include '_incl/docScripts' %}
-    </body>
-  </html>
+  {% minify %}
+  	<!doctype html>
+    <html lang="{{ craft.app.language }}">
+      {% include '_incl/docHead' %}
+      <body class="{{ entry.section.handle }}">
+        {% include '_organisms/navMain' %}
+        {% include '_organisms/navMobile' %}
+        <div class="content">{% block content %}{# all the content #}{% endblock %}</div>
+        {% if entry.section.handle != 'mapViewer'%}
+          {% include '_incl/docFooter' %}
+        {% endif %}
+      	{% include '_incl/docScripts' %}
+      </body>
+    </html>
+  {% endminify %}
 {% endcache %}
