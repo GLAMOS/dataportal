@@ -11,7 +11,7 @@
     {% redirect "maintenance" %}
   {# {% endif %} #}
 {% endif %}
-
+{% cache %}
 	<!doctype html>
   <html lang="{{ craft.app.language }}">
     {% include '_incl/docHead' %}
@@ -25,3 +25,4 @@
     	{% include '_incl/docScripts' %}
     </body>
   </html>
+{% endcache %}
