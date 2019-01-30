@@ -44,6 +44,10 @@ function make_data_dir_and_symlink {
 
 ## do it for all these
 
+# CMS Enupal Translate plugin saves its translations to translations/ dir
+# store them also in $DATA/ so they can be synced between hostings
+make_data_dir_and_symlink "$DATA/cms_translations" "${PATH_APP}/translations"
+
 # files that will be available in the Download section
 # uploaded via SSH for bulk
 make_data_dir_and_symlink "$DATA/from_vaw/downloads" "${PATH_WWW_ROOT}/assets/files/downloads/rsync"
