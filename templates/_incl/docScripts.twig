@@ -3,10 +3,18 @@
 {# detect IE 11 #}
 <script type="text/javascript">
 
+  //check for ie methods
   var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
-  //console.log('is this IE11? ' + isIE11);
+
+  //start if ie
   if (isIE11 == true) {
+
+    //add tags to body to write scoped css
     document.body.className += " " + "internetExplorer ie11"
+
+    //add div element to warn users that they are using an outdated browser
+    window.document.body.insertAdjacentHTML( 'afterbegin', '<div class="oldIE">{{ website.internetExplorerHint }}</div>' );
+
   }
 
 </script>
