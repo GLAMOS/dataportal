@@ -4,7 +4,7 @@
     {% case "mxDocPubPDF" %}
 
       {% for asset in block.cellFile.all() %}
-        <a href="{{ asset.url }}">{{ block.cellLabel }}</a>
+        <a href="{{ asset.url }}"  target="_blank">{{ block.cellLabel }}</a>
       {% endfor %}
 
     {% case "mxDocPubExt" %}
