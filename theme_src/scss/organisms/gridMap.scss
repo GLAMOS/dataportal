@@ -4,7 +4,9 @@
   @extend %horizontalGrid;
   grid-template-rows: 55vh 35vh;
   @include smUp {
-    grid-template-rows: minmax(300px, 58vh) minmax(250px, 1fr);
+    // min for both rows is 350px
+    // first row max: 100% viewport height - 50px menu bar - 350px chart zone height
+    grid-template-rows: minmax(350px, calc(100vh - 50px - 350px)) 350px;
   }
 }
 .mapContainer {
@@ -54,7 +56,10 @@
 
     // show schluesseldaten anyway
     &.latestMeasurements {
-      display: inherit;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 30px;
+      padding-top: 25px;
     }
   }
 }

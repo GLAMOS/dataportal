@@ -14,6 +14,11 @@
   color: $txtColor;
   background-color: transparent;
 }
+.lg-outer .lg-img-wrap {
+  max-width: 800px;
+  margin: auto;
+  max-height: 500px;
+}
 //hack for jumpy fixed navbar on opening the mobile menu
 .mm-wrapper_opened {
   .navBar {

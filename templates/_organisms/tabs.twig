@@ -1,4 +1,5 @@
 {% import '_organisms/downloadTab' as dls %}
+{% import '_incl/docMacros' as macro %}
 
 {% set categories = craft.entries.section('downloads').type('leadtextDownload').all() %}
 
@@ -11,9 +12,9 @@
   <div class="tabContent">
     {% for item in categories %}
       <div id="tab-{{ item.slug }}" class="tabPanel">
-        <p>
-          {{ item.leadtextDownloads }}
-        </p>
+        {% if item.leadtextDownloads %}
+          {{ macro.richText(item.leadtextDownloads) }}
+        {% endif %}
         {{ dls.tabContent(item.downloadCategory.0) }}{# leadtext should be associated to exactly one downloadCategory #}
       </div>
     {% endfor %}
