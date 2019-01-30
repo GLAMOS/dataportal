@@ -17,6 +17,7 @@ set -e
 #  https://wiki.glamos.ch/doku.php?id=website:schnittstellen
 # semantic of first subdir level: where data typically comes from
 DATA="$HOME/data"
+PATH_APP="$HOME/app"
 
 if [ $# -ne 1 -o "$1" == -h -o "$1" == --help ] ; then
   echo "usage:  $0 documentRootDir" >&2
@@ -70,4 +71,4 @@ make_data_dir_and_symlink "$DATA/from_vaw/glacier_images" "$JSON_DIR"
 make_data_dir_and_symlink "$DATA/vaw" "$PATH_WWW_ROOT/"
 
 # Remove Craft template cache
-rm -rf "$HOME"/app/storage/runtime/compiled_templates/*
+rm -rf "${PATH_APP}"/storage/runtime/compiled_templates/*
