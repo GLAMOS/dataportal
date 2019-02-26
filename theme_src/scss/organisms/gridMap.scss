@@ -2,7 +2,7 @@
   display: grid;
   @extend %heightViewport;
   @extend %horizontalGrid;
-  grid-template-rows: auto auto;
+  grid-template-rows: minmax(auto, 55vh) auto;
   @include smUp {
     // min for both rows is 350px
     // first row max: 100% viewport height - 50px menu bar - 350px chart zone height
