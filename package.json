@@ -30,7 +30,7 @@
     "babel-preset-es2015": "^6.24.1",
     "compression-webpack-plugin": "^1.1.7",
     "cssnano": "^3.10.0",
-    "lazysizes": "^4.0.1",
+    "lazysizes": "^5.2.2",
     "lightgallery": "^1.6.6",
     "node-sass": "^4.7.2",
     "ol": "^5.2.0",
